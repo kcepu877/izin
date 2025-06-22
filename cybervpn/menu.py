@@ -50,17 +50,18 @@ async def start_menu(event):
             if level == "user":
                 member_inline = [
                     [Button.inline("📡SSH WS", "ssh"), Button.inline("🌐VMESS", "vmess-member")],
-                    [Button.inline("🔐 VLESS", "vless-member"), Button.url("💬JOIN GRUP", "https://t.me/vpnjabar")],
-                    [Button.inline("💳DEPOSIT", "topup")]
+                    [Button.inline("🔐 VLESS", "vless-member"), Button.inline("🛡️TROJAN", "trojan-member")],
+                    [Button.url("💬JOIN GRUP", "https://t.me/+Rs4HvJtagXZlYTNl"), Button.inline("💳DEPOSIT", "topup")]
                 ]
                 member_msg = f"""
 **═════════════════════════**
- **⚡RiswanJabar - VPN Reseller Bot⚡**
+ **⚡VPN Reseller Bot⚡**
 **═════════════════════════**
 📦**Available Accounts:**
 • **SSH Accounts:** `{ssh_count} Account`
 • **VLESS Accounts:** `{vless_count} Account`
 • **VMESS Accounts:** `{vmess_count} Account`
+• **TROJAN Accounts:** `{trojan_count} Account`
 **═════════════════════════**
 **🔥setiap kali melakukan transaksi,**
 **🔥bonus saldo yang diterima bersifat**
@@ -83,15 +84,15 @@ async def start_menu(event):
  # Untuk admin
             elif level == "admin":
                 admin_inline = [
-                    [Button.inline("🖥️Ssh ws", "ssh"), Button.inline("🌐VMess", "vmess"), Button.inline("🔐Vless", "vless")],
-                    [Button.inline("🛡️Trojan", "trojan"), Button.inline("⚙️Pengaturan", "setting")],
-                    [Button.inline("📋Daftar Reseller", "show-user")],
+                    [Button.inline("🖥️Ssh ws", "ssh"), Button.inline("🌐VMess", "vmess")], 
+                    [Button.inline("🔐Vless", "vless"), Button.inline("🛡️Trojan", "trojan")], 
+                    [Button.inline("⚙️Pengaturan", "setting"), Button.inline("📋Daftar Reseller", "show-user")],
                     [Button.inline("🗑️Hapus Reseller", "delete-member"), Button.inline("➕Tambah Reseller", "registrasi-member")],
                     [Button.inline("💰Tambah Saldo", "addsaldo")]
                 ]
                 admin_msg = f"""
 **═════════════════════════**
-**⚡Admin Dashboard - RiswanStore⚡**
+**⚡Admin Dashboard - ZERO VPN⚡**
 **═════════════════════════**
 📡 **Host Information:**
 • **Host:** `{DOMAIN}`
@@ -100,10 +101,10 @@ async def start_menu(event):
 • **City:** `{city}`
 **═════════════════════════**
 **💸Price List Admin:**
-**• SSH Accounts:** `Rp.10.000`
-**• VLESS Accounts:** `Rp.10.000`
-**• VMESS Accounts:** `Rp.10.000`
-**• TROJAN Accounts:** `Rp.10.000`
+**• SSH Accounts:** `Rp.5.000`
+**• VLESS Accounts:** `Rp.5.000`
+**• VMESS Accounts:** `Rp.5.000`
+**• TROJAN Accounts:** `Rp.5.000`
 **═════════════════════════**
 🖥️**Account Information:**
 • **SSH Accounts:** `{ssh_count} Account`
@@ -116,7 +117,7 @@ async def start_menu(event):
 • **Total Resellers:** `{get_user_count()}`
 • **Admin Balance:** `Rp.{saldo_aji}`
 **═════════════════════════**
-👑 **Status:** `Admin@gmail.com`
+👑 **Status:** `Admin`
 🕒 **Time:** `{current_time}`
 🌍 **Active:** `{vps_active_days}`
 **═════════════════════════**
