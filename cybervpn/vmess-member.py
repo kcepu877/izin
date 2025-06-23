@@ -140,7 +140,7 @@ async def create_vmess(event):
 **📦Order:** `{exp}`days
 **⏳Expired:** `{later}`
 **═══════════════════**
-**💵Harga Rp.7000**
+**💵Harga Rp.5000**
 **═══════════════════**
 **👤Admin** @seaker877
 **═══════════════════**
@@ -474,9 +474,9 @@ async def vmess(event):
 **» Host:** `{DOMAIN}`
 **» ISP:** `{z["isp"]}`
 **═════════════════════════**
-**» akun vmess hanya Rp.7000**
+**» akun vmess hanya Rp.5000**
 **» Pull dengan backupan kami**
-**» TopUp min Rp.7000**
+**» TopUp min Rp.5000**
 **═════════════════════════**
 """
         await event.edit(msg, buttons=inline)
