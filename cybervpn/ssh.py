@@ -19,7 +19,7 @@ async def ssh(event):
 **» ISP:** `{location_info["isp"]}`
 **═════════════════════════**
 **» akun ssh ws hanya Rp.5000**
-**» Pull dengan backupan kami**
+**» Full dengan backupan kami**
 **» TopUp min Rp.5000**
 **═════════════════════════**
 """
