@@ -98,7 +98,7 @@ async def create_vless(event):
 **📦Order:** `{exp}`days
 **⏳Expired:** `{later}`
 **═══════════════════**
-**💵Harga Rp.7000**
+**💵Harga Rp.5000**
 **═══════════════════**
 **👤Admin** @seaker877
 **═══════════════════**
@@ -440,9 +440,9 @@ async def vless(event):
 **» Host:** `{DOMAIN}`
 **» ISP:** `{z["isp"]}`
 **═════════════════════════**
-**» akun vless hanya Rp.7000**
-**» Pull dengan backupan kami**
-**» TopUp min Rp.7000**
+**» akun vless hanya Rp.5000**
+**» Full dengan backupan kami**
+**» TopUp min Rp.5000**
 **═════════════════════════**
 """
         await event.edit(msg, buttons=inline)
