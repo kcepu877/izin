@@ -257,6 +257,17 @@ button.active:hover {
     border-left: 4px solid #0d47a1;
     font-weight: 500;
 }
+#info .judul-tabel {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0d47a1;
+    margin-bottom: 4px;
+}
+#info .sub-info {
+    font-size: 13px;
+    font-weight: 400;
+    color: #0d2b4b;
+}
 #status {
     font-size: 12px;
     color: #2e7d32;
@@ -377,12 +388,14 @@ tr:hover td.cocok {
     button { font-size: 9px; padding: 4px 8px; }
     th, td { font-size: 8px; padding: 4px 5px; }
     #info { font-size: 11px; padding: 8px 10px; }
+    #info .judul-tabel { font-size: 15px; }
 }
 @media (max-width: 480px) {
     button { font-size: 8px; padding: 3px 6px; }
     th, td { font-size: 7px; padding: 3px 4px; }
     #info { font-size: 10px; }
     .btn-group { gap: 4px; }
+    #info .judul-tabel { font-size: 13px; }
 }
 </style>
 </head>
@@ -452,7 +465,12 @@ tr:hover td.cocok {
     <button onclick="setPosisi('jumlahkombinasi')" id="p_jumlahkombinasi">+ KOMBINASI</button>
 </div>
 
-<div id="info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL 2D BELAKANG</div>
+<!-- ===== INFO + JUDUL DINAMIS ===== -->
+<div id="info">
+    <div class="judul-tabel">📋 HK | EKOR | RUMUS | 20 Hari</div>
+    <div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL EKOR DARI RESULT DI BAWAHNYA</div>
+</div>
+
 <div id="status">⏳ Loading...</div>
 
 <div class="table-wrapper">
@@ -656,9 +674,22 @@ function hitungBaris(baris, no, semua, nextResult) {
 function render() {
     if (!D[P]) return;
     let data = D[P].slice(-20);
-    let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ');
-    document.getElementById('info').innerHTML =
-        `${P.toUpperCase()} | FILTER: ${F.toUpperCase()} | POSISI: ${posisiNama} | 20 Hari | 🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} DARI RESULT DI BAWAHNYA`;
+    
+    // 🔥 BUAT JUDUL DINAMIS
+    let pasarNama = P.toUpperCase();
+    let filterNama = F.toUpperCase();
+    let posisiNama = POSISI.toUpperCase()
+        .replace(/2D/g, '2D ')
+        .replace('JUMLAH', 'JUMLAH ')
+        .trim();
+    
+    let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | 20 Hari`;
+    let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} DARI RESULT DI BAWAHNYA`;
+    
+    document.getElementById('info').innerHTML = `
+        <div class="judul-tabel">${judul}</div>
+        <div class="sub-info">${subInfo}</div>
+    `;
 
     let html = buatHeader();
     for (let i = 0; i < data.length; i++) {
