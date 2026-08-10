@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FULL KOMBINASI A1-E20 - Togel Analysis</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    color: #1a1a2e;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.app-header {
+    background: linear-gradient(135deg, #0d47a1 0%, #1a237e 100%);
+    color: white;
+    padding: 20px 30px;
+    box-shadow: 0 4px 20px rgba(13, 71, 161, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.header-left { display: flex; align-items: center; gap: 15px; }
+.header-logo { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+.header-logo span { color: #ffd54f; }
+.header-sub { font-size: 13px; opacity: 0.85; font-weight: 300; }
+.header-right { display: flex; align-items: center; gap: 20px; font-size: 13px; }
+.header-badge {
+    background: rgba(255,255,255,0.15);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.header-clock { font-weight: 300; font-size: 13px; opacity: 0.9; }
+.main-content { flex: 1; padding: 15px 20px 20px 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.app-footer {
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+    color: white;
+    padding: 15px 30px;
+    margin-top: 20px;
+    box-shadow: 0 -4px 20px rgba(13, 71, 161, 0.2);
+}
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 12px;
+}
+.footer-left { display: flex; align-items: center; gap: 20px; }
+.footer-right { display: flex; align-items: center; gap: 20px; opacity: 0.8; }
+.footer-link { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; }
+.footer-link:hover { color: #ffd54f; }
+.footer-divider { opacity: 0.3; }
+.footer-version {
+    background: rgba(255,255,255,0.1);
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+@media (max-width: 768px) {
+    .app-header { padding: 15px 20px; }
+    .header-logo { font-size: 22px; }
+    .header-sub { font-size: 11px; }
+    .header-right { font-size: 11px; gap: 10px; }
+    .header-badge { font-size: 10px; padding: 3px 10px; }
+    .main-content { padding: 10px 12px 12px 12px; }
+    .app-footer { padding: 12px 20px; }
+    .footer-content { font-size: 10px; flex-direction: column; text-align: center; gap: 5px; }
+    .footer-left { flex-direction: column; gap: 5px; }
+}
+@media (max-width: 480px) {
+    .app-header { padding: 12px 15px; }
+    .header-logo { font-size: 18px; }
+    .header-sub { font-size: 10px; }
+    .header-badge { font-size: 9px; padding: 2px 8px; }
+    .main-content { padding: 8px 8px 10px 8px; }
+}
+.btn-group { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.btn-group label { font-size: 11px; font-weight: 600; color: #555; width: 100%; margin-bottom: 2px; }
+button {
+    padding: 6px 12px;
+    background: #ffffff;
+    color: #1a1a2e;
+    border: 1.5px solid #c5cae9;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+button:hover { background: #e8eaf6; border-color: #0d47a1; }
+button.active { background: #0d47a1; color: #fff; border-color: #0d47a1; box-shadow: 0 2px 8px rgba(13,71,161,0.25); }
+button.active:hover { background: #0a3a8a; }
+#info {
+    background: #e3ecf5;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #0d2b4b;
+    margin: 8px 0 12px 0;
+    border-left: 4px solid #0d47a1;
+    font-weight: 500;
+}
+#info .judul-tabel { font-size: 18px; font-weight: 700; color: #0d47a1; margin-bottom: 4px; }
+#info .sub-info { font-size: 13px; font-weight: 400; color: #0d2b4b; }
+#status { font-size: 12px; color: #2e7d32; margin-bottom: 10px; }
+.table-wrapper {
+    overflow: auto;
+    max-height: 75vh;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #e3e8f0;
+}
+table {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+    font-size: 11px;
+}
+th, td {
+    border: 1px solid #9aaec9 !important;
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 10px;
+}
+th {
+    background: #d0dcee;
+    color: #0d2b4b;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-size: 10px;
+    border-bottom: 2px solid #7a93b9 !important;
+}
+td:nth-child(1) {
+    background: #e8edf5;
+    color: #0d1f3c;
+    font-weight: 700;
+    border-right: 1px solid #b0c4de !important;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
+td:nth-child(2) {
+    background: #f5f0e8;
+    color: #7b5a00;
+    font-weight: 700;
+    border-right: 2px solid #c9b89a !important;
+    position: sticky;
+    left: 48px;
+    z-index: 5;
+    min-width: 22px;
+    padding: 6px 2px !important;
+    font-size: 9px;
+}
+th:nth-child(1) {
+    background: #c8d6e8;
+    color: #0d1f3c;
+    font-weight: 700;
+    border-right: 1px solid #b0c4de !important;
+}
+th:nth-child(2) {
+    background: #e8ddc8;
+    color: #5a3e00;
+    font-weight: 700;
+    border-right: 2px solid #c9b89a !important;
+    padding: 6px 2px !important;
+    font-size: 9px;
+}
+.gelap { background: #b8c8dd !important; color: #0a0a1a !important; font-weight: 600 !important; border: 1px solid #8aa3c9 !important; }
+th.gelap { background: #8aa3c9 !important; color: #0a0a1a !important; font-weight: 700 !important; border: 1px solid #6d86b0 !important; }
+.cerah { background: #f5f8ff !important; color: #1a1a2e !important; border: 1px solid #d0d8e8 !important; }
+th.cerah { background: #e4eaf5 !important; color: #0a1a2e !important; font-weight: 700 !important; border: 1px solid #c8d0e0 !important; }
+.cocok {
+    color: #b71c1c !important;
+    font-weight: 900 !important;
+    background: #ff1744 !important;
+    text-shadow: 0 0 20px rgba(255,23,68,0.5) !important;
+    border: 1px solid #b71c1c !important;
+    box-shadow: inset 0 0 20px rgba(255,23,68,0.3) !important;
+}
+.gelap.cocok {
+    background: #d32f2f !important;
+    color: #ffffff !important;
+    text-shadow: 0 0 25px rgba(255,255,255,0.4) !important;
+    box-shadow: inset 0 0 25px rgba(255,255,255,0.2) !important;
+    border: 1px solid #b71c1c !important;
+}
+.cerah.cocok {
+    background: #ff1744 !important;
+    color: #ffffff !important;
+    text-shadow: 0 0 25px rgba(255,255,255,0.4) !important;
+    box-shadow: inset 0 0 25px rgba(255,255,255,0.2) !important;
+    border: 1px solid #b71c1c !important;
+}
+tr:hover td { filter: brightness(0.95); }
+tr:hover td.gelap { filter: brightness(0.92); }
+tr:hover td.cerah { filter: brightness(0.96); }
+tr:hover td.cocok { filter: brightness(1.05) !important; }
+
+/* ===== REKAP ===== */
+.rekap-container {
+    margin-top: 15px;
+    padding: 12px 18px;
+    background: #e8edf5;
+    border-radius: 10px;
+    border-left: 5px solid #0d47a1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.rekap-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.rekap-label {
+    color: #555;
+    font-weight: 500;
+    font-size: 12px;
+}
+.rekap-angka {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d47a1;
+    background: #ffffff;
+    padding: 2px 12px;
+    border-radius: 6px;
+    border: 2px solid #0d47a1;
+    min-width: 40px;
+    text-align: center;
+}
+.rekap-angka.kanan { border-color: #e53935; color: #e53935; }
+.rekap-angka.tengah { border-color: #2e7d32; color: #2e7d32; }
+.rekap-count {
+    font-size: 11px;
+    color: #888;
+    font-weight: 400;
+}
+@media (max-width: 768px) {
+    .rekap-container { font-size: 12px; padding: 10px 14px; gap: 12px; }
+    .rekap-angka { font-size: 16px; min-width: 30px; padding: 1px 8px; }
+}
+@media (max-width: 480px) {
+    .rekap-container { font-size: 10px; padding: 8px 10px; gap: 8px; flex-direction: column; align-items: stretch; }
+    .rekap-angka { font-size: 14px; min-width: 24px; padding: 1px 6px; }
+    .rekap-item { justify-content: space-between; }
+}
+</style>
+</head>
+<body>
+<header class="app-header">
+    <div class="header-content">
+        <div class="header-left">
+            <div class="header-logo">🎯 <span>TOGEL</span> ANALYSIS</div>
+            <div class="header-sub">Full Kombinasi A1-E20</div>
+        </div>
+        <div class="header-right">
+            <span class="header-badge">📊 LIVE DATA</span>
+            <span class="header-clock" id="headerClock">⏰ Loading...</span>
+        </div>
+    </div>
+</header>
+<main class="main-content">
+<h2>📊 FULL KOMBINASI A1 – E20</h2>
+<div class="btn-group">
+    <label>🏷️ PASARAN</label>
+    <button onclick="load('hk')" id="hk" class="active">🇭🇰 HK</button>
+    <button onclick="load('sdny')" id="sdny">🇸🇬 SDY</button>
+    <button onclick="load('sgp')" id="sgp">🇸🇬 SGP</button>
+</div>
+<div class="btn-group">
+    <label>🔄 FILTER KONVERSI</label>
+    <button onclick="setFilter('rumus')" id="f_rumus" class="active">RUMUS</button>
+    <button onclick="setFilter('index')" id="f_index">INDEX</button>
+    <button onclick="setFilter('mlama')" id="f_mlama">MISTIK LAMA</button>
+    <button onclick="setFilter('mbaru')" id="f_mbaru">MISTIK BARU</button>
+</div>
+<div class="btn-group">
+    <label>🎯 POSISI</label>
+    <button onclick="setPosisi('as')" id="p_as">AS</button>
+    <button onclick="setPosisi('cop')" id="p_cop">COP</button>
+    <button onclick="setPosisi('kepala')" id="p_kepala">KEPALA</button>
+    <button onclick="setPosisi('ekor')" id="p_ekor">EKOR</button>
+    <button onclick="setPosisi('2ddepan')" id="p_2ddepan">2D DEPAN</button>
+    <button onclick="setPosisi('2dbelakang')" id="p_2dbelakang" class="active">2D BELAKANG</button>
+    <button onclick="setPosisi('tengah')" id="p_tengah">TENGAH</button>
+    <button onclick="setPosisi('tepi')" id="p_tepi">TEPI</button>
+    <button onclick="setPosisi('kombinasi')" id="p_kombinasi">KOMBINASI</button>
+</div>
+<div class="btn-group">
+    <label>➕ POSISI JUMLAH</label>
+    <button onclick="setPosisi('jumlah2ddepan')" id="p_jumlah2ddepan">+ 2D DEPAN</button>
+    <button onclick="setPosisi('jumlah2dbelakang')" id="p_jumlah2dbelakang" class="active">+ 2D BELAKANG</button>
+    <button onclick="setPosisi('jumlahtengah')" id="p_jumlahtengah">+ TENGAH</button>
+    <button onclick="setPosisi('jumlahtepi')" id="p_jumlahtepi">+ TEPI</button>
+    <button onclick="setPosisi('jumlahkombinasi')" id="p_jumlahkombinasi">+ KOMBINASI</button>
+</div>
+<div id="info">
+    <div class="judul-tabel">📋 HK | EKOR | RUMUS | 20 Hari</div>
+    <div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL EKOR DARI RESULT DI BAWAHNYA</div>
+</div>
+<div id="status">⏳ Loading...</div>
+<div class="table-wrapper">
+    <table id="tabel"></table>
+</div>
+<!-- ===== REKAP ===== -->
+<div id="rekapContainer" class="rekap-container" style="display:none;"></div>
+</main>
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <span>© 2026 <strong>Togel Analysis</strong></span>
+            <span class="footer-divider">|</span>
+            <span>Version <span class="footer-version">v2.2</span></span>
+            <span class="footer-divider">|</span>
+            <a href="#" class="footer-link">📖 Documentation</a>
+            <a href="#" class="footer-link">🔧 Support</a>
+        </div>
+        <div class="footer-right">
+            <span>⚡ Powered by <strong>AI Analysis</strong></span>
+            <span class="footer-divider">|</span>
+            <span id="footerDataCount">📊 0 data</span>
+        </div>
+    </div>
+</footer>
+<script>
+function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('headerClock').textContent = '🕐 ' + now.toLocaleDateString('id-ID', options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+const URL_DATA = {
+    hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
+    sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
+    sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
+};
+let D = {}, P = 'hk', F = 'rumus';
+let POSISI = '2dbelakang';
+const MAP = {
+    rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
+    index: {'0':'456','1':'567','2':'678','3':'789','4':'890','5':'901','6':'012','7':'123','8':'234','9':'345'},
+    mlama: {'0':'012','1':'890','2':'456','3':'789','4':'234','5':'123','6':'345','7':'567','8':'678','9':'901'},
+    mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'}
+};
+const POSISI_MAP = {
+    as: [0], cop: [1], kepala: [2], ekor: [3],
+    '2ddepan': [0,1], '2dbelakang': [2,3],
+    tengah: [1,2], tepi: [0,3], kombinasi: [0,1,2,3],
+    'jumlah2ddepan': [0,1], 'jumlah2dbelakang': [2,3],
+    'jumlahtengah': [1,2], 'jumlahtepi': [0,3],
+    'jumlahkombinasi': [0,1,2,3]
+};
+function isJumlah(p) { return p.startsWith('jumlah'); }
+function hitung2DBelakang(result) {
+    if (!result || result.length < 4) return '-';
+    let d1 = parseInt(result[2]);
+    let d2 = parseInt(result[3]);
+    let total = d1 + d2;
+    while (total >= 10) total = Math.floor(total / 10) + (total % 10);
+    return total;
+}
+async function load(p) {
+    P = p;
+    updateActive('hk', p);
+    document.getElementById('status').innerHTML = '⏳ Loading...';
+    document.getElementById('tabel').innerHTML = '';
+    document.getElementById('rekapContainer').style.display = 'none';
+    if (!D[p]) {
+        try {
+            let url = URL_DATA[p];
+            if (!url || url.includes('username')) throw new Error('URL belum diset!');
+            let r = await fetch(url);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            let text = await r.text();
+            let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+            if (lines.length === 0) throw new Error('Data kosong!');
+            D[p] = lines;
+            document.getElementById('status').innerHTML = '✅ Load ' + lines.length + ' data';
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + lines.length + ' data';
+        } catch(e) {
+            document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
+            D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+        }
+    }
+    render();
+}
+function setFilter(f) { F = f; updateActive('f_', f); render(); }
+function setPosisi(p) { POSISI = p; updateActive('p_', p); render(); }
+function updateActive(prefix, id) {
+    document.querySelectorAll(`[id^="${prefix}"]`).forEach(b => b.classList.remove('active'));
+    let el = document.getElementById(prefix + id);
+    if (el) el.classList.add('active');
+}
+function convert3(d) { return MAP[F][d] || d; }
+function d2(x) { x = Math.abs(x) % 10; return '' + x + ((x+1)%10) + ((x+2)%10); }
+function reduceToSingleDigit(n) { while (n >= 10) n = Math.floor(n / 10) + (n % 10); return n; }
+function getTarget(nextResult) {
+    if (!nextResult) return [];
+    let idxList = POSISI_MAP[POSISI] || [];
+    if (isJumlah(POSISI)) {
+        let total = idxList.reduce((sum, idx) => sum + parseInt(nextResult[idx]), 0);
+        return ['' + reduceToSingleDigit(total)];
+    }
+    return idxList.map(idx => nextResult[idx]);
+}
+let isGelap = true;
+function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
+function resetWarna() { isGelap = true; }
+function buatHeader() {
+    resetWarna();
+    let pos = ['A','C','K','E'];
+    let ops = ['+','-','*'];
+    let h = '<tr><th colspan="2">RESULT</th>';
+    for (let p of pos) h += `<th colspan="3" class="${nextWarna()}">${p}1</th>`;
+    for (let i = 1; i <= 20; i++)
+        for (let p1 of pos)
+            for (let op of ops)
+                for (let p2 of pos)
+                    h += `<th colspan="3" class="${nextWarna()}">${p1}${i}${op}${p2}</th>`;
+    return h + '</tr>';
+}
+function hitungBaris(baris, no, semua, nextResult) {
+    resetWarna();
+    let arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
+    let vals = [convert3(arr1[0]), convert3(arr1[1]), convert3(arr1[2]), convert3(arr1[3])];
+    let target = getTarget(nextResult);
+    let jml = hitung2DBelakang(baris);
+    let tds = `<td>${baris}</td><td>${jml}</td>`;
+    let pos = ['A','C','K','E'];
+    for (let idx = 0; idx < 4; idx++) {
+        let cls = nextWarna();
+        for (let j = 0; j < 3; j++) {
+            let digit = vals[idx][j];
+            let c = (target.length && target.includes(digit)) ? 'cocok' : '';
+            tds += `<td class="${cls} ${c}">${digit}</td>`;
+        }
+    }
+    for (let i = 0; i < semua.length; i++) {
+        let arr2 = [+semua[i][0], +semua[i][1], +semua[i][2], +semua[i][3]];
+        for (let p1 = 0; p1 < 4; p1++)
+            for (let op of ['+','-','*'])
+                for (let p2 = 0; p2 < 4; p2++) {
+                    let a = arr1[p1], b = arr2[p2];
+                    let hasil = op === '+' ? d2(a + b) : op === '-' ? d2(Math.abs(a - b)) : d2(a * b);
+                    let cls = nextWarna();
+                    for (let j = 0; j < 3; j++) {
+                        let digit = hasil[j];
+                        let c = (target.length && target.includes(digit)) ? 'cocok' : '';
+                        tds += `<td class="${cls} ${c}">${digit}</td>`;
+                    }
+                }
+    }
+    return '<tr>' + tds + '</tr>';
+}
+
+// ===== REKAP SEJAJAR (LENGKAP A1-E20) =====
+function rekapSejajar(data) {
+    let data20 = data.slice(-20);
+    if (data20.length < 4) return null;
+    
+    let polos = data20[data20.length - 1];
+    let aPolos = [+polos[0], +polos[1], +polos[2], +polos[3]];
+    
+    let kiriCount = 0, tengahCount = 0, kananCount = 0;
+    let kiriData = [], tengahData = [], kananData = [];
+    
+    for (let i = 0; i < data20.length - 1; i++) {
+        let baris = data20[i];
+        let v = [+baris[0], +baris[1], +baris[2], +baris[3]].map(x => convert3(x));
+        let target = getTarget(data20[i+1]);
+        
+        // 🔥 KIRI = semua posisi A (A1, A2, ... A20)
+        let merahKiri = false;
+        for (let j = 0; j < 3; j++) {
+            if (target.length && target.includes(v[0][j])) { merahKiri = true; break; }
+        }
+        if (merahKiri) { kiriCount++; kiriData.push(v[0]); }
+        
+        // 🔥 TENGAH = semua posisi C (C1, C2, ... C20)
+        let merahTengah = false;
+        for (let j = 0; j < 3; j++) {
+            if (target.length && target.includes(v[2][j])) { merahTengah = true; break; }
+        }
+        if (merahTengah) { tengahCount++; tengahData.push(v[2]); }
+        
+        // 🔥 KANAN = semua posisi E (E1, E2, ... E20)
+        let merahKanan = false;
+        for (let j = 0; j < 3; j++) {
+            if (target.length && target.includes(v[3][j])) { merahKanan = true; break; }
+        }
+        if (merahKanan) { kananCount++; kananData.push(v[3]); }
+    }
+    
+    let hasil = {};
+    if (kiriCount >= 3) {
+        hasil.kiri = { angka: aPolos[0], count: kiriCount, data: kiriData };
+    }
+    if (tengahCount >= 3) {
+        hasil.tengah = { angka: aPolos[2], count: tengahCount, data: tengahData };
+    }
+    if (kananCount >= 3) {
+        hasil.kanan = { angka: aPolos[3], count: kananCount, data: kananData };
+    }
+    return Object.keys(hasil).length > 0 ? hasil : null;
+}
+
+function render() {
+    if (!D[P]) return;
+    let data = D[P].slice(-20);
+    
+    // JUDUL
+    let pasarNama = P.toUpperCase();
+    let filterNama = F.toUpperCase();
+    let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ').trim();
+    let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | 20 Hari`;
+    let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} DARI RESULT DI BAWAHNYA`;
+    document.getElementById('info').innerHTML = `<div class="judul-tabel">${judul}</div><div class="sub-info">${subInfo}</div>`;
+    
+    // TABEL
+    let html = buatHeader();
+    for (let i = 0; i < data.length; i++) {
+        let no = data.length - i;
+        let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
+        html += hitungBaris(data[i], no, data, nextResult);
+    }
+    document.getElementById('tabel').innerHTML = html;
+    
+    // ===== REKAP =====
+    let rekap = rekapSejajar(data);
+    let rekapContainer = document.getElementById('rekapContainer');
+    
+    if (rekap) {
+        let htmlRekap = '<span style="font-weight:700;color:#0d47a1;">📊 REKAP SEJAJAR</span>';
+        
+        if (rekap.kiri) {
+            htmlRekap += `
+                <div class="rekap-item">
+                    <span class="rekap-label">KIRI (A1)</span>
+                    <span class="rekap-angka">${rekap.kiri.angka}</span>
+                    <span class="rekap-count">${rekap.kiri.count}x</span>
+                </div>
+            `;
+        }
+        if (rekap.tengah) {
+            htmlRekap += `
+                <div class="rekap-item">
+                    <span class="rekap-label">TENGAH (C1)</span>
+                    <span class="rekap-angka tengah">${rekap.tengah.angka}</span>
+                    <span class="rekap-count">${rekap.tengah.count}x</span>
+                </div>
+            `;
+        }
+        if (rekap.kanan) {
+            htmlRekap += `
+                <div class="rekap-item">
+                    <span class="rekap-label">KANAN (E1)</span>
+                    <span class="rekap-angka kanan">${rekap.kanan.angka}</span>
+                    <span class="rekap-count">${rekap.kanan.count}x</span>
+                </div>
+            `;
+        }
+        rekapContainer.innerHTML = htmlRekap;
+        rekapContainer.style.display = 'flex';
+    } else {
+        rekapContainer.style.display = 'none';
+    }
+}
+
+load('hk');
+</script>
+</body>
+</html>
