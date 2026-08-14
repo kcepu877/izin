@@ -158,7 +158,6 @@ th {
     border-bottom: 2px solid #7a93b9 !important;
 }
 
-/* 🔥 RESULT & JML (2 KOLOM) */
 td:nth-child(1) {
     background: #e8edf5;
     color: #0d1f3c;
@@ -207,21 +206,6 @@ tr:hover td { filter: brightness(0.95); }
 tr:hover td.gelap { filter: brightness(0.92); }
 tr:hover td.cerah { filter: brightness(0.96); }
 tr:hover td.cocok { filter: brightness(1.05) !important; }
-@media (max-width: 768px) {
-    button { font-size: 9px; padding: 4px 8px; }
-    th, td { font-size: 8px; padding: 4px 5px; }
-    #info { font-size: 11px; padding: 8px 10px; }
-    #info .judul-tabel { font-size: 15px; }
-    td:nth-child(2) { min-width: 18px; padding: 4px 1px !important; font-size: 8px; }
-}
-@media (max-width: 480px) {
-    button { font-size: 8px; padding: 3px 6px; }
-    th, td { font-size: 7px; padding: 3px 4px; }
-    #info { font-size: 10px; }
-    .btn-group { gap: 4px; }
-    #info .judul-tabel { font-size: 13px; }
-    td:nth-child(2) { min-width: 14px; padding: 3px 1px !important; font-size: 7px; }
-}
 </style>
 </head>
 <body>
@@ -251,6 +235,7 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
     <button onclick="setFilter('index')" id="f_index">INDEX</button>
     <button onclick="setFilter('mlama')" id="f_mlama">MISTIK LAMA</button>
     <button onclick="setFilter('mbaru')" id="f_mbaru">MISTIK BARU</button>
+    <button onclick="setFilter('taysen')" id="f_taysen">TAYSEN</button>
 </div>
 <div class="btn-group">
     <label>🎯 POSISI</label>
@@ -286,7 +271,7 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
         <div class="footer-left">
             <span>© 2026 <strong>Togel Analysis</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v2.1</span></span>
+            <span>Version <span class="footer-version">v2.4</span></span>
             <span class="footer-divider">|</span>
             <a href="#" class="footer-link">📖 Documentation</a>
             <a href="#" class="footer-link">🔧 Support</a>
@@ -313,12 +298,26 @@ const URL_DATA = {
 };
 let D = {}, P = 'hk', F = 'rumus';
 let POSISI = '2dbelakang';
+
 const MAP = {
     rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
     index: {'0':'456','1':'567','2':'678','3':'789','4':'890','5':'901','6':'012','7':'123','8':'234','9':'345'},
     mlama: {'0':'012','1':'890','2':'456','3':'789','4':'234','5':'123','6':'345','7':'567','8':'678','9':'901'},
-    mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'}
+    mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'},
+    taysen: {
+        '0': '678',
+        '1': '345',
+        '2': '890',
+        '3': '567',
+        '4': '345',
+        '5': '789',
+        '6': '234',
+        '7': '901',
+        '8': '456',
+        '9': '123'
+    }
 };
+
 const POSISI_MAP = {
     as: [0], cop: [1], kepala: [2], ekor: [3],
     '2ddepan': [0,1], '2dbelakang': [2,3],
@@ -327,7 +326,9 @@ const POSISI_MAP = {
     'jumlahtengah': [1,2], 'jumlahtepi': [0,3],
     'jumlahkombinasi': [0,1,2,3]
 };
+
 function isJumlah(p) { return p.startsWith('jumlah'); }
+
 function hitung2DBelakang(result) {
     if (!result || result.length < 4) return '-';
     let d1 = parseInt(result[2]);
@@ -336,6 +337,7 @@ function hitung2DBelakang(result) {
     while (total >= 10) total = Math.floor(total / 10) + (total % 10);
     return total;
 }
+
 async function load(p) {
     P = p;
     updateActive('hk', p);
@@ -361,16 +363,24 @@ async function load(p) {
     }
     render();
 }
+
 function setFilter(f) { F = f; updateActive('f_', f); render(); }
 function setPosisi(p) { POSISI = p; updateActive('p_', p); render(); }
+
 function updateActive(prefix, id) {
     document.querySelectorAll(`[id^="${prefix}"]`).forEach(b => b.classList.remove('active'));
     let el = document.getElementById(prefix + id);
     if (el) el.classList.add('active');
 }
-function convert3(d) { return MAP[F][d] || d; }
+
+function convert3(d) { 
+    let hasil = MAP[F]?.[d] || d; 
+    return hasil; 
+}
+
 function d2(x) { x = Math.abs(x) % 10; return '' + x + ((x+1)%10) + ((x+2)%10); }
 function reduceToSingleDigit(n) { while (n >= 10) n = Math.floor(n / 10) + (n % 10); return n; }
+
 function getTarget(nextResult) {
     if (!nextResult) return [];
     let idxList = POSISI_MAP[POSISI] || [];
@@ -380,11 +390,11 @@ function getTarget(nextResult) {
     }
     return idxList.map(idx => nextResult[idx]);
 }
+
 let isGelap = true;
 function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
 
-// 🔥 HEADER: RESULT pakai colspan="2"
 function buatHeader() {
     resetWarna();
     let pos = ['A','C','K','E'];
@@ -407,14 +417,18 @@ function hitungBaris(baris, no, semua, nextResult) {
     let jml = hitung2DBelakang(baris);
     let tds = `<td>${baris}</td><td>${jml}</td>`;
     let pos = ['A','C','K','E'];
+    
     for (let idx = 0; idx < 4; idx++) {
         let cls = nextWarna();
         for (let j = 0; j < 3; j++) {
             let digit = vals[idx][j];
-            let c = (target.length && target.includes(digit)) ? 'cocok' : '';
+            // 🔥 SAMA PERSIS UNTUK SEMUA FILTER
+            let isCocok = target.length && target.includes(digit);
+            let c = isCocok ? 'cocok' : '';
             tds += `<td class="${cls} ${c}">${digit}</td>`;
         }
     }
+    
     for (let i = 0; i < semua.length; i++) {
         let arr2 = [+semua[i][0], +semua[i][1], +semua[i][2], +semua[i][3]];
         for (let p1 = 0; p1 < 4; p1++)
@@ -425,7 +439,9 @@ function hitungBaris(baris, no, semua, nextResult) {
                     let cls = nextWarna();
                     for (let j = 0; j < 3; j++) {
                         let digit = hasil[j];
-                        let c = (target.length && target.includes(digit)) ? 'cocok' : '';
+                        // 🔥 SAMA PERSIS UNTUK SEMUA FILTER
+                        let isCocok = target.length && target.includes(digit);
+                        let c = isCocok ? 'cocok' : '';
                         tds += `<td class="${cls} ${c}">${digit}</td>`;
                     }
                 }
@@ -436,12 +452,17 @@ function hitungBaris(baris, no, semua, nextResult) {
 function render() {
     if (!D[P]) return;
     let data = D[P].slice(-20);
+    
     let pasarNama = P.toUpperCase();
     let filterNama = F.toUpperCase();
     let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ').trim();
     let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | 20 Hari`;
     let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} DARI RESULT DI BAWAHNYA`;
+    if (F === 'taysen') {
+        subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (TAYSEN)`;
+    }
     document.getElementById('info').innerHTML = `<div class="judul-tabel">${judul}</div><div class="sub-info">${subInfo}</div>`;
+    
     let html = buatHeader();
     for (let i = 0; i < data.length; i++) {
         let no = data.length - i;
@@ -450,6 +471,7 @@ function render() {
     }
     document.getElementById('tabel').innerHTML = html;
 }
+
 load('hk');
 </script>
 </body>
