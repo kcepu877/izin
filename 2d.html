@@ -634,7 +634,7 @@ let isManualMode = false;
 
 // Variable untuk paginasi kolom
 let currentPage = 0;
-const COLS_PER_PAGE = 10; // Jumlah kombinasi per halaman
+const COLS_PER_PAGE = 10;
 
 const MAP = {
     rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
@@ -655,7 +655,6 @@ const MAP = {
     }
 };
 
-// Mapping conversi
 const CONVERSI_MAP = {
     'ix': 'index',
     'ty': 'taysen',
@@ -672,7 +671,6 @@ const POSISI_MAP = {
     'jumlahkombinasi': [0,1,2,3]
 };
 
-// Mapping key ke indeks posisi - HANYA A1-A9, C1-C9, K1-K9, E1-E9
 const KEY_MAP = {
     'a1': [0,0], 'a2': [0,1], 'a3': [0,2], 'a4': [0,3], 'a5': [0,4],
     'a6': [0,5], 'a7': [0,6], 'a8': [0,7], 'a9': [0,8],
@@ -684,7 +682,6 @@ const KEY_MAP = {
     'e6': [3,5], 'e7': [3,6], 'e8': [3,7], 'e9': [3,8]
 };
 
-// Daftar keys untuk header - HANYA A1-A9, C1-C9, K1-K9, E1-E9
 const KEYS = [
     'a1','a2','a3','a4','a5','a6','a7','a8','a9',
     'c1','c2','c3','c4','c5','c6','c7','c8','c9',
@@ -692,7 +689,6 @@ const KEYS = [
     'e1','e2','e3','e4','e5','e6','e7','e8','e9'
 ];
 
-// Daftar semua kombinasi (untuk paginasi)
 const ALL_COMBINATIONS = [];
 const OPS = ['+', '-'];
 for (let i = 0; i < KEYS.length; i++) {
@@ -720,6 +716,49 @@ function hitung2DBelakang(result) {
     let total = d1 + d2;
     while (total >= 10) total = Math.floor(total / 10) + (total % 10);
     return total;
+}
+
+// REDUKSI KE 1 DIGIT
+function reduceToSingleDigit(n) {
+    // Untuk hasil negatif, ambil nilai absolut
+    n = Math.abs(n);
+    while (n >= 10) {
+        let sum = 0;
+        let temp = n;
+        while (temp > 0) {
+            sum += temp % 10;
+            temp = Math.floor(temp / 10);
+        }
+        n = sum;
+    }
+    return n;
+}
+
+// HITUNG OPERASI DENGAN ATURAN: JIKA HASIL 0, KEMBALI KE ANGKA AWAL (A)
+function hitungOperasi(a, b, op) {
+    let hasil;
+    if (op === '+') {
+        hasil = a + b;
+    } else { // '-'
+        hasil = a - b;
+    }
+    
+    // Jika hasil 0, kembali ke angka a (angka pertama)
+    if (hasil === 0) {
+        return a;
+    }
+    
+    // Reduksi ke 1 digit
+    return reduceToSingleDigit(hasil);
+}
+
+// 3 DIGIT - dari hasil operasi yang sudah direduksi ke 1 digit
+function d2(x) { 
+    // x sudah dalam bentuk 1 digit (0-9)
+    let plus = (x + 1) % 10;
+    let minus = (x - 1 + 10) % 10;
+    let times = (x * 2) % 10;
+    return '' + plus + minus + times;
 }
 
 async function load(p) {
@@ -833,12 +872,7 @@ function runManual(e) {
                 if (mapped) convVal2 = parseInt(mapped[0]) || val2;
             }
             
-            let hasil;
-            if (arit1 === '+') {
-                hasil = (convVal1 + convVal2) % 10;
-            } else {
-                hasil = Math.abs(convVal1 - convVal2) % 10;
-            }
+            let hasil = hitungOperasi(convVal1, convVal2, arit1);
             
             let convHasil = CONVERSI_MAP[conversiHasil] || '';
             if (convHasil && MAP[convHasil]) {
@@ -895,20 +929,6 @@ function convert3(d) {
     return hasil; 
 }
 
-// 3 DIGIT - tetap menghasilkan 3 digit meskipun operasi hanya + dan -
-function d2(x) { 
-    x = Math.abs(x) % 10; 
-    let plus = (x + 1) % 10;
-    let minus = (x - 1 + 10) % 10;
-    let times = (x * 2) % 10; // tetap untuk 3 digit
-    return '' + plus + minus + times;
-}
-
-function reduceToSingleDigit(n) { 
-    while (n >= 10) n = Math.floor(n / 10) + (n % 10); 
-    return n; 
-}
-
 function getTarget(nextResult) {
     if (!nextResult) return [];
     let idxList = POSISI_MAP[POSISI] || [];
@@ -923,7 +943,6 @@ let isGelap = true;
 function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
 
-// Navigasi halaman
 function prevPage() {
     if (currentPage > 0) {
         currentPage--;
@@ -949,7 +968,6 @@ function buatHeader() {
     let h = '<tr><th colspan="2">RESULT</th>';
     for (let p of pos) h += `<th colspan="3" class="${nextWarna()}">${p}1</th>`;
     
-    // Tentukan kombinasi yang ditampilkan di halaman ini
     let start = currentPage * COLS_PER_PAGE;
     let end = Math.min(start + COLS_PER_PAGE, TOTAL_COLS);
     let pageCombinations = ALL_COMBINATIONS.slice(start, end);
@@ -982,7 +1000,6 @@ function hitungBaris(baris, no, semua, nextResult) {
         }
     }
     
-    // Tentukan kombinasi yang ditampilkan di halaman ini
     let start = currentPage * COLS_PER_PAGE;
     let end = Math.min(start + COLS_PER_PAGE, TOTAL_COLS);
     let pageCombinations = ALL_COMBINATIONS.slice(start, end);
@@ -992,12 +1009,11 @@ function hitungBaris(baris, no, semua, nextResult) {
         let pos2 = KEY_MAP[combo.key2] || [0,0];
         let a = arr1[pos1[0]];
         let b = arr1[pos2[0]];
-        let hasil;
-        if (combo.op === '+') {
-            hasil = d2(a + b);
-        } else {
-            hasil = d2(Math.abs(a - b));
-        }
+        
+        // Hitung operasi dengan aturan baru
+        let hasilReduksi = hitungOperasi(a, b, combo.op);
+        let hasil = d2(hasilReduksi);
+        
         let cls = nextWarna();
         for (let k = 0; k < 3; k++) {
             let digit = hasil[k];
@@ -1020,13 +1036,12 @@ function render() {
     let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | ${data.length} Hari ${modeLabel}`;
     let start = currentPage * COLS_PER_PAGE + 1;
     let end = Math.min(start + COLS_PER_PAGE - 1, TOTAL_COLS);
-    let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (Operasi: +, -) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit per sel`;
+    let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (Operasi: +, -) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit per sel | Jika hasil 0 → kembali ke digit awal`;
     if (F === 'taysen') {
-        subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (TAYSEN) (Operasi: +, -) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit per sel`;
+        subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (TAYSEN) (Operasi: +, -) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit per sel | Jika hasil 0 → kembali ke digit awal`;
     }
     document.getElementById('info').innerHTML = `<div class="judul-tabel">${judul}</div><div class="sub-info">${subInfo}</div>`;
     
-    // Update navigasi
     document.getElementById('pageInfo').textContent = `Halaman ${currentPage + 1} / ${TOTAL_PAGES}`;
     document.getElementById('rangeInfo').textContent = `Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS}`;
     document.getElementById('prevCol').disabled = (currentPage === 0);
