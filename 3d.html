@@ -268,6 +268,44 @@ th.key-header {
     border-left: 1px solid #c0cfe0 !important;
     text-align: center;
 }
+
+/* TOP CONTAINER */
+.top-container {
+    padding: 8px 15px;
+    background: #fff3e0;
+    border: 2px solid #ff9800;
+    border-radius: 6px;
+    margin-top: 8px;
+    display: none;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.top-container.show {
+    display: flex;
+}
+.top-container .top-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e65100;
+}
+.top-container .top-number {
+    font-size: 28px;
+    font-weight: 900;
+    color: #d32f2f;
+}
+.top-container .top-detail {
+    font-size: 11px;
+    color: #666;
+}
+.top-container .top-badge {
+    background: #d32f2f;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+}
 </style>
 </head>
 <body>
@@ -536,14 +574,13 @@ th.key-header {
 
 <div class="scroll-container">
     <div class="table-scroll" id="tableScroll">
-        <table id="tabel">
-            <tr><td colspan="100">
-                <div class="empty-state">
-                    <span class="icon">🔧</span>
-                    Belum ada data.<br>Pilih KEY 1 dan klik <strong>🚀 GO</strong>
-                </div>
-            </td></tr>
-        </table>
+        <table id="tabel"></table>
+    </div>
+    <div class="top-container" id="topContainer">
+        <span class="top-label">🏆 TOP</span>
+        <span class="top-number" id="topNumber">-</span>
+        <span class="top-badge" id="topBadge">LURUS 0</span>
+        <span class="top-detail" id="topDetail">-</span>
     </div>
 </div>
 
@@ -706,6 +743,113 @@ function getTarget(nextResult) {
     return posMap.map(function(idx) { return nextResult[idx]; });
 }
 
+// DETEKSI LURUS MERAH - POSISI YANG SAMA (VERTIKAL)
+function detectLurusMerah(data, digit) {
+    if (!data || data.length < 3) return null;
+    if (!selectedCombination) return null;
+    
+    var huruf = 'ABCDEFGHIJ';
+    var results = [];
+    
+    for (var pos = 0; pos < digit; pos++) {
+        var consecutive = 0;
+        var maxConsecutive = 0;
+        var startBaris = 0;
+        var endBaris = 0;
+        var totalMerah = 0;
+        
+        for (var i = 0; i < data.length - 1; i++) {
+            var baris = data[i];
+            var nextResult = data[i + 1];
+            var arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
+            
+            var pos1 = KEY_MAP[selectedCombination.key1] || [0,0];
+            var a = arr1[pos1[0]];
+            var hasilReduksi = a;
+            
+            if (selectedCombination.key2 && selectedCombination.key2 !== '' && selectedCombination.op && selectedCombination.op !== '') {
+                var pos2 = KEY_MAP[selectedCombination.key2] || [0,0];
+                var b = arr1[pos2[0]];
+                var convVal1 = getDigitFromConversi(a, selectedCombination.conversi1);
+                var convVal2 = getDigitFromConversi(b, selectedCombination.conversi2);
+                var hasil = hitungOperasi(convVal1, convVal2, selectedCombination.op);
+                hasilReduksi = getDigitFromConversi(hasil, selectedCombination.conversiHasil);
+            } else {
+                hasilReduksi = getDigitFromConversi(a, selectedCombination.conversi1);
+            }
+            
+            var keyDigits = generateDigit(hasilReduksi, digit);
+            var targetValues = getTarget(nextResult);
+            
+            var digitVal = parseInt(keyDigits[pos]);
+            var isMerah = targetValues.indexOf(String(digitVal)) !== -1;
+            
+            if (isMerah) {
+                consecutive++;
+                totalMerah++;
+                if (consecutive > maxConsecutive) {
+                    maxConsecutive = consecutive;
+                    startBaris = i - consecutive + 2;
+                    endBaris = i + 1;
+                }
+            } else {
+                consecutive = 0;
+            }
+        }
+        
+        results.push({
+            posisi: pos,
+            huruf: huruf[pos],
+            count: maxConsecutive,
+            totalMerah: totalMerah,
+            startBaris: startBaris,
+            endBaris: endBaris
+        });
+    }
+    
+    // Urutkan: maxConsecutive terbanyak, lalu totalMerah terbanyak
+    results.sort(function(a, b) {
+        if (b.count !== a.count) return b.count - a.count;
+        return b.totalMerah - a.totalMerah;
+    });
+    
+    var best = results[0];
+    
+    // Jika tidak ada MERAH sama sekali (count=0 dan totalMerah=0)
+    if (best.count === 0 && best.totalMerah === 0) {
+        return null;
+    }
+    
+    // Ambil TOP dari baris TERAKHIR data
+    var lastBaris = data[data.length - 1];
+    var lastArr = [+lastBaris[0], +lastBaris[1], +lastBaris[2], +lastBaris[3]];
+    var lastPos1 = KEY_MAP[selectedCombination.key1] || [0,0];
+    var lastA = lastArr[lastPos1[0]];
+    var lastHasilReduksi = lastA;
+    if (selectedCombination.key2 && selectedCombination.key2 !== '' && selectedCombination.op && selectedCombination.op !== '') {
+        var lastPos2 = KEY_MAP[selectedCombination.key2] || [0,0];
+        var lastB = lastArr[lastPos2[0]];
+        var lastConvVal1 = getDigitFromConversi(lastA, selectedCombination.conversi1);
+        var lastConvVal2 = getDigitFromConversi(lastB, selectedCombination.conversi2);
+        var lastHasil = hitungOperasi(lastConvVal1, lastConvVal2, selectedCombination.op);
+        lastHasilReduksi = getDigitFromConversi(lastHasil, selectedCombination.conversiHasil);
+    } else {
+        lastHasilReduksi = getDigitFromConversi(lastA, selectedCombination.conversi1);
+    }
+    var lastKeyDigits = generateDigit(lastHasilReduksi, digit);
+    var topDigit = parseInt(lastKeyDigits[best.posisi]);
+    
+    return {
+        posisi: best.posisi,
+        huruf: best.huruf,
+        top: topDigit,
+        count: best.count,
+        totalMerah: best.totalMerah,
+        startBaris: best.startBaris,
+        endBaris: best.endBaris
+    };
+}
+
 var isGelap = true;
 function nextWarna() { var w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
@@ -807,6 +951,7 @@ function runManual(e) {
 function render() {
     if (!currentData || currentData.length === 0) {
         document.getElementById('tabel').innerHTML = '<tr><td colspan="100"><div class="empty-state"><span class="icon">🔧</span>Belum ada data.<br>Pilih KEY 1 dan klik <strong>🚀 GO</strong></div></td></tr>';
+        document.getElementById('topContainer').classList.remove('show');
         var posisiNama = POSISI.toUpperCase();
         document.getElementById('info').innerHTML = '<div class="judul-tabel">📋 MANUAL | ' + posisiNama + ' | 0 Hari</div><div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA</div>';
         return;
@@ -821,10 +966,24 @@ function render() {
     
     var html = buatHeader();
     for (var i = 0; i < data.length; i++) {
+        var baris = data[i];
         var nextResult = (i + 1 < data.length) ? data[i + 1] : null;
-        html += hitungBaris(data[i], nextResult);
+        html += hitungBaris(baris, nextResult);
     }
     document.getElementById('tabel').innerHTML = html;
+    
+    if (selectedCombination) {
+        var lurusResult = detectLurusMerah(data, selectedCombination.digit || 3);
+        var topContainer = document.getElementById('topContainer');
+        if (lurusResult) {
+            topContainer.classList.add('show');
+            document.getElementById('topNumber').textContent = lurusResult.top;
+            document.getElementById('topBadge').textContent = 'LURUS ' + lurusResult.count;
+            document.getElementById('topDetail').textContent = 'Posisi ' + lurusResult.huruf + ' | Baris ' + lurusResult.startBaris + '-' + lurusResult.endBaris + ' | Total MERAH: ' + lurusResult.totalMerah;
+        } else {
+            topContainer.classList.remove('show');
+        }
+    }
 }
 
 function buatHeader() {
@@ -854,12 +1013,9 @@ function hitungBaris(baris, nextResult) {
         if (combo.key2 && combo.key2 !== '' && combo.op && combo.op !== '') {
             var pos2 = KEY_MAP[combo.key2] || [0,0];
             var b = arr1[pos2[0]];
-            
             var convVal1 = getDigitFromConversi(a, combo.conversi1);
             var convVal2 = getDigitFromConversi(b, combo.conversi2);
-            
             var hasil = hitungOperasi(convVal1, convVal2, combo.op);
-            
             hasilReduksi = getDigitFromConversi(hasil, combo.conversiHasil);
         } else {
             hasilReduksi = getDigitFromConversi(a, combo.conversi1);
