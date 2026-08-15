@@ -718,7 +718,7 @@ function hitung2DBelakang(result) {
     return total;
 }
 
-// REDUKSI KE 1 DIGIT
+// REDUKSI KE 1 DIGIT (TANPA NEGATIF)
 function reduceToSingleDigit(n) {
     // Untuk hasil negatif, ambil nilai absolut
     n = Math.abs(n);
@@ -749,16 +749,21 @@ function hitungOperasi(a, b, op) {
     }
     
     // Reduksi ke 1 digit
-    return reduceToSingleDigit(hasil);
+    let reduksi = reduceToSingleDigit(hasil);
+    
+    // DEBUG: tampilkan di console
+    console.log(`${a} ${op} ${b} = ${hasil} → ${reduksi} (${hasil===0?'kembali ke '+a:''})`);
+    
+    return reduksi;
 }
 
 // 3 DIGIT - dari hasil operasi yang sudah direduksi ke 1 digit
 function d2(x) { 
     // x sudah dalam bentuk 1 digit (0-9)
-    let plus = (x + 1) % 10;
     let minus = (x - 1 + 10) % 10;
-    let times = (x * 2) % 10;
-    return '' + plus + minus + times;
+    let asli = x;
+    let plus = (x + 1) % 10;
+    return '' + minus + asli + plus;
 }
 
 async function load(p) {
@@ -1009,6 +1014,9 @@ function hitungBaris(baris, no, semua, nextResult) {
         let pos2 = KEY_MAP[combo.key2] || [0,0];
         let a = arr1[pos1[0]];
         let b = arr1[pos2[0]];
+        
+        // DEBUG
+        console.log(`Baris ${baris}: ${combo.label} → a=${a}, b=${b}`);
         
         // Hitung operasi dengan aturan baru
         let hasilReduksi = hitungOperasi(a, b, combo.op);
