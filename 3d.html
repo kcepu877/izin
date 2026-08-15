@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MANUAL KOMBINASI A1-JD9 (+ - ×)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.app-header {
+    background: linear-gradient(135deg, #0d47a1 0%, #1a237e 100%);
+    color: white;
+    padding: 12px 20px;
+    box-shadow: 0 2px 12px rgba(13, 71, 161, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-logo { font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+.header-logo span { color: #ffd54f; }
+.header-sub { font-size: 11px; opacity: 0.85; font-weight: 300; }
+.header-right { display: flex; align-items: center; gap: 12px; font-size: 11px; }
+.header-badge {
+    background: rgba(255,255,255,0.15);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.header-clock { font-weight: 300; font-size: 11px; opacity: 0.9; }
+.main-content { flex: 1; padding: 10px 15px 15px 15px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.app-footer {
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+    color: white;
+    padding: 8px 20px;
+    margin-top: 10px;
+    box-shadow: 0 -2px 12px rgba(13, 71, 161, 0.2);
+}
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 10px;
+}
+.footer-left { display: flex; align-items: center; gap: 12px; }
+.footer-right { display: flex; align-items: center; gap: 12px; opacity: 0.8; }
+.footer-link { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; }
+.footer-link:hover { color: #ffd54f; }
+.footer-divider { opacity: 0.3; }
+.footer-version {
+    background: rgba(255,255,255,0.1);
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+@media (max-width: 768px) {
+    .app-header { padding: 10px 12px; }
+    .header-logo { font-size: 16px; }
+    .header-sub { font-size: 9px; }
+    .header-right { font-size: 9px; gap: 6px; }
+    .header-badge { font-size: 8px; padding: 2px 6px; }
+    .main-content { padding: 6px 8px 10px 8px; }
+    .app-footer { padding: 6px 12px; }
+    .footer-content { font-size: 8px; flex-direction: column; text-align: center; gap: 3px; }
+    .footer-left { flex-direction: column; gap: 3px; }
+}
+#info {
+    background: #e8edf5;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #0d2b4b;
+    margin: 5px 0 8px 0;
+    border-left: 3px solid #0d47a1;
+}
+#info .judul-tabel { font-size: 14px; font-weight: 700; color: #0d47a1; }
+#info .sub-info { font-size: 11px; font-weight: 400; color: #0d2b4b; }
+#status { font-size: 10px; color: #2e7d32; margin-bottom: 6px; }
+
+.scroll-container {
+    position: relative;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    border: 1px solid #e0e5ec;
+    overflow: hidden;
+}
+.table-scroll {
+    overflow: auto;
+    max-height: 60vh;
+    position: relative;
+}
+table {
+    border-collapse: collapse;
+    width: auto;
+    min-width: 100%;
+    font-size: 10px;
+    table-layout: fixed;
+}
+th, td {
+    border: 1px solid #d0d8e5 !important;
+    padding: 3px 4px;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 9px;
+    min-width: 20px;
+    max-width: 20px;
+    width: 20px;
+}
+th {
+    background: #dce4f0;
+    color: #0d2b4b;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-size: 9px;
+    border-bottom: 2px solid #a0b8d0 !important;
+}
+
+td:nth-child(1) {
+    background: #f0f3f8;
+    color: #0d1f3c;
+    font-weight: 700;
+    border-right: 1px solid #c0cfe0 !important;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    min-width: 36px;
+    max-width: 36px;
+    width: 36px;
+    font-size: 10px;
+}
+td:nth-child(2) {
+    background: #f5f0e8;
+    color: #7b5a00;
+    font-weight: 700;
+    border-right: 2px solid #d4c8b0 !important;
+    position: sticky;
+    left: 36px;
+    z-index: 5;
+    min-width: 18px;
+    max-width: 18px;
+    width: 18px;
+    padding: 3px 1px !important;
+    font-size: 8px;
+}
+th:nth-child(1) {
+    background: #dce4f0;
+    color: #0d1f3c;
+    font-weight: 700;
+    border-right: 1px solid #c0cfe0 !important;
+    min-width: 36px;
+    max-width: 36px;
+    width: 36px;
+}
+th:nth-child(2) {
+    background: #e8ddc8;
+    color: #5a3e00;
+    font-weight: 700;
+    border-right: 2px solid #d4c8b0 !important;
+    padding: 3px 1px !important;
+    font-size: 8px;
+    min-width: 18px;
+    max-width: 18px;
+    width: 18px;
+}
+
+/* Kolom KEY - dinamis */
+td.key-digit {
+    font-weight: 700;
+    background: #fafcff;
+}
+th.key-digit {
+    background: #dce4f0;
+    color: #0d2b4b;
+    font-weight: 700;
+    font-size: 9px;
+}
+
+.gelap { 
+    background: #e8edf5 !important; 
+    color: #1a1a2e !important; 
+    border: 1px solid #d0d8e5 !important; 
+}
+th.gelap { 
+    background: #d0dcee !important; 
+    color: #0d2b4b !important; 
+    border: 1px solid #b0c4de !important; 
+}
+.cerah { 
+    background: #ffffff !important; 
+    color: #1a1a2e !important; 
+    border: 1px solid #d0d8e5 !important; 
+}
+th.cerah { 
+    background: #e8eef5 !important; 
+    color: #0d2b4b !important; 
+    border: 1px solid #d0d8e5 !important; 
+}
+
+.cocok { 
+    color: #ffffff !important; 
+    font-weight: 900 !important; 
+    background: #e53935 !important; 
+    border: 1px solid #b71c1c !important; 
+}
+.gelap.cocok { background: #d32f2f !important; color: #ffffff !important; }
+.cerah.cocok { background: #e53935 !important; color: #ffffff !important; }
+tr:hover td { background: #f5f8ff !important; }
+tr:hover td.gelap { background: #e0e8f5 !important; }
+tr:hover td.cerah { background: #f5f8ff !important; }
+tr:hover td.cocok { background: #e53935 !important; }
+
+.manual-controls {
+    background: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e5ec;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    margin-bottom: 8px;
+}
+.manual-controls .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+.manual-controls .col {
+    flex: 1;
+    min-width: 75px;
+}
+.manual-controls select,
+.manual-controls input {
+    width: 100%;
+    padding: 3px 6px;
+    border: 1.5px solid #d0d8e8;
+    border-radius: 4px;
+    font-size: 10px;
+    background: #fff;
+    color: #1a1a2e;
+    transition: border-color 0.2s;
+    height: 26px;
+}
+.manual-controls select:focus,
+.manual-controls input:focus {
+    outline: none;
+    border-color: #0d47a1;
+    box-shadow: 0 0 0 2px rgba(13,71,161,0.08);
+}
+.manual-controls .btn-go {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    color: white;
+    border: none;
+    padding: 3px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s;
+    height: 26px;
+}
+.manual-controls .btn-go:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 10px rgba(46,125,50,0.3);
+}
+.manual-controls .mode-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #666;
+    display: block;
+    margin-bottom: 1px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 25px 15px;
+    color: #999;
+    font-size: 12px;
+}
+.empty-state .icon { font-size: 28px; display: block; margin-bottom: 6px; }
+
+/* Header KEY - gabung */
+th.key-header {
+    background: #dce4f0;
+    color: #0d2b4b;
+    font-weight: 700;
+    font-size: 9px;
+    border-left: 1px solid #c0cfe0 !important;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<header class="app-header">
+    <div class="header-content">
+        <div class="header-left">
+            <div class="header-logo">🎯 <span>TOGEL</span> ANALYSIS</div>
+            <div class="header-sub">Manual Kombinasi A1-JD9</div>
+        </div>
+        <div class="header-right">
+            <span class="header-badge">📊 MANUAL</span>
+            <span class="header-clock" id="headerClock">⏰ Loading...</span>
+        </div>
+    </div>
+</header>
+<main class="main-content">
+<h2 style="font-size:16px;margin-bottom:4px;">📊 MANUAL KOMBINASI A1 – JD9 (+ - ×)</h2>
+
+<!-- MANUAL CONTROLS -->
+<div class="manual-controls">
+    <form id="manualForm" onsubmit="runManual(event)">
+        <div class="row">
+            <div class="col">
+                <label class="mode-label">🏷️ PASARAN</label>
+                <select name="pasaran" id="mPasaran">
+                    <option value="hongkong" selected>Hongkong</option>
+                    <option value="sydney">Sydney</option>
+                    <option value="singapore">Singapore</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">📊 PUTARAN</label>
+                <input type="number" name="putaran" id="mPutaran" value="20" min="3" max="100">
+            </div>
+            <div class="col">
+                <label class="mode-label">🎯 POSISI</label>
+                <select name="posisi" id="mPosisi">
+                    <option value="a">A</option>
+                    <option value="c">C</option>
+                    <option value="k">K</option>
+                    <option value="e" selected>E</option>
+                    <option value="ac">Ac</option>
+                    <option value="ck">Ck</option>
+                    <option value="ke">Ke</option>
+                    <option value="jd">Jd</option>
+                    <option value="jt">Jt</option>
+                    <option value="j">J</option>
+                    <option value="acke">Cb</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">🔢 DIGIT</label>
+                <select name="digit" id="mDigit">
+                    <option value="3" selected>3 Digit</option>
+                    <option value="4">4 Digit</option>
+                    <option value="5">5 Digit</option>
+                    <option value="6">6 Digit</option>
+                    <option value="7">7 Digit</option>
+                    <option value="8">8 Digit</option>
+                    <option value="9">9 Digit</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">📅 MODE DAY</label>
+                <select name="modeday" id="mModeday">
+                    <option value="harian" selected>Harian</option>
+                    <option value="senin">Senin</option>
+                    <option value="selasa">Selasa</option>
+                    <option value="rabu">Rabu</option>
+                    <option value="kamis">Kamis</option>
+                    <option value="jumat">Jumat</option>
+                    <option value="sabtu">Sabtu</option>
+                    <option value="minggu">Minggu</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="mode-label">🔑 KEY 1</label>
+                <select name="key1" id="mKey1">
+                    <option value="a1" selected>a1</option>
+                    <option value="a2">a2</option>
+                    <option value="a3">a3</option>
+                    <option value="a4">a4</option>
+                    <option value="a5">a5</option>
+                    <option value="a6">a6</option>
+                    <option value="a7">a7</option>
+                    <option value="a8">a8</option>
+                    <option value="a9">a9</option>
+                    <option value="c1">c1</option>
+                    <option value="c2">c2</option>
+                    <option value="c3">c3</option>
+                    <option value="c4">c4</option>
+                    <option value="c5">c5</option>
+                    <option value="c6">c6</option>
+                    <option value="c7">c7</option>
+                    <option value="c8">c8</option>
+                    <option value="c9">c9</option>
+                    <option value="k1">k1</option>
+                    <option value="k2">k2</option>
+                    <option value="k3">k3</option>
+                    <option value="k4">k4</option>
+                    <option value="k5">k5</option>
+                    <option value="k6">k6</option>
+                    <option value="k7">k7</option>
+                    <option value="k8">k8</option>
+                    <option value="k9">k9</option>
+                    <option value="e1">e1</option>
+                    <option value="e2">e2</option>
+                    <option value="e3">e3</option>
+                    <option value="e4">e4</option>
+                    <option value="e5">e5</option>
+                    <option value="e6">e6</option>
+                    <option value="e7">e7</option>
+                    <option value="e8">e8</option>
+                    <option value="e9">e9</option>
+                    <option value="j1">j1</option>
+                    <option value="j2">j2</option>
+                    <option value="j3">j3</option>
+                    <option value="j4">j4</option>
+                    <option value="j5">j5</option>
+                    <option value="j6">j6</option>
+                    <option value="j7">j7</option>
+                    <option value="j8">j8</option>
+                    <option value="j9">j9</option>
+                    <option value="jt1">jt1</option>
+                    <option value="jt2">jt2</option>
+                    <option value="jt3">jt3</option>
+                    <option value="jt4">jt4</option>
+                    <option value="jt5">jt5</option>
+                    <option value="jt6">jt6</option>
+                    <option value="jt7">jt7</option>
+                    <option value="jt8">jt8</option>
+                    <option value="jt9">jt9</option>
+                    <option value="jd1">jd1</option>
+                    <option value="jd2">jd2</option>
+                    <option value="jd3">jd3</option>
+                    <option value="jd4">jd4</option>
+                    <option value="jd5">jd5</option>
+                    <option value="jd6">jd6</option>
+                    <option value="jd7">jd7</option>
+                    <option value="jd8">jd8</option>
+                    <option value="jd9">jd9</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">🔄 KONVERSI 1</label>
+                <select name="conversi1" id="mConversi1">
+                    <option value="n0" selected></option>
+                    <option value="ix">ix</option>
+                    <option value="ty">ty</option>
+                    <option value="ml">ml</option>
+                    <option value="mb">mb</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">➕ ARITMATIKA</label>
+                <select name="arit1" id="mArit1">
+                    <option value="" selected></option>
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="x">×</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">🔑 KEY 2</label>
+                <select name="key2" id="mKey2">
+                    <option value="" selected></option>
+                    <option value="a1">a1</option>
+                    <option value="a2">a2</option>
+                    <option value="a3">a3</option>
+                    <option value="a4">a4</option>
+                    <option value="a5">a5</option>
+                    <option value="a6">a6</option>
+                    <option value="a7">a7</option>
+                    <option value="a8">a8</option>
+                    <option value="a9">a9</option>
+                    <option value="c1">c1</option>
+                    <option value="c2">c2</option>
+                    <option value="c3">c3</option>
+                    <option value="c4">c4</option>
+                    <option value="c5">c5</option>
+                    <option value="c6">c6</option>
+                    <option value="c7">c7</option>
+                    <option value="c8">c8</option>
+                    <option value="c9">c9</option>
+                    <option value="k1">k1</option>
+                    <option value="k2">k2</option>
+                    <option value="k3">k3</option>
+                    <option value="k4">k4</option>
+                    <option value="k5">k5</option>
+                    <option value="k6">k6</option>
+                    <option value="k7">k7</option>
+                    <option value="k8">k8</option>
+                    <option value="k9">k9</option>
+                    <option value="e1">e1</option>
+                    <option value="e2">e2</option>
+                    <option value="e3">e3</option>
+                    <option value="e4">e4</option>
+                    <option value="e5">e5</option>
+                    <option value="e6">e6</option>
+                    <option value="e7">e7</option>
+                    <option value="e8">e8</option>
+                    <option value="e9">e9</option>
+                    <option value="j1">j1</option>
+                    <option value="j2">j2</option>
+                    <option value="j3">j3</option>
+                    <option value="j4">j4</option>
+                    <option value="j5">j5</option>
+                    <option value="j6">j6</option>
+                    <option value="j7">j7</option>
+                    <option value="j8">j8</option>
+                    <option value="j9">j9</option>
+                    <option value="jt1">jt1</option>
+                    <option value="jt2">jt2</option>
+                    <option value="jt3">jt3</option>
+                    <option value="jt4">jt4</option>
+                    <option value="jt5">jt5</option>
+                    <option value="jt6">jt6</option>
+                    <option value="jt7">jt7</option>
+                    <option value="jt8">jt8</option>
+                    <option value="jt9">jt9</option>
+                    <option value="jd1">jd1</option>
+                    <option value="jd2">jd2</option>
+                    <option value="jd3">jd3</option>
+                    <option value="jd4">jd4</option>
+                    <option value="jd5">jd5</option>
+                    <option value="jd6">jd6</option>
+                    <option value="jd7">jd7</option>
+                    <option value="jd8">jd8</option>
+                    <option value="jd9">jd9</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">🔄 KONVERSI 2</label>
+                <select name="conversi2" id="mConversi2">
+                    <option value="n0" selected></option>
+                    <option value="ix">ix</option>
+                    <option value="ty">ty</option>
+                    <option value="ml">ml</option>
+                    <option value="mb">mb</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="mode-label">🎯 KONVERSI HASIL</label>
+                <select name="conversihasil" id="mConversiHasil">
+                    <option value="n0" selected></option>
+                    <option value="ix">ix</option>
+                    <option value="ty">ty</option>
+                    <option value="ml">ml</option>
+                    <option value="mb">mb</option>
+                </select>
+            </div>
+            <div class="col" style="display:flex; align-items:flex-end;">
+                <button type="submit" class="btn-go">🚀 GO</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="info">
+    <div class="judul-tabel">📋 MANUAL | EKOR | 0 Hari</div>
+    <div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL POSISI DARI RESULT DI BAWAHNYA</div>
+</div>
+<div id="status">⏳ Silakan pilih KEY 1 dan klik GO..</div>
+
+<div class="scroll-container">
+    <div class="table-scroll" id="tableScroll">
+        <table id="tabel">
+            <tr><td colspan="100">
+                <div class="empty-state">
+                    <span class="icon">🔧</span>
+                    Belum ada data.<br>
+                    Pilih KEY 1 (dan KEY 2 jika perlu), lalu klik <strong>🚀 GO</strong>
+                </div>
+            </td></tr>
+        </table>
+    </div>
+</div>
+
+</main>
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <span>© 2026 <strong>Togel Analysis</strong></span>
+            <span class="footer-divider">|</span>
+            <span>Version <span class="footer-version">v2.4</span></span>
+            <span class="footer-divider">|</span>
+            <a href="#" class="footer-link">📖 Docs</a>
+            <a href="#" class="footer-link">🔧 Support</a>
+        </div>
+        <div class="footer-right">
+            <span>⚡ Powered by <strong>AI</strong></span>
+            <span class="footer-divider">|</span>
+            <span id="footerDataCount">📊 0 data</span>
+        </div>
+    </div>
+</footer>
+<script>
+function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('headerClock').textContent = '🕐 ' + now.toLocaleDateString('id-ID', options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+const URL_DATA = {
+    hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
+    sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
+    sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
+};
+
+let D = {}, P = 'hk';
+let POSISI = 'e';
+let currentData = [];
+let selectedCombination = null;
+let jumlahDigit = 3;
+
+const MAP = {
+    rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
+    index: {'0':'456','1':'567','2':'678','3':'789','4':'890','5':'901','6':'012','7':'123','8':'234','9':'345'},
+    mlama: {'0':'012','1':'890','2':'456','3':'789','4':'234','5':'123','6':'345','7':'567','8':'678','9':'901'},
+    mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'},
+    taysen: {
+        '0': '678',
+        '1': '345',
+        '2': '890',
+        '3': '567',
+        '4': '345',
+        '5': '789',
+        '6': '234',
+        '7': '901',
+        '8': '456',
+        '9': '123'
+    }
+};
+
+const CONVERSI_MAP = {
+    'ix': 'index',
+    'ty': 'taysen',
+    'ml': 'mlama',
+    'mb': 'mbaru'
+};
+
+const POSISI_MAP = {
+    a: [0], c: [1], k: [2], e: [3],
+    ac: [0,1], ck: [1,2], ke: [2,3],
+    jd: [0,3], jt: [1,2], j: [0,1,2,3],
+    acke: [0,1,2,3]
+};
+
+const KEY_MAP = {
+    'a1': [0,0], 'a2': [0,1], 'a3': [0,2], 'a4': [0,3], 'a5': [0,4],
+    'a6': [0,5], 'a7': [0,6], 'a8': [0,7], 'a9': [0,8],
+    'c1': [1,0], 'c2': [1,1], 'c3': [1,2], 'c4': [1,3], 'c5': [1,4],
+    'c6': [1,5], 'c7': [1,6], 'c8': [1,7], 'c9': [1,8],
+    'k1': [2,0], 'k2': [2,1], 'k3': [2,2], 'k4': [2,3], 'k5': [2,4],
+    'k6': [2,5], 'k7': [2,6], 'k8': [2,7], 'k9': [2,8],
+    'e1': [3,0], 'e2': [3,1], 'e3': [3,2], 'e4': [3,3], 'e5': [3,4],
+    'e6': [3,5], 'e7': [3,6], 'e8': [3,7], 'e9': [3,8],
+    'j1': [0,0], 'j2': [0,1], 'j3': [0,2], 'j4': [0,3], 'j5': [0,4],
+    'j6': [0,5], 'j7': [0,6], 'j8': [0,7], 'j9': [0,8],
+    'jt1': [0,0], 'jt2': [0,1], 'jt3': [0,2], 'jt4': [0,3], 'jt5': [0,4],
+    'jt6': [0,5], 'jt7': [0,6], 'jt8': [0,7], 'jt9': [0,8],
+    'jd1': [0,0], 'jd2': [0,1], 'jd3': [0,2], 'jd4': [0,3], 'jd5': [0,4],
+    'jd6': [0,5], 'jd7': [0,6], 'jd8': [0,7], 'jd9': [0,8]
+};
+
+function hitung2DBelakang(result) {
+    if (!result || result.length < 4) return '-';
+    let d1 = parseInt(result[2]);
+    let d2 = parseInt(result[3]);
+    let total = d1 + d2;
+    while (total >= 10) total = Math.floor(total / 10) + (total % 10);
+    return total;
+}
+
+function reduceToSingleDigit(n) {
+    n = Math.abs(n);
+    while (n >= 10) {
+        let sum = 0;
+        let temp = n;
+        while (temp > 0) {
+            sum += temp % 10;
+            temp = Math.floor(temp / 10);
+        }
+        n = sum;
+    }
+    return n;
+}
+
+function hitungOperasi(a, b, op) {
+    if (!op || op === '') return a;
+    let hasil;
+    if (op === '+') hasil = a + b;
+    else if (op === '-') hasil = a - b;
+    else hasil = a * b;
+    if (hasil === 0) return a;
+    return reduceToSingleDigit(hasil);
+}
+
+// GENERATE DIGIT SESUAI PILIHAN USER (3-9 digit)
+function generateDigit(x, jumlah) {
+    let hasil = '';
+    for (let i = 0; i < jumlah; i++) {
+        let digit = (x + i) % 10;
+        hasil += digit;
+    }
+    return hasil;
+}
+
+function convert3(d, convKey) {
+    let mapToUse = convKey && MAP[convKey] ? MAP[convKey] : MAP['rumus'];
+    let hasil = mapToUse?.[d] || d;
+    return hasil;
+}
+
+function getTarget(nextResult) {
+    if (!nextResult) return [];
+    let posMap = POSISI_MAP[POSISI] || POSISI_MAP['e'];
+    return posMap.map(idx => nextResult[idx]);
+}
+
+let isGelap = true;
+function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
+function resetWarna() { isGelap = true; }
+
+function loadData() {
+    let pasaran = document.getElementById('mPasaran').value;
+    let p = pasaran === 'hongkong' ? 'hk' : pasaran === 'sydney' ? 'sdny' : 'sgp';
+    P = p;
+    
+    document.getElementById('status').innerHTML = '⏳ Loading data ' + p.toUpperCase() + '...';
+    if (!D[p]) {
+        try {
+            let url = URL_DATA[p];
+            if (!url || url.includes('username')) throw new Error('URL belum diset!');
+            fetch(url).then(r => r.text()).then(text => {
+                let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+                if (lines.length === 0) throw new Error('Data kosong!');
+                D[p] = lines;
+                document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data dari txt';
+                document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
+            }).catch(e => {
+                document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
+                D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+                document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+            });
+        } catch(e) {
+            document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
+            D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+        }
+    }
+}
+
+function runManual(e) {
+    e.preventDefault();
+    loadData();
+    
+    setTimeout(() => {
+        let putaran = parseInt(document.getElementById('mPutaran').value) || 20;
+        let key1 = document.getElementById('mKey1').value;
+        let conversi1 = document.getElementById('mConversi1').value;
+        let arit1 = document.getElementById('mArit1').value;
+        let key2 = document.getElementById('mKey2').value;
+        let conversi2 = document.getElementById('mConversi2').value;
+        let conversiHasil = document.getElementById('mConversiHasil').value;
+        let posisiManual = document.getElementById('mPosisi').value;
+        jumlahDigit = parseInt(document.getElementById('mDigit').value) || 3;
+        
+        POSISI = posisiManual;
+        
+        let dataSource = D[P] || [];
+        if (dataSource.length === 0) {
+            dataSource = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+        }
+        
+        let manualRawData = [];
+        let startIdx = Math.max(0, dataSource.length - putaran);
+        for (let i = startIdx; i < dataSource.length; i++) {
+            manualRawData.push(dataSource[i]);
+        }
+        
+        let label = key1.toUpperCase();
+        let conv1Label = conversi1 !== 'n0' ? conversi1.toUpperCase() : '';
+        if (conv1Label) label += conv1Label;
+        
+        if (key2 && key2 !== '' && arit1 && arit1 !== '') {
+            let opSymbol = arit1 === '+' ? '+' : arit1 === '-' ? '-' : '×';
+            label += ' ' + opSymbol + ' ';
+            let conv2Label = conversi2 !== 'n0' ? conversi2.toUpperCase() : '';
+            label += key2.toUpperCase() + (conv2Label || '');
+            let convHasilLabel = conversiHasil !== 'n0' ? '=' + conversiHasil.toUpperCase() : '';
+            label += convHasilLabel;
+        } else {
+            let convHasilLabel = conversi1 !== 'n0' ? '=' + conversi1.toUpperCase() : '';
+            label += convHasilLabel;
+        }
+        
+        // Tambahkan info digit
+        label += ' (' + jumlahDigit + ' Digit)';
+        
+        selectedCombination = {
+            key1: key1,
+            key2: key2,
+            op: arit1,
+            label: label,
+            conversi1: conversi1,
+            conversi2: conversi2,
+            conversiHasil: conversiHasil,
+            digit: jumlahDigit
+        };
+        
+        currentData = manualRawData.map((result) => {
+            let digits = result.split('').map(Number);
+            let newDigits = [...digits];
+            
+            if (key2 && key2 !== '' && arit1 && arit1 !== '') {
+                let pos1 = KEY_MAP[key1] || [0,0];
+                let pos2 = KEY_MAP[key2] || [0,0];
+                let val1 = digits[pos1[0]] || 0;
+                let val2 = digits[pos2[0]] || 0;
+                
+                let convMap1 = CONVERSI_MAP[conversi1] || '';
+                let convMap2 = CONVERSI_MAP[conversi2] || '';
+                let convVal1 = val1;
+                let convVal2 = val2;
+                
+                if (convMap1 && MAP[convMap1]) {
+                    let mapped = MAP[convMap1][String(val1)];
+                    if (mapped) convVal1 = parseInt(mapped[0]) || val1;
+                }
+                if (convMap2 && MAP[convMap2]) {
+                    let mapped = MAP[convMap2][String(val2)];
+                    if (mapped) convVal2 = parseInt(mapped[0]) || val2;
+                }
+                
+                let hasil = hitungOperasi(convVal1, convVal2, arit1);
+                
+                let convHasil = CONVERSI_MAP[conversiHasil] || '';
+                if (convHasil && MAP[convHasil]) {
+                    let mapped = MAP[convHasil][String(hasil)];
+                    if (mapped) hasil = parseInt(mapped[0]) || hasil;
+                }
+                
+                newDigits[pos1[0]] = hasil;
+            } else {
+                let pos1 = KEY_MAP[key1] || [0,0];
+                let val1 = digits[pos1[0]] || 0;
+                
+                let convMap1 = CONVERSI_MAP[conversi1] || '';
+                let convVal1 = val1;
+                if (convMap1 && MAP[convMap1]) {
+                    let mapped = MAP[convMap1][String(val1)];
+                    if (mapped) convVal1 = parseInt(mapped[0]) || val1;
+                }
+                
+                newDigits[pos1[0]] = convVal1;
+            }
+            
+            return newDigits.join('');
+        });
+        
+        document.getElementById('footerDataCount').innerHTML = '📊 ' + currentData.length + ' data (manual)';
+        let infoText = '✅ Manual: ' + currentData.length + ' data | ' + label;
+        infoText += ' | Posisi: ' + posisiManual;
+        document.getElementById('status').innerHTML = infoText;
+        
+        render();
+    }, 300);
+}
+
+function render() {
+    if (!currentData || currentData.length === 0) {
+        document.getElementById('tabel').innerHTML = `
+            <tr><td colspan="100">
+                <div class="empty-state">
+                    <span class="icon">🔧</span>
+                    Belum ada data.<br>
+                    Pilih KEY 1 (dan KEY 2 jika perlu), lalu klik <strong>🚀 GO</strong>
+                </div>
+            </td></tr>
+        `;
+        let posisiNama = POSISI.toUpperCase();
+        let judul = '📋 MANUAL | ' + posisiNama + ' | 0 Hari';
+        document.getElementById('info').innerHTML = '<div class="judul-tabel">' + judul + '</div><div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA</div>';
+        return;
+    }
+    
+    let data = currentData;
+    let posisiNama = POSISI.toUpperCase();
+    let label = selectedCombination ? selectedCombination.label : 'A1';
+    let judul = '📋 MANUAL | ' + posisiNama + ' | ' + label + ' | ' + data.length + ' Hari';
+    let subInfo = '🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA | ' + jumlahDigit + ' Digit';
+    document.getElementById('info').innerHTML = '<div class="judul-tabel">' + judul + '</div><div class="sub-info">' + subInfo + '</div>';
+    
+    let html = buatHeader();
+    for (let i = 0; i < data.length; i++) {
+        let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
+        html += hitungBaris(data[i], nextResult);
+    }
+    document.getElementById('tabel').innerHTML = html;
+}
+
+function buatHeader() {
+    resetWarna();
+    let label = selectedCombination ? selectedCombination.label : 'KEY';
+    let digit = selectedCombination ? selectedCombination.digit : 3;
+    let h = '<tr><th>RESULT</th><th>JML</th>';
+    h += '<th colspan="' + digit + '" class="key-header ' + nextWarna() + '">' + label + '</th>';
+    return h + '</tr>';
+}
+
+function hitungBaris(baris, nextResult) {
+    resetWarna();
+    let arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
+    let target = getTarget(nextResult);
+    let jml = hitung2DBelakang(baris);
+    let tds = '<td>' + baris + '</td><td>' + jml + '</td>';
+    
+    let combo = selectedCombination;
+    let digit = combo ? combo.digit : 3;
+    
+    if (combo) {
+        let pos1 = KEY_MAP[combo.key1] || [0,0];
+        let a = arr1[pos1[0]];
+        let b = 0;
+        let hasilReduksi = a;
+        
+        if (combo.key2 && combo.key2 !== '' && combo.op && combo.op !== '') {
+            let pos2 = KEY_MAP[combo.key2] || [0,0];
+            b = arr1[pos2[0]];
+            
+            let convMap1 = CONVERSI_MAP[combo.conversi1] || '';
+            let convMap2 = CONVERSI_MAP[combo.conversi2] || '';
+            let convVal1 = a;
+            let convVal2 = b;
+            
+            if (convMap1 && MAP[convMap1]) {
+                let mapped = MAP[convMap1][String(a)];
+                if (mapped) convVal1 = parseInt(mapped[0]) || a;
+            }
+            if (convMap2 && MAP[convMap2]) {
+                let mapped = MAP[convMap2][String(b)];
+                if (mapped) convVal2 = parseInt(mapped[0]) || b;
+            }
+            
+            let hasil = hitungOperasi(convVal1, convVal2, combo.op);
+            
+            let convHasil = CONVERSI_MAP[combo.conversiHasil] || '';
+            if (convHasil && MAP[convHasil]) {
+                let mapped = MAP[convHasil][String(hasil)];
+                if (mapped) hasil = parseInt(mapped[0]) || hasil;
+            }
+            
+            hasilReduksi = hasil;
+        }
+        
+        // Generate digit sesuai pilihan user
+        let hasil = generateDigit(hasilReduksi, digit);
+        let cls = nextWarna();
+        for (let k = 0; k < digit; k++) {
+            let digitVal = hasil[k];
+            let isCocok = target.length && target.includes(digitVal);
+            let c = isCocok ? 'cocok' : '';
+            tds += '<td class="' + cls + ' ' + c + ' key-digit">' + digitVal + '</td>';
+        }
+    }
+    
+    return '<tr>' + tds + '</tr>';
+}
+
+// Load data awal
+loadData();
+
+// Render kosong
+render();
+</script>
+</body>
+</html>
