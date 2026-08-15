@@ -18,7 +18,7 @@ body {
 .app-header {
     background: linear-gradient(135deg, #0d47a1 0%, #1a237e 100%);
     color: white;
-    padding: 12px 20px;
+    padding: 10px 20px;
     box-shadow: 0 2px 12px rgba(13, 71, 161, 0.3);
     position: sticky;
     top: 0;
@@ -34,26 +34,25 @@ body {
     gap: 8px;
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
-.header-logo { font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+.header-logo { font-size: 18px; font-weight: 700; }
 .header-logo span { color: #ffd54f; }
-.header-sub { font-size: 11px; opacity: 0.85; font-weight: 300; }
-.header-right { display: flex; align-items: center; gap: 12px; font-size: 11px; }
+.header-sub { font-size: 10px; opacity: 0.85; }
+.header-right { display: flex; align-items: center; gap: 10px; font-size: 10px; }
 .header-badge {
     background: rgba(255,255,255,0.15);
-    padding: 3px 10px;
+    padding: 2px 10px;
     border-radius: 20px;
     font-size: 9px;
     font-weight: 600;
     border: 1px solid rgba(255,255,255,0.2);
 }
-.header-clock { font-weight: 300; font-size: 11px; opacity: 0.9; }
-.main-content { flex: 1; padding: 10px 15px 15px 15px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.header-clock { font-weight: 300; font-size: 10px; opacity: 0.9; }
+.main-content { flex: 1; padding: 8px 12px 12px 12px; max-width: 1400px; margin: 0 auto; width: 100%; }
 .app-footer {
     background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
     color: white;
-    padding: 8px 20px;
-    margin-top: 10px;
-    box-shadow: 0 -2px 12px rgba(13, 71, 161, 0.2);
+    padding: 6px 20px;
+    margin-top: 8px;
 }
 .footer-content {
     max-width: 1400px;
@@ -63,11 +62,11 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 6px;
-    font-size: 10px;
+    font-size: 9px;
 }
-.footer-left { display: flex; align-items: center; gap: 12px; }
-.footer-right { display: flex; align-items: center; gap: 12px; opacity: 0.8; }
-.footer-link { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; }
+.footer-left { display: flex; align-items: center; gap: 10px; }
+.footer-right { display: flex; align-items: center; gap: 10px; opacity: 0.8; }
+.footer-link { color: rgba(255,255,255,0.7); text-decoration: none; }
 .footer-link:hover { color: #ffd54f; }
 .footer-divider { opacity: 0.3; }
 .footer-version {
@@ -76,34 +75,28 @@ body {
     border-radius: 10px;
     font-size: 8px;
     font-weight: 600;
-    letter-spacing: 0.5px;
 }
 @media (max-width: 768px) {
-    .app-header { padding: 10px 12px; }
-    .header-logo { font-size: 16px; }
+    .app-header { padding: 8px 12px; }
+    .header-logo { font-size: 15px; }
     .header-sub { font-size: 9px; }
-    .header-right { font-size: 9px; gap: 6px; }
-    .header-badge { font-size: 8px; padding: 2px 6px; }
-    .main-content { padding: 6px 8px 10px 8px; }
-    .app-footer { padding: 6px 12px; }
-    .footer-content { font-size: 8px; flex-direction: column; text-align: center; gap: 3px; }
-    .footer-left { flex-direction: column; gap: 3px; }
+    .main-content { padding: 6px 8px 8px 8px; }
+    .footer-content { font-size: 8px; flex-direction: column; text-align: center; }
 }
 #info {
     background: #e8edf5;
-    padding: 6px 12px;
+    padding: 5px 10px;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: 10px;
     color: #0d2b4b;
-    margin: 5px 0 8px 0;
+    margin: 4px 0 6px 0;
     border-left: 3px solid #0d47a1;
 }
-#info .judul-tabel { font-size: 14px; font-weight: 700; color: #0d47a1; }
-#info .sub-info { font-size: 11px; font-weight: 400; color: #0d2b4b; }
-#status { font-size: 10px; color: #2e7d32; margin-bottom: 6px; }
+#info .judul-tabel { font-size: 13px; font-weight: 700; color: #0d47a1; }
+#info .sub-info { font-size: 10px; font-weight: 400; }
+#status { font-size: 10px; color: #2e7d32; margin-bottom: 5px; }
 
 .scroll-container {
-    position: relative;
     border-radius: 6px;
     background: #ffffff;
     box-shadow: 0 1px 8px rgba(0,0,0,0.05);
@@ -112,8 +105,7 @@ body {
 }
 .table-scroll {
     overflow: auto;
-    max-height: 60vh;
-    position: relative;
+    max-height: 55vh;
 }
 table {
     border-collapse: collapse;
@@ -124,13 +116,14 @@ table {
 }
 th, td {
     border: 1px solid #d0d8e5 !important;
-    padding: 3px 4px;
+    padding: 2px 4px;
     text-align: center;
     white-space: nowrap;
     font-size: 9px;
     min-width: 20px;
     max-width: 20px;
     width: 20px;
+    height: 22px;
 }
 th {
     background: #dce4f0;
@@ -139,21 +132,19 @@ th {
     position: sticky;
     top: 0;
     z-index: 10;
-    font-size: 9px;
+    font-size: 8px;
     border-bottom: 2px solid #a0b8d0 !important;
 }
-
 td:nth-child(1) {
     background: #f0f3f8;
-    color: #0d1f3c;
     font-weight: 700;
     border-right: 1px solid #c0cfe0 !important;
     position: sticky;
     left: 0;
     z-index: 5;
-    min-width: 36px;
-    max-width: 36px;
-    width: 36px;
+    min-width: 34px;
+    max-width: 34px;
+    width: 34px;
     font-size: 10px;
 }
 td:nth-child(2) {
@@ -162,68 +153,37 @@ td:nth-child(2) {
     font-weight: 700;
     border-right: 2px solid #d4c8b0 !important;
     position: sticky;
-    left: 36px;
+    left: 34px;
     z-index: 5;
-    min-width: 18px;
-    max-width: 18px;
-    width: 18px;
-    padding: 3px 1px !important;
+    min-width: 16px;
+    max-width: 16px;
+    width: 16px;
+    padding: 2px 1px !important;
     font-size: 8px;
 }
 th:nth-child(1) {
     background: #dce4f0;
-    color: #0d1f3c;
-    font-weight: 700;
     border-right: 1px solid #c0cfe0 !important;
-    min-width: 36px;
-    max-width: 36px;
-    width: 36px;
+    min-width: 34px;
+    max-width: 34px;
+    width: 34px;
 }
 th:nth-child(2) {
     background: #e8ddc8;
-    color: #5a3e00;
-    font-weight: 700;
     border-right: 2px solid #d4c8b0 !important;
-    padding: 3px 1px !important;
+    padding: 2px 1px !important;
     font-size: 8px;
-    min-width: 18px;
-    max-width: 18px;
-    width: 18px;
+    min-width: 16px;
+    max-width: 16px;
+    width: 16px;
 }
+td.key-digit { font-weight: 700; background: #fafcff; }
+th.key-digit { background: #dce4f0; font-weight: 700; font-size: 8px; }
 
-/* Kolom KEY - dinamis */
-td.key-digit {
-    font-weight: 700;
-    background: #fafcff;
-}
-th.key-digit {
-    background: #dce4f0;
-    color: #0d2b4b;
-    font-weight: 700;
-    font-size: 9px;
-}
-
-.gelap { 
-    background: #e8edf5 !important; 
-    color: #1a1a2e !important; 
-    border: 1px solid #d0d8e5 !important; 
-}
-th.gelap { 
-    background: #d0dcee !important; 
-    color: #0d2b4b !important; 
-    border: 1px solid #b0c4de !important; 
-}
-.cerah { 
-    background: #ffffff !important; 
-    color: #1a1a2e !important; 
-    border: 1px solid #d0d8e5 !important; 
-}
-th.cerah { 
-    background: #e8eef5 !important; 
-    color: #0d2b4b !important; 
-    border: 1px solid #d0d8e5 !important; 
-}
-
+.gelap { background: #e8edf5 !important; border: 1px solid #d0d8e5 !important; }
+th.gelap { background: #d0dcee !important; border: 1px solid #b0c4de !important; }
+.cerah { background: #ffffff !important; border: 1px solid #d0d8e5 !important; }
+th.cerah { background: #e8eef5 !important; border: 1px solid #d0d8e5 !important; }
 .cocok { 
     color: #ffffff !important; 
     font-weight: 900 !important; 
@@ -239,33 +199,31 @@ tr:hover td.cocok { background: #e53935 !important; }
 
 .manual-controls {
     background: #ffffff;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 6px;
     border: 1px solid #e0e5ec;
     box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 .manual-controls .row {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 .manual-controls .col {
     flex: 1;
-    min-width: 75px;
+    min-width: 70px;
 }
 .manual-controls select,
 .manual-controls input {
     width: 100%;
-    padding: 3px 6px;
+    padding: 2px 5px;
     border: 1.5px solid #d0d8e8;
     border-radius: 4px;
-    font-size: 10px;
+    font-size: 9px;
     background: #fff;
-    color: #1a1a2e;
-    transition: border-color 0.2s;
-    height: 26px;
+    height: 24px;
 }
 .manual-controls select:focus,
 .manual-controls input:focus {
@@ -277,40 +235,36 @@ tr:hover td.cocok { background: #e53935 !important; }
     background: linear-gradient(135deg, #2e7d32, #1b5e20);
     color: white;
     border: none;
-    padding: 3px 16px;
+    padding: 2px 14px;
     border-radius: 4px;
     font-weight: 600;
-    font-size: 11px;
+    font-size: 10px;
     cursor: pointer;
-    transition: all 0.3s;
-    height: 26px;
+    height: 24px;
 }
 .manual-controls .btn-go:hover {
     transform: scale(1.02);
     box-shadow: 0 2px 10px rgba(46,125,50,0.3);
 }
 .manual-controls .mode-label {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 600;
     color: #666;
     display: block;
     margin-bottom: 1px;
 }
-
 .empty-state {
     text-align: center;
-    padding: 25px 15px;
+    padding: 20px 10px;
     color: #999;
-    font-size: 12px;
+    font-size: 11px;
 }
-.empty-state .icon { font-size: 28px; display: block; margin-bottom: 6px; }
-
-/* Header KEY - gabung */
+.empty-state .icon { font-size: 24px; display: block; margin-bottom: 4px; }
 th.key-header {
     background: #dce4f0;
     color: #0d2b4b;
     font-weight: 700;
-    font-size: 9px;
+    font-size: 8px;
     border-left: 1px solid #c0cfe0 !important;
     text-align: center;
 }
@@ -321,7 +275,7 @@ th.key-header {
     <div class="header-content">
         <div class="header-left">
             <div class="header-logo">🎯 <span>TOGEL</span> ANALYSIS</div>
-            <div class="header-sub">Manual Kombinasi A1-JD9</div>
+            <div class="header-sub">Manual A1-JD9</div>
         </div>
         <div class="header-right">
             <span class="header-badge">📊 MANUAL</span>
@@ -330,9 +284,8 @@ th.key-header {
     </div>
 </header>
 <main class="main-content">
-<h2 style="font-size:16px;margin-bottom:4px;">📊 MANUAL KOMBINASI A1 – JD9 (+ - ×)</h2>
+<h2 style="font-size:15px;margin-bottom:3px;">📊 MANUAL KOMBINASI A1 – JD9</h2>
 
-<!-- MANUAL CONTROLS -->
 <div class="manual-controls">
     <form id="manualForm" onsubmit="runManual(event)">
         <div class="row">
@@ -374,6 +327,7 @@ th.key-header {
                     <option value="7">7 Digit</option>
                     <option value="8">8 Digit</option>
                     <option value="9">9 Digit</option>
+                    <option value="10">10 Digit</option>
                 </select>
             </div>
             <div class="col">
@@ -390,7 +344,6 @@ th.key-header {
                 </select>
             </div>
         </div>
-
         <div class="row">
             <div class="col">
                 <label class="mode-label">🔑 KEY 1</label>
@@ -587,8 +540,7 @@ th.key-header {
             <tr><td colspan="100">
                 <div class="empty-state">
                     <span class="icon">🔧</span>
-                    Belum ada data.<br>
-                    Pilih KEY 1 (dan KEY 2 jika perlu), lalu klik <strong>🚀 GO</strong>
+                    Belum ada data.<br>Pilih KEY 1 dan klik <strong>🚀 GO</strong>
                 </div>
             </td></tr>
         </table>
@@ -604,7 +556,6 @@ th.key-header {
             <span>Version <span class="footer-version">v2.4</span></span>
             <span class="footer-divider">|</span>
             <a href="#" class="footer-link">📖 Docs</a>
-            <a href="#" class="footer-link">🔧 Support</a>
         </div>
         <div class="footer-right">
             <span>⚡ Powered by <strong>AI</strong></span>
@@ -615,59 +566,63 @@ th.key-header {
 </footer>
 <script>
 function updateClock() {
-    const now = new Date();
-    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    var now = new Date();
+    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
     document.getElementById('headerClock').textContent = '🕐 ' + now.toLocaleDateString('id-ID', options);
 }
 updateClock();
 setInterval(updateClock, 1000);
 
-const URL_DATA = {
+var URL_DATA = {
     hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
     sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
     sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
 };
 
-let D = {}, P = 'hk';
-let POSISI = 'e';
-let currentData = [];
-let selectedCombination = null;
-let jumlahDigit = 3;
+var D = {}, P = 'hk';
+var POSISI = 'e';
+var currentData = [];
+var selectedCombination = null;
+var jumlahDigit = 3;
 
-const MAP = {
-    rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
-    index: {'0':'456','1':'567','2':'678','3':'789','4':'890','5':'901','6':'012','7':'123','8':'234','9':'345'},
-    mlama: {'0':'012','1':'890','2':'456','3':'789','4':'234','5':'123','6':'345','7':'567','8':'678','9':'901'},
-    mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'},
+var MAP = {
+    rumus: {
+        '0':'901','1':'012','2':'123','3':'234','4':'345',
+        '5':'456','6':'567','7':'678','8':'789','9':'890'
+    },
+    index: {
+        '0':'456','1':'567','2':'678','3':'789','4':'890',
+        '5':'901','6':'123','7':'234','8':'345','9':'456'
+    },
+    mlama: {
+        '0':'012','1':'890','2':'456','3':'789','4':'234',
+        '5':'123','6':'345','7':'567','8':'678','9':'901'
+    },
+    mbaru: {
+        '0':'780','1':'678','2':'567','3':'890','4':'901',
+        '5':'012','6':'123','7':'234','8':'345','9':'456'
+    },
     taysen: {
-        '0': '678',
-        '1': '345',
-        '2': '890',
-        '3': '567',
-        '4': '345',
-        '5': '789',
-        '6': '234',
-        '7': '901',
-        '8': '456',
-        '9': '123'
+        '0': '678','1': '345','2': '890','3': '567','4': '345',
+        '5': '789','6': '234','7': '901','8': '456','9': '123'
     }
 };
 
-const CONVERSI_MAP = {
+var CONVERSI_MAP = {
     'ix': 'index',
     'ty': 'taysen',
     'ml': 'mlama',
     'mb': 'mbaru'
 };
 
-const POSISI_MAP = {
+var POSISI_MAP = {
     a: [0], c: [1], k: [2], e: [3],
     ac: [0,1], ck: [1,2], ke: [2,3],
     jd: [0,3], jt: [1,2], j: [0,1,2,3],
     acke: [0,1,2,3]
 };
 
-const KEY_MAP = {
+var KEY_MAP = {
     'a1': [0,0], 'a2': [0,1], 'a3': [0,2], 'a4': [0,3], 'a5': [0,4],
     'a6': [0,5], 'a7': [0,6], 'a8': [0,7], 'a9': [0,8],
     'c1': [1,0], 'c2': [1,1], 'c3': [1,2], 'c4': [1,3], 'c5': [1,4],
@@ -686,9 +641,9 @@ const KEY_MAP = {
 
 function hitung2DBelakang(result) {
     if (!result || result.length < 4) return '-';
-    let d1 = parseInt(result[2]);
-    let d2 = parseInt(result[3]);
-    let total = d1 + d2;
+    var d1 = parseInt(result[2]);
+    var d2 = parseInt(result[3]);
+    var total = d1 + d2;
     while (total >= 10) total = Math.floor(total / 10) + (total % 10);
     return total;
 }
@@ -696,8 +651,8 @@ function hitung2DBelakang(result) {
 function reduceToSingleDigit(n) {
     n = Math.abs(n);
     while (n >= 10) {
-        let sum = 0;
-        let temp = n;
+        var sum = 0;
+        var temp = n;
         while (temp > 0) {
             sum += temp % 10;
             temp = Math.floor(temp / 10);
@@ -709,7 +664,7 @@ function reduceToSingleDigit(n) {
 
 function hitungOperasi(a, b, op) {
     if (!op || op === '') return a;
-    let hasil;
+    var hasil;
     if (op === '+') hasil = a + b;
     else if (op === '-') hasil = a - b;
     else hasil = a * b;
@@ -717,49 +672,61 @@ function hitungOperasi(a, b, op) {
     return reduceToSingleDigit(hasil);
 }
 
-// GENERATE DIGIT SESUAI PILIHAN USER (3-9 digit)
+function applyConversi(value, convKey) {
+    if (!convKey || convKey === 'n0') return value;
+    var mapKey = CONVERSI_MAP[convKey];
+    if (!mapKey || !MAP[mapKey]) return value;
+    var mapped = MAP[mapKey][String(value)];
+    if (mapped) {
+        return mapped;
+    }
+    return String(value);
+}
+
+function getDigitFromConversi(value, convKey) {
+    var hasil = applyConversi(value, convKey);
+    if (typeof hasil === 'string' && hasil.length >= 3) {
+        return parseInt(hasil[0]);
+    }
+    return parseInt(hasil) || value;
+}
+
 function generateDigit(x, jumlah) {
-    let hasil = '';
-    for (let i = 0; i < jumlah; i++) {
-        let digit = (x + i) % 10;
+    var hasil = '';
+    for (var i = 0; i < jumlah; i++) {
+        var digit = (x + i) % 10;
         hasil += digit;
     }
     return hasil;
 }
 
-function convert3(d, convKey) {
-    let mapToUse = convKey && MAP[convKey] ? MAP[convKey] : MAP['rumus'];
-    let hasil = mapToUse?.[d] || d;
-    return hasil;
-}
-
 function getTarget(nextResult) {
     if (!nextResult) return [];
-    let posMap = POSISI_MAP[POSISI] || POSISI_MAP['e'];
-    return posMap.map(idx => nextResult[idx]);
+    var posMap = POSISI_MAP[POSISI] || POSISI_MAP['e'];
+    return posMap.map(function(idx) { return nextResult[idx]; });
 }
 
-let isGelap = true;
-function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
+var isGelap = true;
+function nextWarna() { var w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
 
 function loadData() {
-    let pasaran = document.getElementById('mPasaran').value;
-    let p = pasaran === 'hongkong' ? 'hk' : pasaran === 'sydney' ? 'sdny' : 'sgp';
+    var pasaran = document.getElementById('mPasaran').value;
+    var p = pasaran === 'hongkong' ? 'hk' : pasaran === 'sydney' ? 'sdny' : 'sgp';
     P = p;
     
     document.getElementById('status').innerHTML = '⏳ Loading data ' + p.toUpperCase() + '...';
     if (!D[p]) {
         try {
-            let url = URL_DATA[p];
+            var url = URL_DATA[p];
             if (!url || url.includes('username')) throw new Error('URL belum diset!');
-            fetch(url).then(r => r.text()).then(text => {
-                let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+            fetch(url).then(function(r) { return r.text(); }).then(function(text) {
+                var lines = text.trim().split('\n').map(function(x) { return x.trim(); }).filter(function(x) { return x.length >= 4 && /^\d+$/.test(x); }).map(function(x) { return x.slice(0,4); });
                 if (lines.length === 0) throw new Error('Data kosong!');
                 D[p] = lines;
-                document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data dari txt';
+                document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data';
                 document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
-            }).catch(e => {
+            }).catch(function(e) {
                 document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
                 D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
                 document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
@@ -776,48 +743,48 @@ function runManual(e) {
     e.preventDefault();
     loadData();
     
-    setTimeout(() => {
-        let putaran = parseInt(document.getElementById('mPutaran').value) || 20;
-        let key1 = document.getElementById('mKey1').value;
-        let conversi1 = document.getElementById('mConversi1').value;
-        let arit1 = document.getElementById('mArit1').value;
-        let key2 = document.getElementById('mKey2').value;
-        let conversi2 = document.getElementById('mConversi2').value;
-        let conversiHasil = document.getElementById('mConversiHasil').value;
-        let posisiManual = document.getElementById('mPosisi').value;
+    setTimeout(function() {
+        var putaran = parseInt(document.getElementById('mPutaran').value) || 20;
+        var key1 = document.getElementById('mKey1').value;
+        var conversi1 = document.getElementById('mConversi1').value;
+        var arit1 = document.getElementById('mArit1').value;
+        var key2 = document.getElementById('mKey2').value;
+        var conversi2 = document.getElementById('mConversi2').value;
+        var conversiHasil = document.getElementById('mConversiHasil').value;
+        var posisiManual = document.getElementById('mPosisi').value;
         jumlahDigit = parseInt(document.getElementById('mDigit').value) || 3;
         
         POSISI = posisiManual;
         
-        let dataSource = D[P] || [];
+        var dataSource = D[P] || [];
         if (dataSource.length === 0) {
             dataSource = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
         }
         
-        let manualRawData = [];
-        let startIdx = Math.max(0, dataSource.length - putaran);
-        for (let i = startIdx; i < dataSource.length; i++) {
+        var manualRawData = [];
+        var startIdx = Math.max(0, dataSource.length - putaran);
+        for (var i = startIdx; i < dataSource.length; i++) {
             manualRawData.push(dataSource[i]);
         }
         
-        let label = key1.toUpperCase();
-        let conv1Label = conversi1 !== 'n0' ? conversi1.toUpperCase() : '';
+        currentData = manualRawData.slice();
+        
+        var label = key1.toUpperCase();
+        var conv1Label = conversi1 !== 'n0' ? conversi1.toUpperCase() : '';
         if (conv1Label) label += conv1Label;
         
         if (key2 && key2 !== '' && arit1 && arit1 !== '') {
-            let opSymbol = arit1 === '+' ? '+' : arit1 === '-' ? '-' : '×';
+            var opSymbol = arit1 === '+' ? '+' : arit1 === '-' ? '-' : '×';
             label += ' ' + opSymbol + ' ';
-            let conv2Label = conversi2 !== 'n0' ? conversi2.toUpperCase() : '';
+            var conv2Label = conversi2 !== 'n0' ? conversi2.toUpperCase() : '';
             label += key2.toUpperCase() + (conv2Label || '');
-            let convHasilLabel = conversiHasil !== 'n0' ? '=' + conversiHasil.toUpperCase() : '';
+            var convHasilLabel = conversiHasil !== 'n0' ? '=' + conversiHasil.toUpperCase() : '';
             label += convHasilLabel;
         } else {
-            let convHasilLabel = conversi1 !== 'n0' ? '=' + conversi1.toUpperCase() : '';
+            var convHasilLabel = conversi1 !== 'n0' ? '=' + conversi1.toUpperCase() : '';
             label += convHasilLabel;
         }
-        
-        // Tambahkan info digit
-        label += ' (' + jumlahDigit + ' Digit)';
+        label += ' (' + jumlahDigit + 'D)';
         
         selectedCombination = {
             key1: key1,
@@ -830,60 +797,8 @@ function runManual(e) {
             digit: jumlahDigit
         };
         
-        currentData = manualRawData.map((result) => {
-            let digits = result.split('').map(Number);
-            let newDigits = [...digits];
-            
-            if (key2 && key2 !== '' && arit1 && arit1 !== '') {
-                let pos1 = KEY_MAP[key1] || [0,0];
-                let pos2 = KEY_MAP[key2] || [0,0];
-                let val1 = digits[pos1[0]] || 0;
-                let val2 = digits[pos2[0]] || 0;
-                
-                let convMap1 = CONVERSI_MAP[conversi1] || '';
-                let convMap2 = CONVERSI_MAP[conversi2] || '';
-                let convVal1 = val1;
-                let convVal2 = val2;
-                
-                if (convMap1 && MAP[convMap1]) {
-                    let mapped = MAP[convMap1][String(val1)];
-                    if (mapped) convVal1 = parseInt(mapped[0]) || val1;
-                }
-                if (convMap2 && MAP[convMap2]) {
-                    let mapped = MAP[convMap2][String(val2)];
-                    if (mapped) convVal2 = parseInt(mapped[0]) || val2;
-                }
-                
-                let hasil = hitungOperasi(convVal1, convVal2, arit1);
-                
-                let convHasil = CONVERSI_MAP[conversiHasil] || '';
-                if (convHasil && MAP[convHasil]) {
-                    let mapped = MAP[convHasil][String(hasil)];
-                    if (mapped) hasil = parseInt(mapped[0]) || hasil;
-                }
-                
-                newDigits[pos1[0]] = hasil;
-            } else {
-                let pos1 = KEY_MAP[key1] || [0,0];
-                let val1 = digits[pos1[0]] || 0;
-                
-                let convMap1 = CONVERSI_MAP[conversi1] || '';
-                let convVal1 = val1;
-                if (convMap1 && MAP[convMap1]) {
-                    let mapped = MAP[convMap1][String(val1)];
-                    if (mapped) convVal1 = parseInt(mapped[0]) || val1;
-                }
-                
-                newDigits[pos1[0]] = convVal1;
-            }
-            
-            return newDigits.join('');
-        });
-        
         document.getElementById('footerDataCount').innerHTML = '📊 ' + currentData.length + ' data (manual)';
-        let infoText = '✅ Manual: ' + currentData.length + ' data | ' + label;
-        infoText += ' | Posisi: ' + posisiManual;
-        document.getElementById('status').innerHTML = infoText;
+        document.getElementById('status').innerHTML = '✅ Manual: ' + currentData.length + ' data | ' + label + ' | Posisi: ' + posisiManual;
         
         render();
     }, 300);
@@ -891,31 +806,22 @@ function runManual(e) {
 
 function render() {
     if (!currentData || currentData.length === 0) {
-        document.getElementById('tabel').innerHTML = `
-            <tr><td colspan="100">
-                <div class="empty-state">
-                    <span class="icon">🔧</span>
-                    Belum ada data.<br>
-                    Pilih KEY 1 (dan KEY 2 jika perlu), lalu klik <strong>🚀 GO</strong>
-                </div>
-            </td></tr>
-        `;
-        let posisiNama = POSISI.toUpperCase();
-        let judul = '📋 MANUAL | ' + posisiNama + ' | 0 Hari';
-        document.getElementById('info').innerHTML = '<div class="judul-tabel">' + judul + '</div><div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA</div>';
+        document.getElementById('tabel').innerHTML = '<tr><td colspan="100"><div class="empty-state"><span class="icon">🔧</span>Belum ada data.<br>Pilih KEY 1 dan klik <strong>🚀 GO</strong></div></td></tr>';
+        var posisiNama = POSISI.toUpperCase();
+        document.getElementById('info').innerHTML = '<div class="judul-tabel">📋 MANUAL | ' + posisiNama + ' | 0 Hari</div><div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA</div>';
         return;
     }
     
-    let data = currentData;
-    let posisiNama = POSISI.toUpperCase();
-    let label = selectedCombination ? selectedCombination.label : 'A1';
-    let judul = '📋 MANUAL | ' + posisiNama + ' | ' + label + ' | ' + data.length + ' Hari';
-    let subInfo = '🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA | ' + jumlahDigit + ' Digit';
+    var data = currentData;
+    var posisiNama = POSISI.toUpperCase();
+    var label = selectedCombination ? selectedCombination.label : 'A1';
+    var judul = '📋 MANUAL | ' + posisiNama + ' | ' + label + ' | ' + data.length + ' Hari';
+    var subInfo = '🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ' + posisiNama + ' DARI RESULT DI BAWAHNYA | ' + jumlahDigit + ' Digit';
     document.getElementById('info').innerHTML = '<div class="judul-tabel">' + judul + '</div><div class="sub-info">' + subInfo + '</div>';
     
-    let html = buatHeader();
-    for (let i = 0; i < data.length; i++) {
-        let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
+    var html = buatHeader();
+    for (var i = 0; i < data.length; i++) {
+        var nextResult = (i + 1 < data.length) ? data[i + 1] : null;
         html += hitungBaris(data[i], nextResult);
     }
     document.getElementById('tabel').innerHTML = html;
@@ -923,65 +829,48 @@ function render() {
 
 function buatHeader() {
     resetWarna();
-    let label = selectedCombination ? selectedCombination.label : 'KEY';
-    let digit = selectedCombination ? selectedCombination.digit : 3;
-    let h = '<tr><th>RESULT</th><th>JML</th>';
+    var label = selectedCombination ? selectedCombination.label : 'KEY';
+    var digit = selectedCombination ? selectedCombination.digit : 3;
+    var h = '<tr><th>RESULT</th><th>JML</th>';
     h += '<th colspan="' + digit + '" class="key-header ' + nextWarna() + '">' + label + '</th>';
     return h + '</tr>';
 }
 
 function hitungBaris(baris, nextResult) {
     resetWarna();
-    let arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
-    let target = getTarget(nextResult);
-    let jml = hitung2DBelakang(baris);
-    let tds = '<td>' + baris + '</td><td>' + jml + '</td>';
+    var arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
+    var target = getTarget(nextResult);
+    var jml = hitung2DBelakang(baris);
+    var tds = '<td>' + baris + '</td><td>' + jml + '</td>';
     
-    let combo = selectedCombination;
-    let digit = combo ? combo.digit : 3;
+    var combo = selectedCombination;
+    var digit = combo ? combo.digit : 3;
     
     if (combo) {
-        let pos1 = KEY_MAP[combo.key1] || [0,0];
-        let a = arr1[pos1[0]];
-        let b = 0;
-        let hasilReduksi = a;
+        var pos1 = KEY_MAP[combo.key1] || [0,0];
+        var a = arr1[pos1[0]];
+        var hasilReduksi = a;
         
         if (combo.key2 && combo.key2 !== '' && combo.op && combo.op !== '') {
-            let pos2 = KEY_MAP[combo.key2] || [0,0];
-            b = arr1[pos2[0]];
+            var pos2 = KEY_MAP[combo.key2] || [0,0];
+            var b = arr1[pos2[0]];
             
-            let convMap1 = CONVERSI_MAP[combo.conversi1] || '';
-            let convMap2 = CONVERSI_MAP[combo.conversi2] || '';
-            let convVal1 = a;
-            let convVal2 = b;
+            var convVal1 = getDigitFromConversi(a, combo.conversi1);
+            var convVal2 = getDigitFromConversi(b, combo.conversi2);
             
-            if (convMap1 && MAP[convMap1]) {
-                let mapped = MAP[convMap1][String(a)];
-                if (mapped) convVal1 = parseInt(mapped[0]) || a;
-            }
-            if (convMap2 && MAP[convMap2]) {
-                let mapped = MAP[convMap2][String(b)];
-                if (mapped) convVal2 = parseInt(mapped[0]) || b;
-            }
+            var hasil = hitungOperasi(convVal1, convVal2, combo.op);
             
-            let hasil = hitungOperasi(convVal1, convVal2, combo.op);
-            
-            let convHasil = CONVERSI_MAP[combo.conversiHasil] || '';
-            if (convHasil && MAP[convHasil]) {
-                let mapped = MAP[convHasil][String(hasil)];
-                if (mapped) hasil = parseInt(mapped[0]) || hasil;
-            }
-            
-            hasilReduksi = hasil;
+            hasilReduksi = getDigitFromConversi(hasil, combo.conversiHasil);
+        } else {
+            hasilReduksi = getDigitFromConversi(a, combo.conversi1);
         }
         
-        // Generate digit sesuai pilihan user
-        let hasil = generateDigit(hasilReduksi, digit);
-        let cls = nextWarna();
-        for (let k = 0; k < digit; k++) {
-            let digitVal = hasil[k];
-            let isCocok = target.length && target.includes(digitVal);
-            let c = isCocok ? 'cocok' : '';
+        var hasil = generateDigit(hasilReduksi, digit);
+        var cls = nextWarna();
+        for (var k = 0; k < digit; k++) {
+            var digitVal = hasil[k];
+            var isCocok = target.length && target.indexOf(digitVal) !== -1;
+            var c = isCocok ? 'cocok' : '';
             tds += '<td class="' + cls + ' ' + c + ' key-digit">' + digitVal + '</td>';
         }
     }
@@ -989,10 +878,7 @@ function hitungBaris(baris, nextResult) {
     return '<tr>' + tds + '</tr>';
 }
 
-// Load data awal
 loadData();
-
-// Render kosong
 render();
 </script>
 </body>
