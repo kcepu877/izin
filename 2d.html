@@ -126,9 +126,7 @@ button.active:hover { background: #0a3a8a; }
 #info .judul-tabel { font-size: 18px; font-weight: 700; color: #0d47a1; margin-bottom: 4px; }
 #info .sub-info { font-size: 13px; font-weight: 400; color: #0d2b4b; }
 #status { font-size: 12px; color: #2e7d32; margin-bottom: 10px; }
-#status .debug { color: #c62828; font-size: 11px; font-family: monospace; }
 
-/* Scroll Container */
 .scroll-container {
     position: relative;
     border-radius: 10px;
@@ -165,8 +163,6 @@ th {
     font-size: 10px;
     border-bottom: 2px solid #7a93b9 !important;
 }
-
-/* Kolom RESULT tetap di kiri */
 td:nth-child(1) {
     background: #e8edf5;
     color: #0d1f3c;
@@ -216,7 +212,6 @@ tr:hover td.gelap { filter: brightness(0.92); }
 tr:hover td.cerah { filter: brightness(0.96); }
 tr:hover td.cocok { filter: brightness(1.05) !important; }
 
-/* Navigation untuk paginasi kolom */
 .col-nav {
     display: flex;
     justify-content: center;
@@ -238,15 +233,8 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
     font-weight: 600;
     transition: all 0.3s;
 }
-.col-nav button:hover {
-    background: #1a237e;
-    transform: scale(1.02);
-}
-.col-nav button:disabled {
-    background: #9aaec9;
-    cursor: not-allowed;
-    transform: none;
-}
+.col-nav button:hover { background: #1a237e; transform: scale(1.02); }
+.col-nav button:disabled { background: #9aaec9; cursor: not-allowed; transform: none; }
 .col-nav .info {
     font-size: 13px;
     font-weight: 600;
@@ -256,93 +244,9 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
     border-radius: 20px;
     border: 1px solid #c5cae9;
 }
-.col-nav .range {
-    font-size: 12px;
-    color: #555;
-}
+.col-nav .range { font-size: 12px; color: #555; }
 
-/* Manual Control Styling */
-.manual-controls {
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #e3e8f0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    margin-bottom: 15px;
-}
-.manual-controls .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-.manual-controls .col {
-    flex: 1;
-    min-width: 100px;
-}
-.manual-controls select,
-.manual-controls input {
-    width: 100%;
-    padding: 6px 10px;
-    border: 1.5px solid #c5cae9;
-    border-radius: 6px;
-    font-size: 12px;
-    background: #fff;
-    color: #1a1a2e;
-    transition: border-color 0.2s;
-}
-.manual-controls select:focus,
-.manual-controls input:focus {
-    outline: none;
-    border-color: #0d47a1;
-    box-shadow: 0 0 0 3px rgba(13,71,161,0.1);
-}
-.manual-controls .btn-go {
-    background: linear-gradient(135deg, #2e7d32, #1b5e20);
-    color: white;
-    border: none;
-    padding: 8px 30px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-.manual-controls .btn-go:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 15px rgba(46,125,50,0.3);
-}
-.manual-controls .mode-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #555;
-    display: block;
-    margin-bottom: 2px;
-}
-.mode-auto .manual-controls { border-left: 4px solid #0d47a1; }
-.mode-manual .manual-controls { border-left: 4px solid #e65100; }
-.mode-badge {
-    display: inline-block;
-    padding: 2px 12px;
-    border-radius: 12px;
-    font-size: 10px;
-    font-weight: 700;
-    margin-left: 8px;
-}
-.mode-auto .mode-badge { background: #0d47a1; color: #fff; }
-.mode-manual .mode-badge { background: #e65100; color: #fff; }
-
-@media (max-width: 768px) {
-    .manual-controls .col { min-width: 80px; }
-    .manual-controls select,
-    .manual-controls input { font-size: 11px; padding: 5px 8px; }
-}
-
-th .op-symbol { 
-    font-size: 11px; 
-    font-weight: 700;
-    color: #1a237e;
-}
+th .op-symbol { font-size: 11px; font-weight: 700; color: #1a237e; }
 th .op-plus { color: #2e7d32; }
 th .op-minus { color: #c62828; }
 th .op-times { color: #e65100; }
@@ -363,243 +267,6 @@ th .op-times { color: #e65100; }
 </header>
 <main class="main-content">
 <h2>📊 FULL KOMBINASI A1 – JD9 (+ - ×) 3 Digit</h2>
-
-<!-- MANUAL CONTROLS -->
-<div class="manual-controls" id="manualControls">
-    <form id="manualForm" onsubmit="runManual(event)">
-        <div class="row">
-            <div class="col">
-                <label class="mode-label">🏷️ PASARAN</label>
-                <select name="pasaran" id="mPasaran">
-                    <option value="hongkong" selected>Hongkong Pools</option>
-                    <option value="sydney">Sydney Pools</option>
-                    <option value="singapore">Singapore</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">📊 PUTARAN</label>
-                <input type="number" name="putaran" id="mPutaran" value="20" min="3" max="100">
-            </div>
-            <div class="col">
-                <label class="mode-label">📅 MODE DAY</label>
-                <select name="modeday" id="mModeday">
-                    <option value="harian" selected>Harian</option>
-                    <option value="senin">Senin</option>
-                    <option value="selasa">Selasa</option>
-                    <option value="rabu">Rabu</option>
-                    <option value="kamis">Kamis</option>
-                    <option value="jumat">Jumat</option>
-                    <option value="sabtu">Sabtu</option>
-                    <option value="minggu">Minggu</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">🎯 POSISI</label>
-                <select name="posisi" id="mPosisi">
-                    <option value="a">A</option>
-                    <option value="c">C</option>
-                    <option value="k">K</option>
-                    <option value="e" selected>E</option>
-                    <option value="ac">Ac</option>
-                    <option value="ck">Ck</option>
-                    <option value="ke">Ke</option>
-                    <option value="jd">Jd</option>
-                    <option value="jt">Jt</option>
-                    <option value="j">J</option>
-                    <option value="acke">Cb</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">🔄 MODE</label>
-                <select name="moderesult" id="mModeresult" onchange="toggleMode(this.value)">
-                    <option value="manual">Manual</option>
-                    <option value="otomatis" selected>Otomatis</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row" id="manualRow">
-            <div class="col">
-                <label class="mode-label">🔑 KEY 1</label>
-                <select name="key1" id="mKey1">
-                    <option value="a1" selected>a1</option>
-                    <option value="a2">a2</option>
-                    <option value="a3">a3</option>
-                    <option value="a4">a4</option>
-                    <option value="a5">a5</option>
-                    <option value="a6">a6</option>
-                    <option value="a7">a7</option>
-                    <option value="a8">a8</option>
-                    <option value="a9">a9</option>
-                    <option value="c1">c1</option>
-                    <option value="c2">c2</option>
-                    <option value="c3">c3</option>
-                    <option value="c4">c4</option>
-                    <option value="c5">c5</option>
-                    <option value="c6">c6</option>
-                    <option value="c7">c7</option>
-                    <option value="c8">c8</option>
-                    <option value="c9">c9</option>
-                    <option value="k1">k1</option>
-                    <option value="k2">k2</option>
-                    <option value="k3">k3</option>
-                    <option value="k4">k4</option>
-                    <option value="k5">k5</option>
-                    <option value="k6">k6</option>
-                    <option value="k7">k7</option>
-                    <option value="k8">k8</option>
-                    <option value="k9">k9</option>
-                    <option value="e1">e1</option>
-                    <option value="e2">e2</option>
-                    <option value="e3">e3</option>
-                    <option value="e4">e4</option>
-                    <option value="e5">e5</option>
-                    <option value="e6">e6</option>
-                    <option value="e7">e7</option>
-                    <option value="e8">e8</option>
-                    <option value="e9">e9</option>
-                    <option value="j1">j1</option>
-                    <option value="j2">j2</option>
-                    <option value="j3">j3</option>
-                    <option value="j4">j4</option>
-                    <option value="j5">j5</option>
-                    <option value="j6">j6</option>
-                    <option value="j7">j7</option>
-                    <option value="j8">j8</option>
-                    <option value="j9">j9</option>
-                    <option value="jt1">jt1</option>
-                    <option value="jt2">jt2</option>
-                    <option value="jt3">jt3</option>
-                    <option value="jt4">jt4</option>
-                    <option value="jt5">jt5</option>
-                    <option value="jt6">jt6</option>
-                    <option value="jt7">jt7</option>
-                    <option value="jt8">jt8</option>
-                    <option value="jt9">jt9</option>
-                    <option value="jd1">jd1</option>
-                    <option value="jd2">jd2</option>
-                    <option value="jd3">jd3</option>
-                    <option value="jd4">jd4</option>
-                    <option value="jd5">jd5</option>
-                    <option value="jd6">jd6</option>
-                    <option value="jd7">jd7</option>
-                    <option value="jd8">jd8</option>
-                    <option value="jd9">jd9</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">🔄 KONVERSI 1</label>
-                <select name="conversi1" id="mConversi1">
-                    <option value="n0" selected></option>
-                    <option value="ix">ix</option>
-                    <option value="ty">ty</option>
-                    <option value="ml">ml</option>
-                    <option value="mb">mb</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">➕ ARITMATIKA</label>
-                <select name="arit1" id="mArit1">
-                    <option value="+" selected>+</option>
-                    <option value="-">-</option>
-                    <option value="x">×</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">🔑 KEY 2</label>
-                <select name="key2" id="mKey2">
-                    <option value="" selected></option>
-                    <option value="a1">a1</option>
-                    <option value="a2">a2</option>
-                    <option value="a3">a3</option>
-                    <option value="a4">a4</option>
-                    <option value="a5">a5</option>
-                    <option value="a6">a6</option>
-                    <option value="a7">a7</option>
-                    <option value="a8">a8</option>
-                    <option value="a9">a9</option>
-                    <option value="c1">c1</option>
-                    <option value="c2">c2</option>
-                    <option value="c3">c3</option>
-                    <option value="c4">c4</option>
-                    <option value="c5">c5</option>
-                    <option value="c6">c6</option>
-                    <option value="c7">c7</option>
-                    <option value="c8">c8</option>
-                    <option value="c9">c9</option>
-                    <option value="k1">k1</option>
-                    <option value="k2">k2</option>
-                    <option value="k3">k3</option>
-                    <option value="k4">k4</option>
-                    <option value="k5">k5</option>
-                    <option value="k6">k6</option>
-                    <option value="k7">k7</option>
-                    <option value="k8">k8</option>
-                    <option value="k9">k9</option>
-                    <option value="e1">e1</option>
-                    <option value="e2">e2</option>
-                    <option value="e3">e3</option>
-                    <option value="e4">e4</option>
-                    <option value="e5">e5</option>
-                    <option value="e6">e6</option>
-                    <option value="e7">e7</option>
-                    <option value="e8">e8</option>
-                    <option value="e9">e9</option>
-                    <option value="j1">j1</option>
-                    <option value="j2">j2</option>
-                    <option value="j3">j3</option>
-                    <option value="j4">j4</option>
-                    <option value="j5">j5</option>
-                    <option value="j6">j6</option>
-                    <option value="j7">j7</option>
-                    <option value="j8">j8</option>
-                    <option value="j9">j9</option>
-                    <option value="jt1">jt1</option>
-                    <option value="jt2">jt2</option>
-                    <option value="jt3">jt3</option>
-                    <option value="jt4">jt4</option>
-                    <option value="jt5">jt5</option>
-                    <option value="jt6">jt6</option>
-                    <option value="jt7">jt7</option>
-                    <option value="jt8">jt8</option>
-                    <option value="jt9">jt9</option>
-                    <option value="jd1">jd1</option>
-                    <option value="jd2">jd2</option>
-                    <option value="jd3">jd3</option>
-                    <option value="jd4">jd4</option>
-                    <option value="jd5">jd5</option>
-                    <option value="jd6">jd6</option>
-                    <option value="jd7">jd7</option>
-                    <option value="jd8">jd8</option>
-                    <option value="jd9">jd9</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">🔄 KONVERSI 2</label>
-                <select name="conversi2" id="mConversi2">
-                    <option value="n0" selected></option>
-                    <option value="ix">ix</option>
-                    <option value="ty">ty</option>
-                    <option value="ml">ml</option>
-                    <option value="mb">mb</option>
-                </select>
-            </div>
-            <div class="col">
-                <label class="mode-label">🎯 KONVERSI HASIL</label>
-                <select name="conversihasil" id="mConversiHasil">
-                    <option value="n0" selected></option>
-                    <option value="ix">ix</option>
-                    <option value="ty">ty</option>
-                    <option value="ml">ml</option>
-                    <option value="mb">mb</option>
-                </select>
-            </div>
-            <div class="col" style="display:flex; align-items:flex-end;">
-                <button type="submit" class="btn-go">🚀 GO..</button>
-            </div>
-        </div>
-    </form>
-</div>
 
 <div class="btn-group">
     <label>🏷️ PASARAN</label>
@@ -641,15 +308,14 @@ th .op-times { color: #e65100; }
 </div>
 <div id="status">⏳ Loading...</div>
 
-<!-- Scroll Container dengan Paginasi Kolom -->
 <div class="scroll-container">
-    <div class="col-nav" id="colNav">
-        <button id="prevCol" onclick="prevPage()">◀ Prev</button>
+    <div class="col-nav">
+        <button onclick="prevPage()">◀ Prev</button>
         <span class="info" id="pageInfo">Halaman 1 / 1</span>
-        <span class="range" id="rangeInfo">Menampilkan kolom 1 - 8</span>
-        <button id="nextCol" onclick="nextPage()">Next ▶</button>
+        <span class="range" id="rangeInfo">Menampilkan kolom 1 - 6</span>
+        <button onclick="nextPage()">Next ▶</button>
     </div>
-    <div class="table-scroll" id="tableScroll">
+    <div class="table-scroll">
         <table id="tabel"></table>
     </div>
 </div>
@@ -689,9 +355,6 @@ const URL_DATA = {
 
 let D = {}, P = 'hk', F = 'rumus';
 let POSISI = '2dbelakang';
-let isManualMode = false;
-
-// Variable untuk paginasi kolom
 let currentPage = 0;
 const COLS_PER_PAGE = 6;
 
@@ -714,13 +377,6 @@ const MAP = {
     }
 };
 
-const CONVERSI_MAP = {
-    'ix': 'index',
-    'ty': 'taysen',
-    'ml': 'mlama',
-    'mb': 'mbaru'
-};
-
 const POSISI_MAP = {
     as: [0], cop: [1], kepala: [2], ekor: [3],
     '2ddepan': [0,1], '2dbelakang': [2,3],
@@ -730,7 +386,6 @@ const POSISI_MAP = {
     'jumlahkombinasi': [0,1,2,3]
 };
 
-// KEY MAP dengan A, C, K, E, J, JT, JD
 const KEY_MAP = {
     'a1': [0,0], 'a2': [0,1], 'a3': [0,2], 'a4': [0,3], 'a5': [0,4],
     'a6': [0,5], 'a7': [0,6], 'a8': [0,7], 'a9': [0,8],
@@ -740,7 +395,6 @@ const KEY_MAP = {
     'k6': [2,5], 'k7': [2,6], 'k8': [2,7], 'k9': [2,8],
     'e1': [3,0], 'e2': [3,1], 'e3': [3,2], 'e4': [3,3], 'e5': [3,4],
     'e6': [3,5], 'e7': [3,6], 'e8': [3,7], 'e9': [3,8],
-    // J, JT, JD semua menggunakan posisi AS (index 0)
     'j1': [0,0], 'j2': [0,1], 'j3': [0,2], 'j4': [0,3], 'j5': [0,4],
     'j6': [0,5], 'j7': [0,6], 'j8': [0,7], 'j9': [0,8],
     'jt1': [0,0], 'jt2': [0,1], 'jt3': [0,2], 'jt4': [0,3], 'jt5': [0,4],
@@ -749,7 +403,6 @@ const KEY_MAP = {
     'jd6': [0,5], 'jd7': [0,6], 'jd8': [0,7], 'jd9': [0,8]
 };
 
-// KEYS lengkap: A, C, K, E, J, JT, JD
 const KEYS = [
     'a1','a2','a3','a4','a5','a6','a7','a8','a9',
     'c1','c2','c3','c4','c5','c6','c7','c8','c9',
@@ -789,7 +442,6 @@ function hitung2DBelakang(result) {
     return total;
 }
 
-// REDUKSI KE 1 DIGIT
 function reduceToSingleDigit(n) {
     n = Math.abs(n);
     while (n >= 10) {
@@ -804,194 +456,20 @@ function reduceToSingleDigit(n) {
     return n;
 }
 
-// HITUNG OPERASI: +, -, ×
 function hitungOperasi(a, b, op) {
     let hasil;
-    if (op === '+') {
-        hasil = a + b;
-    } else if (op === '-') {
-        hasil = a - b;
-    } else { // ×
-        hasil = a * b;
-    }
-    
-    // Jika hasil 0, kembali ke angka a
-    if (hasil === 0) {
-        return a;
-    }
-    
+    if (op === '+') hasil = a + b;
+    else if (op === '-') hasil = a - b;
+    else hasil = a * b;
+    if (hasil === 0) return a;
     return reduceToSingleDigit(hasil);
 }
 
-// 3 DIGIT: minus, asli, plus (urutan: -1, asli, +1)
 function d2(x) { 
     let minus = (x - 1 + 10) % 10;
     let asli = x;
     let plus = (x + 1) % 10;
     return '' + minus + asli + plus;
-}
-
-async function load(p) {
-    P = p;
-    isManualMode = false;
-    currentPage = 0;
-    document.getElementById('mModeresult').value = 'otomatis';
-    document.getElementById('manualControls').classList.remove('mode-manual');
-    document.getElementById('manualControls').classList.add('mode-auto');
-    document.getElementById('manualRow').style.display = 'flex';
-    
-    updateActive('hk', p);
-    document.getElementById('status').innerHTML = '⏳ Loading data ' + p.toUpperCase() + '...';
-    document.getElementById('tabel').innerHTML = '';
-    if (!D[p]) {
-        try {
-            let url = URL_DATA[p];
-            if (!url || url.includes('username')) throw new Error('URL belum diset!');
-            let r = await fetch(url);
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            let text = await r.text();
-            
-            let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
-            
-            if (lines.length === 0) throw new Error('Data kosong!');
-            
-            D[p] = lines;
-            
-            let debugInfo = `Data ${p.toUpperCase()}: ${D[p].length} data (index 0 = tertua/atas, index terakhir = terbaru/bawah)`;
-            console.log(debugInfo);
-            console.log('5 data terakhir (terbaru):', D[p].slice(-5));
-            
-            document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data dari txt | ' + debugInfo;
-            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
-        } catch(e) {
-            document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
-            D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
-            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
-        }
-    }
-    render();
-}
-
-function toggleMode(val) {
-    if (val === 'manual') {
-        isManualMode = true;
-        currentPage = 0;
-        document.getElementById('manualControls').classList.remove('mode-auto');
-        document.getElementById('manualControls').classList.add('mode-manual');
-        document.getElementById('manualRow').style.display = 'flex';
-        setTimeout(() => runManual(new Event('submit')), 100);
-    } else {
-        isManualMode = false;
-        currentPage = 0;
-        document.getElementById('manualControls').classList.remove('mode-manual');
-        document.getElementById('manualControls').classList.add('mode-auto');
-        document.getElementById('manualRow').style.display = 'flex';
-        load(P);
-    }
-}
-
-function runManual(e) {
-    e.preventDefault();
-    isManualMode = true;
-    currentPage = 0;
-    document.getElementById('manualControls').classList.remove('mode-auto');
-    document.getElementById('manualControls').classList.add('mode-manual');
-    
-    let putaran = parseInt(document.getElementById('mPutaran').value) || 20;
-    let key1 = document.getElementById('mKey1').value;
-    let conversi1 = document.getElementById('mConversi1').value;
-    let arit1 = document.getElementById('mArit1').value;
-    let key2 = document.getElementById('mKey2').value;
-    let conversi2 = document.getElementById('mConversi2').value;
-    let conversiHasil = document.getElementById('mConversiHasil').value;
-    
-    let dataSource = D[P] || [];
-    if (dataSource.length === 0) {
-        dataSource = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
-    }
-    
-    let manualData = [];
-    let startIdx = Math.max(0, dataSource.length - putaran);
-    for (let i = startIdx; i < dataSource.length; i++) {
-        manualData.push(dataSource[i]);
-    }
-    
-    let processedData = manualData.map((result, idx) => {
-        let digits = result.split('').map(Number);
-        let newDigits = [...digits];
-        
-        if (key2 && key2 !== '') {
-            let pos1 = KEY_MAP[key1] || [0,0];
-            let pos2 = KEY_MAP[key2] || [0,0];
-            
-            let val1 = digits[pos1[0]] || 0;
-            let val2 = digits[pos2[0]] || 0;
-            
-            let convMap1 = CONVERSI_MAP[conversi1] || '';
-            let convMap2 = CONVERSI_MAP[conversi2] || '';
-            
-            let convVal1 = val1;
-            let convVal2 = val2;
-            
-            if (convMap1 && MAP[convMap1]) {
-                let mapped = MAP[convMap1][String(val1)];
-                if (mapped) convVal1 = parseInt(mapped[0]) || val1;
-            }
-            if (convMap2 && MAP[convMap2]) {
-                let mapped = MAP[convMap2][String(val2)];
-                if (mapped) convVal2 = parseInt(mapped[0]) || val2;
-            }
-            
-            let hasil = hitungOperasi(convVal1, convVal2, arit1);
-            
-            let convHasil = CONVERSI_MAP[conversiHasil] || '';
-            if (convHasil && MAP[convHasil]) {
-                let mapped = MAP[convHasil][String(hasil)];
-                if (mapped) hasil = parseInt(mapped[0]) || hasil;
-            }
-            
-            newDigits[pos1[0]] = hasil;
-        } else {
-            let pos1 = KEY_MAP[key1] || [0,0];
-            let val1 = digits[pos1[0]] || 0;
-            
-            let convMap1 = CONVERSI_MAP[conversi1] || '';
-            let convVal1 = val1;
-            if (convMap1 && MAP[convMap1]) {
-                let mapped = MAP[convMap1][String(val1)];
-                if (mapped) convVal1 = parseInt(mapped[0]) || val1;
-            }
-            
-            newDigits[pos1[0]] = convVal1;
-        }
-        
-        return newDigits.join('');
-    });
-    
-    renderManual(processedData);
-    
-    let info = `✅ Manual: ${processedData.length} data | Key1: ${key1} | Conv1: ${conversi1} | Arit: ${arit1}`;
-    if (key2 && key2 !== '') {
-        info += ` | Key2: ${key2} | Conv2: ${conversi2} | ConvHasil: ${conversiHasil}`;
-    }
-    document.getElementById('status').innerHTML = info;
-    document.getElementById('footerDataCount').innerHTML = '📊 ' + processedData.length + ' data (manual)';
-}
-
-function renderManual(data) {
-    let tempD = D;
-    D[P] = data;
-    render();
-    D = tempD;
-}
-
-function setFilter(f) { F = f; currentPage = 0; updateActive('f_', f); render(); }
-function setPosisi(p) { POSISI = p; currentPage = 0; updateActive('p_', p); render(); }
-
-function updateActive(prefix, id) {
-    document.querySelectorAll(`[id^="${prefix}"]`).forEach(b => b.classList.remove('active'));
-    let el = document.getElementById(prefix + id);
-    if (el) el.classList.add('active');
 }
 
 function convert3(d) { 
@@ -1013,38 +491,69 @@ let isGelap = true;
 function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
 
-function prevPage() {
-    if (currentPage > 0) {
-        currentPage--;
-        render();
-        document.getElementById('tableScroll').scrollTop = 0;
+async function load(p) {
+    P = p;
+    currentPage = 0;
+    updateActive('hk', p);
+    document.getElementById('status').innerHTML = '⏳ Loading data ' + p.toUpperCase() + '...';
+    document.getElementById('tabel').innerHTML = '';
+    if (!D[p]) {
+        try {
+            let url = URL_DATA[p];
+            if (!url || url.includes('username')) throw new Error('URL belum diset!');
+            let r = await fetch(url);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            let text = await r.text();
+            
+            let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+            
+            if (lines.length === 0) throw new Error('Data kosong!');
+            
+            D[p] = lines;
+            
+            let debugInfo = `Data ${p.toUpperCase()}: ${D[p].length} data (index 0 = tertua/atas, index terakhir = terbaru/bawah)`;
+            console.log(debugInfo);
+            
+            document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data dari txt';
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
+        } catch(e) {
+            document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
+            D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+        }
     }
+    render();
 }
 
+function setFilter(f) { F = f; currentPage = 0; updateActive('f_', f); render(); }
+function setPosisi(p) { POSISI = p; currentPage = 0; updateActive('p_', p); render(); }
+
+function updateActive(prefix, id) {
+    document.querySelectorAll(`[id^="${prefix}"]`).forEach(b => b.classList.remove('active'));
+    let el = document.getElementById(prefix + id);
+    if (el) el.classList.add('active');
+}
+
+function prevPage() {
+    if (currentPage > 0) { currentPage--; render(); }
+}
 function nextPage() {
-    if (currentPage < TOTAL_PAGES - 1) {
-        currentPage++;
-        render();
-        document.getElementById('tableScroll').scrollTop = 0;
-    }
+    if (currentPage < TOTAL_PAGES - 1) { currentPage++; render(); }
 }
 
 function buatHeader() {
     resetWarna();
-    // Header untuk A1, C1, K1, E1, J1, JT1, JD1
     let firstKeys = ['A1','C1','K1','E1','J1','JT1','JD1'];
-    let ops = ['+', '-', '×'];
     let opClasses = {'+':'op-plus', '-':'op-minus', '×':'op-times'};
-    
-    let h = '<tr><th colspan="2">RESULT</th>';
-    for (let key of firstKeys) {
-        h += `<th colspan="3" class="${nextWarna()}">${key}</th>`;
-    }
     
     let start = currentPage * COLS_PER_PAGE;
     let end = Math.min(start + COLS_PER_PAGE, TOTAL_COLS);
     let pageCombinations = ALL_COMBINATIONS.slice(start, end);
     
+    let h = '<tr><th colspan="2">RESULT</th>';
+    for (let key of firstKeys) {
+        h += `<th colspan="3" class="${nextWarna()}">${key}</th>`;
+    }
     for (let combo of pageCombinations) {
         let cls = nextWarna();
         let opClass = opClasses[combo.op] || '';
@@ -1053,7 +562,7 @@ function buatHeader() {
     return h + '</tr>';
 }
 
-function hitungBaris(baris, no, semua, nextResult) {
+function hitungBaris(baris, nextResult) {
     resetWarna();
     let arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
     let vals = [convert3(arr1[0]), convert3(arr1[1]), convert3(arr1[2]), convert3(arr1[3])];
@@ -1061,8 +570,6 @@ function hitungBaris(baris, no, semua, nextResult) {
     let jml = hitung2DBelakang(baris);
     let tds = `<td>${baris}</td><td>${jml}</td>`;
     
-    // 7 kolom pertama: A1, C1, K1, E1, J1, JT1, JD1
-    // J1, JT1, JD1 menggunakan AS (index 0)
     let firstKeyPositions = [0, 1, 2, 3, 0, 0, 0];
     for (let idx = 0; idx < firstKeyPositions.length; idx++) {
         let pos = firstKeyPositions[idx];
@@ -1084,10 +591,8 @@ function hitungBaris(baris, no, semua, nextResult) {
         let pos2 = KEY_MAP[combo.key2] || [0,0];
         let a = arr1[pos1[0]];
         let b = arr1[pos2[0]];
-        
         let hasilReduksi = hitungOperasi(a, b, combo.op);
         let hasil = d2(hasilReduksi);
-        
         let cls = nextWarna();
         for (let k = 0; k < 3; k++) {
             let digit = hasil[k];
@@ -1101,13 +606,12 @@ function hitungBaris(baris, no, semua, nextResult) {
 
 function render() {
     if (!D[P]) return;
-    let data = isManualMode ? D[P] : D[P].slice(-20);
+    let data = D[P].slice(-20);
     
     let pasarNama = P.toUpperCase();
     let filterNama = F.toUpperCase();
     let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ').trim();
-    let modeLabel = isManualMode ? '🔧 MANUAL' : '🤖 OTOMATIS';
-    let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | ${data.length} Hari ${modeLabel}`;
+    let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | ${data.length} Hari`;
     let start = currentPage * COLS_PER_PAGE + 1;
     let end = Math.min(start + COLS_PER_PAGE - 1, TOTAL_COLS);
     let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (Operasi: +, -, ×) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit: minus, asli, plus | Jika hasil 0 → kembali ke digit awal | KEY: A,C,K,E,J,JT,JD (63 key)`;
@@ -1118,13 +622,13 @@ function render() {
     
     document.getElementById('pageInfo').textContent = `Halaman ${currentPage + 1} / ${TOTAL_PAGES}`;
     document.getElementById('rangeInfo').textContent = `Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS}`;
-    document.getElementById('prevCol').disabled = (currentPage === 0);
-    document.getElementById('nextCol').disabled = (currentPage >= TOTAL_PAGES - 1);
+    document.querySelector('.col-nav button:first-child').disabled = (currentPage === 0);
+    document.querySelector('.col-nav button:last-child').disabled = (currentPage >= TOTAL_PAGES - 1);
     
     let html = buatHeader();
     for (let i = 0; i < data.length; i++) {
         let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
-        html += hitungBaris(data[i], i + 1, data, nextResult);
+        html += hitungBaris(data[i], nextResult);
     }
     document.getElementById('tabel').innerHTML = html;
 }
