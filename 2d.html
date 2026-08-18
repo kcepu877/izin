@@ -356,7 +356,7 @@ const URL_DATA = {
 let D = {}, P = 'hk', F = 'rumus';
 let POSISI = '2dbelakang';
 let currentPage = 0;
-const COLS_PER_PAGE = 6;
+const COLS_PER_PAGE = 150;
 
 const MAP = {
     rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
@@ -364,16 +364,7 @@ const MAP = {
     mlama: {'0':'012','1':'890','2':'456','3':'789','4':'234','5':'123','6':'345','7':'567','8':'678','9':'901'},
     mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'},
     taysen: {
-        '0': '678',
-        '1': '345',
-        '2': '890',
-        '3': '567',
-        '4': '345',
-        '5': '789',
-        '6': '234',
-        '7': '901',
-        '8': '456',
-        '9': '123'
+        '0':'678','1':'345','2':'890','3':'567','4':'345','5':'789','6':'234','7':'901','8':'456','9':'123'
     }
 };
 
@@ -386,22 +377,20 @@ const POSISI_MAP = {
     'jumlahkombinasi': [0,1,2,3]
 };
 
-const KEY_MAP = {
-    'a1': [0,0], 'a2': [0,1], 'a3': [0,2], 'a4': [0,3], 'a5': [0,4],
-    'a6': [0,5], 'a7': [0,6], 'a8': [0,7], 'a9': [0,8],
-    'c1': [1,0], 'c2': [1,1], 'c3': [1,2], 'c4': [1,3], 'c5': [1,4],
-    'c6': [1,5], 'c7': [1,6], 'c8': [1,7], 'c9': [1,8],
-    'k1': [2,0], 'k2': [2,1], 'k3': [2,2], 'k4': [2,3], 'k5': [2,4],
-    'k6': [2,5], 'k7': [2,6], 'k8': [2,7], 'k9': [2,8],
-    'e1': [3,0], 'e2': [3,1], 'e3': [3,2], 'e4': [3,3], 'e5': [3,4],
-    'e6': [3,5], 'e7': [3,6], 'e8': [3,7], 'e9': [3,8],
-    'j1': [0,0], 'j2': [0,1], 'j3': [0,2], 'j4': [0,3], 'j5': [0,4],
-    'j6': [0,5], 'j7': [0,6], 'j8': [0,7], 'j9': [0,8],
-    'jt1': [0,0], 'jt2': [0,1], 'jt3': [0,2], 'jt4': [0,3], 'jt5': [0,4],
-    'jt6': [0,5], 'jt7': [0,6], 'jt8': [0,7], 'jt9': [0,8],
-    'jd1': [0,0], 'jd2': [0,1], 'jd3': [0,2], 'jd4': [0,3], 'jd5': [0,4],
-    'jd6': [0,5], 'jd7': [0,6], 'jd8': [0,7], 'jd9': [0,8]
-};
+function generateKeyMap() {
+    const map = {};
+    const configs = {
+        'a': [0], 'c': [1], 'k': [2], 'e': [3],
+        'j': [2, 3], 'jt': [1, 2], 'jd': [0, 1]
+    };
+    for (let [key, positions] of Object.entries(configs)) {
+        for (let num = 1; num <= 9; num++) {
+            map[key + num] = { offset: num - 1, positions: positions };
+        }
+    }
+    return map;
+}
+const KEY_MAP = generateKeyMap();
 
 const KEYS = [
     'a1','a2','a3','a4','a5','a6','a7','a8','a9',
@@ -413,17 +402,53 @@ const KEYS = [
     'jd1','jd2','jd3','jd4','jd5','jd6','jd7','jd8','jd9'
 ];
 
+// ========== GENERATE KOMBINASI DENGAN FILTER ==========
+// ========== GENERATE KOMBINASI DENGAN SEMUA FILTER ==========
+// ========== GENERATE SEMUA KOMBINASI ==========
+// ========== GENERATE SEMUA KOMBINASI ==========
 const ALL_COMBINATIONS = [];
 const OPS = ['+', '-', '×'];
+const FILTERS = ['none', 'index', 'mlama', 'mbaru', 'taysen'];
+const FILTER_LABEL = {
+    'none': '',
+    'index': 'ix',
+    'mlama': 'ml',
+    'mbaru': 'mb',
+    'taysen': 'ty'
+};
+
+// 1. SINGLE KEY dengan filter
+for (let i = 0; i < KEYS.length; i++) {
+    for (let f of FILTERS) {
+        ALL_COMBINATIONS.push({
+            key1: KEYS[i],
+            key2: null,
+            op: null,
+            filter1: f,
+            filter2: null,
+            label: KEYS[i] + FILTER_LABEL[f],
+            isSingle: true
+        });
+    }
+}
+
+// 2. DOUBLE KEY (key1 op key2) dengan filter
 for (let i = 0; i < KEYS.length; i++) {
     for (let op of OPS) {
         for (let j = 0; j < KEYS.length; j++) {
-            ALL_COMBINATIONS.push({
-                key1: KEYS[i],
-                key2: KEYS[j],
-                op: op,
-                label: KEYS[i] + op + KEYS[j]
-            });
+            for (let f1 of FILTERS) {
+                for (let f2 of FILTERS) {
+                    ALL_COMBINATIONS.push({
+                        key1: KEYS[i],
+                        key2: KEYS[j],
+                        op: op,
+                        filter1: f1,
+                        filter2: f2,
+                        label: KEYS[i] + FILTER_LABEL[f1] + op + KEYS[j] + FILTER_LABEL[f2],
+                        isSingle: false
+                    });
+                }
+            }
         }
     }
 }
@@ -504,16 +529,9 @@ async function load(p) {
             let r = await fetch(url);
             if (!r.ok) throw new Error('HTTP ' + r.status);
             let text = await r.text();
-            
             let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
-            
             if (lines.length === 0) throw new Error('Data kosong!');
-            
             D[p] = lines;
-            
-            let debugInfo = `Data ${p.toUpperCase()}: ${D[p].length} data (index 0 = tertua/atas, index terakhir = terbaru/bawah)`;
-            console.log(debugInfo);
-            
             document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data dari txt';
             document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
         } catch(e) {
@@ -556,13 +574,17 @@ function buatHeader() {
     }
     for (let combo of pageCombinations) {
         let cls = nextWarna();
-        let opClass = opClasses[combo.op] || '';
-        h += `<th colspan="3" class="${cls}"><span class="op-symbol ${opClass}">${combo.label}</span></th>`;
+        if (combo.isSingle) {
+            h += `<th colspan="3" class="${cls}">${combo.label}</th>`;
+        } else {
+            let opClass = opClasses[combo.op] || '';
+            h += `<th colspan="3" class="${cls}"><span class="op-symbol ${opClass}">${combo.label}</span></th>`;
+        }
     }
     return h + '</tr>';
 }
 
-function hitungBaris(baris, nextResult) {
+function hitungBaris(baris, nextResult, allData, currentIndex) {
     resetWarna();
     let arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
     let vals = [convert3(arr1[0]), convert3(arr1[1]), convert3(arr1[2]), convert3(arr1[3])];
@@ -570,15 +592,31 @@ function hitungBaris(baris, nextResult) {
     let jml = hitung2DBelakang(baris);
     let tds = `<td>${baris}</td><td>${jml}</td>`;
     
-    let firstKeyPositions = [0, 1, 2, 3, 0, 0, 0];
-    for (let idx = 0; idx < firstKeyPositions.length; idx++) {
-        let pos = firstKeyPositions[idx];
+    // HEADER: A1, C1, K1, E1, J1, JT1, JD1
+    let dataSumber = allData[currentIndex];
+    let a = parseInt(dataSumber[0]);
+    let c = parseInt(dataSumber[1]);
+    let k = parseInt(dataSumber[2]);
+    let e = parseInt(dataSumber[3]);
+
+    let firstValues = [
+        convert3(a),
+        convert3(c),
+        convert3(k),
+        convert3(e),
+        convert3(reduceToSingleDigit(k + e)),
+        convert3(reduceToSingleDigit(c + k)),
+        convert3(reduceToSingleDigit(a + c))
+    ];
+
+    for (let idx = 0; idx < firstValues.length; idx++) {
         let cls = nextWarna();
+        let val = firstValues[idx];
         for (let j = 0; j < 3; j++) {
-            let digit = vals[pos][j];
+            let digit = val[j];
             let isCocok = target.length && target.includes(digit);
-            let c = isCocok ? 'cocok' : '';
-            tds += `<td class="${cls} ${c}">${digit}</td>`;
+            let c2 = isCocok ? 'cocok' : '';
+            tds += `<td class="${cls} ${c2}">${digit}</td>`;
         }
     }
     
@@ -587,26 +625,112 @@ function hitungBaris(baris, nextResult) {
     let pageCombinations = ALL_COMBINATIONS.slice(start, end);
     
     for (let combo of pageCombinations) {
-        let pos1 = KEY_MAP[combo.key1] || [0,0];
-        let pos2 = KEY_MAP[combo.key2] || [0,0];
-        let a = arr1[pos1[0]];
-        let b = arr1[pos2[0]];
-        let hasilReduksi = hitungOperasi(a, b, combo.op);
-        let hasil = d2(hasilReduksi);
         let cls = nextWarna();
+        
+        // ===== SINGLE KEY =====
+        if (combo.isSingle) {
+            let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
+            let dataIndex1 = currentIndex - pos1.offset;
+            let data1 = (dataIndex1 >= 0 && dataIndex1 < allData.length) ? allData[dataIndex1] : baris;
+            
+            let nilaiA = 0;
+            for (let pos of pos1.positions) {
+                nilaiA += parseInt(data1[pos]);
+            }
+            if (pos1.positions.length > 1) {
+                nilaiA = reduceToSingleDigit(nilaiA);
+            }
+            
+            // Terapkan filter1
+            if (combo.filter1 !== 'none') {
+                let temp = MAP[combo.filter1]?.[nilaiA];
+                if (temp !== undefined) {
+                    nilaiA = parseInt(temp[1]);
+                }
+            }
+            
+            let hasil = d2(nilaiA);
+            for (let k = 0; k < 3; k++) {
+                let digit = hasil[k];
+                let isCocok = target.length && target.includes(digit);
+                let c2 = isCocok ? 'cocok' : '';
+                tds += `<td class="${cls} ${c2}">${digit}</td>`;
+            }
+            continue;
+        }
+        
+        // ===== DOUBLE KEY =====
+        let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
+        let pos2 = KEY_MAP[combo.key2] || { offset: 0, positions: [0] };
+        
+        let dataIndex1 = currentIndex - pos1.offset;
+        let dataIndex2 = currentIndex - pos2.offset;
+        
+        let data1, data2;
+        if (dataIndex1 >= 0 && dataIndex1 < allData.length) {
+            data1 = allData[dataIndex1];
+        } else {
+            data1 = baris;
+        }
+        
+        if (dataIndex2 >= 0 && dataIndex2 < allData.length) {
+            data2 = allData[dataIndex2];
+        } else {
+            data2 = baris;
+        }
+        
+        // Ambil nilaiA
+        let nilaiA = 0;
+        for (let pos of pos1.positions) {
+            nilaiA += parseInt(data1[pos]);
+        }
+        if (pos1.positions.length > 1) {
+            nilaiA = reduceToSingleDigit(nilaiA);
+        }
+        
+        // Terapkan filter1
+        if (combo.filter1 !== 'none') {
+            let temp = MAP[combo.filter1]?.[nilaiA];
+            if (temp !== undefined) {
+                nilaiA = parseInt(temp[1]);
+            }
+        }
+        
+        // Ambil nilaiB
+        let nilaiB = 0;
+        for (let pos of pos2.positions) {
+            nilaiB += parseInt(data2[pos]);
+        }
+        if (pos2.positions.length > 1) {
+            nilaiB = reduceToSingleDigit(nilaiB);
+        }
+        
+        // Terapkan filter2
+        if (combo.filter2 !== 'none') {
+            let temp = MAP[combo.filter2]?.[nilaiB];
+            if (temp !== undefined) {
+                nilaiB = parseInt(temp[1]);
+            }
+        }
+        
+        let hasilReduksi = hitungOperasi(nilaiA, nilaiB, combo.op);
+        let hasil = d2(hasilReduksi);
+        
         for (let k = 0; k < 3; k++) {
             let digit = hasil[k];
             let isCocok = target.length && target.includes(digit);
-            let c = isCocok ? 'cocok' : '';
-            tds += `<td class="${cls} ${c}">${digit}</td>`;
+            let c2 = isCocok ? 'cocok' : '';
+            tds += `<td class="${cls} ${c2}">${digit}</td>`;
         }
     }
     return '<tr>' + tds + '</tr>';
 }
 
+
 function render() {
     if (!D[P]) return;
     let data = D[P].slice(-20);
+    let allData = D[P];
     
     let pasarNama = P.toUpperCase();
     let filterNama = F.toUpperCase();
@@ -627,8 +751,9 @@ function render() {
     
     let html = buatHeader();
     for (let i = 0; i < data.length; i++) {
+        let currentIndex = D[P].length - data.length + i;
         let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
-        html += hitungBaris(data[i], nextResult);
+        html += hitungBaris(data[i], nextResult, allData, currentIndex);
     }
     document.getElementById('tabel').innerHTML = html;
 }
