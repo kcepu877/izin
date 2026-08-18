@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RACIK ANGKA</title>
+    <style>
+        /* ========== RESET ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========== HEADER ========== */
+        .app-header {
+            background: linear-gradient(135deg, #0d47a1 0%, #1a237e 100%);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(13, 71, 161, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .header-logo { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+        .header-logo span { color: #ffd54f; }
+        .header-sub { font-size: 13px; opacity: 0.85; font-weight: 300; }
+        .header-right { display: flex; align-items: center; gap: 20px; font-size: 13px; }
+        .header-badge {
+            background: rgba(255,255,255,0.15);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* ========== MAIN ========== */
+        .main-content { flex: 1; padding: 15px 20px 20px 20px; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+        /* ========== FOOTER ========== */
+        .app-footer {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            color: white;
+            padding: 15px 30px;
+            margin-top: 20px;
+            box-shadow: 0 -4px 20px rgba(13, 71, 161, 0.2);
+        }
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+        }
+        .footer-left { display: flex; align-items: center; gap: 20px; }
+        .footer-right { display: flex; align-items: center; gap: 20px; opacity: 0.8; }
+        .footer-link { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s ease; }
+        .footer-link:hover { color: #ffd54f; }
+        .footer-divider { opacity: 0.3; }
+        .footer-version {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .app-header { padding: 15px 20px; }
+            .header-logo { font-size: 22px; }
+            .header-sub { font-size: 11px; }
+            .header-right { font-size: 11px; gap: 10px; }
+            .header-badge { font-size: 10px; padding: 3px 10px; }
+            .main-content { padding: 10px 12px 12px 12px; }
+            .app-footer { padding: 12px 20px; }
+            .footer-content { font-size: 10px; flex-direction: column; text-align: center; gap: 5px; }
+            .footer-left { flex-direction: column; gap: 5px; }
+        }
+
+        @media (max-width: 480px) {
+            .app-header { padding: 12px 15px; }
+            .header-logo { font-size: 18px; }
+            .header-sub { font-size: 10px; }
+            .header-badge { font-size: 9px; padding: 2px 8px; }
+            .main-content { padding: 8px 8px 10px 8px; }
+        }
+
+        /* ========== KOMPONEN ========== */
+        .racik-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e3e8f0;
+            margin-bottom: 20px;
+        }
+        .racik-title { font-size: 20px; font-weight: 700; color: #0d47a1; margin-bottom: 15px; }
+        .racik-title small { font-weight: 400; font-size: 13px; color: #666; }
+        .racik-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .racik-grid label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .racik-grid input {
+            padding: 8px 12px;
+            border: 1.5px solid #c5cae9;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .racik-grid input:focus {
+            border-color: #0d47a1;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13,71,161,0.15);
+        }
+        .racik-grid input.target-input {
+            background: #e8f0fe;
+            border-color: #0d47a1;
+        }
+        .btn-generate {
+            background: #0d47a1;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-generate:hover { background: #1a237e; transform: scale(1.02); }
+        .btn-reset {
+            background: #e8eaf6;
+            color: #333;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-reset:hover { background: #c5cae9; }
+        .btn-group-racik { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+        .hasil-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e3e8f0;
+        }
+        .hasil-title { font-size: 16px; font-weight: 700; color: #0d47a1; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .hasil-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #f8faff;
+            border: 1px solid #e8edf5;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .hasil-row .label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0d47a1;
+            min-width: 50px;
+        }
+        .hasil-row .angka-list {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            word-break: break-all;
+        }
+        .hasil-row .info {
+            font-size: 11px;
+            color: #888;
+            margin-left: 10px;
+        }
+        .hasil-row .badge {
+            background: #0d47a1;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .badge.hit { background: #2e7d32; }
+        .badge.miss { background: #c62828; }
+        .empty-state { color: #999; font-size: 14px; padding: 20px; text-align: center; }
+        .error-state { color: #c62828; font-size: 14px; padding: 20px; text-align: center; font-weight: 600; }
+        .filter-info {
+            background: #e3ecf5;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #0d2b4b;
+            margin: 12px 0;
+            border-left: 4px solid #0d47a1;
+        }
+        .filter-info strong { color: #0d47a1; }
+
+        .copy-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+        .copy-btn:hover { background: #1b5e20; }
+        .copy-btn.copied { background: #ff8f00; }
+
+        @media (max-width: 600px) {
+            .racik-grid { grid-template-columns: repeat(2, 1fr); }
+            .hasil-row .angka-list { font-size: 13px; }
+            .hasil-title { font-size: 14px; }
+        }
+        @media (max-width: 400px) {
+            .racik-grid { grid-template-columns: repeat(1, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="app-header">
+    <div class="header-content">
+        <div class="header-left">
+            <div class="header-logo">🎯 <span>RACIK</span> ANGKA</div>
+            <div class="header-sub">JD = A+C · JT = C+K · J = K+E</div>
+        </div>
+        <div class="header-right">
+            <span class="header-badge">📊 AI RACIK</span>
+            <span class="header-clock" id="headerClock">🕐 Loading...</span>
+        </div>
+    </div>
+</header>
+
+<!-- ========== MAIN ========== -->
+<main class="main-content">
+    <div class="racik-container">
+        <div class="racik-title">
+            🧩 INPUT ANGKA
+            <small>— Masukkan pilihan digit & target jumlah</small>
+        </div>
+        <div class="racik-grid">
+            <label>AS <input type="text" id="as" placeholder="0123456789"></label>
+            <label>COP <input type="text" id="cop" placeholder="0123456789"></label>
+            <label>KEPALA <input type="text" id="kepala" placeholder="0123456789"></label>
+            <label>EKOR <input type="text" id="ekor" placeholder="0123456789"></label>
+            <label style="background:#e8f0fe;padding:4px 8px;border-radius:4px;">🎯 JD (A+C) <input type="text" id="jd" placeholder="0123456789" class="target-input"></label>
+            <label style="background:#e8f0fe;padding:4px 8px;border-radius:4px;">🎯 JT (C+K) <input type="text" id="jt" placeholder="0123456789" class="target-input"></label>
+            <label style="background:#e8f0fe;padding:4px 8px;border-radius:4px;">🎯 J (K+E) <input type="text" id="jbel" placeholder="0123456789" class="target-input"></label>
+        </div>
+        <div class="btn-group-racik">
+            <button class="btn-generate" onclick="generate()">⚡ GENERATE</button>
+            <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
+        </div>
+        <div class="filter-info" id="filterInfo">
+            🔍 Filter: <strong id="infoText">JD ∈ {} | JT ∈ {} | J ∈ {}</strong>
+        </div>
+    </div>
+
+    <div class="hasil-container">
+        <div class="hasil-title">
+            <span>📋 HASIL RACIKAN</span>
+            <button class="copy-btn" onclick="copyAll()" id="copyAllBtn">📋 Copy Semua</button>
+        </div>
+        <div id="hasilBox">
+            <div class="empty-state">Masukkan angka dan klik GENERATE</div>
+        </div>
+    </div>
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <span>© 2026 <strong>Racik Angka</strong></span>
+            <span class="footer-divider">|</span>
+            <span>Version <span class="footer-version">v2.0</span></span>
+            <span class="footer-divider">|</span>
+            <a href="#" class="footer-link">📖 Panduan</a>
+            <a href="#" class="footer-link">🔧 Support</a>
+        </div>
+        <div class="footer-right">
+            <span>⚡ Powered by <strong>AI Analysis</strong></span>
+            <span class="footer-divider">|</span>
+            <span id="footerDataCount">📊 0 data</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ========== CLOCK ==========
+function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('headerClock').textContent = '🕐 ' + now.toLocaleDateString('id-ID', options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ========== CORE LOGIC ==========
+let lastResult = { d4: [], d3: [], d2: [] };
+const BASIC_DIGITS = [0,1,2,3,4,5,6,7,8,9];
+
+function getDigits(id) {
+    let val = document.getElementById(id).value;
+    if (!val || val.trim() === '') return [];
+    let digits = val.replace(/\D/g, '').split('').map(Number);
+    return digits.filter(d => !isNaN(d) && d >= 0 && d <= 9);
+}
+
+function getTargetArray(id) {
+    let val = document.getElementById(id).value;
+    if (!val || val.trim() === '') return [];
+    let digits = val.replace(/\D/g, '').split('').map(Number);
+    return digits.filter(d => !isNaN(d) && d >= 0 && d <= 9);
+}
+
+function reduceToSingleDigit(n) {
+    while (n >= 10) {
+        let sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n = Math.floor(n / 10);
+        }
+        n = sum;
+    }
+    return n;
+}
+
+function formatAngka(arr) {
+    return arr.join('*');
+}
+
+function generate() {
+    let asDigits = getDigits('as');
+    let copDigits = getDigits('cop');
+    let kepalaDigits = getDigits('kepala');
+    let ekorDigits = getDigits('ekor');
+    
+    let targetJD = getTargetArray('jd');
+    let targetJT = getTargetArray('jt');
+    let targetJ = getTargetArray('jbel');
+
+    let infoText = '';
+    infoText += 'JD ∈ {' + targetJD.join(',') + '} | ';
+    infoText += 'JT ∈ {' + targetJT.join(',') + '} | ';
+    infoText += 'J ∈ {' + targetJ.join(',') + '}';
+    document.getElementById('infoText').textContent = infoText;
+
+    let userHasAs = document.getElementById('as').value.trim() !== '';
+    let userHasCop = document.getElementById('cop').value.trim() !== '';
+    let userHasKepala = document.getElementById('kepala').value.trim() !== '';
+    let userHasEkor = document.getElementById('ekor').value.trim() !== '';
+    
+    let hasKepala = kepalaDigits.length > 0;
+    let hasEkor = ekorDigits.length > 0;
+    let hasFilterJ = targetJ.length > 0;
+
+    // Validasi
+    if (!hasKepala && !hasEkor) {
+        if (hasFilterJ) {
+            document.getElementById('hasilBox').innerHTML = '<div class="error-state">⚠️ Harap isi KEPALA atau EKOR minimal 1 digit untuk filter J (K+E)</div>';
+            lastResult = { d4: [], d3: [], d2: [] };
+            return;
+        }
+        kepalaDigits = BASIC_DIGITS.slice();
+        ekorDigits = BASIC_DIGITS.slice();
+        hasKepala = true;
+        hasEkor = true;
+    }
+
+    if (!hasKepala && hasEkor) {
+        kepalaDigits = BASIC_DIGITS.slice();
+        hasKepala = true;
+    }
+
+    if (hasKepala && !hasEkor) {
+        ekorDigits = BASIC_DIGITS.slice();
+        hasEkor = true;
+    }
+
+    if (asDigits.length === 0) asDigits = BASIC_DIGITS.slice();
+    if (copDigits.length === 0) copDigits = BASIC_DIGITS.slice();
+
+    // Generate 4D
+    let all4D = [];
+    for (let a of asDigits) {
+        for (let b of copDigits) {
+            for (let c of kepalaDigits) {
+                for (let d of ekorDigits) {
+                    all4D.push('' + a + b + c + d);
+                }
+            }
+        }
+    }
+    all4D = [...new Set(all4D)];
+
+    // Filter 4D
+    let filtered4D = all4D.filter(num => {
+        let d1 = parseInt(num[0]);
+        let d2 = parseInt(num[1]);
+        let d3 = parseInt(num[2]);
+        let d4 = parseInt(num[3]);
+        
+        let jd = reduceToSingleDigit(d1 + d2);
+        let jt = reduceToSingleDigit(d2 + d3);
+        let j = reduceToSingleDigit(d3 + d4);
+        
+        let lolosJD = targetJD.length === 0 || targetJD.includes(jd);
+        let lolosJT = targetJT.length === 0 || targetJT.includes(jt);
+        let lolosJ = targetJ.length === 0 || targetJ.includes(j);
+        
+        return lolosJD && lolosJT && lolosJ;
+    });
+
+    // Ekstrak 3D & 2D
+    let all3D = [];
+    let all2D = [];
+    for (let num of filtered4D) {
+        all2D.push(num[2] + num[3]);
+        all3D.push(num[1] + num[2] + num[3]);
+    }
+    all3D = [...new Set(all3D)];
+    all2D = [...new Set(all2D)];
+
+    lastResult = { d4: filtered4D, d3: all3D, d2: all2D };
+    document.getElementById('footerDataCount').textContent = '📊 ' + (filtered4D.length + all3D.length + all2D.length) + ' angka';
+
+    // Tampilkan
+    let html = '';
+
+    // 4D
+    if (userHasAs || userHasCop) {
+        let d4Text = filtered4D.length > 0 ? formatAngka(filtered4D) : '—';
+        html += `<div class="hasil-row">
+            <span class="label">4D</span>
+            <span class="angka-list">${d4Text}</span>
+            <span class="info">${filtered4D.length} angka</span>
+            <span class="badge ${filtered4D.length > 0 ? 'hit' : 'miss'}">${filtered4D.length > 0 ? '✅' : '❌'}</span>
+            ${filtered4D.length > 0 ? `<button class="copy-btn" onclick="copyText('${filtered4D.join('*')}', this)">📋 Copy</button>` : ''}
+        </div>`;
+    }
+
+    // 3D
+    if (userHasCop || userHasKepala) {
+        let d3Text = all3D.length > 0 ? formatAngka(all3D) : '—';
+        html += `<div class="hasil-row">
+            <span class="label">3D</span>
+            <span class="angka-list">${d3Text}</span>
+            <span class="info">${all3D.length} angka</span>
+            <span class="badge ${all3D.length > 0 ? 'hit' : 'miss'}">${all3D.length > 0 ? '✅' : '❌'}</span>
+            ${all3D.length > 0 ? `<button class="copy-btn" onclick="copyText('${all3D.join('*')}', this)">📋 Copy</button>` : ''}
+        </div>`;
+    }
+
+    // 2D - selalu tampil
+    let d2Text = all2D.length > 0 ? formatAngka(all2D) : '—';
+    html += `<div class="hasil-row">
+        <span class="label">2D</span>
+        <span class="angka-list">${d2Text}</span>
+        <span class="info">${all2D.length} angka</span>
+        <span class="badge ${all2D.length > 0 ? 'hit' : 'miss'}">${all2D.length > 0 ? '✅' : '❌'}</span>
+        ${all2D.length > 0 ? `<button class="copy-btn" onclick="copyText('${all2D.join('*')}', this)">📋 Copy</button>` : ''}
+    </div>`;
+
+    // Total
+    let total = filtered4D.length + all3D.length + all2D.length;
+    html += `<div class="hasil-row" style="background:#e8f0fe;border-color:#0d47a1;">
+        <span class="label">📊 TOTAL</span>
+        <span class="angka-list" style="font-size:18px;">${total} angka</span>
+        <span class="info">4D: ${filtered4D.length} | 3D: ${all3D.length} | 2D: ${all2D.length}</span>
+    </div>`;
+
+    document.getElementById('hasilBox').innerHTML = html;
+}
+
+function copyText(text, btnElement) {
+    navigator.clipboard.writeText(text).then(() => {
+        btnElement.textContent = '✅ Copied!';
+        btnElement.classList.add('copied');
+        setTimeout(() => {
+            btnElement.textContent = '📋 Copy';
+            btnElement.classList.remove('copied');
+        }, 1500);
+    });
+}
+
+function copyAll() {
+    let text = '';
+    if (lastResult.d4.length > 0) text += lastResult.d4.join('*') + '\n';
+    else text += '-\n';
+    if (lastResult.d3.length > 0) text += lastResult.d3.join('*') + '\n';
+    else text += '-\n';
+    if (lastResult.d2.length > 0) text += lastResult.d2.join('*');
+    else text += '-';
+    
+    navigator.clipboard.writeText(text).then(() => {
+        let btn = document.getElementById('copyAllBtn');
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = '📋 Copy Semua';
+            btn.classList.remove('copied');
+        }, 1500);
+    });
+}
+
+function resetForm() {
+    document.getElementById('as').value = '';
+    document.getElementById('cop').value = '';
+    document.getElementById('kepala').value = '';
+    document.getElementById('ekor').value = '';
+    document.getElementById('jd').value = '';
+    document.getElementById('jt').value = '';
+    document.getElementById('jbel').value = '';
+    document.getElementById('hasilBox').innerHTML = '<div class="empty-state">Masukkan angka dan klik GENERATE</div>';
+    document.getElementById('infoText').textContent = 'JD ∈ {} | JT ∈ {} | J ∈ {}';
+    document.getElementById('footerDataCount').textContent = '📊 0 data';
+    lastResult = { d4: [], d3: [], d2: [] };
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') generate();
+});
+</script>
+
+</body>
+</html>
