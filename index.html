@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FULL KOMBINASI A1-E20 - Togel Analysis</title>
+<title>FULL KOMBINASI A1-JD9 (+ - ×) - Virtual Scroll</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -126,13 +126,19 @@ button.active:hover { background: #0a3a8a; }
 #info .judul-tabel { font-size: 18px; font-weight: 700; color: #0d47a1; margin-bottom: 4px; }
 #info .sub-info { font-size: 13px; font-weight: 400; color: #0d2b4b; }
 #status { font-size: 12px; color: #2e7d32; margin-bottom: 10px; }
-.table-wrapper {
-    overflow: auto;
-    max-height: 75vh;
+
+.scroll-container {
+    position: relative;
     border-radius: 10px;
     background: #ffffff;
     box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     border: 1px solid #e3e8f0;
+    overflow: hidden;
+}
+.table-scroll {
+    overflow: auto;
+    max-height: 70vh;
+    position: relative;
 }
 table {
     border-collapse: collapse;
@@ -157,7 +163,6 @@ th {
     font-size: 10px;
     border-bottom: 2px solid #7a93b9 !important;
 }
-
 td:nth-child(1) {
     background: #e8edf5;
     color: #0d1f3c;
@@ -206,6 +211,45 @@ tr:hover td { filter: brightness(0.95); }
 tr:hover td.gelap { filter: brightness(0.92); }
 tr:hover td.cerah { filter: brightness(0.96); }
 tr:hover td.cocok { filter: brightness(1.05) !important; }
+
+.col-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    background: #e8edf5;
+    border-bottom: 1px solid #c5cae9;
+    flex-wrap: wrap;
+}
+.col-nav button {
+    padding: 6px 16px;
+    background: #0d47a1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.col-nav button:hover { background: #1a237e; transform: scale(1.02); }
+.col-nav button:disabled { background: #9aaec9; cursor: not-allowed; transform: none; }
+.col-nav .info {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0d2b4b;
+    background: white;
+    padding: 4px 16px;
+    border-radius: 20px;
+    border: 1px solid #c5cae9;
+}
+.col-nav .range { font-size: 12px; color: #555; }
+
+th .op-symbol { font-size: 11px; font-weight: 700; color: #1a237e; }
+th .op-plus { color: #2e7d32; }
+th .op-minus { color: #c62828; }
+th .op-times { color: #e65100; }
 </style>
 </head>
 <body>
@@ -213,7 +257,7 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
     <div class="header-content">
         <div class="header-left">
             <div class="header-logo">🎯 <span>TOGEL</span> ANALYSIS</div>
-            <div class="header-sub">Full Kombinasi A1-E20</div>
+            <div class="header-sub">Full Kombinasi A1-JD9 (+ - ×)</div>
         </div>
         <div class="header-right">
             <span class="header-badge">📊 LIVE DATA</span>
@@ -222,7 +266,8 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
     </div>
 </header>
 <main class="main-content">
-<h2>📊 FULL KOMBINASI A1 – E20</h2>
+<h2>📊 FULL KOMBINASI A1 – JD9 (+ - ×) 3 Digit</h2>
+
 <div class="btn-group">
     <label>🏷️ PASARAN</label>
     <button onclick="load('hk')" id="hk" class="active">🇭🇰 HK</button>
@@ -262,9 +307,19 @@ tr:hover td.cocok { filter: brightness(1.05) !important; }
     <div class="sub-info">🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL EKOR DARI RESULT DI BAWAHNYA</div>
 </div>
 <div id="status">⏳ Loading...</div>
-<div class="table-wrapper">
-    <table id="tabel"></table>
+
+<div class="scroll-container">
+    <div class="col-nav">
+        <button onclick="prevPage()">◀ Prev</button>
+        <span class="info" id="pageInfo">Halaman 1 / 1</span>
+        <span class="range" id="rangeInfo">Menampilkan kolom 1 - 6</span>
+        <button onclick="nextPage()">Next ▶</button>
+    </div>
+    <div class="table-scroll">
+        <table id="tabel"></table>
+    </div>
 </div>
+
 </main>
 <footer class="app-footer">
     <div class="footer-content">
@@ -291,13 +346,17 @@ function updateClock() {
 }
 updateClock();
 setInterval(updateClock, 1000);
+
 const URL_DATA = {
     hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
     sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
     sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
 };
+
 let D = {}, P = 'hk', F = 'rumus';
 let POSISI = '2dbelakang';
+let currentPage = 0;
+const COLS_PER_PAGE = 150;
 
 const MAP = {
     rumus: {'0':'901','1':'012','2':'123','3':'234','4':'345','5':'456','6':'567','7':'678','8':'789','9':'890'},
@@ -305,16 +364,7 @@ const MAP = {
     mlama: {'0':'012','1':'890','2':'456','3':'789','4':'234','5':'123','6':'345','7':'567','8':'678','9':'901'},
     mbaru: {'0':'780','1':'678','2':'567','3':'890','4':'901','5':'012','6':'123','7':'234','8':'345','9':'456'},
     taysen: {
-        '0': '678',
-        '1': '345',
-        '2': '890',
-        '3': '567',
-        '4': '345',
-        '5': '789',
-        '6': '234',
-        '7': '901',
-        '8': '456',
-        '9': '123'
+        '0':'678','1':'345','2':'890','3':'567','4':'345','5':'789','6':'234','7':'901','8':'456','9':'123'
     }
 };
 
@@ -327,6 +377,85 @@ const POSISI_MAP = {
     'jumlahkombinasi': [0,1,2,3]
 };
 
+function generateKeyMap() {
+    const map = {};
+    const configs = {
+        'a': [0], 'c': [1], 'k': [2], 'e': [3],
+        'j': [2, 3], 'jt': [1, 2], 'jd': [0, 1]
+    };
+    for (let [key, positions] of Object.entries(configs)) {
+        for (let num = 1; num <= 9; num++) {
+            map[key + num] = { offset: num - 1, positions: positions };
+        }
+    }
+    return map;
+}
+const KEY_MAP = generateKeyMap();
+
+const KEYS = [
+    'a1','a2','a3','a4','a5','a6','a7','a8','a9',
+    'c1','c2','c3','c4','c5','c6','c7','c8','c9',
+    'k1','k2','k3','k4','k5','k6','k7','k8','k9',
+    'e1','e2','e3','e4','e5','e6','e7','e8','e9',
+    'j1','j2','j3','j4','j5','j6','j7','j8','j9',
+    'jt1','jt2','jt3','jt4','jt5','jt6','jt7','jt8','jt9',
+    'jd1','jd2','jd3','jd4','jd5','jd6','jd7','jd8','jd9'
+];
+
+// ========== GENERATE KOMBINASI DENGAN FILTER ==========
+// ========== GENERATE KOMBINASI DENGAN SEMUA FILTER ==========
+// ========== GENERATE SEMUA KOMBINASI ==========
+// ========== GENERATE SEMUA KOMBINASI ==========
+const ALL_COMBINATIONS = [];
+const OPS = ['+', '-', '×'];
+const FILTERS = ['none', 'index', 'mlama', 'mbaru', 'taysen'];
+const FILTER_LABEL = {
+    'none': '',
+    'index': 'ix',
+    'mlama': 'ml',
+    'mbaru': 'mb',
+    'taysen': 'ty'
+};
+
+// 1. SINGLE KEY dengan filter
+for (let i = 0; i < KEYS.length; i++) {
+    for (let f of FILTERS) {
+        ALL_COMBINATIONS.push({
+            key1: KEYS[i],
+            key2: null,
+            op: null,
+            filter1: f,
+            filter2: null,
+            label: KEYS[i] + FILTER_LABEL[f],
+            isSingle: true
+        });
+    }
+}
+
+// 2. DOUBLE KEY (key1 op key2) dengan filter
+for (let i = 0; i < KEYS.length; i++) {
+    for (let op of OPS) {
+        for (let j = 0; j < KEYS.length; j++) {
+            for (let f1 of FILTERS) {
+                for (let f2 of FILTERS) {
+                    ALL_COMBINATIONS.push({
+                        key1: KEYS[i],
+                        key2: KEYS[j],
+                        op: op,
+                        filter1: f1,
+                        filter2: f2,
+                        label: KEYS[i] + FILTER_LABEL[f1] + op + KEYS[j] + FILTER_LABEL[f2],
+                        isSingle: false
+                    });
+                }
+            }
+        }
+    }
+}
+
+const TOTAL_COLS = ALL_COMBINATIONS.length;
+const TOTAL_PAGES = Math.ceil(TOTAL_COLS / COLS_PER_PAGE);
+
 function isJumlah(p) { return p.startsWith('jumlah'); }
 
 function hitung2DBelakang(result) {
@@ -338,48 +467,40 @@ function hitung2DBelakang(result) {
     return total;
 }
 
-async function load(p) {
-    P = p;
-    updateActive('hk', p);
-    document.getElementById('status').innerHTML = '⏳ Loading...';
-    document.getElementById('tabel').innerHTML = '';
-    if (!D[p]) {
-        try {
-            let url = URL_DATA[p];
-            if (!url || url.includes('username')) throw new Error('URL belum diset!');
-            let r = await fetch(url);
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            let text = await r.text();
-            let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
-            if (lines.length === 0) throw new Error('Data kosong!');
-            D[p] = lines;
-            document.getElementById('status').innerHTML = '✅ Load ' + lines.length + ' data';
-            document.getElementById('footerDataCount').innerHTML = '📊 ' + lines.length + ' data';
-        } catch(e) {
-            document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
-            D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
-            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+function reduceToSingleDigit(n) {
+    n = Math.abs(n);
+    while (n >= 10) {
+        let sum = 0;
+        let temp = n;
+        while (temp > 0) {
+            sum += temp % 10;
+            temp = Math.floor(temp / 10);
         }
+        n = sum;
     }
-    render();
+    return n;
 }
 
-function setFilter(f) { F = f; updateActive('f_', f); render(); }
-function setPosisi(p) { POSISI = p; updateActive('p_', p); render(); }
+function hitungOperasi(a, b, op) {
+    let hasil;
+    if (op === '+') hasil = a + b;
+    else if (op === '-') hasil = a - b;
+    else hasil = a * b;
+    if (hasil === 0) return a;
+    return reduceToSingleDigit(hasil);
+}
 
-function updateActive(prefix, id) {
-    document.querySelectorAll(`[id^="${prefix}"]`).forEach(b => b.classList.remove('active'));
-    let el = document.getElementById(prefix + id);
-    if (el) el.classList.add('active');
+function d2(x) { 
+    let minus = (x - 1 + 10) % 10;
+    let asli = x;
+    let plus = (x + 1) % 10;
+    return '' + minus + asli + plus;
 }
 
 function convert3(d) { 
     let hasil = MAP[F]?.[d] || d; 
     return hasil; 
 }
-
-function d2(x) { x = Math.abs(x) % 10; return '' + x + ((x+1)%10) + ((x+2)%10); }
-function reduceToSingleDigit(n) { while (n >= 10) n = Math.floor(n / 10) + (n % 10); return n; }
 
 function getTarget(nextResult) {
     if (!nextResult) return [];
@@ -395,79 +516,244 @@ let isGelap = true;
 function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
 
+async function load(p) {
+    P = p;
+    currentPage = 0;
+    updateActive('hk', p);
+    document.getElementById('status').innerHTML = '⏳ Loading data ' + p.toUpperCase() + '...';
+    document.getElementById('tabel').innerHTML = '';
+    if (!D[p]) {
+        try {
+            let url = URL_DATA[p];
+            if (!url || url.includes('username')) throw new Error('URL belum diset!');
+            let r = await fetch(url);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            let text = await r.text();
+            let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+            if (lines.length === 0) throw new Error('Data kosong!');
+            D[p] = lines;
+            document.getElementById('status').innerHTML = '✅ Load ' + D[p].length + ' data dari txt';
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
+        } catch(e) {
+            document.getElementById('status').innerHTML = '❌ Error: ' + e.message + ' (pakai data contoh)';
+            D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+            document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+        }
+    }
+    render();
+}
+
+function setFilter(f) { F = f; currentPage = 0; updateActive('f_', f); render(); }
+function setPosisi(p) { POSISI = p; currentPage = 0; updateActive('p_', p); render(); }
+
+function updateActive(prefix, id) {
+    document.querySelectorAll(`[id^="${prefix}"]`).forEach(b => b.classList.remove('active'));
+    let el = document.getElementById(prefix + id);
+    if (el) el.classList.add('active');
+}
+
+function prevPage() {
+    if (currentPage > 0) { currentPage--; render(); }
+}
+function nextPage() {
+    if (currentPage < TOTAL_PAGES - 1) { currentPage++; render(); }
+}
+
 function buatHeader() {
     resetWarna();
-    let pos = ['A','C','K','E'];
-    let ops = ['+','-','*'];
+    let firstKeys = ['A1','C1','K1','E1','J1','JT1','JD1'];
+    let opClasses = {'+':'op-plus', '-':'op-minus', '×':'op-times'};
+    
+    let start = currentPage * COLS_PER_PAGE;
+    let end = Math.min(start + COLS_PER_PAGE, TOTAL_COLS);
+    let pageCombinations = ALL_COMBINATIONS.slice(start, end);
+    
     let h = '<tr><th colspan="2">RESULT</th>';
-    for (let p of pos) h += `<th colspan="3" class="${nextWarna()}">${p}1</th>`;
-    for (let i = 1; i <= 20; i++)
-        for (let p1 of pos)
-            for (let op of ops)
-                for (let p2 of pos)
-                    h += `<th colspan="3" class="${nextWarna()}">${p1}${i}${op}${p2}</th>`;
+    for (let key of firstKeys) {
+        h += `<th colspan="3" class="${nextWarna()}">${key}</th>`;
+    }
+    for (let combo of pageCombinations) {
+        let cls = nextWarna();
+        if (combo.isSingle) {
+            h += `<th colspan="3" class="${cls}">${combo.label}</th>`;
+        } else {
+            let opClass = opClasses[combo.op] || '';
+            h += `<th colspan="3" class="${cls}"><span class="op-symbol ${opClass}">${combo.label}</span></th>`;
+        }
+    }
     return h + '</tr>';
 }
 
-function hitungBaris(baris, no, semua, nextResult) {
+function hitungBaris(baris, nextResult, allData, currentIndex) {
     resetWarna();
     let arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
     let vals = [convert3(arr1[0]), convert3(arr1[1]), convert3(arr1[2]), convert3(arr1[3])];
     let target = getTarget(nextResult);
     let jml = hitung2DBelakang(baris);
     let tds = `<td>${baris}</td><td>${jml}</td>`;
-    let pos = ['A','C','K','E'];
     
-    for (let idx = 0; idx < 4; idx++) {
+    // HEADER: A1, C1, K1, E1, J1, JT1, JD1
+    let dataSumber = allData[currentIndex];
+    let a = parseInt(dataSumber[0]);
+    let c = parseInt(dataSumber[1]);
+    let k = parseInt(dataSumber[2]);
+    let e = parseInt(dataSumber[3]);
+
+    let firstValues = [
+        convert3(a),
+        convert3(c),
+        convert3(k),
+        convert3(e),
+        convert3(reduceToSingleDigit(k + e)),
+        convert3(reduceToSingleDigit(c + k)),
+        convert3(reduceToSingleDigit(a + c))
+    ];
+
+    for (let idx = 0; idx < firstValues.length; idx++) {
         let cls = nextWarna();
+        let val = firstValues[idx];
         for (let j = 0; j < 3; j++) {
-            let digit = vals[idx][j];
-            // 🔥 SAMA PERSIS UNTUK SEMUA FILTER
+            let digit = val[j];
             let isCocok = target.length && target.includes(digit);
-            let c = isCocok ? 'cocok' : '';
-            tds += `<td class="${cls} ${c}">${digit}</td>`;
+            let c2 = isCocok ? 'cocok' : '';
+            tds += `<td class="${cls} ${c2}">${digit}</td>`;
         }
     }
     
-    for (let i = 0; i < semua.length; i++) {
-        let arr2 = [+semua[i][0], +semua[i][1], +semua[i][2], +semua[i][3]];
-        for (let p1 = 0; p1 < 4; p1++)
-            for (let op of ['+','-','*'])
-                for (let p2 = 0; p2 < 4; p2++) {
-                    let a = arr1[p1], b = arr2[p2];
-                    let hasil = op === '+' ? d2(a + b) : op === '-' ? d2(Math.abs(a - b)) : d2(a * b);
-                    let cls = nextWarna();
-                    for (let j = 0; j < 3; j++) {
-                        let digit = hasil[j];
-                        // 🔥 SAMA PERSIS UNTUK SEMUA FILTER
-                        let isCocok = target.length && target.includes(digit);
-                        let c = isCocok ? 'cocok' : '';
-                        tds += `<td class="${cls} ${c}">${digit}</td>`;
-                    }
+    let start = currentPage * COLS_PER_PAGE;
+    let end = Math.min(start + COLS_PER_PAGE, TOTAL_COLS);
+    let pageCombinations = ALL_COMBINATIONS.slice(start, end);
+    
+    for (let combo of pageCombinations) {
+        let cls = nextWarna();
+        
+        // ===== SINGLE KEY =====
+        if (combo.isSingle) {
+            let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
+            let dataIndex1 = currentIndex - pos1.offset;
+            let data1 = (dataIndex1 >= 0 && dataIndex1 < allData.length) ? allData[dataIndex1] : baris;
+            
+            let nilaiA = 0;
+            for (let pos of pos1.positions) {
+                nilaiA += parseInt(data1[pos]);
+            }
+            if (pos1.positions.length > 1) {
+                nilaiA = reduceToSingleDigit(nilaiA);
+            }
+            
+            // Terapkan filter1
+            if (combo.filter1 !== 'none') {
+                let temp = MAP[combo.filter1]?.[nilaiA];
+                if (temp !== undefined) {
+                    nilaiA = parseInt(temp[1]);
                 }
+            }
+            
+            let hasil = d2(nilaiA);
+            for (let k = 0; k < 3; k++) {
+                let digit = hasil[k];
+                let isCocok = target.length && target.includes(digit);
+                let c2 = isCocok ? 'cocok' : '';
+                tds += `<td class="${cls} ${c2}">${digit}</td>`;
+            }
+            continue;
+        }
+        
+        // ===== DOUBLE KEY =====
+        let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
+        let pos2 = KEY_MAP[combo.key2] || { offset: 0, positions: [0] };
+        
+        let dataIndex1 = currentIndex - pos1.offset;
+        let dataIndex2 = currentIndex - pos2.offset;
+        
+        let data1, data2;
+        if (dataIndex1 >= 0 && dataIndex1 < allData.length) {
+            data1 = allData[dataIndex1];
+        } else {
+            data1 = baris;
+        }
+        
+        if (dataIndex2 >= 0 && dataIndex2 < allData.length) {
+            data2 = allData[dataIndex2];
+        } else {
+            data2 = baris;
+        }
+        
+        // Ambil nilaiA
+        let nilaiA = 0;
+        for (let pos of pos1.positions) {
+            nilaiA += parseInt(data1[pos]);
+        }
+        if (pos1.positions.length > 1) {
+            nilaiA = reduceToSingleDigit(nilaiA);
+        }
+        
+        // Terapkan filter1
+        if (combo.filter1 !== 'none') {
+            let temp = MAP[combo.filter1]?.[nilaiA];
+            if (temp !== undefined) {
+                nilaiA = parseInt(temp[1]);
+            }
+        }
+        
+        // Ambil nilaiB
+        let nilaiB = 0;
+        for (let pos of pos2.positions) {
+            nilaiB += parseInt(data2[pos]);
+        }
+        if (pos2.positions.length > 1) {
+            nilaiB = reduceToSingleDigit(nilaiB);
+        }
+        
+        // Terapkan filter2
+        if (combo.filter2 !== 'none') {
+            let temp = MAP[combo.filter2]?.[nilaiB];
+            if (temp !== undefined) {
+                nilaiB = parseInt(temp[1]);
+            }
+        }
+        
+        let hasilReduksi = hitungOperasi(nilaiA, nilaiB, combo.op);
+        let hasil = d2(hasilReduksi);
+        
+        for (let k = 0; k < 3; k++) {
+            let digit = hasil[k];
+            let isCocok = target.length && target.includes(digit);
+            let c2 = isCocok ? 'cocok' : '';
+            tds += `<td class="${cls} ${c2}">${digit}</td>`;
+        }
     }
     return '<tr>' + tds + '</tr>';
 }
 
+
 function render() {
     if (!D[P]) return;
     let data = D[P].slice(-20);
+    let allData = D[P];
     
     let pasarNama = P.toUpperCase();
     let filterNama = F.toUpperCase();
     let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ').trim();
-    let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | 20 Hari`;
-    let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} DARI RESULT DI BAWAHNYA`;
+    let judul = `📋 ${pasarNama} | ${posisiNama} | ${filterNama} | ${data.length} Hari`;
+    let start = currentPage * COLS_PER_PAGE + 1;
+    let end = Math.min(start + COLS_PER_PAGE - 1, TOTAL_COLS);
+    let subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (Operasi: +, -, ×) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit: minus, asli, plus | Jika hasil 0 → kembali ke digit awal | KEY: A,C,K,E,J,JT,JD (63 key)`;
     if (F === 'taysen') {
-        subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (TAYSEN)`;
+        subInfo = `🔴 MERAH = ANGKA YANG SAMA DENGAN HASIL ${posisiNama} (TAYSEN) (Operasi: +, -, ×) | Total: ${TOTAL_COLS} kombinasi | Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS} | 3 Digit: minus, asli, plus | Jika hasil 0 → kembali ke digit awal | KEY: A,C,K,E,J,JT,JD (63 key)`;
     }
     document.getElementById('info').innerHTML = `<div class="judul-tabel">${judul}</div><div class="sub-info">${subInfo}</div>`;
     
+    document.getElementById('pageInfo').textContent = `Halaman ${currentPage + 1} / ${TOTAL_PAGES}`;
+    document.getElementById('rangeInfo').textContent = `Menampilkan kolom ${start} - ${end} dari ${TOTAL_COLS}`;
+    document.querySelector('.col-nav button:first-child').disabled = (currentPage === 0);
+    document.querySelector('.col-nav button:last-child').disabled = (currentPage >= TOTAL_PAGES - 1);
+    
     let html = buatHeader();
     for (let i = 0; i < data.length; i++) {
-        let no = data.length - i;
+        let currentIndex = D[P].length - data.length + i;
         let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
-        html += hitungBaris(data[i], no, data, nextResult);
+        html += hitungBaris(data[i], nextResult, allData, currentIndex);
     }
     document.getElementById('tabel').innerHTML = html;
 }
