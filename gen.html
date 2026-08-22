@@ -149,6 +149,10 @@
             background: #e8f0fe;
             border-color: #0d47a1;
         }
+        .racik-grid input.tepi-input {
+            background: #fff3e0;
+            border-color: #e65100;
+        }
         .btn-generate {
             background: #0d47a1;
             color: white;
@@ -266,7 +270,7 @@
     <div class="header-content">
         <div class="header-left">
             <div class="header-logo">🎯 <span>RACIK</span> ANGKA</div>
-            <div class="header-sub">JD = A+C · JT = C+K · J = K+E</div>
+            <div class="header-sub">JD = A+C · JT = C+K · J = K+E · TEPI = A+D</div>
         </div>
         <div class="header-right">
             <span class="header-badge">📊 AI RACIK</span>
@@ -290,13 +294,14 @@
             <label style="background:#e8f0fe;padding:4px 8px;border-radius:4px;">🎯 JD (A+C) <input type="text" id="jd" placeholder="0123456789" class="target-input"></label>
             <label style="background:#e8f0fe;padding:4px 8px;border-radius:4px;">🎯 JT (C+K) <input type="text" id="jt" placeholder="0123456789" class="target-input"></label>
             <label style="background:#e8f0fe;padding:4px 8px;border-radius:4px;">🎯 J (K+E) <input type="text" id="jbel" placeholder="0123456789" class="target-input"></label>
+            <label style="background:#fff3e0;padding:4px 8px;border-radius:4px;border:1px solid #e65100;">🔲 TEPI (A+D) <input type="text" id="tepi" placeholder="0123456789" class="tepi-input"></label>
         </div>
         <div class="btn-group-racik">
             <button class="btn-generate" onclick="generate()">⚡ GENERATE</button>
             <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
         </div>
         <div class="filter-info" id="filterInfo">
-            🔍 Filter: <strong id="infoText">JD ∈ {} | JT ∈ {} | J ∈ {}</strong>
+            🔍 Filter: <strong id="infoText">JD ∈ {} | JT ∈ {} | J ∈ {} | TEPI ∈ {}</strong>
         </div>
     </div>
 
@@ -317,7 +322,7 @@
         <div class="footer-left">
             <span>© 2026 <strong>Racik Angka</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v2.0</span></span>
+            <span>Version <span class="footer-version">v2.1</span></span>
             <span class="footer-divider">|</span>
             <a href="#" class="footer-link">📖 Panduan</a>
             <a href="#" class="footer-link">🔧 Support</a>
@@ -383,11 +388,13 @@ function generate() {
     let targetJD = getTargetArray('jd');
     let targetJT = getTargetArray('jt');
     let targetJ = getTargetArray('jbel');
+    let targetTepi = getTargetArray('tepi'); // <-- FILTER TEPI (A+D)
 
     let infoText = '';
     infoText += 'JD  {' + targetJD.join(',') + '} | ';
     infoText += 'JT  {' + targetJT.join(',') + '} | ';
-    infoText += 'J  {' + targetJ.join(',') + '}';
+    infoText += 'J  {' + targetJ.join(',') + '} | ';
+    infoText += 'TEPI  {' + targetTepi.join(',') + '}';
     document.getElementById('infoText').textContent = infoText;
 
     let userHasAs = document.getElementById('as').value.trim() !== '';
@@ -398,6 +405,7 @@ function generate() {
     let hasKepala = kepalaDigits.length > 0;
     let hasEkor = ekorDigits.length > 0;
     let hasFilterJ = targetJ.length > 0;
+    let hasFilterTepi = targetTepi.length > 0;
 
     // Validasi
     if (!hasKepala && !hasEkor) {
@@ -438,7 +446,7 @@ function generate() {
     }
     all4D = [...new Set(all4D)];
 
-    // Filter 4D
+    // Filter 4D dengan TEPI (A+D)
     let filtered4D = all4D.filter(num => {
         let d1 = parseInt(num[0]);
         let d2 = parseInt(num[1]);
@@ -448,12 +456,14 @@ function generate() {
         let jd = reduceToSingleDigit(d1 + d2);
         let jt = reduceToSingleDigit(d2 + d3);
         let j = reduceToSingleDigit(d3 + d4);
+        let tepi = reduceToSingleDigit(d1 + d4);
         
         let lolosJD = targetJD.length === 0 || targetJD.includes(jd);
         let lolosJT = targetJT.length === 0 || targetJT.includes(jt);
         let lolosJ = targetJ.length === 0 || targetJ.includes(j);
+        let lolosTepi = targetTepi.length === 0 || targetTepi.includes(tepi);
         
-        return lolosJD && lolosJT && lolosJ;
+        return lolosJD && lolosJT && lolosJ && lolosTepi;
     });
 
     // Ekstrak 3D & 2D
@@ -556,8 +566,9 @@ function resetForm() {
     document.getElementById('jd').value = '';
     document.getElementById('jt').value = '';
     document.getElementById('jbel').value = '';
+    document.getElementById('tepi').value = '';
     document.getElementById('hasilBox').innerHTML = '<div class="empty-state">Masukkan angka dan klik GENERATE</div>';
-    document.getElementById('infoText').textContent = 'JD ∈ {} | JT ∈ {} | J ∈ {}';
+    document.getElementById('infoText').textContent = 'JD ∈ {} | JT ∈ {} | J ∈ {} | TEPI ∈ {}';
     document.getElementById('footerDataCount').textContent = '📊 0 data';
     lastResult = { d4: [], d3: [], d2: [] };
 }
