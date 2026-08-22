@@ -71,6 +71,50 @@
             border: 1px solid #1a2a1a;
         }
 
+        /* ========== DIGIT SELECTOR ========== */
+        .digit-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background: #0d0d0d;
+            border-radius: 5px;
+            border: 1px solid #1a3a1a;
+            flex-wrap: wrap;
+        }
+        .digit-selector label {
+            color: #66ff99;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .digit-selector select {
+            background: #1a1a1a;
+            color: #00ff41;
+            border: 1px solid #2a4a2a;
+            border-radius: 4px;
+            padding: 5px 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .digit-selector select:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+        }
+        .digit-selector select option {
+            background: #1a1a1a;
+            color: #00ff41;
+        }
+        .digit-selector .info-digit {
+            color: #88ff88;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -383,6 +427,23 @@
     <div class="status-bar" id="statusBar">⚡ Memuat data HK...</div>
     <div class="status-bar" id="settingsBar" style="border-left-color:#ffaa00;color:#ffdd88;">⚙️ Min Key: 6 | Jumlah Result: 7</div>
 
+    <!-- ========== DIGIT SELECTOR ========== -->
+    <div class="digit-selector">
+        <label>🔢 DIGIT KEY:</label>
+        <select id="digitSelect" onchange="changeDigit()">
+            <option value="3">3 Digit</option>
+            <option value="4">4 Digit</option>
+            <option value="5">5 Digit</option>
+            <option value="6">6 Digit</option>
+            <option value="7">7 Digit</option>
+            <option value="8">8 Digit</option>
+            <option value="9">9 Digit</option>
+            <option value="10" selected>10 Digit</option>
+        </select>
+        <span class="info-digit" id="digitInfo">(ambil 10 digit terakhir dari key)</span>
+    </div>
+
+    <!-- Quick Set -->
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin:10px 0;padding:10px;background:#0d0d0d;border-radius:5px;border:1px solid #222;">
         <span style="color:#88ff88;font-size:12px;margin-right:5px;">⚡ Quick Set:</span>
         <button class="quick-btn" onclick="setMinKey(3)">3</button>
@@ -489,6 +550,7 @@
     let POSISI = 'as';
     let MIN_KEY = 6;
     let JUMLAH_RESULT = 7;
+    let DIGIT_KEY = 10; // Default 10 digit
 
     // ============================================================
     //  MAP 10 DIGIT
@@ -513,7 +575,7 @@
             '9': '5678901234'
         },
         mbaru: {
-            '0': '7890123456', '1': '6789012345', '2': '5678901234',
+            '0': '7801234569', '1': '6789012345', '2': '5678901234',
             '3': '8901234567', '4': '4567890123', '5': '3456789012',
             '6': '1234567890', '7': '0123456789', '8': '9012345678',
             '9': '2345678901'
@@ -642,6 +704,15 @@
         return hasil;
     }
 
+    // ============================================================
+    //  FUNGSI TRIM DIGIT - ambil N digit terakhir
+    // ============================================================
+    function trimDigit(str) {
+        if (!str) return str;
+        if (str.length <= DIGIT_KEY) return str;
+        return str.slice(-DIGIT_KEY);
+    }
+
     function getTarget(nextResult) {
         if (!nextResult) return [];
         let idxList = POSISI_MAP[POSISI] || [];
@@ -681,7 +752,8 @@
                 }
             }
 
-            return convert10(nilaiA);
+            let hasil = convert10(nilaiA);
+            return trimDigit(hasil);
         }
 
         let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
@@ -734,7 +806,8 @@
         }
 
         let hasilReduksi = hitungOperasi(nilaiA, nilaiB, combo.op);
-        return convert10(hasilReduksi);
+        let hasil = convert10(hasilReduksi);
+        return trimDigit(hasil);
     }
 
     function scanKeyWithMinRed(data, allData, minRed) {
@@ -874,6 +947,17 @@
         }
     }
 
+    // ============================================================
+    //  FUNGSI UBAH DIGIT KEY
+    // ============================================================
+    function changeDigit() {
+        const select = document.getElementById('digitSelect');
+        DIGIT_KEY = parseInt(select.value);
+        document.getElementById('digitInfo').textContent = `(ambil ${DIGIT_KEY} digit terakhir dari key)`;
+        document.getElementById('statusBar').innerHTML = `✅ Digit Key diubah menjadi ${DIGIT_KEY} digit`;
+        scan();
+    }
+
     function scan() {
         if (!D[P]) return;
         let data = D[P].slice(-JUMLAH_RESULT);
@@ -881,7 +965,7 @@
 
         document.getElementById('clock').textContent = updateClock();
         document.getElementById('settingsBar').innerHTML = 
-            `⚙️ Min Key: ${MIN_KEY} | Jumlah Result: ${JUMLAH_RESULT} | Pasar: ${P.toUpperCase()} | Filter: ${F.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
+            `⚙️ Min Key: ${MIN_KEY} | Result: ${JUMLAH_RESULT} | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Filter: ${F.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
 
         let lastDataHtml = '';
         for (let i = 0; i < data.length; i++) {
@@ -912,14 +996,14 @@
         }
 
         // ============================================================
-        //  TABLE RINGKASAN - DETAIL 10D = 1 DIGIT DARI POSISI
+        //  TABLE RINGKASAN
         // ============================================================
         let html = `
             <div style="margin:15px 0;color:#66ff99;">✅ DITEMUKAN ${sortedKeys.length} KEY (min ${MIN_KEY}x merah):</div>
             <div class="table-wrap">
             <table>
                 <thead><tr>
-                    <th>NO</th><th>KEY</th><th>ANGKA 10D</th><th>MERAH</th><th>POSISI</th><th>DETAIL 10D</th><th>AKSI</th>
+                    <th>NO</th><th>KEY</th><th>ANGKA ${DIGIT_KEY}D</th><th>MERAH</th><th>POSISI</th><th>DETAIL 10D</th><th>AKSI</th>
                 </tr></thead>
                 <tbody>
         `;
@@ -928,7 +1012,6 @@
         for (let key of sortedKeys) {
             let info = scanResults[key];
             
-            // Ambil ANGKA 10D dari baris terakhir
             let angkaKey = '';
             if (info.baris && info.baris.length > 0) {
                 let lastBaris = info.baris[info.baris.length - 1];
@@ -937,13 +1020,11 @@
                 }
             }
 
-            // DETAIL 10D = 1 digit dari posisi key (misal posisi I = index 8)
-            let posisiHuruf = info.posisi; // A, B, C, D, E, F, G, H, I, J
+            let posisiHuruf = info.posisi;
             let detail10D = '-';
-            if (posisiHuruf && angkaKey && angkaKey.length === 10) {
-                // A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7, I=8, J=9
+            if (posisiHuruf && angkaKey && angkaKey.length === DIGIT_KEY) {
                 let posIndex = posisiHuruf.charCodeAt(0) - 65;
-                if (posIndex >= 0 && posIndex < 10) {
+                if (posIndex >= 0 && posIndex < DIGIT_KEY) {
                     detail10D = angkaKey[posIndex];
                 }
             }
@@ -970,14 +1051,12 @@
         html += `<div style="margin-top:20px;"><strong>📋 DETAIL SEMUA KEY (${sortedKeys.length} Key):</strong></div>`;
         html += `<div class="table-wrap"><table class="detail-table">`;
 
-        // === BARIS 1: HEADER KEY ===
         html += `<tr class="key-header-row"><th class="label-col key-label">KEY</th>`;
         for (let key of sortedKeys) {
             html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
         }
         html += `</tr>`;
 
-        // === BARIS DATA ===
         let maxBaris = 0;
         let allBarisData = [];
         
@@ -1003,12 +1082,16 @@
                     let displayNilai = '';
                     if (merahDi && nilai !== '-') {
                         let posIndex = merahDi.charCodeAt(0) - 65;
-                        for (let k = 0; k < 10; k++) {
-                            if (k === posIndex) {
-                                displayNilai += `<span class="merah">*${nilai[k]}*</span>`;
-                            } else {
-                                displayNilai += nilai[k];
+                        if (posIndex >= 0 && posIndex < nilai.length) {
+                            for (let k = 0; k < nilai.length; k++) {
+                                if (k === posIndex) {
+                                    displayNilai += `<span class="merah">*${nilai[k]}*</span>`;
+                                } else {
+                                    displayNilai += nilai[k];
+                                }
                             }
+                        } else {
+                            displayNilai = nilai;
                         }
                     } else if (nilai !== '-') {
                         displayNilai = nilai;
@@ -1023,7 +1106,6 @@
             html += `</tr>`;
         }
 
-        // === BARIS TERAKHIR: POSISI ===
         html += `<tr class="posisi-row">`;
         html += `<td class="label-col posisi-label">🔴 POSISI</td>`;
         for (let j = 0; j < sortedKeys.length; j++) {
@@ -1040,9 +1122,7 @@
         resultArea.innerHTML = html;
     }
 
-    function toggleDetail() {
-        // Fungsi ini untuk kompatibilitas
-    }
+    function toggleDetail() {}
 
     function setFilter(f) {
         F = f;
