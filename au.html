@@ -12,16 +12,23 @@
             color: #00ff41;
             padding: 20px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .container {
             max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
             background: #111;
             border: 1px solid #00ff41;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+            flex: 1;
         }
+
+        /* ========== HEADER ========== */
         .header {
             border-bottom: 1px solid #00ff41;
             padding-bottom: 10px;
@@ -32,13 +39,52 @@
             flex-wrap: wrap;
             gap: 10px;
         }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo {
+            font-size: 32px;
+            line-height: 1;
+        }
         .title {
             font-size: 24px;
             font-weight: bold;
             color: #00ff41;
             text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
         }
-        .clock { color: #00cc33; font-size: 14px; }
+        .title small {
+            font-size: 12px;
+            color: #66ff99;
+            font-weight: normal;
+            display: block;
+            opacity: 0.7;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .clock {
+            color: #00cc33;
+            font-size: 14px;
+            background: #0d0d0d;
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid #1a3a1a;
+        }
+        .version-badge {
+            font-size: 10px;
+            color: #446644;
+            background: #0d0d0d;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid #1a2a1a;
+        }
+
+        /* ========== MENU ========== */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -100,6 +146,8 @@
             background: #ff3333;
             color: #fff;
         }
+
+        /* ========== STATUS ========== */
         .status-bar {
             background: #1a1a1a;
             padding: 10px 15px;
@@ -109,6 +157,8 @@
             font-size: 13px;
             color: #88ff88;
         }
+
+        /* ========== DATA LIST ========== */
         .data-list {
             background: #0d0d0d;
             padding: 10px 15px;
@@ -122,6 +172,8 @@
             border-bottom: 1px solid #1a1a1a;
         }
         .data-list .item:last-child { border-bottom: none; }
+
+        /* ========== TABLE ========== */
         .table-wrap { overflow-x: auto; margin: 15px 0; }
         table {
             width: 100%;
@@ -163,45 +215,8 @@
             font-size: 11px;
         }
         .detail-table td { padding: 4px 6px; }
-        .command-input {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-        .command-input input {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px 15px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 5px;
-            color: #00ff41;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-        }
-        .command-input input:focus {
-            outline: none;
-            border-color: #00ff41;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
-        }
-        .command-input input::placeholder { color: #446644; }
-        .command-input button {
-            padding: 10px 25px;
-            background: #00ff41;
-            color: #0a0a0a;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        .command-input button:hover {
-            background: #66ff99;
-            transform: scale(1.02);
-        }
+
+        /* ========== LEGEND ========== */
         .legend {
             display: flex;
             gap: 20px;
@@ -221,10 +236,14 @@
         }
         .dot-merah { background: #ff4444; }
         .dot-hijau { background: #44ff44; }
+
+        /* ========== SCROLLBAR ========== */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #66ff99; }
+
+        /* ========== BUTTONS ========== */
         .collapse-btn {
             background: #1a3a1a;
             border: 1px solid #2a4a2a;
@@ -273,81 +292,152 @@
             color: #0a0a0a;
             border-color: #00ff41;
         }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #0d0d0d;
+            border: 1px solid #1a2a1a;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+            color: #446644;
+        }
+        .footer a {
+            color: #66aaff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #88ccff;
+            text-decoration: underline;
+        }
+        .footer .heart {
+            color: #ff4444;
+        }
+        .footer .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #44ff44;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
         @media (max-width: 768px) {
             .container { padding: 10px; }
             .title { font-size: 18px; }
             .menu-grid { grid-template-columns: 1fr; }
             table { font-size: 10px; }
             table th, table td { padding: 3px 4px; }
+            .header-left .logo { font-size: 24px; }
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container" id="app">
+    <!-- ========================================================== -->
+    <!-- HEADER -->
+    <!-- ========================================================== -->
     <div class="header">
-        <div class="title">🔍 10 DIGIT SCANNER</div>
-        <div class="clock" id="clock">🕐 Loading...</div>
+        <div class="header-left">
+            <span class="logo">🎯</span>
+            <div>
+                <div class="title">
+                    10 DIGIT SCANNER
+                    <small>Prediksi Togel • 10 Digit Generator</small>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="version-badge">v2.0</span>
+            <span class="clock" id="clock">🕐 Loading...</span>
+        </div>
     </div>
 
+    <!-- ========================================================== -->
+    <!-- STATUS BAR -->
+    <!-- ========================================================== -->
     <div class="status-bar" id="statusBar">⚡ Memuat data HK...</div>
     <div class="status-bar" id="settingsBar" style="border-left-color:#ffaa00;color:#ffdd88;">⚙️ Min Key: 6 | Jumlah Result: 7</div>
 
-    <!-- Quick Set -->
+    <!-- ========================================================== -->
+    <!-- QUICK SET -->
+    <!-- ========================================================== -->
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin:10px 0;padding:10px;background:#0d0d0d;border-radius:5px;border:1px solid #222;">
         <span style="color:#88ff88;font-size:12px;margin-right:5px;">⚡ Quick Set:</span>
-        <button class="quick-btn" data-min="3" onclick="setMinKey(3)">3</button>
-        <button class="quick-btn" data-min="4" onclick="setMinKey(4)">4</button>
-        <button class="quick-btn" data-min="5" onclick="setMinKey(5)">5</button>
-        <button class="quick-btn active" data-min="6" onclick="setMinKey(6)">6</button>
-        <button class="quick-btn" data-min="7" onclick="setMinKey(7)">7</button>
-        <button class="quick-btn" data-min="8" onclick="setMinKey(8)">8</button>
-        <button class="quick-btn" data-min="9" onclick="setMinKey(9)">9</button>
-        <button class="quick-btn" data-min="10" onclick="setMinKey(10)">10</button>
-        <button class="quick-btn" data-min="12" onclick="setMinKey(12)">12</button>
-        <button class="quick-btn" data-min="15" onclick="setMinKey(15)">15</button>
+        <button class="quick-btn" onclick="setMinKey(3)">3</button>
+        <button class="quick-btn" onclick="setMinKey(4)">4</button>
+        <button class="quick-btn" onclick="setMinKey(5)">5</button>
+        <button class="quick-btn active" onclick="setMinKey(6)">6</button>
+        <button class="quick-btn" onclick="setMinKey(7)">7</button>
+        <button class="quick-btn" onclick="setMinKey(8)">8</button>
+        <button class="quick-btn" onclick="setMinKey(9)">9</button>
+        <button class="quick-btn" onclick="setMinKey(10)">10</button>
+        <button class="quick-btn" onclick="setMinKey(12)">12</button>
+        <button class="quick-btn" onclick="setMinKey(15)">15</button>
     </div>
 
-    <!-- Data List -->
+    <!-- ========================================================== -->
+    <!-- DATA LIST -->
+    <!-- ========================================================== -->
     <div class="data-list" id="dataList">
         <div class="item">📋 Data Terakhir:</div>
         <div id="lastData">Memuat...</div>
     </div>
 
-    <!-- Menu -->
+    <!-- ========================================================== -->
+    <!-- MENU -->
+    <!-- ========================================================== -->
     <div class="menu-grid">
         <div class="menu-section">
             <h4>📌 POSISI</h4>
-            <button class="menu-btn" data-cmd="1" onclick="runCommand('1')">AS</button>
-            <button class="menu-btn" data-cmd="2" onclick="runCommand('2')">COP</button>
-            <button class="menu-btn" data-cmd="3" onclick="runCommand('3')">KEPALA</button>
-            <button class="menu-btn" data-cmd="4" onclick="runCommand('4')">EKOR</button><br>
-            <button class="menu-btn" data-cmd="5" onclick="runCommand('5')">2D DP</button>
-            <button class="menu-btn" data-cmd="6" onclick="runCommand('6')">2D BL</button>
-            <button class="menu-btn" data-cmd="7" onclick="runCommand('7')">TENGAH</button>
-            <button class="menu-btn" data-cmd="8" onclick="runCommand('8')">TEPI</button>
-            <button class="menu-btn" data-cmd="9" onclick="runCommand('9')">KOMB</button><br>
-            <button class="menu-btn" data-cmd="10" onclick="runCommand('10')">JML DP</button>
-            <button class="menu-btn" data-cmd="11" onclick="runCommand('11')">JML BL</button>
-            <button class="menu-btn" data-cmd="12" onclick="runCommand('12')">JML TG</button>
-            <button class="menu-btn" data-cmd="13" onclick="runCommand('13')">JML TP</button>
-            <button class="menu-btn" data-cmd="14" onclick="runCommand('14')">JML KB</button>
+            <button class="menu-btn active" onclick="runCommand('1')">AS</button>
+            <button class="menu-btn" onclick="runCommand('2')">COP</button>
+            <button class="menu-btn" onclick="runCommand('3')">KEPALA</button>
+            <button class="menu-btn" onclick="runCommand('4')">EKOR</button><br>
+            <button class="menu-btn" onclick="runCommand('5')">2D DP</button>
+            <button class="menu-btn" onclick="runCommand('6')">2D BL</button>
+            <button class="menu-btn" onclick="runCommand('7')">TENGAH</button>
+            <button class="menu-btn" onclick="runCommand('8')">TEPI</button>
+            <button class="menu-btn" onclick="runCommand('9')">KOMB</button><br>
+            <button class="menu-btn" onclick="runCommand('10')">JML DP</button>
+            <button class="menu-btn" onclick="runCommand('11')">JML BL</button>
+            <button class="menu-btn" onclick="runCommand('12')">JML TG</button>
+            <button class="menu-btn" onclick="runCommand('13')">JML TP</button>
+            <button class="menu-btn" onclick="runCommand('14')">JML KB</button>
         </div>
 
         <div class="menu-section">
             <h4>🎯 FILTER</h4>
-            <button class="menu-btn" data-cmd="r" onclick="runCommand('r')">rumus</button>
-            <button class="menu-btn" data-cmd="i" onclick="runCommand('i')">index</button>
-            <button class="menu-btn" data-cmd="m" onclick="runCommand('m')">mlama</button>
-            <button class="menu-btn" data-cmd="b" onclick="runCommand('b')">mbaru</button>
-            <button class="menu-btn" data-cmd="t" onclick="runCommand('t')">taysen</button>
+            <button class="menu-btn active" onclick="runCommand('r')">rumus</button>
+            <button class="menu-btn" onclick="runCommand('i')">index</button>
+            <button class="menu-btn" onclick="runCommand('m')">mlama</button>
+            <button class="menu-btn" onclick="runCommand('b')">mbaru</button>
+            <button class="menu-btn" onclick="runCommand('t')">taysen</button>
         </div>
 
         <div class="menu-section">
             <h4>🏪 PASAR</h4>
-            <button class="menu-btn pasar" data-cmd="h" onclick="runCommand('h')">HK</button>
-            <button class="menu-btn pasar" data-cmd="s" onclick="runCommand('s')">SGP</button>
-            <button class="menu-btn pasar" data-cmd="sd" onclick="runCommand('sd')">SDNY</button>
+            <button class="menu-btn pasar active" onclick="runCommand('h')">HK</button>
+            <button class="menu-btn pasar" onclick="runCommand('s')">SGP</button>
+            <button class="menu-btn pasar" onclick="runCommand('sd')">SDNY</button>
         </div>
 
         <div class="menu-section">
@@ -356,6 +446,9 @@
         </div>
     </div>
 
+    <!-- ========================================================== -->
+    <!-- LEGEND -->
+    <!-- ========================================================== -->
     <div class="legend">
         <span><span class="dot dot-merah"></span> MERAH (mengenai target)</span>
         <span><span class="dot dot-hijau"></span> HIJAU (tidak mengenai)</span>
@@ -363,10 +456,32 @@
         <span>💡 Klik header key untuk toggle detail</span>
     </div>
 
-    
-
+    <!-- ========================================================== -->
+    <!-- RESULT AREA -->
+    <!-- ========================================================== -->
     <div id="resultArea">
-        <div class="no-result">🔍 Tekan tombol atau masukkan perintah untuk mulai scan</div>
+        <div class="no-result">🔍 Tekan tombol untuk mulai scan</div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- FOOTER -->
+<!-- ============================================================== -->
+<div class="footer">
+    <div>
+        <span class="status-dot"></span>
+        <span style="margin-left:6px;">🟢 System Online</span>
+    </div>
+    <div>
+        Made with <span class="heart">❤</span> by <strong style="color:#66ff99;">Scanner Team</strong>
+    </div>
+    <div>
+        <span>📅 </span>
+        <span id="footerDate"></span>
+        <span style="margin-left:10px;">🔗 </span>
+        <a href="#" onclick="return false;">GitHub</a>
+        <span style="margin:0 6px;color:#1a2a1a;">|</span>
+        <a href="#" onclick="return false;">Docs</a>
     </div>
 </div>
 
@@ -509,6 +624,19 @@
             second: '2-digit',
             hour12: false
         });
+    }
+
+    function updateFooterDate() {
+        const now = new Date();
+        const el = document.getElementById('footerDate');
+        if (el) {
+            el.textContent = now.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
     }
 
     function reduceToSingleDigit(n) {
@@ -982,7 +1110,7 @@
         });
         
         // Aktifkan tombol yang diklik
-        document.querySelectorAll(`.menu-btn[data-cmd="${cmd}"]`).forEach(btn => {
+        document.querySelectorAll(`.menu-btn[onclick*="runCommand('${cmd}')"]`).forEach(btn => {
             btn.classList.add('active');
         });
 
@@ -1017,41 +1145,7 @@
     }
 
     // ============================================================
-    //  EXECUTE COMMAND (DARI INPUT)
-    // ============================================================
-    function executeCommand() {
-        const input = document.getElementById('cmdInput');
-        const cmd = input.value.trim().toLowerCase();
-        input.value = '';
-
-        // Cek angka
-        const numMatch = cmd.match(/^(\d+)$/);
-        if (numMatch) {
-            let val = parseInt(numMatch[1]);
-            if (val >= 2 && val <= 20) {
-                setMinKey(val);
-                return;
-            } else {
-                document.getElementById('statusBar').innerHTML = `❌ Angka harus antara 2-20`;
-                return;
-            }
-        }
-
-        // Jalankan command
-        runCommand(cmd);
-    }
-
-    // ============================================================
-    //  KEYBOARD ENTER
-    // ============================================================
-    document.getElementById('cmdInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            executeCommand();
-        }
-    });
-
-    // ============================================================
-    //  CLOCK UPDATE
+    //  CLOCK & FOOTER UPDATE
     // ============================================================
     setInterval(() => {
         document.getElementById('clock').textContent = updateClock();
@@ -1061,6 +1155,7 @@
     //  START
     // ============================================================
     window.onload = function() {
+        updateFooterDate();
         load('hk');
     };
 </script>
