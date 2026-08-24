@@ -71,7 +71,6 @@
             border: 1px solid #1a2a1a;
         }
 
-        /* ========== DIGIT SELECTOR ========== */
         .digit-selector {
             display: flex;
             align-items: center;
@@ -175,6 +174,72 @@
         .menu-btn.quit:hover {
             background: #ff3333;
             color: #fff;
+        }
+        .menu-btn.filter-btn {
+            border-color: #ff8800;
+            color: #ffaa44;
+        }
+        .menu-btn.filter-btn.active {
+            background: #ff8800;
+            color: #0a0a0a;
+            border-color: #ff8800;
+        }
+
+        /* ========== TOGGLE AUTO-SCAN ========== */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 15px;
+            background: #0d0d0d;
+            border-radius: 20px;
+            border: 1px solid #1a3a1a;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s;
+        }
+        .toggle-container:hover {
+            border-color: #00ff41;
+        }
+        .toggle-container .label {
+            font-size: 11px;
+            color: #88ff88;
+            font-weight: bold;
+        }
+        .toggle-switch {
+            width: 40px;
+            height: 22px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s;
+            border: 1px solid #2a2a2a;
+        }
+        .toggle-switch.active {
+            background: #00ff41;
+            border-color: #00ff41;
+        }
+        .toggle-switch .thumb {
+            width: 16px;
+            height: 16px;
+            background: #446644;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+        .toggle-switch.active .thumb {
+            left: 20px;
+            background: #0a0a0a;
+        }
+        .toggle-status {
+            font-size: 10px;
+            color: #446644;
+            min-width: 30px;
+        }
+        .toggle-status.active {
+            color: #00ff41;
         }
 
         .status-bar {
@@ -311,23 +376,7 @@
             font-size: 11px;
         }
         .collapse-btn:hover { background: #2a5a2a; }
-        .key-header {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 5px;
-            cursor: pointer;
-        }
-        .key-header:hover { opacity: 0.8; }
-        .detail-body {
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        .detail-body.collapsed {
-            max-height: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
+
         .quick-btn {
             background: #1a2a1a;
             border: 1px solid #2a4a2a;
@@ -387,6 +436,17 @@
             50% { opacity: 0.2; }
         }
 
+        .auto-status {
+            color: #ffaa44;
+            font-size: 11px;
+            margin-left: 10px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
         @media (max-width: 768px) {
             .container { padding: 10px; }
             .title { font-size: 18px; }
@@ -427,7 +487,6 @@
     <div class="status-bar" id="statusBar">⚡ Memuat data HK...</div>
     <div class="status-bar" id="settingsBar" style="border-left-color:#ffaa00;color:#ffdd88;">⚙️ Min Key: 6 | Jumlah Result: 7</div>
 
-    <!-- ========== DIGIT SELECTOR ========== -->
     <div class="digit-selector">
         <label>🔢 DIGIT KEY:</label>
         <select id="digitSelect" onchange="changeDigit()">
@@ -440,10 +499,18 @@
             <option value="9">9 Digit</option>
             <option value="10">10 Digit</option>
         </select>
-        <span class="info-digit" id="digitInfo">(ambil 10 digit terakhir dari key)</span>
+        <span class="info-digit" id="digitInfo">(ambil 3 digit terakhir dari key)</span>
+
+        <!-- ========== TOGGLE AUTO-SCAN ========== -->
+        <div class="toggle-container" onclick="toggleAutoScan()" title="Klik untuk toggle auto-scan">
+            <span class="label">⏳ Auto</span>
+            <div class="toggle-switch" id="toggleSwitch">
+                <div class="thumb"></div>
+            </div>
+            <span class="toggle-status" id="toggleStatus">OFF</span>
+        </div>
     </div>
 
-    <!-- Quick Set -->
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin:10px 0;padding:10px;background:#0d0d0d;border-radius:5px;border:1px solid #222;">
         <span style="color:#88ff88;font-size:12px;margin-right:5px;">⚡ Quick Set:</span>
         <button class="quick-btn" onclick="setMinKey(3)">3</button>
@@ -484,11 +551,12 @@
 
         <div class="menu-section">
             <h4>🎯 FILTER</h4>
-            <button class="menu-btn active" onclick="runCommand('r')">rumus</button>
-            <button class="menu-btn" onclick="runCommand('i')">index</button>
-            <button class="menu-btn" onclick="runCommand('m')">mlama</button>
-            <button class="menu-btn" onclick="runCommand('b')">mbaru</button>
-            <button class="menu-btn" onclick="runCommand('t')">taysen</button>
+            <button class="menu-btn filter-btn" onclick="setFilter('rumus')">rumus</button>
+            <button class="menu-btn filter-btn" onclick="setFilter('index')">index</button>
+            <button class="menu-btn filter-btn" onclick="setFilter('mlama')">mlama</button>
+            <button class="menu-btn filter-btn" onclick="setFilter('mbaru')">mbaru</button>
+            <button class="menu-btn filter-btn" onclick="setFilter('taysen')">taysen</button>
+            <button class="menu-btn filter-btn" style="border-color:#00ff41;color:#00ff41;" onclick="scanAllFilters()">⚡ SCAN ALL</button>
         </div>
 
         <div class="menu-section">
@@ -550,11 +618,9 @@
     let POSISI = 'as';
     let MIN_KEY = 6;
     let JUMLAH_RESULT = 7;
-    let DIGIT_KEY = 3; // Default 10 digit
+    let DIGIT_KEY = 3;
+    let AUTO_SCAN = false; // DEFAULT: OFF (tidak auto scan saat pertama buka)
 
-    // ============================================================
-    //  MAP 10 DIGIT
-    // ============================================================
     const MAP10 = {
         rumus: {
             '0': '9012345678', '1': '0123456789', '2': '1234567890',
@@ -623,34 +689,35 @@
     const FILTERS = ['none', 'index', 'mlama', 'mbaru', 'taysen'];
     const FILTER_LABEL = { 'none': '', 'index': 'ix', 'mlama': 'ml', 'mbaru': 'mb', 'taysen': 'ty' };
 
-    const ALL_COMBINATIONS = [];
-
-    for (let key of KEYS) {
-        for (let f of FILTERS) {
-            ALL_COMBINATIONS.push({
-                key1: key, key2: null, op: null,
-                filter1: f, filter2: null,
-                label: key + FILTER_LABEL[f],
-                isSingle: true
-            });
+    function generateAllCombinations() {
+        const ALL_COMBINATIONS = [];
+        for (let key of KEYS) {
+            for (let f of FILTERS) {
+                ALL_COMBINATIONS.push({
+                    key1: key, key2: null, op: null,
+                    filter1: f, filter2: null,
+                    label: key + FILTER_LABEL[f],
+                    isSingle: true
+                });
+            }
         }
-    }
-
-    for (let key1 of KEYS) {
-        for (let op of OPS) {
-            for (let key2 of KEYS) {
-                for (let f1 of FILTERS) {
-                    for (let f2 of FILTERS) {
-                        ALL_COMBINATIONS.push({
-                            key1, key2, op,
-                            filter1: f1, filter2: f2,
-                            label: key1 + FILTER_LABEL[f1] + op + key2 + FILTER_LABEL[f2],
-                            isSingle: false
-                        });
+        for (let key1 of KEYS) {
+            for (let op of OPS) {
+                for (let key2 of KEYS) {
+                    for (let f1 of FILTERS) {
+                        for (let f2 of FILTERS) {
+                            ALL_COMBINATIONS.push({
+                                key1, key2, op,
+                                filter1: f1, filter2: f2,
+                                label: key1 + FILTER_LABEL[f1] + op + key2 + FILTER_LABEL[f2],
+                                isSingle: false
+                            });
+                        }
                     }
                 }
             }
         }
+        return ALL_COMBINATIONS;
     }
 
     function updateClock() {
@@ -699,14 +766,12 @@
         return reduceToSingleDigit(hasil);
     }
 
-    function convert10(d) {
-        let hasil = MAP10[F]?.[d] || d;
+    function convert10(d, filter) {
+        let map = MAP10[filter] || MAP10['rumus'];
+        let hasil = map?.[d] || d;
         return hasil;
     }
 
-    // ============================================================
-    //  FUNGSI TRIM DIGIT - ambil N digit terakhir
-    // ============================================================
     function trimDigit(str) {
         if (!str) return str;
         if (str.length <= DIGIT_KEY) return str;
@@ -726,7 +791,9 @@
         return idxList.map(idx => nextResult[idx]);
     }
 
-    function hitungNilaiKey(combo, baris, allData, currentIndex) {
+    function hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter) {
+        const f = filter || 'rumus';
+        
         if (combo.isSingle) {
             let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
             let dataIndex1 = currentIndex - pos1.offset;
@@ -752,7 +819,7 @@
                 }
             }
 
-            let hasil = convert10(nilaiA);
+            let hasil = convert10(nilaiA, f);
             return trimDigit(hasil);
         }
 
@@ -806,17 +873,16 @@
         }
 
         let hasilReduksi = hitungOperasi(nilaiA, nilaiB, combo.op);
-        let hasil = convert10(hasilReduksi);
+        let hasil = convert10(hasilReduksi, f);
         return trimDigit(hasil);
     }
 
-    function scanKeyWithMinRed(data, allData, minRed) {
+    function scanKeyWithMinRedForFilter(data, allData, minRed, filter) {
+        const ALL_COMBINATIONS = generateAllCombinations();
         let results = {};
         let totalKeys = ALL_COMBINATIONS.length;
-        let processed = 0;
 
         for (let combo of ALL_COMBINATIONS) {
-            processed++;
             let keyLabel = combo.label;
             let redCount = 0;
             let posisiMerah = {};
@@ -832,7 +898,7 @@
                 let currentIndex = allData.length - lastData.length + i;
                 let nextResult = (i + 1 < lastData.length) ? lastData[i + 1] : null;
 
-                let nilai = hitungNilaiKey(combo, baris, allData, currentIndex);
+                let nilai = hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter);
 
                 let barisInfo = {
                     index: i + 1,
@@ -846,7 +912,7 @@
                 if (nextResult) {
                     let target = getTarget(nextResult);
                     let merahDi = null;
-                    for (let pos = 0; pos < 10; pos++) {
+                    for (let pos = 0; pos < Math.min(10, nilai.length); pos++) {
                         if (target.includes(nilai[pos])) {
                             merahDi = String.fromCharCode(65 + pos);
                             break;
@@ -889,6 +955,34 @@
         return results;
     }
 
+    // ============================================================
+    //  TOGGLE AUTO-SCAN
+    // ============================================================
+    function toggleAutoScan() {
+        AUTO_SCAN = !AUTO_SCAN;
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const toggleStatus = document.getElementById('toggleStatus');
+        
+        if (AUTO_SCAN) {
+            toggleSwitch.classList.add('active');
+            toggleStatus.textContent = 'ON';
+            toggleStatus.classList.add('active');
+            document.getElementById('statusBar').innerHTML = '✅ Auto-scan AKTIF';
+            // Scan otomatis saat diaktifkan
+            if (D[P]) {
+                scanAllFilters();
+            }
+        } else {
+            toggleSwitch.classList.remove('active');
+            toggleStatus.textContent = 'OFF';
+            toggleStatus.classList.remove('active');
+            document.getElementById('statusBar').innerHTML = '⏸️ Auto-scan NONAKTIF (klik SCAN ALL untuk scan manual)';
+        }
+    }
+
+    // ============================================================
+    //  LOAD DATA
+    // ============================================================
     async function load(p) {
         P = p;
         const statusBar = document.getElementById('statusBar');
@@ -924,9 +1018,44 @@
                 statusBar.innerHTML = `📊 Pakai data contoh + dummy (${D[p].length} total)`;
             }
         }
-        scan();
+        
+        // Tampilkan data terakhir dulu tanpa scan otomatis
+        showDataOnly();
+        
+        // Jika auto-scan aktif, scan otomatis
+        if (AUTO_SCAN) {
+            scanAllFilters();
+        } else {
+            document.getElementById('statusBar').innerHTML = `✅ Data ${p.toUpperCase()} siap. Auto-scan OFF. Klik SCAN ALL untuk mulai.`;
+        }
     }
 
+    // ============================================================
+    //  TAMPILKAN DATA SAJA (TANPA SCAN)
+    // ============================================================
+    function showDataOnly() {
+        if (!D[P]) return;
+        let data = D[P].slice(-JUMLAH_RESULT);
+
+        document.getElementById('clock').textContent = updateClock();
+        document.getElementById('settingsBar').innerHTML = 
+            `⚙️ Min Key: ${MIN_KEY} | Result: ${JUMLAH_RESULT} | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
+
+        let lastDataHtml = '';
+        for (let i = 0; i < data.length; i++) {
+            let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
+            let target = getTarget(nextResult);
+            let targetStr = target.length ? target.join(',') : '(tidak ada target)';
+            let arrow = (i < data.length - 1) ? '→' : '';
+            let isLast = (i === data.length - 1) ? ' 🔴' : '';
+            lastDataHtml += `<div class="item">${i+1}. ${data[i]} ${arrow} ${targetStr}${isLast}</div>`;
+        }
+        document.getElementById('lastData').innerHTML = lastDataHtml;
+    }
+
+    // ============================================================
+    //  SET MIN KEY
+    // ============================================================
     function setMinKey(val) {
         if (val >= 2 && val <= 20) {
             MIN_KEY = val;
@@ -941,31 +1070,78 @@
             
             document.getElementById('statusBar').innerHTML = 
                 `✅ Min Key = ${MIN_KEY} | Result = ${JUMLAH_RESULT} (otomatis +1)`;
-            scan();
+            
+            if (AUTO_SCAN) {
+                scanAllFilters();
+            } else {
+                showDataOnly();
+            }
         } else {
             document.getElementById('statusBar').innerHTML = `❌ Nilai harus antara 2-20`;
         }
     }
 
     // ============================================================
-    //  FUNGSI UBAH DIGIT KEY
+    //  UBAH DIGIT KEY
     // ============================================================
     function changeDigit() {
         const select = document.getElementById('digitSelect');
         DIGIT_KEY = parseInt(select.value);
         document.getElementById('digitInfo').textContent = `(ambil ${DIGIT_KEY} digit terakhir dari key)`;
         document.getElementById('statusBar').innerHTML = `✅ Digit Key diubah menjadi ${DIGIT_KEY} digit`;
-        scan();
+        
+        if (AUTO_SCAN) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
     }
 
-    function scan() {
+    // ============================================================
+    //  SET FILTER
+    // ============================================================
+    function setFilter(f) {
+        F = f;
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.trim() === f) {
+                btn.classList.add('active');
+            }
+        });
+        document.getElementById('statusBar').innerHTML = `✅ Filter: ${f.toUpperCase()}`;
+        
+        if (AUTO_SCAN) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  SET POSISI
+    // ============================================================
+    function setPosisi(p) {
+        POSISI = p;
+        document.getElementById('statusBar').innerHTML = `✅ Posisi: ${p.toUpperCase()}`;
+        
+        if (AUTO_SCAN) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  SCAN ALL FILTERS
+    // ============================================================
+    function scanAllFilters() {
         if (!D[P]) return;
         let data = D[P].slice(-JUMLAH_RESULT);
         let allData = D[P];
 
         document.getElementById('clock').textContent = updateClock();
         document.getElementById('settingsBar').innerHTML = 
-            `⚙️ Min Key: ${MIN_KEY} | Result: ${JUMLAH_RESULT} | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Filter: ${F.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
+            `⚙️ Min Key: ${MIN_KEY} | Result: ${JUMLAH_RESULT} | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
 
         let lastDataHtml = '';
         for (let i = 0; i < data.length; i++) {
@@ -978,14 +1154,30 @@
         }
         document.getElementById('lastData').innerHTML = lastDataHtml;
 
-        let scanResults = scanKeyWithMinRed(data, allData, MIN_KEY);
-        let sortedKeys = Object.keys(scanResults).sort((a, b) => {
-            return scanResults[b].count - scanResults[a].count;
-        });
+        const filterList = ['rumus', 'index', 'mlama', 'mbaru', 'taysen'];
+        const filterLabel = {
+            'rumus': '🔵 rumus',
+            'index': '🟢 index',
+            'mlama': '🟡 mlama',
+            'mbaru': '🟠 mbaru',
+            'taysen': '🔴 taysen'
+        };
+
+        let allResults = {};
+        let totalKeysFound = 0;
+
+        for (let filter of filterList) {
+            let results = scanKeyWithMinRedForFilter(data, allData, MIN_KEY, filter);
+            let sortedKeys = Object.keys(results).sort((a, b) => {
+                return results[b].count - results[a].count;
+            });
+            allResults[filter] = { results, sortedKeys };
+            totalKeysFound += sortedKeys.length;
+        }
 
         const resultArea = document.getElementById('resultArea');
 
-        if (sortedKeys.length === 0) {
+        if (totalKeysFound === 0) {
             resultArea.innerHTML = `
                 <div class="no-result">
                     ❌ TIDAK ADA KEY YANG MEMENUHI KRITERIA<br>
@@ -995,147 +1187,146 @@
             return;
         }
 
-        // ============================================================
-        //  TABLE RINGKASAN
-        // ============================================================
-        let html = `
-            <div style="margin:15px 0;color:#66ff99;">✅ DITEMUKAN ${sortedKeys.length} KEY (min ${MIN_KEY}x merah):</div>
-            <div class="table-wrap">
-            <table>
-                <thead><tr>
-                    <th>NO</th><th>KEY</th><th>ANGKA ${DIGIT_KEY}D</th><th>MERAH</th><th>POSISI</th><th>DETAIL 10D</th><th>AKSI</th>
-                </tr></thead>
-                <tbody>
-        `;
+        let html = `<div style="margin:15px 0;color:#66ff99;">✅ TOTAL ${totalKeysFound} KEY DITEMUKAN (min ${MIN_KEY}x merah):</div>`;
+        html += `<div class="table-wrap"><table>`;
+        html += `<thead><tr>
+            <th>NO</th>
+            <th>FILTER</th>
+            <th>KEY</th>
+            <th>ANGKA ${DIGIT_KEY}D</th>
+            <th>MERAH</th>
+            <th>POSISI</th>
+            <th>DETAIL 10D</th>
+        </tr></thead><tbody>`;
 
         let no = 1;
-        for (let key of sortedKeys) {
-            let info = scanResults[key];
-            
-            let angkaKey = '';
-            if (info.baris && info.baris.length > 0) {
-                let lastBaris = info.baris[info.baris.length - 1];
-                if (lastBaris && lastBaris.nilai) {
-                    angkaKey = lastBaris.nilai;
-                }
-            }
+        for (let filter of filterList) {
+            let { results, sortedKeys } = allResults[filter];
+            if (sortedKeys.length === 0) continue;
 
-            let posisiHuruf = info.posisi;
-            let detail10D = '-';
-            if (posisiHuruf && angkaKey && angkaKey.length === DIGIT_KEY) {
-                let posIndex = posisiHuruf.charCodeAt(0) - 65;
-                if (posIndex >= 0 && posIndex < DIGIT_KEY) {
-                    detail10D = angkaKey[posIndex];
+            for (let key of sortedKeys) {
+                let info = results[key];
+                
+                let angkaKey = '';
+                if (info.baris && info.baris.length > 0) {
+                    let lastBaris = info.baris[info.baris.length - 1];
+                    if (lastBaris && lastBaris.nilai) {
+                        angkaKey = lastBaris.nilai;
+                    }
                 }
-            }
 
-            html += `
-                <tr>
-                    <td>${no}</td>
-                    <td><strong>${key}</strong></td>
-                    <td>${angkaKey}</td>
-                    <td>${info.totalRed}</td>
-                    <td class="merah">${info.posisi}</td>
-                    <td style="font-size:16px;font-weight:bold;text-align:center;color:#ffaa00;">${detail10D}</td>
-                    <td><button class="collapse-btn" onclick="toggleDetail()">📋 Detail</button></td>
-                </tr>
-            `;
-            no++;
+                let posisiHuruf = info.posisi;
+                let detail10D = '-';
+                if (posisiHuruf && angkaKey && angkaKey.length === DIGIT_KEY) {
+                    let posIndex = posisiHuruf.charCodeAt(0) - 65;
+                    if (posIndex >= 0 && posIndex < DIGIT_KEY) {
+                        detail10D = angkaKey[posIndex];
+                    }
+                }
+
+                html += `
+                    <tr>
+                        <td>${no}</td>
+                        <td style="color:#ffaa44;font-weight:bold;">${filterLabel[filter] || filter}</td>
+                        <td><strong>${key}</strong></td>
+                        <td>${angkaKey}</td>
+                        <td>${info.totalRed}</td>
+                        <td class="merah">${info.posisi}</td>
+                        <td style="font-size:16px;font-weight:bold;text-align:center;color:#ffaa00;">${detail10D}</td>
+                    </tr>
+                `;
+                no++;
+            }
         }
 
         html += `</tbody></table></div>`;
 
-        // ============================================================
-        //  DETAIL SEMUA KEY - FORMAT 1 TABEL HORIZONTAL
-        // ============================================================
-        html += `<div style="margin-top:20px;"><strong>📋 DETAIL SEMUA KEY (${sortedKeys.length} Key):</strong></div>`;
-        html += `<div class="table-wrap"><table class="detail-table">`;
+        // DETAIL PER FILTER
+        html += `<div style="margin-top:20px;"><strong>📋 DETAIL SEMUA KEY (${totalKeysFound} Key):</strong></div>`;
 
-        html += `<tr class="key-header-row"><th class="label-col key-label">KEY</th>`;
-        for (let key of sortedKeys) {
-            html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
-        }
-        html += `</tr>`;
+        for (let filter of filterList) {
+            let { results, sortedKeys } = allResults[filter];
+            if (sortedKeys.length === 0) continue;
 
-        let maxBaris = 0;
-        let allBarisData = [];
-        
-        for (let key of sortedKeys) {
-            let info = scanResults[key];
-            let barisList = info.baris || [];
-            allBarisData.push(barisList);
-            if (barisList.length > maxBaris) maxBaris = barisList.length;
-        }
+            html += `<div style="margin-top:15px;padding:10px;background:#0d1a0d;border-left:3px solid #ffaa44;border-radius:4px;">
+                <strong style="color:#ffaa44;">${filterLabel[filter]} (${sortedKeys.length} key)</strong>
+            </div>`;
 
-        for (let i = 0; i < maxBaris; i++) {
-            let label = data[i] || '-';
-            
-            html += `<tr class="data-row">`;
-            html += `<td class="label-col" style="background:#0d1a0d;color:#66ff99;font-weight:bold;text-align:center;">${label}</td>`;
-            
-            for (let j = 0; j < sortedKeys.length; j++) {
-                let barisList = allBarisData[j];
-                if (i < barisList.length) {
-                    let baris = barisList[i];
-                    let nilai = baris.nilai || '-';
-                    let merahDi = baris.merahDi;
-                    let displayNilai = '';
-                    if (merahDi && nilai !== '-') {
-                        let posIndex = merahDi.charCodeAt(0) - 65;
-                        if (posIndex >= 0 && posIndex < nilai.length) {
-                            for (let k = 0; k < nilai.length; k++) {
-                                if (k === posIndex) {
-                                    displayNilai += `<span class="merah">${nilai[k]}</span>`;
-                                } else {
-                                    displayNilai += nilai[k];
-                                }
-                            }
-                        } else {
-                            displayNilai = nilai;
-                        }
-                    } else if (nilai !== '-') {
-                        displayNilai = nilai;
-                    } else {
-                        displayNilai = '-';
-                    }
-                    html += `<td style="text-align:center;font-size:13px;letter-spacing:1px;">${displayNilai}</td>`;
-                } else {
-                    html += `<td style="text-align:center;color:#222;">-</td>`;
-                }
+            html += `<div class="table-wrap"><table class="detail-table">`;
+            html += `<tr class="key-header-row"><th class="label-col key-label">KEY</th>`;
+            for (let key of sortedKeys) {
+                html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
             }
             html += `</tr>`;
-        }
 
-        html += `<tr class="posisi-row">`;
-        html += `<td class="label-col posisi-label">🔴 POSISI</td>`;
-        for (let j = 0; j < sortedKeys.length; j++) {
-            let barisList = allBarisData[j];
-            let lastBaris = barisList[barisList.length - 1];
-            let posisi = (lastBaris && lastBaris.merahDi) ? lastBaris.merahDi : '-';
-            let isMerah = (lastBaris && lastBaris.isMerah);
-            html += `<td style="text-align:center;font-weight:bold;font-size:14px;color:${isMerah ? '#ff4444' : '#446644'};">${posisi}</td>`;
-        }
-        html += `</tr>`;
+            let maxBaris = 0;
+            let allBarisData = [];
+            
+            for (let key of sortedKeys) {
+                let info = results[key];
+                let barisList = info.baris || [];
+                allBarisData.push(barisList);
+                if (barisList.length > maxBaris) maxBaris = barisList.length;
+            }
 
-        html += `</table></div>`;
+            for (let i = 0; i < maxBaris; i++) {
+                let label = data[i] || '-';
+                
+                html += `<tr class="data-row">`;
+                html += `<td class="label-col" style="background:#0d1a0d;color:#66ff99;font-weight:bold;text-align:center;">${label}</td>`;
+                
+                for (let j = 0; j < sortedKeys.length; j++) {
+                    let barisList = allBarisData[j];
+                    if (i < barisList.length) {
+                        let baris = barisList[i];
+                        let nilai = baris.nilai || '-';
+                        let merahDi = baris.merahDi;
+                        let displayNilai = '';
+                        if (merahDi && nilai !== '-') {
+                            let posIndex = merahDi.charCodeAt(0) - 65;
+                            if (posIndex >= 0 && posIndex < nilai.length) {
+                                for (let k = 0; k < nilai.length; k++) {
+                                    if (k === posIndex) {
+                                        displayNilai += `<span class="merah">${nilai[k]}</span>`;
+                                    } else {
+                                        displayNilai += nilai[k];
+                                    }
+                                }
+                            } else {
+                                displayNilai = nilai;
+                            }
+                        } else if (nilai !== '-') {
+                            displayNilai = nilai;
+                        } else {
+                            displayNilai = '-';
+                        }
+                        html += `<td style="text-align:center;font-size:13px;letter-spacing:1px;">${displayNilai}</td>`;
+                    } else {
+                        html += `<td style="text-align:center;color:#222;">-</td>`;
+                    }
+                }
+                html += `</tr>`;
+            }
+
+            html += `<tr class="posisi-row">`;
+            html += `<td class="label-col posisi-label">🔴 POSISI</td>`;
+            for (let j = 0; j < sortedKeys.length; j++) {
+                let barisList = allBarisData[j];
+                let lastBaris = barisList[barisList.length - 1];
+                let posisi = (lastBaris && lastBaris.merahDi) ? lastBaris.merahDi : '-';
+                let isMerah = (lastBaris && lastBaris.isMerah);
+                html += `<td style="text-align:center;font-weight:bold;font-size:14px;color:${isMerah ? '#ff4444' : '#446644'};">${posisi}</td>`;
+            }
+            html += `</tr>`;
+            html += `</table></div>`;
+        }
 
         resultArea.innerHTML = html;
     }
 
-    function toggleDetail() {}
-
-    function setFilter(f) {
-        F = f;
-        document.getElementById('statusBar').innerHTML = `✅ Filter: ${f.toUpperCase()}`;
-        scan();
-    }
-
-    function setPosisi(p) {
-        POSISI = p;
-        document.getElementById('statusBar').innerHTML = `✅ Posisi: ${p.toUpperCase()}`;
-        scan();
-    }
-
+    // ============================================================
+    //  RUN COMMAND
+    // ============================================================
     function runCommand(cmd) {
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.classList.remove('active');
@@ -1153,18 +1344,12 @@
             '12': 'jumlahtengah', '13': 'jumlahtepi', '14': 'jumlahkombinasi'
         };
 
-        const filterMap = {
-            'r': 'rumus', 'i': 'index', 'm': 'mlama', 'b': 'mbaru', 't': 'taysen'
-        };
-
         const pasarMap = {
             'h': 'hk', 's': 'sgp', 'sd': 'sdny'
         };
 
         if (posisiMap[cmd]) {
             setPosisi(posisiMap[cmd]);
-        } else if (filterMap[cmd]) {
-            setFilter(filterMap[cmd]);
         } else if (pasarMap[cmd]) {
             load(pasarMap[cmd]);
         } else if (cmd === 'q' || cmd === 'quit' || cmd === 'exit') {
@@ -1174,12 +1359,16 @@
         }
     }
 
+    // ============================================================
+    //  TIMER & INIT
+    // ============================================================
     setInterval(() => {
         document.getElementById('clock').textContent = updateClock();
     }, 1000);
 
     window.onload = function() {
         updateFooterDate();
+        // Auto-scan default OFF, jadi cuma load data tanpa scan
         load('hk');
     };
 </script>
