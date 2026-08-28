@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Digit Scanner - Cari Angka Mati</title>
+        <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff41;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            background: #111;
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+            flex: 1;
+        }
+
+        .header {
+            border-bottom: 1px solid #00ff41;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .logo { font-size: 32px; line-height: 1; }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+        .title small {
+            font-size: 12px;
+            color: #66ff99;
+            font-weight: normal;
+            display: block;
+            opacity: 0.7;
+        }
+        .header-right { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .clock {
+            color: #00cc33;
+            font-size: 14px;
+            background: #0d0d0d;
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid #1a3a1a;
+        }
+        .version-badge {
+            font-size: 10px;
+            color: #446644;
+            background: #0d0d0d;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid #1a2a1a;
+        }
+
+        .digit-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background: #0d0d0d;
+            border-radius: 5px;
+            border: 1px solid #1a3a1a;
+            flex-wrap: wrap;
+        }
+        .digit-selector label {
+            color: #66ff99;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .digit-selector select, .digit-selector input {
+            background: #1a1a1a;
+            color: #00ff41;
+            border: 1px solid #2a4a2a;
+            border-radius: 4px;
+            padding: 5px 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .digit-selector input {
+            width: 60px;
+            text-align: center;
+        }
+        .digit-selector select:focus, .digit-selector input:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+        }
+        .digit-selector select option {
+            background: #1a1a1a;
+            color: #00ff41;
+        }
+        .digit-selector .info-digit {
+            color: #88ff88;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+        .menu-section { padding: 5px 10px; }
+        .menu-section h4 {
+            color: #66ff99;
+            font-size: 13px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3px;
+        }
+        .menu-btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #00ff41;
+            padding: 4px 10px;
+            margin: 2px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .menu-btn:hover {
+            background: #00ff41;
+            color: #0a0a0a;
+            border-color: #00ff41;
+        }
+        .menu-btn.active {
+            background: #00ff41;
+            color: #0a0a0a;
+            border-color: #00ff41;
+        }
+        .menu-btn.pasar {
+            border-color: #0066ff;
+            color: #66aaff;
+        }
+        .menu-btn.pasar:hover {
+            background: #0066ff;
+            color: #fff;
+        }
+        .menu-btn.pasar.active {
+            background: #0066ff;
+            color: #fff;
+            border-color: #0066ff;
+        }
+        .menu-btn.quit {
+            border-color: #ff3333;
+            color: #ff6666;
+        }
+        .menu-btn.quit:hover {
+            background: #ff3333;
+            color: #fff;
+        }
+        .menu-btn.filter-btn {
+            border-color: #ff8800;
+            color: #ffaa44;
+        }
+        .menu-btn.filter-btn.active {
+            background: #ff8800;
+            color: #0a0a0a;
+            border-color: #ff8800;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 15px;
+            background: #0d0d0d;
+            border-radius: 20px;
+            border: 1px solid #1a3a1a;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s;
+        }
+        .toggle-container:hover {
+            border-color: #00ff41;
+        }
+        .toggle-container .label {
+            font-size: 11px;
+            color: #88ff88;
+            font-weight: bold;
+        }
+        .toggle-switch {
+            width: 40px;
+            height: 22px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.3s;
+            border: 1px solid #2a2a2a;
+        }
+        .toggle-switch.active {
+            background: #00ff41;
+            border-color: #00ff41;
+        }
+        .toggle-switch .thumb {
+            width: 16px;
+            height: 16px;
+            background: #446644;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+        .toggle-switch.active .thumb {
+            left: 20px;
+            background: #0a0a0a;
+        }
+        .toggle-status {
+            font-size: 10px;
+            color: #446644;
+            min-width: 30px;
+        }
+        .toggle-status.active {
+            color: #00ff41;
+        }
+
+        .status-bar {
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #00ff41;
+            font-size: 13px;
+            color: #88ff88;
+        }
+        .status-bar.warning {
+            border-left-color: #ffaa00;
+            color: #ffdd88;
+        }
+
+        .data-list {
+            background: #0d0d0d;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 13px;
+            border: 1px solid #222;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .data-list .item {
+            color: #88ff88;
+            padding: 2px 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .data-list .item:last-child { border-bottom: none; }
+        .data-list .hijau-zone {
+            color: #44ff44 !important;
+            font-weight: bold;
+        }
+        .data-list .merah-zone {
+            color: #ff4444 !important;
+            font-weight: bold;
+        }
+
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        table th {
+            background: #1a3a1a;
+            color: #66ff99;
+            padding: 8px 6px;
+            text-align: left;
+            border: 1px solid #2a4a2a;
+            white-space: nowrap;
+        }
+        table td {
+            padding: 6px 6px;
+            border: 1px solid #1a2a1a;
+            white-space: nowrap;
+            color: #88ff88;
+        }
+        table tr:nth-child(even) { background: #0d1a0d; }
+        table tr:hover { background: #1a2a1a; }
+        .merah { color: #ff4444 !important; font-weight: bold; }
+        .hijau { color: #44ff44 !important; font-weight: bold; }
+        .bg-merah { background: #2a0a0a; }
+        .bg-hijau { background: #0a2a0a; }
+        .no-result {
+            color: #ff6666;
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .no-result span {
+            color: #88ff88;
+        }
+        .detail-table {
+            margin: 10px 0;
+            font-size: 11px;
+        }
+        .detail-table td { padding: 4px 6px; color: #88ff88; }
+        .detail-table .key-header-row th {
+            background: #1a2a3a;
+            color: #88ddff;
+            text-align: center;
+            font-size: 11px;
+        }
+        .detail-table .data-row td {
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 1px;
+            color: #88ff88;
+        }
+        .detail-table .label-col {
+            background: #0d1a0d;
+            color: #66ff99;
+            font-weight: bold;
+            text-align: center;
+            min-width: 70px;
+        }
+        .detail-table .label-col.hijau-label {
+            background: #0d1a0d;
+            color: #44ff44;
+        }
+        .detail-table .label-col.merah-label {
+            background: #1a0d0d;
+            color: #ff4444;
+        }
+        .detail-table .label-col.posisi-label {
+            background: #1a0d0d;
+            color: #ff6666;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            margin: 10px 0;
+            padding: 10px;
+            background: #0d0d0d;
+            border-radius: 5px;
+            color: #88ff88;
+        }
+        .legend span { display: flex; align-items: center; gap: 5px; color: #88ff88; }
+        .legend .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        .dot-hijau { background: #44ff44; }
+        .dot-merah { background: #ff4444; }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #66ff99; }
+
+        .quick-btn {
+            background: #1a2a1a;
+            border: 1px solid #2a4a2a;
+            color: #88ff88;
+            padding: 4px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .quick-btn:hover {
+            background: #2a4a4a;
+            border-color: #00ff41;
+        }
+        .quick-btn.active {
+            background: #44ff44;
+            color: #0a0a0a;
+            border-color: #44ff44;
+        }
+
+        .hijau-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            background: #0d1a0d;
+            border-radius: 5px;
+            border: 1px solid #1a3a1a;
+        }
+        .hijau-option label {
+            color: #44ff44;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .hijau-option select {
+            background: #1a1a1a;
+            color: #44ff44;
+            border: 1px solid #2a4a2a;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .hijau-option select:focus {
+            outline: none;
+            border-color: #44ff44;
+        }
+
+        .result-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            background: #0d0d2a;
+            border-radius: 5px;
+            border: 1px solid #1a2a3a;
+        }
+        .result-option label {
+            color: #88ddff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .result-option select {
+            background: #1a1a1a;
+            color: #88ddff;
+            border: 1px solid #2a3a4a;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .result-option select:focus {
+            outline: none;
+            border-color: #88ddff;
+        }
+
+        .tampil-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            background: #0d0d1a;
+            border-radius: 5px;
+            border: 1px solid #1a1a3a;
+        }
+        .tampil-option label {
+            color: #88aaff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tampil-option input {
+            background: #1a1a1a;
+            color: #88aaff;
+            border: 1px solid #2a2a4a;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+        }
+        .tampil-option input:focus {
+            outline: none;
+            border-color: #88aaff;
+        }
+
+        .footer {
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #0d0d0d;
+            border: 1px solid #1a2a1a;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+            color: #446644;
+        }
+        .footer a {
+            color: #66aaff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #88ccff;
+            text-decoration: underline;
+        }
+        .footer .heart { color: #ff4444; }
+        .footer .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #44ff44;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .info-box {
+            background: #0d0d0d;
+            border: 1px solid #1a3a1a;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            color: #88ff88;
+            font-size: 13px;
+        }
+        .info-box strong { color: #44ff44; }
+        .info-box .merah-text { color: #ff4444; }
+
+        /* PREDIKSI ANGKA */
+        .prediksi-angka {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffaa00 !important;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+
+        /* STATUS */
+        .status-lulus {
+            color: #44ff44 !important;
+            font-weight: bold;
+        }
+        .status-gagal {
+            color: #ff4444 !important;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .title { font-size: 18px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            table { font-size: 10px; }
+            table th, table td { padding: 3px 4px; }
+            .header-left .logo { font-size: 24px; }
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                font-size: 10px;
+            }
+            .detail-table .data-row td {
+                font-size: 10px;
+            }
+            .digit-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .prediksi-angka {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="header">
+        <div class="header-left">
+            <span class="logo">🎯</span>
+            <div>
+                <div class="title">
+                    10 DIGIT SCANNER
+                    <small>Cari Angka Mati • Prediksi Togel</small>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="version-badge">v5.1</span>
+            <span class="clock" id="clock">🕐 Loading...</span>
+        </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">⚡ Memuat data HK...</div>
+    <div class="status-bar warning" id="settingsBar">🎯 Fokus: Cari ANGKA MATI di 3 baris terakhir</div>
+
+    <div class="digit-selector">
+        <label>🔢 DIGIT KEY:</label>
+        <select id="digitSelect" onchange="changeDigit()">
+            <option value="1">1 Digit</option>
+            <option value="2">2 Digit</option>
+            <option value="3">3 Digit</option>
+            <option value="4">4 Digit</option>
+            <option value="5">5 Digit</option>
+            <option value="6">6 Digit</option>
+            <option value="7">7 Digit</option>
+            <option value="8" selected>8 Digit</option>
+            <option value="9">9 Digit</option>
+        </select>
+        
+
+        <!-- TOGGLE AUTO-SCAN -->
+        <div class="toggle-container" onclick="toggleAutoScan()" title="Klik untuk toggle auto-scan">
+            <span class="label">⏳ Auto</span>
+            <div class="toggle-switch" id="toggleSwitch">
+                <div class="thumb"></div>
+            </div>
+            <span class="toggle-status" id="toggleStatus">OFF</span>
+        </div>
+
+        <!-- HIJAU OPTION (Baris Mati) -->
+        <div class="hijau-option">
+            <label>🟢 MATI:</label>
+            <select id="hijauSelect" onchange="setHijauOption()">
+                
+                <option value="1">0 Baris</option>
+                <option value="2">1 Baris</option>
+                <option value="3" selected>2 Baris</option>
+                <option value="4">3 Baris</option>
+                <option value="5">4 Baris</option>
+                <option value="6">5 Baris</option>
+                <option value="7">6 Baris</option>
+            </select>
+        </div>
+
+        <!-- TAMPILAN OPTION (Jumlah Baris Yang Ditampilkan) -->
+        <div class="tampil-option">
+            <label>📊 TAMPIL:</label>
+            <input type="number" id="tampilInput" value="40" min="5" max="40" onchange="setTampilOption()">
+            <span style="color:#446644;font-size:10px;">baris</span>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+        <div class="menu-section">
+            <h4>📌 POSISI</h4>
+            <button class="menu-btn active" onclick="runCommand('1')">AS</button>
+            <button class="menu-btn" onclick="runCommand('2')">COP</button>
+            <button class="menu-btn" onclick="runCommand('3')">KEPALA</button>
+            <button class="menu-btn" onclick="runCommand('4')">EKOR</button><br>
+            <button class="menu-btn" onclick="runCommand('5')">2D DP</button>
+            <button class="menu-btn" onclick="runCommand('6')">2D BL</button>
+            <button class="menu-btn" onclick="runCommand('7')">TENGAH</button>
+            <button class="menu-btn" onclick="runCommand('8')">TEPI</button>
+            <button class="menu-btn" onclick="runCommand('9')">KOMB</button><br>
+            <button class="menu-btn" onclick="runCommand('10')">JML DP</button>
+            <button class="menu-btn" onclick="runCommand('11')">JML BL</button>
+            <button class="menu-btn" onclick="runCommand('12')">JML TG</button>
+            <button class="menu-btn" onclick="runCommand('13')">JML TP</button>
+            <button class="menu-btn" onclick="runCommand('14')">JML KB</button>
+        </div>
+
+        <div class="menu-section">
+            
+            <button class="menu-btn filter-btn" style="border-color:#44ff44;color:#44ff44;" onclick="scanAllFilters()">⚡ SCAN </button>
+        </div>
+
+        <div class="menu-section">
+            <h4>🏪 PASAR</h4>
+            <button class="menu-btn pasar active" onclick="runCommand('h')">HK</button>
+            <button class="menu-btn pasar" onclick="runCommand('s')">SGP</button>
+            <button class="menu-btn pasar" onclick="runCommand('sd')">SDNY</button>
+        </div>
+
+      
+    </div>
+
+    <div id="resultArea">
+        <div class="no-result">🔍 Tekan SCAN untuk mulai cari angka Rumus</div>
+    </div>
+</div>
+
+<div class="footer">
+    <div>
+        <span class="status-dot"></span>
+        <span style="margin-left:6px;">🟢 System Online</span>
+    </div>
+    <div>
+        Made with <span class="heart">❤</span> by <strong style="color:#66ff99;">Scanner Team</strong>
+    </div>
+    <div>
+        <span>📅 </span>
+        <span id="footerDate"></span>
+        <span style="margin-left:10px;">🔗 </span>
+        <a href="#" onclick="return false;">GitHub</a>
+        <span style="margin:0 6px;color:#1a2a1a;">|</span>
+        <a href="#" onclick="return false;">Docs</a>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    //  KONFIGURASI
+    // ============================================================
+    const URL_DATA = {
+        hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
+        sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
+        sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
+    };
+
+    let D = {};
+    let P = 'hk';
+    let F = 'rumus';
+    let POSISI = 'as';
+    let HIJAU_BARIS = 3;
+    let JUMLAH_TAMPIL = 40;
+    let DIGIT_KEY = 8;
+    let AUTO_SCAN = false;
+    let IS_SCANNING = false;
+
+    const MAP10 = {
+        rumus: {
+            '0': '9012345678', '1': '0123456789', '2': '1234567890',
+            '3': '2345678901', '4': '3456789012', '5': '4567890123',
+            '6': '5678901234', '7': '6789012345', '8': '7890123456',
+            '9': '8901234567'
+        },
+        index: {
+            '0': '4567890123', '1': '5678901234', '2': '6789012345',
+            '3': '7890123456', '4': '8901234567', '5': '9012345678',
+            '6': '0123456789', '7': '1234567890', '8': '2345678901',
+            '9': '3456789012'
+        },
+        mlama: {
+            '0': '0123456789', '1': '9012345678', '2': '4567890123',
+            '3': '7890123456', '4': '6789012345', '5': '1234567890',
+            '6': '8901234567', '7': '3456789012', '8': '2345678901',
+            '9': '5678901234'
+        },
+        mbaru: {
+            '0': '7801234569', '1': '6789012345', '2': '5678901234',
+            '3': '8901234567', '4': '4567890123', '5': '3456789012',
+            '6': '1234567890', '7': '0123456789', '8': '9012345678',
+            '9': '2345678901'
+        },
+        taysen: {
+            '0': '6789012345', '1': '3456789012', '2': '8901234567',
+            '3': '5678901234', '4': '0123456789', '5': '7890123456',
+            '6': '2345678901', '7': '9012345678', '8': '4567890123',
+            '9': '1234567890'
+        },
+        M0: {
+            '0': '6789012345', '1': '5678901234', '2': '8901234567',
+            '3': '7890123456', '4': '9012345678', '5': '1234567890',
+            '6': '0123456789', '7': '3456789012', '8': '2345678901',
+            '9': '4567890123'
+        },
+        M1: {
+            '0': '1234567890', '1': '0123456789', '2': '9012345678',
+            '3': '8901234567', '4': '7890123456', '5': '6789012345',
+            '6': '5678901234', '7': '4567890123', '8': '3456789012',
+            '9': '2345678901'
+        },
+        M3: {
+            '0': '3456789012', '1': '2345678901', '2': '1234567890',
+            '3': '0123456789', '4': '9012345678', '5': '8901234567',
+            '6': '7890123456', '7': '6789012345', '8': '5678901234',
+            '9': '4567890123'
+        },
+        M5: {
+            '0': '5678901234', '1': '4567890123', '2': '3456789012',
+            '3': '2345678901', '4': '1234567890', '5': '0123456789',
+            '6': '9012345678', '7': '8901234567', '8': '7890123456',
+            '9': '6789012345'
+        },
+        M7: {
+            '0': '7890123456', '1': '6789012345', '2': '5678901234',
+            '3': '4567890123', '4': '3456789012', '5': '2345678901',
+            '6': '1234567890', '7': '0123456789', '8': '9012345678',
+            '9': '8901234567'
+        },
+        M8: {
+            '0': '8901234567', '1': '7890123456', '2': '6789012345',
+            '3': '5678901234', '4': '9012345678', '5': '3456789012',
+            '6': '2345678901', '7': '1234567890', '8': '0123456789',
+            '9': '4567890123'
+        },
+        M9: {
+            '0': '9012345678', '1': '8901234567', '2': '7890123456',
+            '3': '6789012345', '4': '5678901234', '5': '4567890123',
+            '6': '3456789012', '7': '2345678901', '8': '1234567890',
+            '9': '0123456789'
+        }
+    };
+
+    const POSISI_MAP = {
+        as: [0], cop: [1], kepala: [2], ekor: [3],
+        '2ddepan': [0, 1], '2dbelakang': [2, 3],
+        tengah: [1, 2], tepi: [0, 3], kombinasi: [0, 1, 2, 3],
+        'jumlah2ddepan': [0, 1], 'jumlah2dbelakang': [2, 3],
+        'jumlahtengah': [1, 2], 'jumlahtepi': [0, 3],
+        'jumlahkombinasi': [0, 1, 2, 3]
+    };
+
+    function generateKeyMap() {
+        const map = {};
+        const configs = {
+            'a': [0], 'c': [1], 'k': [2], 'e': [3],
+            'j': [2, 3], 'jt': [1, 2], 'jd': [0, 1]
+        };
+        for (let [key, positions] of Object.entries(configs)) {
+            for (let num = 1; num <= 9; num++) {
+                map[key + num] = { offset: num - 1, positions: positions };
+            }
+        }
+        return map;
+    }
+    const KEY_MAP = generateKeyMap();
+
+    const KEYS = [];
+    for (let prefix of ['a', 'c', 'k', 'e', 'j', 'jt', 'jd']) {
+        for (let num = 1; num <= 9; num++) {
+            KEYS.push(prefix + num);
+        }
+    }
+
+    const OPS = ['+', '-', '×'];
+    const FILTERS = ['none', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
+    const FILTER_LABEL = { 'none': '', 'index': 'ix', 'mlama': 'ml', 'mbaru': 'mb', 'taysen': 'ty', 'M0': 'm0', 'M1': 'm1', 'M3': 'm3', 'M5': 'm5', 'M7': 'm7', 'M8': 'm8', 'M9': 'm9' };
+
+    function generateAllCombinations() {
+        const ALL_COMBINATIONS = [];
+        for (let key of KEYS) {
+            for (let f of FILTERS) {
+                ALL_COMBINATIONS.push({
+                    key1: key, key2: null, op: null,
+                    filter1: f, filter2: null,
+                    label: key + FILTER_LABEL[f],
+                    isSingle: true
+                });
+            }
+        }
+        for (let key1 of KEYS) {
+            for (let op of OPS) {
+                for (let key2 of KEYS) {
+                    for (let f1 of FILTERS) {
+                        for (let f2 of FILTERS) {
+                            ALL_COMBINATIONS.push({
+                                key1, key2, op,
+                                filter1: f1, filter2: f2,
+                                label: key1 + FILTER_LABEL[f1] + op + key2 + FILTER_LABEL[f2],
+                                isSingle: false
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        return ALL_COMBINATIONS;
+    }
+
+    // ============================================================
+    //  FUNGSI CARI ANGKA HILANG (YANG TIDAK ADA DI KEY)
+    // ============================================================
+    function getAngkaHilang(nilaiKey) {
+        if (!nilaiKey) return '-';
+        
+        // Ambil digit-digit unik dari key
+        let digits = new Set();
+        for (let char of nilaiKey) {
+            if (char >= '0' && char <= '9') {
+                digits.add(char);
+            }
+        }
+        
+        // Cari angka 0-9 yang TIDAK ADA di key
+        let hilang = [];
+        for (let i = 0; i <= 9; i++) {
+            if (!digits.has(String(i))) {
+                hilang.push(i);
+            }
+        }
+        
+        // Jika semua angka 0-9 ada (key 10 digit), return '-'
+        if (hilang.length === 0) return '-';
+        if (hilang.length === 10) return '0'; // Key kosong / tidak valid
+        
+        return hilang.join('');
+    }
+
+    function updateClock() {
+        const now = new Date();
+        return '🕐 ' + now.toLocaleString('id-ID', {
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+    }
+
+    function updateFooterDate() {
+        const now = new Date();
+        const el = document.getElementById('footerDate');
+        if (el) {
+            el.textContent = now.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+    }
+
+    function reduceToSingleDigit(n) {
+        n = Math.abs(n);
+        while (n >= 10) {
+            let sum = 0;
+            while (n > 0) {
+                sum += n % 10;
+                n = Math.floor(n / 10);
+            }
+            n = sum;
+        }
+        return n;
+    }
+
+    function hitungOperasi(a, b, op) {
+        let hasil;
+        if (op === '+') hasil = a + b;
+        else if (op === '-') hasil = a - b;
+        else hasil = a * b;
+        if (hasil === 0) return a;
+        return reduceToSingleDigit(hasil);
+    }
+
+    function convert10(d, filter) {
+        let map = MAP10[filter] || MAP10['rumus'];
+        let hasil = map?.[d] || d;
+        return hasil;
+    }
+
+    function trimDigit(str) {
+        if (!str) return str;
+        if (str.length <= DIGIT_KEY) return str;
+        return str.slice(-DIGIT_KEY);
+    }
+
+    function getTarget(nextResult) {
+        if (!nextResult) return [];
+        let idxList = POSISI_MAP[POSISI] || [];
+        if (POSISI.startsWith('jumlah')) {
+            let total = 0;
+            for (let idx of idxList) {
+                total += parseInt(nextResult[idx]);
+            }
+            return ['' + reduceToSingleDigit(total)];
+        }
+        return idxList.map(idx => nextResult[idx]);
+    }
+
+    function hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter) {
+        const f = filter || 'rumus';
+        
+        if (combo.isSingle) {
+            let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
+            let dataIndex1 = currentIndex - pos1.offset;
+            let data1;
+            if (dataIndex1 >= 0 && dataIndex1 < allData.length) {
+                data1 = allData[dataIndex1];
+            } else {
+                data1 = allData[0] || baris;
+            }
+
+            let nilaiA = 0;
+            for (let pos of pos1.positions) {
+                nilaiA += parseInt(data1[pos]);
+            }
+            if (pos1.positions.length > 1) {
+                nilaiA = reduceToSingleDigit(nilaiA);
+            }
+
+            if (combo.filter1 !== 'none') {
+                let temp = MAP10[combo.filter1]?.[nilaiA];
+                if (temp !== undefined) {
+                    nilaiA = parseInt(temp[1]);
+                }
+            }
+
+            let hasil = convert10(nilaiA, f);
+            return trimDigit(hasil);
+        }
+
+        let pos1 = KEY_MAP[combo.key1] || { offset: 0, positions: [0] };
+        let pos2 = KEY_MAP[combo.key2] || { offset: 0, positions: [0] };
+
+        let dataIndex1 = currentIndex - pos1.offset;
+        let dataIndex2 = currentIndex - pos2.offset;
+
+        let data1, data2;
+        if (dataIndex1 >= 0 && dataIndex1 < allData.length) {
+            data1 = allData[dataIndex1];
+        } else {
+            data1 = allData[0] || baris;
+        }
+
+        if (dataIndex2 >= 0 && dataIndex2 < allData.length) {
+            data2 = allData[dataIndex2];
+        } else {
+            data2 = allData[0] || baris;
+        }
+
+        let nilaiA = 0;
+        for (let pos of pos1.positions) {
+            nilaiA += parseInt(data1[pos]);
+        }
+        if (pos1.positions.length > 1) {
+            nilaiA = reduceToSingleDigit(nilaiA);
+        }
+
+        if (combo.filter1 !== 'none') {
+            let temp = MAP10[combo.filter1]?.[nilaiA];
+            if (temp !== undefined) {
+                nilaiA = parseInt(temp[1]);
+            }
+        }
+
+        let nilaiB = 0;
+        for (let pos of pos2.positions) {
+            nilaiB += parseInt(data2[pos]);
+        }
+        if (pos2.positions.length > 1) {
+            nilaiB = reduceToSingleDigit(nilaiB);
+        }
+
+        if (combo.filter2 !== 'none') {
+            let temp = MAP10[combo.filter2]?.[nilaiB];
+            if (temp !== undefined) {
+                nilaiB = parseInt(temp[1]);
+            }
+        }
+
+        let hasilReduksi = hitungOperasi(nilaiA, nilaiB, combo.op);
+        let hasil = convert10(hasilReduksi, f);
+        return trimDigit(hasil);
+    }
+
+    // ============================================================
+    //  PROGRESS BAR & LOADING
+    // ============================================================
+    function showLoading(message = 'Memproses data...') {
+        const resultArea = document.getElementById('resultArea');
+        resultArea.innerHTML = `
+            <div style="padding:30px 20px;text-align:center;">
+                <div style="font-size:24px;margin-bottom:15px;">⏳</div>
+                <div style="color:#88ff88;font-size:14px;margin-bottom:15px;">${message}</div>
+                <div style="max-width:400px;margin:0 auto;background:#1a1a1a;border-radius:10px;height:20px;border:1px solid #2a4a2a;overflow:hidden;">
+                    <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#00ff41,#44ff88);border-radius:10px;transition:width 0.3s ease;"></div>
+                </div>
+                <div style="color:#446644;font-size:11px;margin-top:8px;" id="progressText">0%</div>
+            </div>
+        `;
+        document.getElementById('statusBar').innerHTML = `⏳ ${message}`;
+    }
+
+    function updateProgress(percent, text) {
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        if (progressBar) {
+            progressBar.style.width = Math.min(100, percent) + '%';
+        }
+        if (progressText) {
+            progressText.textContent = text || Math.min(100, percent) + '%';
+        }
+    }
+
+    // ============================================================
+    //  LOGIC: MERAH WAJIB di atas + HIJAU WAJIB di N baris terakhir
+    // ============================================================
+    function scanKeyForMati(data, allData, filter, progressCallback) {
+        const ALL_COMBINATIONS = generateAllCombinations();
+        let results = {};
+        let totalCombos = ALL_COMBINATIONS.length;
+        let processed = 0;
+
+        for (let combo of ALL_COMBINATIONS) {
+            let keyLabel = combo.label;
+            let detailBaris = [];
+            let totalHijau = 0;
+            let totalMerah = 0;
+
+            let lastData = data.slice(-JUMLAH_TAMPIL);
+            
+            for (let i = 0; i < lastData.length - 1; i++) {
+                let baris = lastData[i];
+                let currentIndex = allData.length - lastData.length + i;
+                let nextResult = lastData[i + 1];
+
+                let nilai = hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter);
+
+                let barisInfo = {
+                    index: i + 1,
+                    data: baris,
+                    target: getTarget(nextResult),
+                    nilai: nilai,
+                    isHijau: false,
+                    isMerah: false
+                };
+
+                let target = getTarget(nextResult);
+                
+                let masuk = false;
+                for (let pos = 0; pos < Math.min(10, nilai.length); pos++) {
+                    if (target.includes(nilai[pos])) {
+                        masuk = true;
+                        break;
+                    }
+                }
+                
+                if (masuk) {
+                    totalMerah++;
+                    barisInfo.isMerah = true;
+                } else {
+                    totalHijau++;
+                    barisInfo.isHijau = true;
+                }
+
+                detailBaris.push(barisInfo);
+            }
+
+            let lastNBaris = detailBaris.slice(-HIJAU_BARIS);
+            let hijauCountLastN = 0;
+            for (let b of lastNBaris) {
+                if (b.isHijau) hijauCountLastN++;
+            }
+
+            let aboveBaris = detailBaris.slice(0, -HIJAU_BARIS);
+            let merahCountAbove = 0;
+            for (let b of aboveBaris) {
+                if (b.isMerah) merahCountAbove++;
+            }
+
+            if (hijauCountLastN >= HIJAU_BARIS && 
+                aboveBaris.length > 0 && 
+                merahCountAbove === aboveBaris.length) {
+                
+                // Ambil nilai key terakhir untuk prediksi
+                let nilaiKey = '';
+                if (detailBaris.length > 0) {
+                    let lastBaris = detailBaris[detailBaris.length - 1];
+                    if (lastBaris && lastBaris.nilai) {
+                        nilaiKey = lastBaris.nilai;
+                    }
+                }
+                
+                results[keyLabel] = {
+                    totalHijau: totalHijau,
+                    totalMerah: totalMerah,
+                    hijauLastN: hijauCountLastN,
+                    merahAbove: merahCountAbove,
+                    totalAbove: aboveBaris.length,
+                    baris: detailBaris,
+                    totalBaris: detailBaris.length,
+                    nilaiKey: nilaiKey // Simpan nilai key untuk prediksi
+                };
+            }
+
+            processed++;
+            if (progressCallback && processed % 100 === 0) {
+                let percent = (processed / totalCombos) * 100;
+                progressCallback(percent, `Memproses ${processed}/${totalCombos} kombinasi...`);
+            }
+        }
+
+        return results;
+    }
+
+    // ============================================================
+    //  TOGGLE AUTO-SCAN
+    // ============================================================
+    function toggleAutoScan() {
+        AUTO_SCAN = !AUTO_SCAN;
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const toggleStatus = document.getElementById('toggleStatus');
+        
+        if (AUTO_SCAN) {
+            toggleSwitch.classList.add('active');
+            toggleStatus.textContent = 'ON';
+            toggleStatus.classList.add('active');
+            document.getElementById('statusBar').innerHTML = '✅ Auto-scan AKTIF';
+            if (D[P] && !IS_SCANNING) {
+                scanAllFilters();
+            }
+        } else {
+            toggleSwitch.classList.remove('active');
+            toggleStatus.textContent = 'OFF';
+            toggleStatus.classList.remove('active');
+            document.getElementById('statusBar').innerHTML = '⏸️ Auto-scan NONAKTIF (klik SCAN untuk scan manual)';
+        }
+    }
+
+    // ============================================================
+    //  SET HIJAU OPTION
+    // ============================================================
+    function setHijauOption() {
+        const select = document.getElementById('hijauSelect');
+        HIJAU_BARIS = parseInt(select.value);
+        document.getElementById('statusBar').innerHTML = `✅ BARIS MATI diatur ke ${HIJAU_BARIS} baris terakhir`;
+        
+        document.getElementById('settingsBar').innerHTML = 
+            `🎯 Fokus: Cari ANGKA MATI di ${HIJAU_BARIS} baris terakhir | Tampil: ${JUMLAH_TAMPIL} baris`;
+        
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  SET TAMPIL OPTION
+    // ============================================================
+    function setTampilOption() {
+        const input = document.getElementById('tampilInput');
+        let val = parseInt(input.value);
+        if (isNaN(val) || val < 5) val = 5;
+        if (val > 200) val = 200;
+        input.value = val;
+        JUMLAH_TAMPIL = val;
+        
+        document.getElementById('statusBar').innerHTML = `✅ Tampilan diubah menjadi ${JUMLAH_TAMPIL} baris`;
+        document.getElementById('settingsBar').innerHTML = 
+            `🎯 Fokus: Cari ANGKA MATI di ${HIJAU_BARIS} baris terakhir | Tampil: ${JUMLAH_TAMPIL} baris`;
+        
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  LOAD DATA
+    // ============================================================
+    async function load(p) {
+        P = p;
+        const statusBar = document.getElementById('statusBar');
+        statusBar.innerHTML = `⏳ Loading ${p.toUpperCase()}...`;
+
+        if (!D[p]) {
+            try {
+                let url = URL_DATA[p];
+                let response = await fetch(url);
+                let text = await response.text();
+                let lines = text.trim().split('\n')
+                    .map(x => x.trim())
+                    .filter(x => x.length >= 4 && /^\d+$/.test(x))
+                    .map(x => x.slice(0, 4));
+
+                if (lines.length === 0) {
+                    lines = ['1234', '5678', '9012', '3456', '7890', '2345', '6789', '0123', '4567', '8901'];
+                }
+
+                D[p] = lines;
+                statusBar.innerHTML = `✅ Load ${lines.length} data`;
+            } catch (e) {
+                let lines = ['1234', '5678', '9012', '3456', '7890', '2345', '6789', '0123', '4567', '8901'];
+                D[p] = lines;
+                statusBar.innerHTML = `📊 Pakai data contoh (${D[p].length} data)`;
+            }
+        }
+        
+        showDataOnly();
+        
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanAllFilters();
+        } else {
+            document.getElementById('statusBar').innerHTML = `✅ Data ${p.toUpperCase()} siap. Klik SCAN untuk cari angka jitu.`;
+        }
+    }
+
+    // ============================================================
+    //  TAMPILKAN DATA SAJA (TANPA SCAN)
+    // ============================================================
+    function showDataOnly() {
+        if (!D[P]) return;
+        let data = D[P].slice(-JUMLAH_TAMPIL);
+
+        document.getElementById('clock').textContent = updateClock();
+        document.getElementById('settingsBar').innerHTML = 
+            `🎯 Fokus: Cari ANGKA MATI di ${HIJAU_BARIS} baris terakhir | Tampil: ${JUMLAH_TAMPIL} baris | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
+
+        let lastDataHtml = '';
+        for (let i = 0; i < data.length; i++) {
+            let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
+            let target = getTarget(nextResult);
+            let targetStr = target.length ? target.join(',') : '(tidak ada target)';
+            let arrow = (i < data.length - 1) ? '→' : '';
+            
+            let isHijauZone = (i >= data.length - HIJAU_BARIS - 1) && (i < data.length - 1);
+            let isLast = (i === data.length - 1) ? ' ⚠️' : '';
+            
+            let zoneClass = '';
+            if (isHijauZone) zoneClass = 'hijau-zone';
+            if (targetStr !== '(tidak ada target)') {
+                zoneClass += ' target-hijau';
+            }
+            
+            lastDataHtml += `<div class="item ${zoneClass}">${i+1}. ${data[i]} ${arrow} ${targetStr}${isLast}${isHijauZone ? ' ' : ''}</div>`;
+        }
+        document.getElementById('lastData').innerHTML = lastDataHtml;
+    }
+
+    // ============================================================
+    //  UBAH DIGIT KEY
+    // ============================================================
+    function changeDigit() {
+        const select = document.getElementById('digitSelect');
+        DIGIT_KEY = parseInt(select.value);
+        document.getElementById('digitInfo').textContent = `(ambil ${DIGIT_KEY} digit terakhir dari key)`;
+        document.getElementById('statusBar').innerHTML = `✅ Digit Key diubah menjadi ${DIGIT_KEY} digit`;
+        
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  SET FILTER
+    // ============================================================
+    function setFilter(f) {
+        F = f;
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.trim() === f) {
+                btn.classList.add('active');
+            }
+        });
+        document.getElementById('statusBar').innerHTML = `✅ Filter: ${f.toUpperCase()}`;
+        
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  SET POSISI
+    // ============================================================
+    function setPosisi(p) {
+        POSISI = p;
+        document.getElementById('statusBar').innerHTML = `✅ Posisi: ${p.toUpperCase()}`;
+        
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanAllFilters();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    // ============================================================
+    //  SCAN ALL FILTERS - FOKUS CARI ANGKA MATI
+    // ============================================================
+    function scanAllFilters() {
+        if (IS_SCANNING) {
+            document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan... Tunggu sebentar!';
+            return;
+        }
+
+        if (!D[P]) {
+            document.getElementById('statusBar').innerHTML = '❌ Data belum dimuat!';
+            return;
+        }
+
+        IS_SCANNING = true;
+        showLoading('Memproses data... Mohon tunggu');
+
+        const scanBtn = document.querySelector('.filter-btn[onclick*="scanAllFilters()"]');
+        if (scanBtn) {
+            scanBtn.textContent = '⏳ SCANNING...';
+            scanBtn.style.borderColor = '#ffaa00';
+            scanBtn.style.color = '#ffaa00';
+            scanBtn.disabled = true;
+        }
+
+        setTimeout(() => {
+            try {
+                performScanWithProgress();
+            } catch (e) {
+                console.error('Scan error:', e);
+                document.getElementById('statusBar').innerHTML = '❌ Error saat scanning: ' + e.message;
+                IS_SCANNING = false;
+                if (scanBtn) {
+                    scanBtn.textContent = '⚡ SCAN ';
+                    scanBtn.style.borderColor = '#44ff44';
+                    scanBtn.style.color = '#44ff44';
+                    scanBtn.disabled = false;
+                }
+            }
+        }, 100);
+    }
+
+    function performScanWithProgress() {
+        let data = D[P].slice(-JUMLAH_TAMPIL);
+        let allData = D[P];
+        const filterList = ['rumus', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7A', 'M8', 'M9'];
+        const filterLabel = {
+            'rumus': '🔵 rumus',
+            'index': '🟢 index',
+            'mlama': '🟡 mlama',
+            'mbaru': '🟠 mbaru',
+            'taysen': '🔴 taysen',
+            'M0': ' M0',
+            'M1': ' M1',
+            'M3': ' M3',
+            'M5': ' M5',
+            'M7': ' M7',
+            'M8': ' M8',
+            'M9': ' M9'
+        };
+
+        let allResults = {};
+        let totalKeysFound = 0;
+        let totalFilters = filterList.length;
+        let currentFilterIndex = 0;
+
+        updateProgress(5, 'Memulai scan...');
+
+        function scanNextFilter() {
+            if (currentFilterIndex >= totalFilters) {
+                finishScan(allResults, totalKeysFound, data, filterLabel);
+                return;
+            }
+
+            let filter = filterList[currentFilterIndex];
+            let progressBase = 5 + (currentFilterIndex / totalFilters) * 85;
+            updateProgress(progressBase, `Scanning filter ${filter.toUpperCase()}... (${currentFilterIndex+1}/${totalFilters})`);
+
+            let results = scanKeyForMati(data, allData, filter, function(percent, text) {
+                let totalProgress = 5 + ((currentFilterIndex + percent/100) / totalFilters) * 85;
+                updateProgress(Math.min(95, totalProgress), text);
+            });
+
+            let sortedKeys = Object.keys(results).sort((a, b) => {
+                return results[b].totalAbove - results[a].totalAbove;
+            });
+            allResults[filter] = { results, sortedKeys };
+            totalKeysFound += sortedKeys.length;
+
+            currentFilterIndex++;
+            updateProgress(5 + (currentFilterIndex / totalFilters) * 85, `Selesai ${filter.toUpperCase()} (${currentFilterIndex}/${totalFilters})`);
+
+            setTimeout(scanNextFilter, 50);
+        }
+
+        scanNextFilter();
+    }
+
+    function finishScan(allResults, totalKeysFound, data, filterLabel) {
+        updateProgress(100, 'Selesai! Menampilkan hasil...');
+
+        IS_SCANNING = false;
+
+        const scanBtn = document.querySelector('.filter-btn[onclick*="scanAllFilters()"]');
+        if (scanBtn) {
+            scanBtn.textContent = '⚡ SCAN ';
+            scanBtn.style.borderColor = '#44ff44';
+            scanBtn.style.color = '#44ff44';
+            scanBtn.disabled = false;
+        }
+
+        const resultArea = document.getElementById('resultArea');
+
+        if (totalKeysFound === 0) {
+            resultArea.innerHTML = `
+                <div class="no-result">
+                    ❌ TIDAK ADA KEY YANG MEMENUHI KRITERIA<br>
+                    
+                    <span style="font-size:12px;color:#446644;">
+                        💡 Coba kurangi BARIS MATI (1-2) atau tambah TAMPIL (20-30)
+                    </span>
+                </div>
+            `;
+            document.getElementById('statusBar').innerHTML = `✅ Scan selesai. Tidak ada key ditemukan.`;
+            return;
+        }
+
+        let html = buildResultHTML(allResults, totalKeysFound, data, filterLabel);
+        resultArea.innerHTML = html;
+        document.getElementById('statusBar').innerHTML = `✅ Scan selesai. ${totalKeysFound} key ditemukan!`;
+    }
+
+    // ============================================================
+    //  BUILD RESULT HTML - DENGAN PREDIKSI ANGKA HILANG
+    // ============================================================
+    function buildResultHTML(allResults, totalKeysFound, data, filterLabel) {
+        let html = `
+        `;
+        html += ``;
+        
+        html += `
+        `;
+        html += ``;
+
+        let no = 1;
+        for (let filter of Object.keys(allResults)) {
+            let { results, sortedKeys } = allResults[filter];
+            if (sortedKeys.length === 0) continue;
+
+            for (let key of sortedKeys) {
+                let info = results[key];
+                
+                let angkaKey = '';
+                let angkaPrediksi = '';
+                if (info.baris && info.baris.length > 0) {
+                    let lastBaris = info.baris[info.baris.length - 1];
+                    if (lastBaris && lastBaris.nilai) {
+                        angkaKey = lastBaris.nilai;
+                        // PREDIKSI = ANGKA YANG TIDAK ADA DI KEY
+                        angkaPrediksi = getAngkaHilang(angkaKey);
+                    }
+                }
+
+                html += `
+                    
+                `;
+                no++;
+            }
+        }
+
+        html += `
+        `;
+
+        // DETAIL PER FILTER
+        html += `<div style="margin-top:20px;"><strong>📋 KEY DITEMUKAN (${totalKeysFound} Key):</strong></div>`;
+
+        for (let filter of Object.keys(allResults)) {
+            let { results, sortedKeys } = allResults[filter];
+            if (sortedKeys.length === 0) continue;
+
+            html += `<div style="margin-top:15px;padding:10px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
+                <strong style="color:#44ff44;">${filterLabel[filter] || filter} (${sortedKeys.length} key)</strong>
+                <span style="color:#446644;margin-left:10px;">${HIJAU_BARIS} baris terakhir</span>
+                
+            </div>`;
+
+            html += `<div class="table-wrap"><table class="detail-table">`;
+            html += `<tr class="key-header-row"><th class="label-col hijau-label">KEY</th>`;
+            for (let key of sortedKeys) {
+                html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
+            }
+            html += `<th style="text-align:center;font-size:11px;background:#1a2a0a;color:#ffaa00;">⭐ </th>`;
+            html += `</tr>`;
+
+            let maxBaris = 0;
+            let allBarisData = [];
+            let allPrediksi = [];
+            
+            for (let key of sortedKeys) {
+                let info = results[key];
+                let barisList = info.baris || [];
+                allBarisData.push(barisList);
+                if (barisList.length > maxBaris) maxBaris = barisList.length;
+                
+                let prediksi = '';
+                if (barisList.length > 0) {
+                    let lastBaris = barisList[barisList.length - 1];
+                    if (lastBaris && lastBaris.nilai) {
+                        prediksi = getAngkaHilang(lastBaris.nilai);
+                    }
+                }
+                allPrediksi.push(prediksi);
+            }
+
+            for (let i = 0; i < maxBaris; i++) {
+                let label = data[i] || '-';
+                let isHijauZone = (i >= maxBaris - HIJAU_BARIS);
+                let isAbove = (i < maxBaris - HIJAU_BARIS);
+                
+                html += `<tr class="data-row" style="${isHijauZone ? 'background:#0a1a0a;' : (isAbove ? 'background:#1a0a0a;' : '')}">`;
+                html += `<td class="label-col" style="background:${isHijauZone ? '#0d1a0d' : (isAbove ? '#1a0d0d' : '#0d0d0d')};color:${isHijauZone ? '#44ff44' : (isAbove ? '#ff4444' : '#66ff99')};font-weight:bold;text-align:center;">
+                    ${label}${isHijauZone ? ' 🟢' : (isAbove ? ' 🔴' : '')}
+                </td>`;
+                
+                for (let j = 0; j < sortedKeys.length; j++) {
+                    let barisList = allBarisData[j];
+                    if (i < barisList.length) {
+                        let baris = barisList[i];
+                        let nilai = baris.nilai || '-';
+                        let isHijau = baris.isHijau;
+                        let isMerah = baris.isMerah;
+                        
+                        let displayNilai = '';
+                        if (nilai !== '-') {
+                            if (isHijau) {
+                                displayNilai = `<span style="color:#44ff44;font-weight:bold;">${nilai}</span>`;
+                            } else if (isMerah) {
+                                displayNilai = `<span style="color:#ff4444;font-weight:bold;">${nilai}</span>`;
+                            } else {
+                                displayNilai = nilai;
+                            }
+                        } else {
+                            displayNilai = '-';
+                        }
+                        let bgClass = isHijau ? 'bg-hijau' : (isMerah ? 'bg-merah' : '');
+                        html += `<td style="text-align:center;font-size:13px;letter-spacing:1px;${bgClass}">${displayNilai}</td>`;
+                    } else {
+                        html += `<td style="text-align:center;color:#222;">-</td>`;
+                    }
+                }
+                
+                if (i === maxBaris - 1) {
+                    html += `<td style="text-align:center;font-size:16px;font-weight:bold;color:#ffaa00;"></td>`;
+                } else {
+                    html += `<td style="text-align:center;color:#222;">-</td>`;
+                }
+                
+                html += `</tr>`;
+            }
+
+            // Baris status dengan angka prediksi (angka hilang)
+            html += `<tr>`;
+            html += `<td class="label-col hijau-label">STATUS</td>`;
+            for (let j = 0; j < sortedKeys.length; j++) {
+                let barisList = allBarisData[j];
+                let lastN = barisList.slice(-HIJAU_BARIS);
+                let hijauCount = 0;
+                for (let b of lastN) {
+                    if (b.isHijau) hijauCount++;
+                }
+                let aboveBaris = barisList.slice(0, -HIJAU_BARIS);
+                let merahCount = 0;
+                for (let b of aboveBaris) {
+                    if (b.isMerah) merahCount++;
+                }
+                let isFullHijau = (hijauCount >= HIJAU_BARIS);
+                let isFullMerah = (merahCount === aboveBaris.length && aboveBaris.length > 0);
+                
+                let prediksi = allPrediksi[j] || '-';
+                let statusText = '';
+                if (isFullHijau && isFullMerah) {
+                    statusText = `✅ ${prediksi}`;
+                } else if (isFullHijau) {
+                    statusText = `🟢 ${prediksi}`;
+                } else if (isFullMerah) {
+                    statusText = `🔴 ${prediksi}`;
+                } else {
+                    statusText = '❌';
+                }
+                html += `<td style="text-align:center;font-weight:bold;font-size:14px;color:${(isFullHijau && isFullMerah) ? '#44ff44' : '#ff4444'};">${statusText}</td>`;
+            }
+            html += `<td style="text-align:center;color:#ffaa00;font-size:14px;font-weight:bold;">⭐</td>`;
+            html += `</tr>`;
+            html += `</table></div>`;
+        }
+
+        return html;
+    }
+
+    // ============================================================
+    //  RUN COMMAND
+    // ============================================================
+    function runCommand(cmd) {
+        if (IS_SCANNING) {
+            document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan... Tunggu sebentar!';
+            return;
+        }
+
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        document.querySelectorAll(`.menu-btn[onclick*="runCommand('${cmd}')"]`).forEach(btn => {
+            btn.classList.add('active');
+        });
+
+        const posisiMap = {
+            '1': 'as', '2': 'cop', '3': 'kepala', '4': 'ekor',
+            '5': '2ddepan', '6': '2dbelakang', '7': 'tengah', '8': 'tepi',
+            '9': 'kombinasi',
+            '10': 'jumlah2ddepan', '11': 'jumlah2dbelakang',
+            '12': 'jumlahtengah', '13': 'jumlahtepi', '14': 'jumlahkombinasi'
+        };
+
+        const pasarMap = {
+            'h': 'hk', 's': 'sgp', 'sd': 'sdny'
+        };
+
+        if (posisiMap[cmd]) {
+            setPosisi(posisiMap[cmd]);
+        } else if (pasarMap[cmd]) {
+            load(pasarMap[cmd]);
+        } else if (cmd === 'q' || cmd === 'quit' || cmd === 'exit') {
+            if (confirm('Yakin ingin keluar?')) {
+                document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#00ff41;font-size:24px;">👋 Sampai jumpa!</div>';
+            }
+        }
+    }
+
+    // ============================================================
+    //  TIMER & INIT
+    // ============================================================
+    setInterval(() => {
+        document.getElementById('clock').textContent = updateClock();
+    }, 1000);
+
+    window.onload = function() {
+        updateFooterDate();
+        document.getElementById('hijauSelect').value = '3';
+        document.getElementById('tampilInput').value = '40';
+        load('hk');
+    };
+</script>
+
+</body>
+</html>
