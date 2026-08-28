@@ -1446,15 +1446,17 @@
         updateProgress(5, 'Memulai scan...');
 
         function scanNextFilter() {
-            if (currentFilterIndex >= totalFilters) {
-                finishScan(allResults, totalKeysFound, data, filterLabel);
-                return;
-            }
+        if (currentFilterIndex >= totalFilters) {
+            finishScan(allResults, totalKeysFound, data, filterLabel);
+            return;
+        }
 
-            let filter = filterList[currentFilterIndex];
-            let progressBase = 5 + (currentFilterIndex / totalFilters) * 85;
-            updateProgress(progressBase, `Scanning filter ${filter.toUpperCase()}... (${currentFilterIndex+1}/${totalFilters})`);
+        let filter = filterList[currentFilterIndex];
+        updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
+            `Scanning filter ${filter.toUpperCase()}... (${currentFilterIndex+1}/${totalFilters})`);
 
+        // Gunakan setTimeout agar UI update
+        setTimeout(() => {
             let results = scanKeyForMati(data, allData, filter, function(percent, text) {
                 let totalProgress = 5 + ((currentFilterIndex + percent/100) / totalFilters) * 85;
                 updateProgress(Math.min(95, totalProgress), text);
@@ -1467,13 +1469,16 @@
             totalKeysFound += sortedKeys.length;
 
             currentFilterIndex++;
-            updateProgress(5 + (currentFilterIndex / totalFilters) * 85, `Selesai ${filter.toUpperCase()} (${currentFilterIndex}/${totalFilters})`);
+            updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
+                `Selesai ${filter.toUpperCase()} (${currentFilterIndex}/${totalFilters})`);
 
+            // Delay 50ms antar filter
             setTimeout(scanNextFilter, 50);
-        }
-
-        scanNextFilter();
+        }, 50);
     }
+
+    scanNextFilter();
+}
 
     function finishScan(allResults, totalKeysFound, data, filterLabel) {
         updateProgress(100, 'Selesai! Menampilkan hasil...');
