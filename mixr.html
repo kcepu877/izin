@@ -652,7 +652,7 @@
         <!-- TAMPILAN OPTION (Jumlah Baris Yang Ditampilkan) -->
         <div class="tampil-option">
             <label>📊 TAMPIL:</label>
-            <input type="number" id="tampilInput" value="40" min="5" max="40" onchange="setTampilOption()">
+            <input type="number" id="tampilInput" value="20" min="5" max="20" onchange="setTampilOption()">
             <span style="color:#446644;font-size:10px;">baris</span>
         </div>
     </div>
@@ -729,7 +729,7 @@
     let F = 'rumus';
     let POSISI = 'as';
     let HIJAU_BARIS = 3;
-    let JUMLAH_TAMPIL = 40;
+    let JUMLAH_TAMPIL = 20;
     let DIGIT_KEY = 8;
     let AUTO_SCAN = false;
     let IS_SCANNING = false;
@@ -881,7 +881,6 @@
     function getAngkaHilang(nilaiKey) {
         if (!nilaiKey) return '-';
         
-        // Ambil digit-digit unik dari key
         let digits = new Set();
         for (let char of nilaiKey) {
             if (char >= '0' && char <= '9') {
@@ -889,7 +888,6 @@
             }
         }
         
-        // Cari angka 0-9 yang TIDAK ADA di key
         let hilang = [];
         for (let i = 0; i <= 9; i++) {
             if (!digits.has(String(i))) {
@@ -897,9 +895,8 @@
             }
         }
         
-        // Jika semua angka 0-9 ada (key 10 digit), return '-'
         if (hilang.length === 0) return '-';
-        if (hilang.length === 10) return '0'; // Key kosong / tidak valid
+        if (hilang.length === 10) return '0';
         
         return hilang.join('');
     }
@@ -1091,104 +1088,119 @@
     }
 
     // ============================================================
-    //  LOGIC: MERAH WAJIB di atas + HIJAU WAJIB di N baris terakhir
+    //  LOGIC: SCAN KEY DENGAN BATCH PROCESSING (OPTIMASI)
     // ============================================================
     function scanKeyForMati(data, allData, filter, progressCallback) {
-        const ALL_COMBINATIONS = generateAllCombinations();
-        let results = {};
-        let totalCombos = ALL_COMBINATIONS.length;
-        let processed = 0;
+        return new Promise((resolve) => {
+            const ALL_COMBINATIONS = generateAllCombinations();
+            let results = {};
+            let totalCombos = ALL_COMBINATIONS.length;
+            let processed = 0;
+            const BATCH_SIZE = 999999; // Proses 999999 kombinasi per batch
 
-        for (let combo of ALL_COMBINATIONS) {
-            let keyLabel = combo.label;
-            let detailBaris = [];
-            let totalHijau = 0;
-            let totalMerah = 0;
-
-            let lastData = data.slice(-JUMLAH_TAMPIL);
-            
-            for (let i = 0; i < lastData.length - 1; i++) {
-                let baris = lastData[i];
-                let currentIndex = allData.length - lastData.length + i;
-                let nextResult = lastData[i + 1];
-
-                let nilai = hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter);
-
-                let barisInfo = {
-                    index: i + 1,
-                    data: baris,
-                    target: getTarget(nextResult),
-                    nilai: nilai,
-                    isHijau: false,
-                    isMerah: false
-                };
-
-                let target = getTarget(nextResult);
+            function processBatch() {
+                let end = Math.min(processed + BATCH_SIZE, totalCombos);
                 
-                let masuk = false;
-                for (let pos = 0; pos < Math.min(10, nilai.length); pos++) {
-                    if (target.includes(nilai[pos])) {
-                        masuk = true;
-                        break;
+                for (let idx = processed; idx < end; idx++) {
+                    let combo = ALL_COMBINATIONS[idx];
+                    let keyLabel = combo.label;
+                    let detailBaris = [];
+                    let totalHijau = 0;
+                    let totalMerah = 0;
+
+                    let lastData = data.slice(-JUMLAH_TAMPIL);
+                    
+                    for (let i = 0; i < lastData.length - 1; i++) {
+                        let baris = lastData[i];
+                        let currentIndex = allData.length - lastData.length + i;
+                        let nextResult = lastData[i + 1];
+
+                        let nilai = hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter);
+
+                        let barisInfo = {
+                            index: i + 1,
+                            data: baris,
+                            target: getTarget(nextResult),
+                            nilai: nilai,
+                            isHijau: false,
+                            isMerah: false
+                        };
+
+                        let target = getTarget(nextResult);
+                        
+                        let masuk = false;
+                        for (let pos = 0; pos < Math.min(10, nilai.length); pos++) {
+                            if (target.includes(nilai[pos])) {
+                                masuk = true;
+                                break;
+                            }
+                        }
+                        
+                        if (masuk) {
+                            totalMerah++;
+                            barisInfo.isMerah = true;
+                        } else {
+                            totalHijau++;
+                            barisInfo.isHijau = true;
+                        }
+
+                        detailBaris.push(barisInfo);
+                    }
+
+                    let lastNBaris = detailBaris.slice(-HIJAU_BARIS);
+                    let hijauCountLastN = 0;
+                    for (let b of lastNBaris) {
+                        if (b.isHijau) hijauCountLastN++;
+                    }
+
+                    let aboveBaris = detailBaris.slice(0, -HIJAU_BARIS);
+                    let merahCountAbove = 0;
+                    for (let b of aboveBaris) {
+                        if (b.isMerah) merahCountAbove++;
+                    }
+
+                    if (hijauCountLastN >= HIJAU_BARIS && 
+                        aboveBaris.length > 0 && 
+                        merahCountAbove === aboveBaris.length) {
+                        
+                        let nilaiKey = '';
+                        if (detailBaris.length > 0) {
+                            let lastBaris = detailBaris[detailBaris.length - 1];
+                            if (lastBaris && lastBaris.nilai) {
+                                nilaiKey = lastBaris.nilai;
+                            }
+                        }
+                        
+                        results[keyLabel] = {
+                            totalHijau: totalHijau,
+                            totalMerah: totalMerah,
+                            hijauLastN: hijauCountLastN,
+                            merahAbove: merahCountAbove,
+                            totalAbove: aboveBaris.length,
+                            baris: detailBaris,
+                            totalBaris: detailBaris.length,
+                            nilaiKey: nilaiKey
+                        };
                     }
                 }
+
+                processed = end;
                 
-                if (masuk) {
-                    totalMerah++;
-                    barisInfo.isMerah = true;
+                if (progressCallback) {
+                    let percent = (processed / totalCombos) * 100;
+                    progressCallback(percent, `Memproses ${processed}/${totalCombos} kombinasi...`);
+                }
+                
+                if (processed < totalCombos) {
+                    // Jeda 5ms agar browser bisa update UI
+                    setTimeout(processBatch, 100);
                 } else {
-                    totalHijau++;
-                    barisInfo.isHijau = true;
+                    resolve(results);
                 }
-
-                detailBaris.push(barisInfo);
             }
 
-            let lastNBaris = detailBaris.slice(-HIJAU_BARIS);
-            let hijauCountLastN = 0;
-            for (let b of lastNBaris) {
-                if (b.isHijau) hijauCountLastN++;
-            }
-
-            let aboveBaris = detailBaris.slice(0, -HIJAU_BARIS);
-            let merahCountAbove = 0;
-            for (let b of aboveBaris) {
-                if (b.isMerah) merahCountAbove++;
-            }
-
-            if (hijauCountLastN >= HIJAU_BARIS && 
-                aboveBaris.length > 0 && 
-                merahCountAbove === aboveBaris.length) {
-                
-                // Ambil nilai key terakhir untuk prediksi
-                let nilaiKey = '';
-                if (detailBaris.length > 0) {
-                    let lastBaris = detailBaris[detailBaris.length - 1];
-                    if (lastBaris && lastBaris.nilai) {
-                        nilaiKey = lastBaris.nilai;
-                    }
-                }
-                
-                results[keyLabel] = {
-                    totalHijau: totalHijau,
-                    totalMerah: totalMerah,
-                    hijauLastN: hijauCountLastN,
-                    merahAbove: merahCountAbove,
-                    totalAbove: aboveBaris.length,
-                    baris: detailBaris,
-                    totalBaris: detailBaris.length,
-                    nilaiKey: nilaiKey // Simpan nilai key untuk prediksi
-                };
-            }
-
-            processed++;
-            if (progressCallback && processed % 100 === 0) {
-                let percent = (processed / totalCombos) * 100;
-                progressCallback(percent, `Memproses ${processed}/${totalCombos} kombinasi...`);
-            }
-        }
-
-        return results;
+            processBatch();
+        });
     }
 
     // ============================================================
@@ -1378,7 +1390,7 @@
     }
 
     // ============================================================
-    //  SCAN ALL FILTERS - FOKUS CARI ANGKA MATI
+    //  SCAN ALL FILTERS - DENGAN ASYNC/AWAIT
     // ============================================================
     function scanAllFilters() {
         if (IS_SCANNING) {
@@ -1446,39 +1458,37 @@
         updateProgress(5, 'Memulai scan...');
 
         function scanNextFilter() {
-        if (currentFilterIndex >= totalFilters) {
-            finishScan(allResults, totalKeysFound, data, filterLabel);
-            return;
-        }
+            if (currentFilterIndex >= totalFilters) {
+                finishScan(allResults, totalKeysFound, data, filterLabel);
+                return;
+            }
 
-        let filter = filterList[currentFilterIndex];
-        updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
-            `Scanning filter ${filter.toUpperCase()}... (${currentFilterIndex+1}/${totalFilters})`);
+            let filter = filterList[currentFilterIndex];
+            updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
+                `Scanning filter ${filter.toUpperCase()}... (${currentFilterIndex+1}/${totalFilters})`);
 
-        // Gunakan setTimeout agar UI update
-        setTimeout(() => {
-            let results = scanKeyForMati(data, allData, filter, function(percent, text) {
+            // Panggil scanKeyForMati dengan Promise
+            scanKeyForMati(data, allData, filter, function(percent, text) {
                 let totalProgress = 5 + ((currentFilterIndex + percent/100) / totalFilters) * 85;
                 updateProgress(Math.min(95, totalProgress), text);
+            }).then(function(results) {
+                let sortedKeys = Object.keys(results).sort((a, b) => {
+                    return results[b].totalAbove - results[a].totalAbove;
+                });
+                allResults[filter] = { results, sortedKeys };
+                totalKeysFound += sortedKeys.length;
+
+                currentFilterIndex++;
+                updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
+                    `Selesai ${filter.toUpperCase()} (${currentFilterIndex}/${totalFilters})`);
+
+                // Delay 50ms antar filter
+                setTimeout(scanNextFilter, 5);
             });
+        }
 
-            let sortedKeys = Object.keys(results).sort((a, b) => {
-                return results[b].totalAbove - results[a].totalAbove;
-            });
-            allResults[filter] = { results, sortedKeys };
-            totalKeysFound += sortedKeys.length;
-
-            currentFilterIndex++;
-            updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
-                `Selesai ${filter.toUpperCase()} (${currentFilterIndex}/${totalFilters})`);
-
-            // Delay 50ms antar filter
-            setTimeout(scanNextFilter, 99999);
-        }, 50);
+        scanNextFilter();
     }
-
-    scanNextFilter();
-}
 
     function finishScan(allResults, totalKeysFound, data, filterLabel) {
         updateProgress(100, 'Selesai! Menampilkan hasil...');
@@ -1515,16 +1525,10 @@
     }
 
     // ============================================================
-    //  BUILD RESULT HTML - DENGAN PREDIKSI ANGKA HILANG
+    //  BUILD RESULT HTML
     // ============================================================
     function buildResultHTML(allResults, totalKeysFound, data, filterLabel) {
-        let html = `
-        `;
-        html += ``;
-        
-        html += `
-        `;
-        html += ``;
+        let html = ``;
 
         let no = 1;
         for (let filter of Object.keys(allResults)) {
@@ -1540,7 +1544,6 @@
                     let lastBaris = info.baris[info.baris.length - 1];
                     if (lastBaris && lastBaris.nilai) {
                         angkaKey = lastBaris.nilai;
-                        // PREDIKSI = ANGKA YANG TIDAK ADA DI KEY
                         angkaPrediksi = getAngkaHilang(angkaKey);
                     }
                 }
@@ -1731,7 +1734,7 @@
     window.onload = function() {
         updateFooterDate();
         document.getElementById('hijauSelect').value = '3';
-        document.getElementById('tampilInput').value = '40';
+        document.getElementById('tampilInput').value = '20';
         load('hk');
     };
 </script>
