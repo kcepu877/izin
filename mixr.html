@@ -910,18 +910,18 @@
     };
 
     const FILTER_LABEL = {
-        'rumus': '🔵 RUMUS',
-        'index': '🟢 INDEX',
-        'mlama': '🟡 MLAMA',
-        'mbaru': '🟠 MBARU',
-        'taysen': '🔴 TAYSEN',
-        'M0': ' M0',
-        'M1': ' M1',
-        'M3': ' M3',
-        'M5': ' M5',
-        'M7': ' M7',
-        'M8': ' M8',
-        'M9': ' M9'
+        'rumus': '',
+        'index': 'ix',
+        'mlama': 'ml',
+        'mbaru': 'mb',
+        'taysen': 'ty',
+        'M0': 'm0',
+        'M1': 'm1',
+        'M3': 'm3',
+        'M5': 'm5',
+        'M7': 'm7',
+        'M8': 'm8',
+        'M9': 'm9'
     };
 
     function generateKeyMap() {
@@ -1783,7 +1783,7 @@
                 let prediksi = allPrediksi[j] || '-';
                 let statusText = '';
                 if (isFullHijau && isFullMerah) {
-                    statusText = `✅ ${prediksi}`;
+                    statusText = ` ${prediksi}`;
                 } else if (isFullHijau) {
                     statusText = `🟢 ${prediksi}`;
                 } else if (isFullMerah) {
