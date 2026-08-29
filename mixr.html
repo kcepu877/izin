@@ -437,14 +437,14 @@
     <div class="digit-selector">
         <label>🔢 DIGIT KEY:</label>
         <select id="digitSelect" onchange="changeDigit()">
-            <option value="1">1 Digit</option>
+            <option value="1" selected>1 Digit</option>
             <option value="2">2 Digit</option>
             <option value="3">3 Digit</option>
             <option value="4">4 Digit</option>
             <option value="5">5 Digit</option>
             <option value="6">6 Digit</option>
             <option value="7">7 Digit</option>
-            <option value="8" selected>8 Digit</option>
+            <option value="8">8 Digit</option>
             <option value="9">9 Digit</option>
         </select>
         
@@ -459,9 +459,9 @@
         <div class="hijau-option">
             <label>🟢 MATI:</label>
             <select id="hijauSelect" onchange="setHijauOption()">
-                <option value="0">0 Baris</option>
+                <option value="0" selected>0 Baris</option>
                 <option value="1">1 Baris</option>
-                <option value="2" selected>2 Baris</option>
+                <option value="2">2 Baris</option>
                 <option value="3">3 Baris</option>
                 <option value="4">4 Baris</option>
                 <option value="5">5 Baris</option>
@@ -475,7 +475,7 @@
 
         <div class="tampil-option">
             <label>📊 TAMPIL:</label>
-            <input type="number" id="tampilInput" value="20" min="5" max="20" onchange="setTampilOption()">
+            <input type="number" id="tampilInput" value="7" min="5" max="7" onchange="setTampilOption()">
             <span style="color:#446644;font-size:10px;">baris</span>
         </div>
     </div>
@@ -581,9 +581,9 @@
     let P = 'hk';
     let F = 'rumus';
     let POSISI = 'as';
-    let HIJAU_BARIS = 2;
-    let JUMLAH_TAMPIL = 20;
-    let DIGIT_KEY = 8;
+    let HIJAU_BARIS = 0;
+    let JUMLAH_TAMPIL = 7;
+    let DIGIT_KEY = 1;
     let AUTO_SCAN = false;
     let IS_SCANNING = false;
     let DEDUP = 'on';
@@ -1694,13 +1694,13 @@ html += `</tr>`;
 
     window.onload = function() {
         updateFooterDate();
-        document.getElementById('hijauSelect').value = '2';
-        document.getElementById('tampilInput').value = '20';
+        document.getElementById('hijauSelect').value = '0';
+        document.getElementById('tampilInput').value = '7';
         document.getElementById('posisiSelect').value = 'as';
         document.getElementById('filterSelect').value = 'rumus';
         document.getElementById('dedupSelect').value = 'on';
         document.getElementById('pasarSelect').value = 'hk';
-        HIJAU_BARIS = 2;
+        HIJAU_BARIS = 0;
         updateStatusBarDisplay();
         load('hk');
     };
