@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>10 Digit Scanner - Cari Angka Mati</title>
-        <style>
+    <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Courier New', monospace;
@@ -16,6 +16,16 @@
             flex-direction: column;
             align-items: center;
         }
+        
+        /* Tambahkan di bagian style */
+.detail-table .data-row td:first-child {
+    text-align: left !important;
+    padding-left: 12px;
+    letter-spacing: 1px;
+}
+.detail-table .label-col.hijau-label {
+    text-align: center !important;
+}
         .container {
             max-width: 1200px;
             width: 100%;
@@ -27,7 +37,6 @@
             box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
             flex: 1;
         }
-
         .header {
             border-bottom: 1px solid #00ff41;
             padding-bottom: 10px;
@@ -70,7 +79,6 @@
             border-radius: 10px;
             border: 1px solid #1a2a1a;
         }
-
         .digit-selector {
             display: flex;
             align-items: center;
@@ -117,10 +125,9 @@
             font-size: 12px;
             margin-left: 5px;
         }
-
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
             margin: 15px 0;
             padding: 15px;
@@ -128,7 +135,12 @@
             border-radius: 5px;
             border: 1px solid #333;
         }
-        .menu-section { padding: 5px 10px; }
+        .menu-section { 
+            padding: 5px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
         .menu-section h4 {
             color: #66ff99;
             font-size: 13px;
@@ -136,17 +148,41 @@
             border-bottom: 1px solid #333;
             padding-bottom: 3px;
         }
+        .menu-section select {
+            background: #1a1a1a;
+            color: #00ff41;
+            border: 1px solid #2a4a2a;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .menu-section select:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+        }
+        .menu-section select option {
+            background: #1a1a1a;
+            color: #00ff41;
+        }
         .menu-btn {
             background: #1a1a1a;
             border: 1px solid #333;
             color: #00ff41;
-            padding: 4px 10px;
-            margin: 2px;
-            border-radius: 3px;
+            padding: 8px 15px;
+            margin: 0;
+            border-radius: 4px;
             cursor: pointer;
             font-family: 'Courier New', monospace;
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: bold;
             transition: all 0.2s;
+            width: 100%;
         }
         .menu-btn:hover {
             background: #00ff41;
@@ -158,87 +194,21 @@
             color: #0a0a0a;
             border-color: #00ff41;
         }
-        .menu-btn.pasar {
-            border-color: #0066ff;
-            color: #66aaff;
-        }
-        .menu-btn.pasar:hover {
-            background: #0066ff;
-            color: #fff;
-        }
-        .menu-btn.pasar.active {
-            background: #0066ff;
-            color: #fff;
-            border-color: #0066ff;
-        }
-        .menu-btn.quit {
-            border-color: #ff3333;
-            color: #ff6666;
-        }
-        .menu-btn.quit:hover {
-            background: #ff3333;
-            color: #fff;
-        }
-
-        /* Tombol Scan Manual */
-        .scan-btn {
-            background: #1a3a1a;
-            border: 2px solid #44ff44;
-            color: #44ff44;
-            padding: 8px 20px;
-            margin: 2px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        .scan-btn:hover {
-            background: #44ff44;
+        .menu-btn.scan-btn {
+            background: #ff8800;
+            border-color: #ff8800;
             color: #0a0a0a;
-            border-color: #44ff44;
-            box-shadow: 0 0 20px rgba(68, 255, 68, 0.2);
+            font-size: 15px;
+            padding: 10px;
         }
-        .scan-btn:disabled {
+        .menu-btn.scan-btn:hover {
+            background: #ffaa44;
+            border-color: #ffaa44;
+        }
+        .menu-btn.scan-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            border-color: #446644;
-            color: #446644;
         }
-        .scan-btn.scanning {
-            animation: pulse-scan 1s infinite;
-            border-color: #ffaa00;
-            color: #ffaa00;
-        }
-        @keyframes pulse-scan {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .menu-select {
-            background: #1a1a1a;
-            color: #00ff41;
-            border: 1px solid #2a4a2a;
-            border-radius: 4px;
-            padding: 5px 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-width: 120px;
-        }
-        .menu-select:focus {
-            outline: none;
-            border-color: #00ff41;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
-        }
-        .menu-select option {
-            background: #1a1a1a;
-            color: #00ff41;
-        }
-
         .toggle-container {
             display: flex;
             align-items: center;
@@ -294,7 +264,6 @@
         .toggle-status.active {
             color: #00ff41;
         }
-
         .status-bar {
             background: #1a1a1a;
             padding: 10px 15px;
@@ -308,32 +277,6 @@
             border-left-color: #ffaa00;
             color: #ffdd88;
         }
-
-        .data-list {
-            background: #0d0d0d;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 13px;
-            border: 1px solid #222;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .data-list .item {
-            color: #88ff88;
-            padding: 2px 0;
-            border-bottom: 1px solid #1a1a1a;
-        }
-        .data-list .item:last-child { border-bottom: none; }
-        .data-list .hijau-zone {
-            color: #44ff44 !important;
-            font-weight: bold;
-        }
-        .data-list .merah-zone {
-            color: #ff4444 !important;
-            font-weight: bold;
-        }
-
         .table-wrap { overflow-x: auto; margin: 15px 0; }
         table {
             width: 100%;
@@ -401,149 +344,15 @@
             background: #1a0d0d;
             color: #ff4444;
         }
-        .detail-table .label-col.posisi-label {
-            background: #1a0d0d;
-            color: #ff6666;
-        }
-
-        .legend {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            font-size: 12px;
-            margin: 10px 0;
-            padding: 10px;
-            background: #0d0d0d;
-            border-radius: 5px;
-            color: #88ff88;
-        }
-        .legend span { display: flex; align-items: center; gap: 5px; color: #88ff88; }
-        .legend .dot {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-        }
-        .dot-hijau { background: #44ff44; }
-        .dot-merah { background: #ff4444; }
-
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #66ff99; }
-
-        .quick-btn {
-            background: #1a2a1a;
-            border: 1px solid #2a4a2a;
-            color: #88ff88;
-            padding: 4px 12px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-        .quick-btn:hover {
-            background: #2a4a4a;
-            border-color: #00ff41;
-        }
-        .quick-btn.active {
-            background: #44ff44;
-            color: #0a0a0a;
-            border-color: #44ff44;
-        }
-
-        .hijau-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 10px;
-            background: #0d1a0d;
-            border-radius: 5px;
-            border: 1px solid #1a3a1a;
-        }
-        .hijau-option label {
-            color: #44ff44;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .hijau-option select {
-            background: #1a1a1a;
-            color: #44ff44;
-            border: 1px solid #2a4a2a;
-            border-radius: 4px;
-            padding: 3px 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .hijau-option select:focus {
-            outline: none;
-            border-color: #44ff44;
-        }
-
-        .result-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 10px;
-            background: #0d0d2a;
-            border-radius: 5px;
-            border: 1px solid #1a2a3a;
-        }
-        .result-option label {
-            color: #88ddff;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .result-option select {
-            background: #1a1a1a;
-            color: #88ddff;
-            border: 1px solid #2a3a4a;
-            border-radius: 4px;
-            padding: 3px 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .result-option select:focus {
-            outline: none;
-            border-color: #88ddff;
-        }
-
-        .tampil-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 10px;
+        .detail-table .label-col.baris-terakhir {
             background: #0d0d1a;
-            border-radius: 5px;
-            border: 1px solid #1a1a3a;
-        }
-        .tampil-option label {
             color: #88aaff;
-            font-size: 12px;
             font-weight: bold;
-        }
-        .tampil-option input {
-            background: #1a1a1a;
-            color: #88aaff;
-            border: 1px solid #2a2a4a;
-            border-radius: 4px;
-            padding: 3px 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            font-weight: bold;
-            width: 50px;
             text-align: center;
         }
-        .tampil-option input:focus {
-            outline: none;
-            border-color: #88aaff;
+        .detail-table .bg-baris-terakhir {
+            background: #0d0d2a;
         }
-
         .footer {
             max-width: 1200px;
             width: 100%;
@@ -581,48 +390,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.2; }
         }
-
-        .info-box {
-            background: #0d0d0d;
-            border: 1px solid #1a3a1a;
-            border-radius: 5px;
-            padding: 10px 15px;
-            margin: 10px 0;
-            color: #88ff88;
-            font-size: 13px;
-        }
-        .info-box strong { color: #44ff44; }
-        .info-box .merah-text { color: #ff4444; }
-
-        .prediksi-angka {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ffaa00 !important;
-            text-align: center;
-            text-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
-        }
-
-        .status-lulus {
-            color: #44ff44 !important;
-            font-weight: bold;
-        }
-        .status-gagal {
-            color: #ff4444 !important;
-            font-weight: bold;
-        }
-
-        .filter-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .filter-section label {
-            color: #66ff99;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
         @media (max-width: 768px) {
             .container { padding: 10px; }
             .title { font-size: 18px; }
@@ -642,16 +409,6 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-            .prediksi-angka {
-                font-size: 16px;
-            }
-            .filter-section {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .menu-select {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -669,65 +426,64 @@
             </div>
         </div>
         <div class="header-right">
-            <span class="version-badge">v5.2</span>
+            <span class="version-badge">v6.3</span>
             <span class="clock" id="clock">🕐 Loading...</span>
         </div>
     </div>
 
     <div class="status-bar" id="statusBar">⚡ Memuat data HK...</div>
-    <div class="status-bar warning" id="settingsBar">🎯 Fokus: Cari ANGKA MATI di 3 baris terakhir</div>
+    <div class="status-bar warning" id="settingsBar">🎯 ANGKA MATI: 2 Baris | Tampil: 20 baris | Digit: 8 | Pasar: HK | Posisi: AS</div>
 
     <div class="digit-selector">
-    <label>🔢 DIGIT KEY:</label>
-    <select id="digitSelect" onchange="changeDigit()">
-        <option value="1">1 Digit</option>
-        <option value="2">2 Digit</option>
-        <option value="3">3 Digit</option>
-        <option value="4">4 Digit</option>
-        <option value="5">5 Digit</option>
-        <option value="6">6 Digit</option>
-        <option value="7">7 Digit</option>
-        <option value="8" selected>8 Digit</option>
-        <option value="9" selected>9 Digit</option>
-    </select>
-
-    <!-- TOGGLE FILTER DUPLIKAT -->
-<div class="toggle-container" onclick="toggleDuplicateFilter()" title="Klik untuk toggle filter duplikat">
-    <span class="label">🔁 Unik</span>
-    <div class="toggle-switch active" id="duplicateToggleSwitch">  <!-- tambahin active -->
-        <div class="thumb"></div>
-    </div>
-    <span class="toggle-status active" id="duplicateToggleStatus">ON</span>  <!-- tambahin active -->
-</div>
-
-    <!-- HIJAU OPTION (Baris Mati) -->
-    <div class="hijau-option">
-        <label>🟢 MATI:</label>
-        <select id="hijauSelect" onchange="setHijauOption()">
-            <option value="0" selected>0 Baris</option>
-            <option value="1">1 Baris</option>
-            <option value="2">2 Baris</option>
-            <option value="3">3 Baris</option>
-            <option value="4">4 Baris</option>
-            <option value="5">5 Baris</option>
-            <option value="6">6 Baris</option>
-            <option value="7">7 Baris</option>
+        <label>🔢 DIGIT KEY:</label>
+        <select id="digitSelect" onchange="changeDigit()">
+            <option value="1">1 Digit</option>
+            <option value="2">2 Digit</option>
+            <option value="3">3 Digit</option>
+            <option value="4">4 Digit</option>
+            <option value="5">5 Digit</option>
+            <option value="6">6 Digit</option>
+            <option value="7">7 Digit</option>
+            <option value="8" selected>8 Digit</option>
+            <option value="9">9 Digit</option>
         </select>
-    </div>
+        
+        <div class="toggle-container" onclick="toggleAutoScan()" title="Klik untuk toggle auto-scan">
+            <span class="label">⏳ Auto</span>
+            <div class="toggle-switch" id="toggleSwitch">
+                <div class="thumb"></div>
+            </div>
+            <span class="toggle-status" id="toggleStatus">OFF</span>
+        </div>
 
-    <!-- TAMPILAN OPTION (Jumlah Baris Yang Ditampilkan) -->
-    <div class="tampil-option">
-        <label>📊 TAMPIL:</label>
-        <input type="number" id="tampilInput" value="20" min="5" max="20" onchange="setTampilOption()">
-        <span style="color:#446644;font-size:10px;">baris</span>
+        <div class="hijau-option">
+            <label>🟢 MATI:</label>
+            <select id="hijauSelect" onchange="setHijauOption()">
+                <option value="0">0 Baris</option>
+                <option value="1">1 Baris</option>
+                <option value="2" selected>2 Baris</option>
+                <option value="3">3 Baris</option>
+                <option value="4">4 Baris</option>
+                <option value="5">5 Baris</option>
+                <option value="6">6 Baris</option>
+                <option value="7">7 Baris</option>
+                <option value="8">8 Baris</option>
+                <option value="9">9 Baris</option>
+                <option value="10">10 Baris</option>
+            </select>
+        </div>
+
+        <div class="tampil-option">
+            <label>📊 TAMPIL:</label>
+            <input type="number" id="tampilInput" value="20" min="5" max="20" onchange="setTampilOption()">
+            <span style="color:#446644;font-size:10px;">baris</span>
+        </div>
     </div>
-</div>
 
     <div class="menu-grid">
-        <!-- POSISI - Diubah menjadi dropdown -->
         <div class="menu-section">
             <h4>📌 POSISI</h4>
-            <select class="menu-select" id="posisiSelect" onchange="setPosisiFromSelect()">
+            <select id="posisiSelect" onchange="onPosisiChange()">
                 <option value="as">AS</option>
                 <option value="cop">COP</option>
                 <option value="kepala">KEPALA</option>
@@ -737,6 +493,7 @@
                 <option value="tengah">TENGAH</option>
                 <option value="tepi">TEPI</option>
                 <option value="kombinasi">KOMB</option>
+                
                 <option value="jumlah2ddepan">JML DP</option>
                 <option value="jumlah2dbelakang">JML BL</option>
                 <option value="jumlahtengah">JML TG</option>
@@ -745,16 +502,14 @@
             </select>
         </div>
 
-        <!-- FILTER - Dropdown dengan opsi ALL -->
         <div class="menu-section">
-            <h4>🔧 FILTER</h4>
-            <select class="menu-select" id="filterSelect" onchange="setFilterFromSelect()">
-                <option value="ALL">ALL (Semua Filter)</option>
-                <option value="rumus" selected></option>
-                <option value="index">INDEX</option>
-                <option value="mlama">MLAMA</option>
-                <option value="mbaru">MBARU</option>
-                <option value="taysen">TAYSEN</option>
+            <h4>🎯 FILTER</h4>
+            <select id="filterSelect" onchange="onFilterChange()">
+                <option value="rumus">🔵 Rumus</option>
+                <option value="index">🟢 Index</option>
+                <option value="mlama">🟡 M Lama</option>
+                <option value="mbaru">🟠 M Baru</option>
+                <option value="taysen">🔴 Taysen</option>
                 <option value="M0">M0</option>
                 <option value="M1">M1</option>
                 <option value="M3">M3</option>
@@ -762,29 +517,34 @@
                 <option value="M7">M7</option>
                 <option value="M8">M8</option>
                 <option value="M9">M9</option>
-                
             </select>
         </div>
 
-        <!-- PASAR - Diubah menjadi dropdown -->
+        <div class="menu-section">
+            <h4>🧹 DEDUP</h4>
+            <select id="dedupSelect" onchange="onDedupChange()">
+                <option value="off">OFF (Tampilkan Semua)</option>
+                <option value="on" selected>ON (Hapus Duplikat)</option>
+            </select>
+        </div>
+
         <div class="menu-section">
             <h4>🏪 PASAR</h4>
-            <select class="menu-select" id="pasarSelect" onchange="setPasarFromSelect()">
-                <option value="hk" selected>HK</option>
+            <select id="pasarSelect" onchange="onPasarChange()">
+                <option value="hk">HK</option>
                 <option value="sgp">SGP</option>
                 <option value="sdny">SDNY</option>
             </select>
         </div>
 
-        <!-- Tombol SCAN MANUAL -->
         <div class="menu-section">
-            <h4>⚡ ACTION</h4>
-            <button class="scan-btn" id="scanBtn" onclick="scanAllFilters()">▶ SCAN MANUAL</button>
+            <h4>⚡ AKSI</h4>
+            <button class="menu-btn scan-btn" onclick="scanSingleFilter()">⚡ SCAN</button>
         </div>
     </div>
 
     <div id="resultArea">
-        <div class="no-result">🔍 Pilih filter & posisi, lalu tekan SCAN MANUAL</div>
+        <div class="no-result">🔍 Tekan SCAN untuk mulai cari angka Rumus</div>
     </div>
 </div>
 
@@ -820,11 +580,12 @@
     let P = 'hk';
     let F = 'rumus';
     let POSISI = 'as';
-    let HIJAU_BARIS = 0;
+    let HIJAU_BARIS = 2;
     let JUMLAH_TAMPIL = 20;
-    let DIGIT_KEY = 9;
+    let DIGIT_KEY = 8;
+    let AUTO_SCAN = false;
     let IS_SCANNING = false;
-    let SELECTED_FILTER = 'rumus'; // 'ALL' atau filter spesifik
+    let DEDUP = 'on';
 
     const MAP10 = {
         rumus: {
@@ -907,22 +668,8 @@
         tengah: [1, 2], tepi: [0, 3], kombinasi: [0, 1, 2, 3],
         'jumlah2ddepan': [0, 1], 'jumlah2dbelakang': [2, 3],
         'jumlahtengah': [1, 2], 'jumlahtepi': [0, 3],
-        'jumlahkombinasi': [0, 1, 2, 3]
-    };
-
-    const FILTER_LABEL = {
-        'rumus': '',
-        'index': 'ix',
-        'mlama': 'ml',
-        'mbaru': 'mb',
-        'taysen': 'ty',
-        'M0': 'm0',
-        'M1': 'm1',
-        'M3': 'm3',
-        'M5': 'm5',
-        'M7': 'm7',
-        'M8': 'm8',
-        'M9': 'm9'
+        'jumlahkombinasi': [0, 1, 2, 3],
+        'bbfs4d': [0, 1, 2, 3] 
     };
 
     function generateKeyMap() {
@@ -949,6 +696,7 @@
 
     const OPS = ['+', '-', '×'];
     const FILTERS = ['none', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
+    const FILTER_LABEL = { 'none': '', 'index': 'ix', 'mlama': 'ml', 'mbaru': 'mb', 'taysen': 'ty', 'M0': 'm0', 'M1': 'm1', 'M3': 'm3', 'M5': 'm5', 'M7': 'm7', 'M8': 'm8', 'M9': 'm9' };
 
     function generateAllCombinations() {
         const ALL_COMBINATIONS = [];
@@ -957,7 +705,7 @@
                 ALL_COMBINATIONS.push({
                     key1: key, key2: null, op: null,
                     filter1: f, filter2: null,
-                    label: key + (f !== 'none' ? FILTER_LABEL[f] || '' : ''),
+                    label: key + FILTER_LABEL[f],
                     isSingle: true
                 });
             }
@@ -970,9 +718,7 @@
                             ALL_COMBINATIONS.push({
                                 key1, key2, op,
                                 filter1: f1, filter2: f2,
-                                label: key1 + (f1 !== 'none' ? FILTER_LABEL[f1] || '' : '') + 
-                                       op + 
-                                       key2 + (f2 !== 'none' ? FILTER_LABEL[f2] || '' : ''),
+                                label: key1 + FILTER_LABEL[f1] + op + key2 + FILTER_LABEL[f2],
                                 isSingle: false
                             });
                         }
@@ -983,29 +729,22 @@
         return ALL_COMBINATIONS;
     }
 
-    // ============================================================
-    //  FUNGSI CARI ANGKA HILANG (YANG TIDAK ADA DI KEY)
-    // ============================================================
     function getAngkaHilang(nilaiKey) {
         if (!nilaiKey) return '-';
-        
         let digits = new Set();
         for (let char of nilaiKey) {
             if (char >= '0' && char <= '9') {
                 digits.add(char);
             }
         }
-        
         let hilang = [];
         for (let i = 0; i <= 9; i++) {
             if (!digits.has(String(i))) {
                 hilang.push(i);
             }
         }
-        
         if (hilang.length === 0) return '-';
         if (hilang.length === 10) return '0';
-        
         return hilang.join('');
     }
 
@@ -1070,6 +809,10 @@
     function getTarget(nextResult) {
         if (!nextResult) return [];
         let idxList = POSISI_MAP[POSISI] || [];
+        if (POSISI === 'bbfs4d') {
+        // Return 4 digit result sebagai array
+        return nextResult.split(''); // ['2','1','4','5']
+    }
         if (POSISI.startsWith('jumlah')) {
             let total = 0;
             for (let idx of idxList) {
@@ -1166,9 +909,6 @@
         return trimDigit(hasil);
     }
 
-    // ============================================================
-    //  PROGRESS BAR & LOADING
-    // ============================================================
     function showLoading(message = 'Memproses data...') {
         const resultArea = document.getElementById('resultArea');
         resultArea.innerHTML = `
@@ -1196,51 +936,207 @@
     }
 
     // ============================================================
-    //  SET FROM SELECT
+    //  SCAN KEY
     // ============================================================
-    function setPosisiFromSelect() {
-        const select = document.getElementById('posisiSelect');
-        POSISI = select.value;
-        document.getElementById('statusBar').innerHTML = `✅ Posisi: ${POSISI.toUpperCase()}`;
-        document.getElementById('settingsBar').innerHTML = 
-            `🎯 Posisi: ${POSISI.toUpperCase()} | Mati: ${HIJAU_BARIS} baris | Tampil: ${JUMLAH_TAMPIL} baris | Filter: ${SELECTED_FILTER}`;
-        showDataOnly();
-    }
+    // ============================================================
+//  SCAN KEY - DENGAN LOGIKA 0 BARIS = SEMUA MERAH
+// ============================================================
+function scanKeyForMati(data, allData, filter, progressCallback) {
+    return new Promise((resolve) => {
+        const ALL_COMBINATIONS = generateAllCombinations();
+        let results = {};
+        let totalCombos = ALL_COMBINATIONS.length;
+        let processed = 0;
+        const BATCH_SIZE = 999999;
 
-    function setFilterFromSelect() {
-        const select = document.getElementById('filterSelect');
-        SELECTED_FILTER = select.value;
-        if (SELECTED_FILTER === 'ALL') {
-            document.getElementById('statusBar').innerHTML = `✅ Filter: ALL (Semua filter akan diproses)`;
-        } else {
-            F = SELECTED_FILTER;
-            document.getElementById('statusBar').innerHTML = `✅ Filter: ${SELECTED_FILTER.toUpperCase()}`;
+        function processBatch() {
+            let end = Math.min(processed + BATCH_SIZE, totalCombos);
+            
+            for (let idx = processed; idx < end; idx++) {
+                let combo = ALL_COMBINATIONS[idx];
+                let keyLabel = combo.label;
+                let detailBaris = [];
+                let totalHijau = 0;
+                let totalMerah = 0;
+
+                let lastData = data.slice(-JUMLAH_TAMPIL);
+                
+                for (let i = 0; i < lastData.length; i++) {
+                    let baris = lastData[i];
+                    let currentIndex = allData.length - lastData.length + i;
+                    let nextResult = (i + 1 < lastData.length) ? lastData[i + 1] : null;
+
+                    let nilai = hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter);
+
+                    let barisInfo = {
+                        index: i + 1,
+                        data: baris,
+                        target: getTarget(nextResult),
+                        nilai: nilai,
+                        isHijau: false,
+                        isMerah: false,
+                        isBarisTerakhir: (i === lastData.length - 1)
+                    };
+
+                    if (barisInfo.isBarisTerakhir) {
+                        barisInfo.isHijau = false;
+                        barisInfo.isMerah = false;
+                    } else {
+                        let target = getTarget(nextResult);
+                        if (!target || target.length === 0) {
+                            barisInfo.isHijau = true;
+                            totalHijau++;
+                        } else {
+                            let masuk = false;
+                            for (let pos = 0; pos < Math.min(10, nilai.length); pos++) {
+                                if (target.includes(nilai[pos])) {
+                                    masuk = true;
+                                    break;
+                                }
+                            }
+                            if (masuk) {
+                                totalMerah++;
+                                barisInfo.isMerah = true;
+                            } else {
+                                totalHijau++;
+                                barisInfo.isHijau = true;
+                            }
+                        }
+                    }
+
+                    detailBaris.push(barisInfo);
+                }
+
+                // AMBIL NILAI KEY DARI BARIS TERAKHIR
+                let nilaiKey = '';
+                if (detailBaris.length > 0) {
+                    let lastBaris = detailBaris[detailBaris.length - 1];
+                    if (lastBaris && lastBaris.nilai) {
+                        nilaiKey = lastBaris.nilai;
+                    }
+                }
+
+                // ============================================================
+                //  LOGIKA 0 BARIS vs 1-7 BARIS
+                // ============================================================
+                if (HIJAU_BARIS === 0) {
+                    // 0 Baris = semua baris (kecuali terakhir) harus MERAH
+                    let barisTanpaTerakhir = detailBaris.slice(0, -1);
+                    let semuaMerah = true;
+                    for (let b of barisTanpaTerakhir) {
+                        if (!b.isMerah) { semuaMerah = false; break; }
+                    }
+                    if (semuaMerah && barisTanpaTerakhir.length > 0) {
+                        results[keyLabel] = {
+                            totalHijau: totalHijau,
+                            totalMerah: totalMerah,
+                            hijauLastN: 0,
+                            merahAbove: barisTanpaTerakhir.length,
+                            totalAbove: barisTanpaTerakhir.length,
+                            baris: detailBaris,
+                            totalBaris: detailBaris.length,
+                            nilaiKey: nilaiKey
+                        };
+                    }
+                } else {
+                    // Logika normal buat 1-7 Baris
+                    let barisTanpaTerakhir = detailBaris.slice(0, -1);
+                    let lastNBaris = barisTanpaTerakhir.slice(-HIJAU_BARIS);
+                    let hijauCountLastN = 0;
+                    for (let b of lastNBaris) {
+                        if (b.isHijau) hijauCountLastN++;
+                    }
+
+                    let aboveBaris = barisTanpaTerakhir.slice(0, -HIJAU_BARIS);
+                    let merahCountAbove = 0;
+                    for (let b of aboveBaris) {
+                        if (b.isMerah) merahCountAbove++;
+                    }
+
+                    if (hijauCountLastN >= HIJAU_BARIS && 
+                        aboveBaris.length > 0 && 
+                        merahCountAbove === aboveBaris.length) {
+                        
+                        results[keyLabel] = {
+                            totalHijau: totalHijau,
+                            totalMerah: totalMerah,
+                            hijauLastN: hijauCountLastN,
+                            merahAbove: merahCountAbove,
+                            totalAbove: aboveBaris.length,
+                            baris: detailBaris,
+                            totalBaris: detailBaris.length,
+                            nilaiKey: nilaiKey
+                        };
+                    }
+                }
+                // ============================================================
+            }
+
+            processed = end;
+            
+            if (progressCallback) {
+                let percent = (processed / totalCombos) * 100;
+                progressCallback(percent, `Memproses ${processed}/${totalCombos} kombinasi...`);
+            }
+            
+            if (processed < totalCombos) {
+                setTimeout(processBatch, 100);
+            } else {
+                resolve(results);
+            }
         }
-        document.getElementById('settingsBar').innerHTML = 
-            `🎯 Posisi: ${POSISI.toUpperCase()} | Mati: ${HIJAU_BARIS} baris | Tampil: ${JUMLAH_TAMPIL} baris | Filter: ${SELECTED_FILTER}`;
-        showDataOnly();
-    }
 
-    function setPasarFromSelect() {
-        const select = document.getElementById('pasarSelect');
-        load(select.value);
+        processBatch();
+    });
+}
+
+    // ============================================================
+    //  UPDATE STATUS BAR
+    // ============================================================
+    function updateStatusBarDisplay() {
+        const select = document.getElementById('hijauSelect');
+        let selectedText = select.options[select.selectedIndex].text;
+        
+        let settingsBar = document.getElementById('settingsBar');
+        settingsBar.innerHTML = `🎯 ANGKA MATI: ${selectedText} | Tampil: ${JUMLAH_TAMPIL} baris | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Posisi: ${POSISI.toUpperCase()}`;
     }
 
     // ============================================================
-    //  SET HIJAU OPTION
+    //  TOGGLE AUTO-SCAN
     // ============================================================
+    function toggleAutoScan() {
+        AUTO_SCAN = !AUTO_SCAN;
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const toggleStatus = document.getElementById('toggleStatus');
+        
+        if (AUTO_SCAN) {
+            toggleSwitch.classList.add('active');
+            toggleStatus.textContent = 'ON';
+            toggleStatus.classList.add('active');
+            document.getElementById('statusBar').innerHTML = '✅ Auto-scan AKTIF';
+            if (D[P] && !IS_SCANNING) {
+                scanSingleFilter();
+            }
+        } else {
+            toggleSwitch.classList.remove('active');
+            toggleStatus.textContent = 'OFF';
+            toggleStatus.classList.remove('active');
+            document.getElementById('statusBar').innerHTML = '⏸️ Auto-scan NONAKTIF (klik SCAN untuk scan manual)';
+        }
+    }
+
     function setHijauOption() {
         const select = document.getElementById('hijauSelect');
         HIJAU_BARIS = parseInt(select.value);
+        updateStatusBarDisplay();
         document.getElementById('statusBar').innerHTML = `✅ BARIS MATI diatur ke ${HIJAU_BARIS} baris terakhir`;
-        document.getElementById('settingsBar').innerHTML = 
-            `🎯 Posisi: ${POSISI.toUpperCase()} | Mati: ${HIJAU_BARIS} baris | Tampil: ${JUMLAH_TAMPIL} baris | Filter: ${SELECTED_FILTER}`;
-        showDataOnly();
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        } else {
+            showDataOnly();
+        }
     }
 
-    // ============================================================
-    //  SET TAMPIL OPTION
-    // ============================================================
     function setTampilOption() {
         const input = document.getElementById('tampilInput');
         let val = parseInt(input.value);
@@ -1249,28 +1145,57 @@
         input.value = val;
         JUMLAH_TAMPIL = val;
         document.getElementById('statusBar').innerHTML = `✅ Tampilan diubah menjadi ${JUMLAH_TAMPIL} baris`;
-        document.getElementById('settingsBar').innerHTML = 
-            `🎯 Posisi: ${POSISI.toUpperCase()} | Mati: ${HIJAU_BARIS} baris | Tampil: ${JUMLAH_TAMPIL} baris | Filter: ${SELECTED_FILTER}`;
-        showDataOnly();
+        updateStatusBarDisplay();
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        } else {
+            showDataOnly();
+        }
     }
 
-    // ============================================================
-    //  CHANGE DIGIT
-    // ============================================================
-    function changeDigit() {
-        const select = document.getElementById('digitSelect');
-        DIGIT_KEY = parseInt(select.value);
-        document.getElementById('statusBar').innerHTML = `✅ Digit Key diubah menjadi ${DIGIT_KEY} digit`;
-        showDataOnly();
+    function onPosisiChange() {
+        const select = document.getElementById('posisiSelect');
+        POSISI = select.value;
+        document.getElementById('statusBar').innerHTML = `✅ Posisi: ${POSISI.toUpperCase()}`;
+        updateStatusBarDisplay();
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        } else {
+            showDataOnly();
+        }
     }
 
-    // ============================================================
-    //  LOAD DATA
-    // ============================================================
+    function onFilterChange() {
+        const select = document.getElementById('filterSelect');
+        F = select.value;
+        document.getElementById('statusBar').innerHTML = `✅ Filter: ${F.toUpperCase()}`;
+        updateStatusBarDisplay();
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    function onDedupChange() {
+        const select = document.getElementById('dedupSelect');
+        DEDUP = select.value;
+        document.getElementById('statusBar').innerHTML = `✅ DEDUP: ${DEDUP === 'on' ? 'ON (Hapus Duplikat)' : 'OFF'}`;
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        }
+    }
+
+    function onPasarChange() {
+        const select = document.getElementById('pasarSelect');
+        load(select.value);
+    }
+
     async function load(p) {
         P = p;
         const statusBar = document.getElementById('statusBar');
         statusBar.innerHTML = `⏳ Loading ${p.toUpperCase()}...`;
+        document.getElementById('pasarSelect').value = p;
 
         if (!D[p]) {
             try {
@@ -1285,7 +1210,6 @@
                 if (lines.length === 0) {
                     lines = ['1234', '5678', '9012', '3456', '7890', '2345', '6789', '0123', '4567', '8901'];
                 }
-
                 D[p] = lines;
                 statusBar.innerHTML = `✅ Load ${lines.length} data`;
             } catch (e) {
@@ -1294,528 +1218,331 @@
                 statusBar.innerHTML = `📊 Pakai data contoh (${D[p].length} data)`;
             }
         }
-        
         showDataOnly();
-        document.getElementById('statusBar').innerHTML = `✅ Data ${p.toUpperCase()} siap. Klik SCAN MANUAL untuk cari angka jitu.`;
-    }
-
-    // ============================================================
-    //  TAMPILKAN DATA SAJA (TANPA SCAN)
-    // ============================================================
-    function showDataOnly() {
-        if (!D[P]) return;
-        let data = D[P].slice(-JUMLAH_TAMPIL);
-
-        document.getElementById('clock').textContent = updateClock();
-        document.getElementById('settingsBar').innerHTML = 
-            `🎯 Posisi: ${POSISI.toUpperCase()} | Mati: ${HIJAU_BARIS} baris | Tampil: ${JUMLAH_TAMPIL} baris | Digit: ${DIGIT_KEY} | Pasar: ${P.toUpperCase()} | Filter: ${SELECTED_FILTER}`;
-
-        // Tampilkan preview data di area result jika belum di-scan
-        let resultArea = document.getElementById('resultArea');
-        if (!resultArea.innerHTML.includes('table')) {
-            let lastDataHtml1 = `
-            <div style="margin-bottom:10px;color:#446644;font-size:12px;">📊 Preview data terakhir (${data.length} baris):</div> 
-            
-            `;
-            for (let i = 0; i < data.length; i++) {
-                let nextResult = (i + 1 < data.length) ? data[i + 1] : null;
-                let target = getTarget(nextResult);
-                let targetStr = target.length ? target.join(',') : '(tidak ada target)';
-                let isHijauZone = (i >= data.length - HIJAU_BARIS - 1) && (i < data.length - 1);
-                let zoneClass = isHijauZone ? 'hijau-zone' : '';
-                lastDataHtml2 += `<div class="item ${zoneClass}">${i+1}. ${data[i]} → ${targetStr}</div>`;
-            }
-            resultArea.innerHTML = `
-                /* <div class="data-list" id="lastData">${lastDataHtml3}</div>
-                <div style="text-align:center;color:#446644;font-size:12px;margin-top:10px;">
-                    💡 Tekan <strong style="color:#44ff44;">SCAN MANUAL</strong> untuk mencari angka mati
-                </div>
-               */
-            `;
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        } else {
+            document.getElementById('statusBar').innerHTML = `✅ Data ${p.toUpperCase()} siap. Klik SCAN untuk cari angka jitu.`;
         }
     }
 
-    // ============================================================
-    //  SCAN ALL FILTERS - DENGAN ASYNC/AWAIT
-    // ============================================================
-    function scanAllFilters() {
+    function showDataOnly() {
+        if (!D[P]) return;
+        document.getElementById('clock').textContent = updateClock();
+        updateStatusBarDisplay();
+    }
+
+    function changeDigit() {
+        const select = document.getElementById('digitSelect');
+        DIGIT_KEY = parseInt(select.value);
+        document.getElementById('statusBar').innerHTML = `✅ Digit Key diubah menjadi ${DIGIT_KEY} digit`;
+        updateStatusBarDisplay();
+        if (AUTO_SCAN && !IS_SCANNING) {
+            scanSingleFilter();
+        } else {
+            showDataOnly();
+        }
+    }
+
+    function scanSingleFilter() {
         if (IS_SCANNING) {
             document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan... Tunggu sebentar!';
             return;
         }
-
         if (!D[P]) {
             document.getElementById('statusBar').innerHTML = '❌ Data belum dimuat!';
             return;
         }
 
         IS_SCANNING = true;
-        const scanBtn = document.getElementById('scanBtn');
-        scanBtn.textContent = '⏳ SCANNING...';
-        scanBtn.disabled = true;
-        scanBtn.classList.add('scanning');
+        const filter = F;
+        showLoading(`Memproses filter ${filter.toUpperCase()}... Mohon tunggu`);
 
-        showLoading('Memproses data... Mohon tunggu');
+        const scanBtn = document.querySelector('.scan-btn');
+        if (scanBtn) {
+            scanBtn.textContent = '⏳ SCANNING...';
+            scanBtn.disabled = true;
+        }
 
         setTimeout(() => {
             try {
-                performScanWithProgress();
+                performSingleScan(filter);
             } catch (e) {
                 console.error('Scan error:', e);
                 document.getElementById('statusBar').innerHTML = '❌ Error saat scanning: ' + e.message;
                 IS_SCANNING = false;
-                scanBtn.textContent = '▶ SCAN MANUAL';
-                scanBtn.disabled = false;
-                scanBtn.classList.remove('scanning');
+                if (scanBtn) {
+                    scanBtn.textContent = '⚡ SCAN';
+                    scanBtn.disabled = false;
+                }
             }
         }, 100);
     }
 
-            function performScanWithProgress() {
+    function performSingleScan(filter) {
         let data = D[P].slice(-JUMLAH_TAMPIL);
         let allData = D[P];
         
-        let filterList;
-        if (SELECTED_FILTER === 'ALL') {
-            filterList = ['rumus', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
-        } else {
-            filterList = [SELECTED_FILTER];
-        }
+        const filterLabel = {
+            'rumus': '',
+            'index': 'ix',
+            'mlama': 'ml',
+            'mbaru': 'mb',
+            'taysen': 'ty',
+            'M0': 'm0',
+            'M1': 'm1',
+            'M3': 'm3',
+            'M5': 'm5',
+            'M7': 'm7',
+            'M8': 'm8',
+            'M9': 'm9'
+        };
 
-        let allResults = {};
-        let totalKeysFound = 0;
-        let totalFilters = filterList.length;
-        let currentFilterIndex = 0;
+        updateProgress(5, `Memulai scan filter ${filter.toUpperCase()}...`);
 
-        updateProgress(5, 'Memulai scan...');
+        scanKeyForMati(data, allData, filter, function(percent, text) {
+            let totalProgress = 5 + (percent / 100) * 90;
+            updateProgress(Math.min(95, totalProgress), text);
+        }).then(function(results) {
+            updateProgress(100, 'Selesai! Menampilkan hasil...');
 
-        function scanNextFilter() {
-            if (currentFilterIndex >= totalFilters) {
-                // Filter duplikat jika diaktifkan
-                let finalResults = allResults;
-                if (FILTER_DUPLICATES) {
-                    finalResults = filterDuplicateKeys(allResults);
+            IS_SCANNING = false;
+            const scanBtn = document.querySelector('.scan-btn');
+            if (scanBtn) {
+                scanBtn.textContent = '⚡ SCAN';
+                scanBtn.disabled = false;
+            }
+
+            const resultArea = document.getElementById('resultArea');
+            let sortedKeys = Object.keys(results).sort((a, b) => {
+                return results[b].totalAbove - results[a].totalAbove;
+            });
+
+            if (DEDUP === 'on') {
+                let seenValues = new Set();
+                let uniqueKeys = [];
+                let uniqueResults = {};
+                for (let key of sortedKeys) {
+                    let nilaiKey = results[key].nilaiKey || '';
+                    if (!seenValues.has(nilaiKey)) {
+                        seenValues.add(nilaiKey);
+                        uniqueKeys.push(key);
+                        uniqueResults[key] = results[key];
+                    }
                 }
-                finishScan(finalResults, countTotalKeys(finalResults), data, filterList);
+                sortedKeys = uniqueKeys;
+                let newResults = {};
+                for (let key of uniqueKeys) {
+                    newResults[key] = results[key];
+                }
+                results = newResults;
+            }
+
+            if (sortedKeys.length === 0) {
+                resultArea.innerHTML = `
+                    <div class="no-result">
+                        ❌ TIDAK ADA KEY YANG MEMENUHI KRITERIA<br>
+                        <span style="font-size:12px;color:#446644;">
+                            💡 Coba kurangi BARIS MATI (1-2) atau tambah TAMPIL (20-30)<br>
+                            Filter: ${filter.toUpperCase()} | Posisi: ${POSISI.toUpperCase()} | DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}
+                        </span>
+                    </div>
+                `;
+                document.getElementById('statusBar').innerHTML = `✅ Scan selesai. Tidak ada key ditemukan untuk filter ${filter.toUpperCase()}.`;
                 return;
             }
 
-            let filter = filterList[currentFilterIndex];
-            let filterDisplay = filter === 'ALL' ? 'Semua' : filter.toUpperCase();
-            updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
-                `Scanning filter ${filterDisplay}... (${currentFilterIndex+1}/${totalFilters})`);
-
-            scanKeyForMati(data, allData, filter, function(percent, text) {
-                let totalProgress = 5 + ((currentFilterIndex + percent/100) / totalFilters) * 85;
-                updateProgress(Math.min(95, totalProgress), text);
-            }).then(function(results) {
-                let sortedKeys = Object.keys(results).sort((a, b) => {
-                    return results[b].totalAbove - results[a].totalAbove;
-                });
-                allResults[filter] = { results, sortedKeys };
-                totalKeysFound += sortedKeys.length;
-
-                currentFilterIndex++;
-                updateProgress(5 + (currentFilterIndex / totalFilters) * 85, 
-                    `Selesai ${filterDisplay} (${currentFilterIndex}/${totalFilters})`);
-
-                setTimeout(scanNextFilter, 5);
-            });
-        }
-
-        scanNextFilter();
-    }
-    
-    
-    let FILTER_DUPLICATES = true;
-
-    function toggleDuplicateFilter() {
-        FILTER_DUPLICATES = !FILTER_DUPLICATES;
-        const toggleSwitch = document.getElementById('duplicateToggleSwitch');
-        const toggleStatus = document.getElementById('duplicateToggleStatus');
-        
-        if (FILTER_DUPLICATES) {
-            toggleSwitch.classList.add('active');
-            toggleStatus.textContent = 'ON';
-            toggleStatus.classList.add('active');
-            document.getElementById('statusBar').innerHTML = '✅ Filter duplikat AKTIF (hanya 1 key per nilai)';
-        } else {
-            toggleSwitch.classList.remove('active');
-            toggleStatus.textContent = 'OFF';
-            toggleStatus.classList.remove('active');
-            document.getElementById('statusBar').innerHTML = '⏸️ Filter duplikat NONAKTIF (tampilkan semua key)';
-        }
-    }
-        // ============================================================
-    //  FILTER DUPLIKAT KEY (HANYA TAMPIL 1 KEY UNTUK NILAI SAMA)
-    // ============================================================
-        // ============================================================
-    //  FILTER DUPLIKAT KEY (HANYA TAMPIL 1 KEY UNTUK NILAI SAMA)
-    // ============================================================
-    function filterDuplicateKeys(allResults) {
-        let filteredResults = {};
-        
-        for (let filter of Object.keys(allResults)) {
-            let { results, sortedKeys } = allResults[filter];
-            if (sortedKeys.length === 0) {
-                filteredResults[filter] = { results: {}, sortedKeys: [] };
-                continue;
-            }
-            
-            let nilaiKeyMap = {};
-            let keysToKeep = [];
-            let seenValues = new Set();
-            
-            let sortedKeysCopy = [...sortedKeys];
-            
-            for (let key of sortedKeysCopy) {
-                let info = results[key];
-                let nilaiKey = info.nilaiKey || '';
-                
-                if (!nilaiKey || nilaiKey === '') {
-                    keysToKeep.push(key);
-                    continue;
-                }
-                
-                if (!seenValues.has(nilaiKey)) {
-                    seenValues.add(nilaiKey);
-                    keysToKeep.push(key);
-                    nilaiKeyMap[nilaiKey] = key;
-                } else {
-                    let existingKey = nilaiKeyMap[nilaiKey];
-                    if (existingKey && results[existingKey].totalAbove < info.totalAbove) {
-                        let indexToRemove = keysToKeep.indexOf(existingKey);
-                        if (indexToRemove !== -1) {
-                            keysToKeep.splice(indexToRemove, 1);
-                        }
-                        keysToKeep.push(key);
-                        nilaiKeyMap[nilaiKey] = key;
-                    }
-                }
-            }
-            
-            let newResults = {};
-            let newSortedKeys = [];
-            for (let key of keysToKeep) {
-                newResults[key] = results[key];
-                newSortedKeys.push(key);
-            }
-            
-            newSortedKeys.sort((a, b) => {
-                return newResults[b].totalAbove - newResults[a].totalAbove;
-            });
-            
-            filteredResults[filter] = { 
-                results: newResults, 
-                sortedKeys: newSortedKeys 
-            };
-        }
-        
-        return filteredResults;
-    }
-
-    function countTotalKeys(filteredResults) {
-        let total = 0;
-        for (let filter of Object.keys(filteredResults)) {
-            total += filteredResults[filter].sortedKeys.length;
-        }
-        return total;
-    }
-    
-    function scanKeyForMati(data, allData, filter, progressCallback) {
-        return new Promise((resolve) => {
-            const ALL_COMBINATIONS = generateAllCombinations();
-            let results = {};
-            let totalCombos = ALL_COMBINATIONS.length;
-            let processed = 0;
-            const BATCH_SIZE = 999999;
-
-            function processBatch() {
-                let end = Math.min(processed + BATCH_SIZE, totalCombos);
-                
-                for (let idx = processed; idx < end; idx++) {
-                    let combo = ALL_COMBINATIONS[idx];
-                    let keyLabel = combo.label;
-                    let detailBaris = [];
-                    let totalHijau = 0;
-                    let totalMerah = 0;
-
-                    let lastData = data.slice(-JUMLAH_TAMPIL);
-                    
-                    for (let i = 0; i < lastData.length - 1; i++) {
-                        let baris = lastData[i];
-                        let currentIndex = allData.length - lastData.length + i;
-                        let nextResult = lastData[i + 1];
-
-                        let nilai = hitungNilaiKeyWithFilter(combo, baris, allData, currentIndex, filter);
-
-                        let barisInfo = {
-                            index: i + 1,
-                            data: baris,
-                            target: getTarget(nextResult),
-                            nilai: nilai,
-                            isHijau: false,
-                            isMerah: false
-                        };
-
-                        let target = getTarget(nextResult);
-                        
-                        let masuk = false;
-                        for (let pos = 0; pos < Math.min(10, nilai.length); pos++) {
-                            if (target.includes(nilai[pos])) {
-                                masuk = true;
-                                break;
-                            }
-                        }
-                        
-                        if (masuk) {
-                            totalMerah++;
-                            barisInfo.isMerah = true;
-                        } else {
-                            totalHijau++;
-                            barisInfo.isHijau = true;
-                        }
-
-                        detailBaris.push(barisInfo);
-                    }
-
-                    let lastNBaris = detailBaris.slice(-HIJAU_BARIS);
-                    let hijauCountLastN = 0;
-                    for (let b of lastNBaris) {
-                        if (b.isHijau) hijauCountLastN++;
-                    }
-
-                    let aboveBaris = detailBaris.slice(0, -HIJAU_BARIS);
-                    let merahCountAbove = 0;
-                    for (let b of aboveBaris) {
-                        if (b.isMerah) merahCountAbove++;
-                    }
-
-                    if (hijauCountLastN >= HIJAU_BARIS && 
-                        aboveBaris.length > 0 && 
-                        merahCountAbove === aboveBaris.length) {
-                        
-                        let nilaiKey = '';
-                        if (detailBaris.length > 0) {
-                            let lastBaris = detailBaris[detailBaris.length - 1];
-                            if (lastBaris && lastBaris.nilai) {
-                                nilaiKey = lastBaris.nilai;
-                            }
-                        }
-                        
-                        results[keyLabel] = {
-                            totalHijau: totalHijau,
-                            totalMerah: totalMerah,
-                            hijauLastN: hijauCountLastN,
-                            merahAbove: merahCountAbove,
-                            totalAbove: aboveBaris.length,
-                            baris: detailBaris,
-                            totalBaris: detailBaris.length,
-                            nilaiKey: nilaiKey
-                        };
-                    }
-                }
-
-                processed = end;
-                
-                if (progressCallback) {
-                    let percent = (processed / totalCombos) * 100;
-                    progressCallback(percent, `Memproses ${processed}/${totalCombos} kombinasi...`);
-                }
-                
-                if (processed < totalCombos) {
-                    setTimeout(processBatch, 5);
-                } else {
-                    resolve(results);
-                }
-            }
-
-            processBatch();
+            let html = buildSingleResultHTML(results, sortedKeys, data, filter, filterLabel);
+            resultArea.innerHTML = html;
+            document.getElementById('statusBar').innerHTML = `✅ Scan selesai. ${sortedKeys.length} key ditemukan untuk filter ${filter.toUpperCase()}! DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}`;
+            updateStatusBarDisplay();
         });
     }
 
-        function finishScan(allResults, totalKeysFound, data, filterList) {
-        updateProgress(100, 'Selesai! Menampilkan hasil...');
+    // ============================================================
+    //  BUILD RESULT - DENGAN WARNA MERAH PER DIGIT + X
+    // ============================================================
+    function buildSingleResultHTML(results, sortedKeys, data, filter, filterLabel) {
+        let html = `
+            <div style="margin-top:10px;padding:10px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
+                <strong style="color:#44ff44;">${filterLabel[filter] || filter} (${sortedKeys.length} key)</strong>
+                <span style="color:#446644;margin-left:10px;">${HIJAU_BARIS} baris terakhir</span>
+                <span style="color:#446644;margin-left:10px;">Posisi: ${POSISI.toUpperCase()}</span>
+                <span style="color:#ff8800;margin-left:10px;">DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}</span>
+            </div>
+        `;
 
-        IS_SCANNING = false;
-        const scanBtn = document.getElementById('scanBtn');
-        scanBtn.textContent = '▶ SCAN MANUAL';
-        scanBtn.disabled = false;
-        scanBtn.classList.remove('scanning');
+        html += `<div class="table-wrap"><table class="detail-table">`;
+        html += `<tr class="key-header-row"><th class="label-col hijau-label">KEY</th>`;
+        for (let key of sortedKeys) {
+            html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
+        }
+        html += `
+        `;
+        html += `</tr>`;
 
-        const resultArea = document.getElementById('resultArea');
-
-        if (totalKeysFound === 0) {
-            resultArea.innerHTML = `
-                <div class="no-result">
-                    ❌ TIDAK ADA KEY YANG MEMENUHI KRITERIA<br>
-                    <span style="font-size:12px;color:#446644;">
-                        💡 Coba kurangi BARIS MATI (1-2) atau tambah TAMPIL (20-30)
-                    </span>
-                </div>
-            `;
-            document.getElementById('statusBar').innerHTML = `✅ Scan selesai. Tidak ada key ditemukan.`;
-            return;
+        let maxBaris = 0;
+        let allBarisData = [];
+        let allPrediksi = [];
+        
+        for (let key of sortedKeys) {
+            let info = results[key];
+            let barisList = info.baris || [];
+            allBarisData.push(barisList);
+            if (barisList.length > maxBaris) maxBaris = barisList.length;
+            
+            let prediksi = '';
+            if (barisList.length > 0) {
+                let lastBaris = barisList[barisList.length - 1];
+                if (lastBaris && lastBaris.nilai) {
+                    prediksi = getAngkaHilang(lastBaris.nilai);
+                }
+            }
+            allPrediksi.push(prediksi);
         }
 
-        // PERBAIKAN: Kirim D[P] (data lengkap) bukan data yang sudah di-slice
-        let html = buildResultHTML(allResults, totalKeysFound, D[P], filterList);
-        resultArea.innerHTML = html;
-        document.getElementById('statusBar').innerHTML = `✅ Scan selesai. ${totalKeysFound} key ditemukan!`;
-    }
-
-    // ============================================================
-    //  BUILD RESULT HTML
-    // ============================================================
-        function buildResultHTML(allResults, totalKeysFound, fullData, filterList) {
-        let html = ``;
-
-        // DETAIL PER FILTER
-        html += `<div style="margin-top:10px;"><strong>📋 KEY DITEMUKAN (${totalKeysFound} Key):</strong></div>`;
-
-        for (let filter of filterList) {
-            let filterData = allResults[filter];
-            if (!filterData || filterData.sortedKeys.length === 0) continue;
+        for (let i = 0; i < maxBaris; i++) {
+            let label = data[i] || '-';
+            let isHijauZone = (i >= maxBaris - HIJAU_BARIS);
+            let isAbove = (i < maxBaris - HIJAU_BARIS);
+            let isBarisTerakhir = (i === maxBaris - 1);
             
-            let { results, sortedKeys } = filterData;
-
-            html += `<div style="margin-top:15px;padding:10px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
-                <strong style="color:#44ff44;">${FILTER_LABEL[filter] || filter.toUpperCase()} (${sortedKeys.length} key)</strong>
-                <span style="color:#446644;margin-left:10px;">${HIJAU_BARIS} baris terakhir</span>
-            </div>`;
-
-            html += `<div class="table-wrap"><table class="detail-table">`;
-            html += `<tr class="key-header-row"><th class="label-col hijau-label">KEY</th>`;
-            for (let key of sortedKeys) {
-                html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
-            }
-            html += `<th style="text-align:center;font-size:11px;background:#1a2a0a;color:#ffaa00;">⭐</th>`;
-            html += `</tr>`;
-
-            let maxBaris = 0;
-            let allBarisData = [];
-            let allPrediksi = [];
+            // SEMUA WARNA JADI PUTIH (netral)
+            let bgColor = '#0d0d0d';
+            let labelColor = '#88ff88';
+            let labelText = label;
             
-            for (let key of sortedKeys) {
-                let info = results[key];
-                let barisList = info.baris || [];
-                allBarisData.push(barisList);
-                if (barisList.length > maxBaris) maxBaris = barisList.length;
-                
-                let prediksi = '';
-                if (barisList.length > 0) {
-                    let lastBaris = barisList[barisList.length - 1];
-                    if (lastBaris && lastBaris.nilai) {
-                        prediksi = getAngkaHilang(lastBaris.nilai);
-                    }
-                }
-                allPrediksi.push(prediksi);
-            }
-
-            // PERBAIKAN: Gunakan fullData (data lengkap) dan slice sesuai maxBaris
-            let displayData = fullData.slice(-maxBaris);
+            html += `<tr class="data-row" style="background:${bgColor};">`;
+            html += `<td class="label-col" style="background:${bgColor};color:${labelColor};font-weight:bold;text-align:center;">
+                ${labelText}
+            </td>`;
             
-            for (let i = 0; i < maxBaris; i++) {
-                let label = displayData[i] || '-';
-                let isHijauZone = (i >= maxBaris - HIJAU_BARIS);
-                let isAbove = (i < maxBaris - HIJAU_BARIS);
-                
-                html += `<tr class="data-row" style="${isHijauZone ? 'background:#0a1a0a;' : (isAbove ? 'background:#1a0a0a;' : '')}">`;
-                html += `<td class="label-col" style="background:${isHijauZone ? '#0d1a0d' : (isAbove ? '#1a0d0d' : '#0d0d0d')};color:${isHijauZone ? '#44ff44' : (isAbove ? '#ff4444' : '#66ff99')};font-weight:bold;text-align:center;">
-                    ${label}${isHijauZone ? ' 🟢' : (isAbove ? ' 🔴' : '')}
-                </td>`;
-                
-                for (let j = 0; j < sortedKeys.length; j++) {
-                    let barisList = allBarisData[j];
-                    if (i < barisList.length) {
-                        let baris = barisList[i];
-                        let nilai = baris.nilai || '-';
-                        let isHijau = baris.isHijau;
-                        let isMerah = baris.isMerah;
+            for (let j = 0; j < sortedKeys.length; j++) {
+                let barisList = allBarisData[j];
+                if (i < barisList.length) {
+                    let baris = barisList[i];
+                    let nilai = baris.nilai || '-';
+                    let target = baris.target || [];
+                    
+                    let displayNilai = '';
+                    if (nilai !== '-') {
+                        let chars = nilai.split('');
+                        let displayChars = [];
+                        let adaYangMasuk = false;
                         
-                        let displayNilai = '';
-                        if (nilai !== '-') {
-                            if (isHijau) {
-                                displayNilai = `<span style="color:#44ff44;font-weight:bold;">${nilai}</span>`;
-                            } else if (isMerah) {
-                                displayNilai = `<span style="color:#ff4444;font-weight:bold;">${nilai}</span>`;
+                        for (let char of chars) {
+                            let isTarget = target && target.includes(char);
+                            if (isTarget) {
+                                displayChars.push(`<span style="color:#ff4444;font-weight:bold;">${char}</span>`);
+                                adaYangMasuk = true;
                             } else {
-                                displayNilai = nilai;
+                                displayChars.push(char);
                             }
-                        } else {
-                            displayNilai = '-';
                         }
-                        let bgClass = isHijau ? 'bg-hijau' : (isMerah ? 'bg-merah' : '');
-                        html += `<td style="text-align:center;font-size:13px;letter-spacing:1px;${bgClass}">${displayNilai}</td>`;
+                        
+                        // Kalau tidak ada yang masuk, kasih X
+                        if (!adaYangMasuk && target && target.length > 0) {
+                            displayNilai = chars.join('') + '<span style="color:#ff8800;font-weight:bold;">X</span>';
+                        } else {
+                            displayNilai = displayChars.join('');
+                        }
                     } else {
-                        html += `<td style="text-align:center;color:#222;">-</td>`;
+                        displayNilai = '-';
                     }
-                }
-                
-                // Kolom prediksi (angka hilang) - ditampilkan di baris terakhir
-                if (i === maxBaris - 1) {
-                    let prediksiGabungan = allPrediksi.filter(p => p !== '-').join(', ');
-                    html += `<td style="text-align:center;font-size:16px;font-weight:bold;color:#ffaa00;">-</td>`;
+                    
+                    html += `<td style="text-align:center;font-size:13px;letter-spacing:1px;">${displayNilai}</td>`;
                 } else {
                     html += `<td style="text-align:center;color:#222;">-</td>`;
                 }
-                
-                html += `</tr>`;
             }
-
-            // Baris status dengan prediksi
-            html += `<tr>`;
-            html += `<td class="label-col hijau-label">STATUS</td>`;
-            for (let j = 0; j < sortedKeys.length; j++) {
-                let barisList = allBarisData[j];
-                let lastN = barisList.slice(-HIJAU_BARIS);
-                let hijauCount = 0;
-                for (let b of lastN) {
-                    if (b.isHijau) hijauCount++;
-                }
-                let aboveBaris = barisList.slice(0, -HIJAU_BARIS);
-                let merahCount = 0;
-                for (let b of aboveBaris) {
-                    if (b.isMerah) merahCount++;
-                }
-                let isFullHijau = (hijauCount >= HIJAU_BARIS);
-                let isFullMerah = (merahCount === aboveBaris.length && aboveBaris.length > 0);
+            
+            if (i === maxBaris - 1) {
+                let prediksiAll = allPrediksi.map(p => p).join(' ');
+                html += `<td style="text-align:center;font-size:14px;font-weight:bold;color:#ffaa00;"></td>`;
+            } else {
+                html += `
                 
-                let prediksi = allPrediksi[j] || '-';
-                let statusText = '';
-                if (isFullHijau && isFullMerah) {
-                    statusText = ` ${prediksi}`;
-                } else if (isFullHijau) {
-                    statusText = `🟢 ${prediksi}`;
-                } else if (isFullMerah) {
-                    statusText = `🔴 ${prediksi}`;
-                } else {
-                    statusText = `❌ ${prediksi}`;
-                }
-                html += `<td style="text-align:center;font-weight:bold;font-size:14px;color:${(isFullHijau && isFullMerah) ? '#44ff44' : '#ff4444'};">${statusText}</td>`;
+                `;
             }
-            html += `<td style="text-align:center;color:#ffaa00;font-size:14px;font-weight:bold;">⭐</td>`;
+            
             html += `</tr>`;
-            html += `</table></div>`;
         }
+
+       // STATUS
+html += `<tr>`;
+html += `<td class="label-col hijau-label" style="background:#0d1a0d;color:#44ff44;text-align:center;">STATUS</td>`;
+for (let j = 0; j < sortedKeys.length; j++) {
+    let barisList = allBarisData[j];
+    let barisTanpaTerakhir = barisList.slice(0, -1);
+    let lastN = barisTanpaTerakhir.slice(-HIJAU_BARIS);
+    let hijauCount = 0;
+    for (let b of lastN) {
+        if (b.isHijau) hijauCount++;
+    }
+    let aboveBaris = barisTanpaTerakhir.slice(0, -HIJAU_BARIS);
+    let merahCount = 0;
+    for (let b of aboveBaris) {
+        if (b.isMerah) merahCount++;
+    }
+    let isFullHijau = (hijauCount >= HIJAU_BARIS);
+    let isFullMerah = (merahCount === aboveBaris.length && aboveBaris.length > 0);
+    
+    let prediksi = allPrediksi[j] || '-';
+    let statusText = '';
+    if (isFullHijau && isFullMerah) {
+        statusText = ` ${prediksi}`;
+    } else if (isFullHijau) {
+        statusText = `🟢 ${prediksi}`;
+    } else if (isFullMerah) {
+        statusText = `🔴 ${prediksi}`;
+    } else {
+        statusText = '❌';
+    }
+    html += `<td style="text-align:center;font-weight:bold;font-size:14px;color:${(isFullHijau && isFullMerah) ? '#44ff44' : '#ff4444'};">${statusText}</td>`;
+}
+html += `
+        
+        `;
+html += `</tr>`;
+        html += `</table></div>`;
 
         return html;
     }
 
-    // ============================================================
-    //  TIMER & INIT
-    // ============================================================
+    function runCommand(cmd) {
+        const posisiMap = {
+            '1': 'as', '2': 'cop', '3': 'kepala', '4': 'ekor',
+            '5': '2ddepan', '6': '2dbelakang', '7': 'tengah', '8': 'tepi',
+            '9': 'kombinasi',
+            '10': 'jumlah2ddepan', '11': 'jumlah2dbelakang',
+            '12': 'jumlahtengah', '13': 'jumlahtepi', '14': 'jumlahkombinasi'
+        };
+        const pasarMap = {
+            'h': 'hk', 's': 'sgp', 'sd': 'sdny'
+        };
+        if (posisiMap[cmd]) {
+            document.getElementById('posisiSelect').value = posisiMap[cmd];
+            onPosisiChange();
+        } else if (pasarMap[cmd]) {
+            document.getElementById('pasarSelect').value = pasarMap[cmd];
+            onPasarChange();
+        }
+    }
+
     setInterval(() => {
         document.getElementById('clock').textContent = updateClock();
     }, 1000);
 
     window.onload = function() {
         updateFooterDate();
-        document.getElementById('hijauSelect').value = '0';
+        document.getElementById('hijauSelect').value = '2';
         document.getElementById('tampilInput').value = '20';
         document.getElementById('posisiSelect').value = 'as';
         document.getElementById('filterSelect').value = 'rumus';
+        document.getElementById('dedupSelect').value = 'on';
         document.getElementById('pasarSelect').value = 'hk';
+        HIJAU_BARIS = 2;
+        updateStatusBarDisplay();
         load('hk');
     };
 </script>
