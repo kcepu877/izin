@@ -1400,6 +1400,10 @@ function buildAllResultHTML(allResults, totalKeysFound) {
     }
 
     function scanSingleFilter() {
+        if (F === 'all') {
+        scanAllFilters();
+        return;
+        }
         if (IS_SCANNING) {
             document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan... Tunggu sebentar!';
             return;
