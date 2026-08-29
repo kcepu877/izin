@@ -503,22 +503,23 @@
         </div>
 
         <div class="menu-section">
-            <h4>🎯 FILTER</h4>
-            <select id="filterSelect" onchange="onFilterChange()">
-                <option value="rumus">🔵 Rumus</option>
-                <option value="index">🟢 Index</option>
-                <option value="mlama">🟡 M Lama</option>
-                <option value="mbaru">🟠 M Baru</option>
-                <option value="taysen">🔴 Taysen</option>
-                <option value="M0">M0</option>
-                <option value="M1">M1</option>
-                <option value="M3">M3</option>
-                <option value="M5">M5</option>
-                <option value="M7">M7</option>
-                <option value="M8">M8</option>
-                <option value="M9">M9</option>
-            </select>
-        </div>
+    <h4>🎯 FILTER</h4>
+    <select id="filterSelect" onchange="onFilterChange()">
+        <option value="all"> ALL</option>
+        <option value="rumus">R</option>
+        <option value="index">ix</option>
+        <option value="mlama">ml</option>
+        <option value="mbaru">mb</option>
+        <option value="taysen">Ty</option>
+        <option value="M0">m0</option>
+        <option value="M1">m1</option>
+        <option value="M3">m3</option>
+        <option value="M5">m5</option>
+        <option value="M7">m7</option>
+        <option value="M8">m8</option>
+        <option value="M9">m9</option>
+    </select>
+</div>
 
         <div class="menu-section">
             <h4>🧹 DEDUP</h4>
@@ -1166,17 +1167,171 @@ function scanKeyForMati(data, allData, filter, progressCallback) {
     }
 
     function onFilterChange() {
-        const select = document.getElementById('filterSelect');
-        F = select.value;
-        document.getElementById('statusBar').innerHTML = `✅ Filter: ${F.toUpperCase()}`;
-        updateStatusBarDisplay();
-        if (AUTO_SCAN && !IS_SCANNING) {
-            scanSingleFilter();
+    const select = document.getElementById('filterSelect');
+    F = select.value;
+    document.getElementById('statusBar').innerHTML = `✅ Filter: ${F.toUpperCase()}`;
+    updateStatusBarDisplay();
+    
+    if (AUTO_SCAN && !IS_SCANNING) {
+        if (F === 'all') {
+            scanAllFilters();  // scan semua filter
         } else {
-            showDataOnly();
+            scanSingleFilter(); // scan 1 filter
         }
+    } else {
+        showDataOnly();
+    }
+}
+    function scanAllFilters() {
+    if (IS_SCANNING) {
+        document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan... Tunggu sebentar!';
+        return;
+    }
+    if (!D[P]) {
+        document.getElementById('statusBar').innerHTML = '❌ Data belum dimuat!';
+        return;
     }
 
+    IS_SCANNING = true;
+    const filterList = ['rumus', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
+    showLoading(`Memproses ALL filter... Mohon tunggu`);
+
+    const scanBtn = document.querySelector('.scan-btn');
+    if (scanBtn) {
+        scanBtn.textContent = '⏳ SCANNING ALL...';
+        scanBtn.disabled = true;
+    }
+
+    let allResults = {};
+    let totalKeysFound = 0;
+    let processedFilters = 0;
+
+    function scanNextFilter() {
+        if (processedFilters >= filterList.length) {
+            // Selesai semua filter
+            finishAllScan(allResults, totalKeysFound);
+            return;
+        }
+
+        let filter = filterList[processedFilters];
+        updateProgress(5 + (processedFilters / filterList.length) * 85, 
+            `Scanning ${filter.toUpperCase()}... (${processedFilters+1}/${filterList.length})`);
+
+        let data = D[P].slice(-JUMLAH_TAMPIL);
+        let allData = D[P];
+
+        scanKeyForMati(data, allData, filter, function(percent, text) {
+            let totalProgress = 5 + ((processedFilters + percent/100) / filterList.length) * 85;
+            updateProgress(Math.min(95, totalProgress), text);
+        }).then(function(results) {
+            let sortedKeys = Object.keys(results).sort((a, b) => {
+                return results[b].totalAbove - results[a].totalAbove;
+            });
+
+            // Simpan hasil per filter
+            allResults[filter] = {
+                results: results,
+                sortedKeys: sortedKeys,
+                count: sortedKeys.length
+            };
+            totalKeysFound += sortedKeys.length;
+
+            processedFilters++;
+            setTimeout(scanNextFilter, 50);
+        });
+    }
+
+    scanNextFilter();
+}
+
+function finishAllScan(allResults, totalKeysFound) {
+    updateProgress(100, 'Selesai! Menampilkan hasil...');
+    IS_SCANNING = false;
+
+    const scanBtn = document.querySelector('.scan-btn');
+    if (scanBtn) {
+        scanBtn.textContent = '⚡ SCAN';
+        scanBtn.disabled = false;
+    }
+
+    const resultArea = document.getElementById('resultArea');
+
+    if (totalKeysFound === 0) {
+        resultArea.innerHTML = `
+            <div class="no-result">
+                ❌ TIDAK ADA KEY YANG MEMENUHI KRITERIA<br>
+                <span style="font-size:12px;color:#446644;">
+                    💡 Coba kurangi BARIS MATI atau tambah TAMPIL
+                </span>
+            </div>
+        `;
+        document.getElementById('statusBar').innerHTML = `✅ Scan ALL selesai. 0 key ditemukan.`;
+        return;
+    }
+
+    let html = buildAllResultHTML(allResults, totalKeysFound);
+    resultArea.innerHTML = html;
+    document.getElementById('statusBar').innerHTML = `✅ Scan ALL selesai. ${totalKeysFound} key ditemukan!`;
+    updateStatusBarDisplay();
+}
+function buildAllResultHTML(allResults, totalKeysFound) {
+    let html = `
+        <div style="margin-top:10px;padding:10px;background:#0d1a0d;border-left:3px solid #ff8800;border-radius:4px;">
+            <strong style="color:#ff8800;">🌈 ALL FILTERS (${totalKeysFound} total key)</strong>
+            <span style="color:#446644;margin-left:10px;">${HIJAU_BARIS} baris terakhir</span>
+            <span style="color:#446644;margin-left:10px;">Posisi: ${POSISI.toUpperCase()}</span>
+            <span style="color:#ff8800;margin-left:10px;">DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}</span>
+        </div>
+    `;
+
+    // Tampilkan hasil per filter dengan label jelas
+    for (let filter of Object.keys(allResults)) {
+        let { results, sortedKeys, count } = allResults[filter];
+        if (count === 0) continue;
+
+        const filterLabel = {
+            'rumus': '🔵 Rumus',
+            'index': '🟢 Index',
+            'mlama': '🟡 M Lama',
+            'mbaru': '🟠 M Baru',
+            'taysen': '🔴 Taysen',
+            'M0': ' M0',
+            'M1': ' M1',
+            'M3': ' M3',
+            'M5': ' M5',
+            'M7': ' M7',
+            'M8': ' M8',
+            'M9': ' M9'
+        };
+
+        html += `
+            <div style="margin-top:15px;padding:10px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
+                <strong style="color:#44ff44;">${filterLabel[filter] || filter} (${count} key)</strong>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;padding:8px;background:#0d0d0d;border-radius:4px;border:1px solid #1a2a1a;">
+        `;
+
+        for (let key of sortedKeys) {
+            let info = results[key];
+            let prediksi = '';
+            if (info.baris && info.baris.length > 0) {
+                let lastBaris = info.baris[info.baris.length - 1];
+                if (lastBaris && lastBaris.nilai) {
+                    prediksi = getAngkaHilang(lastBaris.nilai);
+                }
+            }
+            // Tampilkan key + prediksi + label filter
+            html += `<span style="background:#1a1a1a;padding:4px 10px;border-radius:4px;border:1px solid #2a4a2a;color:#88ff88;font-size:12px;">
+                <span style="color:#88ddff;">${key}</span> → <span style="color:#ffaa00;">${prediksi}</span>
+                <span style="color:#446644;font-size:10px;">[${filterLabel[filter] || filter}]</span>
+            </span>`;
+        }
+
+        html += `</div>`;
+    }
+
+    return html;
+}
     function onDedupChange() {
         const select = document.getElementById('dedupSelect');
         DEDUP = select.value;
