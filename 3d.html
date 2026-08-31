@@ -269,7 +269,6 @@ th.key-header {
     text-align: center;
 }
 
-/* TOP CONTAINER */
 .top-container {
     padding: 8px 15px;
     background: #fff3e0;
@@ -352,7 +351,7 @@ th.key-header {
                     <option value="jd">Jd</option>
                     <option value="jt">Jt</option>
                     <option value="j">J</option>
-                    <option value="acke">Cb</option>
+                    <option value="acke">Kombinasi</option>
                 </select>
             </div>
             <div class="col">
@@ -459,6 +458,14 @@ th.key-header {
                     <option value="ty">ty</option>
                     <option value="ml">ml</option>
                     <option value="mb">mb</option>
+<option value="m0">m0</option>
+<option value="m1">m1</option>
+<option value="m3">m3</option>
+<option value="m5">m5</option>
+<option value="m7">m7</option>
+<option value="m8">m8</option>
+<option value="m9">m9</option>
+                    
                 </select>
             </div>
             <div class="col">
@@ -547,6 +554,13 @@ th.key-header {
                     <option value="ty">ty</option>
                     <option value="ml">ml</option>
                     <option value="mb">mb</option>
+<option value="m0">m0</option>
+<option value="m1">m1</option>
+<option value="m3">m3</option>
+<option value="m5">m5</option>
+<option value="m7">m7</option>
+<option value="m8">m8</option>
+<option value="m9">m9</option>
                 </select>
             </div>
             <div class="col">
@@ -557,6 +571,13 @@ th.key-header {
                     <option value="ty">ty</option>
                     <option value="ml">ml</option>
                     <option value="mb">mb</option>
+<option value="m0">m0</option>
+<option value="m1">m1</option>
+<option value="m3">m3</option>
+<option value="m5">m5</option>
+<option value="m7">m7</option>
+<option value="m8">m8</option>
+<option value="m9">m9</option>
                 </select>
             </div>
             <div class="col" style="display:flex; align-items:flex-end;">
@@ -577,10 +598,7 @@ th.key-header {
         <table id="tabel"></table>
     </div>
     <div class="top-container" id="topContainer">
-        <span class="top-label">🏆 TOP</span>
-        <span class="top-number" id="topNumber">-</span>
-        <span class="top-badge" id="topBadge">LURUS 0</span>
-        <span class="top-detail" id="topDetail">-</span>
+        
     </div>
 </div>
 
@@ -590,7 +608,7 @@ th.key-header {
         <div class="footer-left">
             <span>© 2026 <strong>Togel Analysis</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v2.4</span></span>
+            <span>Version <span class="footer-version">v2.5</span></span>
             <span class="footer-divider">|</span>
             <a href="#" class="footer-link">📖 Docs</a>
         </div>
@@ -629,7 +647,7 @@ var MAP = {
     },
     index: {
         '0':'456','1':'567','2':'678','3':'789','4':'890',
-        '5':'901','6':'123','7':'234','8':'345','9':'456'
+        '5':'901','6':'012','7':'123','8':'234','9':'345'
     },
     mlama: {
         '0':'012','1':'890','2':'456','3':'789','4':'234',
@@ -642,14 +660,63 @@ var MAP = {
     taysen: {
         '0': '678','1': '345','2': '890','3': '567','4': '345',
         '5': '789','6': '234','7': '901','8': '456','9': '123'
-    }
+    },
+        M0: {
+            '0': '6789012345', '1': '5678901234', '2': '8901234567',
+            '3': '7890123456', '4': '9012345678', '5': '1234567890',
+            '6': '0123456789', '7': '3456789012', '8': '2345678901',
+            '9': '4567890123'
+        },
+        M1: {
+            '0': '1234567890', '1': '0123456789', '2': '9012345678',
+            '3': '8901234567', '4': '7890123456', '5': '6789012345',
+            '6': '5678901234', '7': '4567890123', '8': '3456789012',
+            '9': '2345678901'
+        },
+        M3: {
+            '0': '3456789012', '1': '2345678901', '2': '1234567890',
+            '3': '0123456789', '4': '9012345678', '5': '8901234567',
+            '6': '7890123456', '7': '6789012345', '8': '5678901234',
+            '9': '4567890123'
+        },
+        M5: {
+            '0': '5678901234', '1': '4567890123', '2': '3456789012',
+            '3': '2345678901', '4': '1234567890', '5': '0123456789',
+            '6': '9012345678', '7': '8901234567', '8': '7890123456',
+            '9': '6789012345'
+        },
+        M7: {
+            '0': '7890123456', '1': '6789012345', '2': '5678901234',
+            '3': '4567890123', '4': '3456789012', '5': '2345678901',
+            '6': '1234567890', '7': '0123456789', '8': '9012345678',
+            '9': '8901234567'
+        },
+        M8: {
+            '0': '8901234567', '1': '7890123456', '2': '6789012345',
+            '3': '5678901234', '4': '9012345678', '5': '3456789012',
+            '6': '2345678901', '7': '1234567890', '8': '0123456789',
+            '9': '4567890123'
+        },
+        M9: {
+            '0': '9012345678', '1': '8901234567', '2': '7890123456',
+            '3': '6789012345', '4': '5678901234', '5': '4567890123',
+            '6': '3456789012', '7': '2345678901', '8': '1234567890',
+            '9': '0123456789'
+        }
 };
 
 var CONVERSI_MAP = {
     'ix': 'index',
     'ty': 'taysen',
     'ml': 'mlama',
-    'mb': 'mbaru'
+    'mb': 'mbaru',
+    'm0': 'M0',
+    'm1': 'M1',
+    'm3': 'M3',
+    'm5': 'M5',
+    'm7': 'M7',
+    'm8': 'M8',
+    'm9': 'M9'
 };
 
 var POSISI_MAP = {
@@ -659,21 +726,58 @@ var POSISI_MAP = {
     acke: [0,1,2,3]
 };
 
+// ============================================================
+//  KEY_MAP YANG BENER - DENGAN OFFSET DAN POSISI
+// ============================================================
 var KEY_MAP = {
-    'a1': [0,0], 'a2': [0,1], 'a3': [0,2], 'a4': [0,3], 'a5': [0,4],
-    'a6': [0,5], 'a7': [0,6], 'a8': [0,7], 'a9': [0,8],
-    'c1': [1,0], 'c2': [1,1], 'c3': [1,2], 'c4': [1,3], 'c5': [1,4],
-    'c6': [1,5], 'c7': [1,6], 'c8': [1,7], 'c9': [1,8],
-    'k1': [2,0], 'k2': [2,1], 'k3': [2,2], 'k4': [2,3], 'k5': [2,4],
-    'k6': [2,5], 'k7': [2,6], 'k8': [2,7], 'k9': [2,8],
-    'e1': [3,0], 'e2': [3,1], 'e3': [3,2], 'e4': [3,3], 'e5': [3,4],
-    'e6': [3,5], 'e7': [3,6], 'e8': [3,7], 'e9': [3,8],
-    'j1': [0,0], 'j2': [0,1], 'j3': [0,2], 'j4': [0,3], 'j5': [0,4],
-    'j6': [0,5], 'j7': [0,6], 'j8': [0,7], 'j9': [0,8],
-    'jt1': [0,0], 'jt2': [0,1], 'jt3': [0,2], 'jt4': [0,3], 'jt5': [0,4],
-    'jt6': [0,5], 'jt7': [0,6], 'jt8': [0,7], 'jt9': [0,8],
-    'jd1': [0,0], 'jd2': [0,1], 'jd3': [0,2], 'jd4': [0,3], 'jd5': [0,4],
-    'jd6': [0,5], 'jd7': [0,6], 'jd8': [0,7], 'jd9': [0,8]
+    // A = AS (posisi 0)
+    'a1': {posisi: [0], offset: 0}, 'a2': {posisi: [0], offset: 1},
+    'a3': {posisi: [0], offset: 2}, 'a4': {posisi: [0], offset: 3},
+    'a5': {posisi: [0], offset: 4}, 'a6': {posisi: [0], offset: 5},
+    'a7': {posisi: [0], offset: 6}, 'a8': {posisi: [0], offset: 7},
+    'a9': {posisi: [0], offset: 8},
+    
+    // C = COP (posisi 1)
+    'c1': {posisi: [1], offset: 0}, 'c2': {posisi: [1], offset: 1},
+    'c3': {posisi: [1], offset: 2}, 'c4': {posisi: [1], offset: 3},
+    'c5': {posisi: [1], offset: 4}, 'c6': {posisi: [1], offset: 5},
+    'c7': {posisi: [1], offset: 6}, 'c8': {posisi: [1], offset: 7},
+    'c9': {posisi: [1], offset: 8},
+    
+    // K = KEPALA (posisi 2)
+    'k1': {posisi: [2], offset: 0}, 'k2': {posisi: [2], offset: 1},
+    'k3': {posisi: [2], offset: 2}, 'k4': {posisi: [2], offset: 3},
+    'k5': {posisi: [2], offset: 4}, 'k6': {posisi: [2], offset: 5},
+    'k7': {posisi: [2], offset: 6}, 'k8': {posisi: [2], offset: 7},
+    'k9': {posisi: [2], offset: 8},
+    
+    // E = EKOR (posisi 3)
+    'e1': {posisi: [3], offset: 0}, 'e2': {posisi: [3], offset: 1},
+    'e3': {posisi: [3], offset: 2}, 'e4': {posisi: [3], offset: 3},
+    'e5': {posisi: [3], offset: 4}, 'e6': {posisi: [3], offset: 5},
+    'e7': {posisi: [3], offset: 6}, 'e8': {posisi: [3], offset: 7},
+    'e9': {posisi: [3], offset: 8},
+    
+    // J = KEPALA + EKOR (posisi 2 dan 3)
+    'j1': {posisi: [2,3], offset: 0}, 'j2': {posisi: [2,3], offset: 1},
+    'j3': {posisi: [2,3], offset: 2}, 'j4': {posisi: [2,3], offset: 3},
+    'j5': {posisi: [2,3], offset: 4}, 'j6': {posisi: [2,3], offset: 5},
+    'j7': {posisi: [2,3], offset: 6}, 'j8': {posisi: [2,3], offset: 7},
+    'j9': {posisi: [2,3], offset: 8},
+    
+    // JT = COP + KEPALA (posisi 1 dan 2)
+    'jt1': {posisi: [1,2], offset: 0}, 'jt2': {posisi: [1,2], offset: 1},
+    'jt3': {posisi: [1,2], offset: 2}, 'jt4': {posisi: [1,2], offset: 3},
+    'jt5': {posisi: [1,2], offset: 4}, 'jt6': {posisi: [1,2], offset: 5},
+    'jt7': {posisi: [1,2], offset: 6}, 'jt8': {posisi: [1,2], offset: 7},
+    'jt9': {posisi: [1,2], offset: 8},
+    
+    // JD = AS + COP (posisi 0 dan 1)
+    'jd1': {posisi: [0,1], offset: 0}, 'jd2': {posisi: [0,1], offset: 1},
+    'jd3': {posisi: [0,1], offset: 2}, 'jd4': {posisi: [0,1], offset: 3},
+    'jd5': {posisi: [0,1], offset: 4}, 'jd6': {posisi: [0,1], offset: 5},
+    'jd7': {posisi: [0,1], offset: 6}, 'jd8': {posisi: [0,1], offset: 7},
+    'jd9': {posisi: [0,1], offset: 8},
 };
 
 function hitung2DBelakang(result) {
@@ -743,7 +847,9 @@ function getTarget(nextResult) {
     return posMap.map(function(idx) { return nextResult[idx]; });
 }
 
-// DETEKSI LURUS MERAH - POSISI YANG SAMA (VERTIKAL)
+// ============================================================
+//  DETEKSI LURUS MERAH
+// ============================================================
 function detectLurusMerah(data, digit) {
     if (!data || data.length < 3) return null;
     if (!selectedCombination) return null;
@@ -763,19 +869,46 @@ function detectLurusMerah(data, digit) {
             var nextResult = data[i + 1];
             var arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
             
-            var pos1 = KEY_MAP[selectedCombination.key1] || [0,0];
-            var a = arr1[pos1[0]];
-            var hasilReduksi = a;
+            var keyInfo = KEY_MAP[selectedCombination.key1];
+            if (!keyInfo) continue;
+            
+            var dataIndex = i - keyInfo.offset;
+            var dataSource = currentData;
+            var data1 = (dataIndex >= 0 && dataIndex < dataSource.length) ? dataSource[dataIndex] : baris;
+            var arrData = [+data1[0], +data1[1], +data1[2], +data1[3]];
+            
+            var nilaiA = 0;
+            for (var p = 0; p < keyInfo.posisi.length; p++) {
+                nilaiA += arrData[keyInfo.posisi[p]];
+            }
+            if (keyInfo.posisi.length > 1) {
+                nilaiA = reduceToSingleDigit(nilaiA);
+            }
+            
+            var hasilReduksi = nilaiA;
             
             if (selectedCombination.key2 && selectedCombination.key2 !== '' && selectedCombination.op && selectedCombination.op !== '') {
-                var pos2 = KEY_MAP[selectedCombination.key2] || [0,0];
-                var b = arr1[pos2[0]];
-                var convVal1 = getDigitFromConversi(a, selectedCombination.conversi1);
-                var convVal2 = getDigitFromConversi(b, selectedCombination.conversi2);
-                var hasil = hitungOperasi(convVal1, convVal2, selectedCombination.op);
-                hasilReduksi = getDigitFromConversi(hasil, selectedCombination.conversiHasil);
+                var keyInfo2 = KEY_MAP[selectedCombination.key2];
+                if (keyInfo2) {
+                    var dataIndex2 = i - keyInfo2.offset;
+                    var data2 = (dataIndex2 >= 0 && dataIndex2 < dataSource.length) ? dataSource[dataIndex2] : baris;
+                    var arrData2 = [+data2[0], +data2[1], +data2[2], +data2[3]];
+                    
+                    var nilaiB = 0;
+                    for (var p2 = 0; p2 < keyInfo2.posisi.length; p2++) {
+                        nilaiB += arrData2[keyInfo2.posisi[p2]];
+                    }
+                    if (keyInfo2.posisi.length > 1) {
+                        nilaiB = reduceToSingleDigit(nilaiB);
+                    }
+                    
+                    var convVal1 = getDigitFromConversi(nilaiA, selectedCombination.conversi1);
+                    var convVal2 = getDigitFromConversi(nilaiB, selectedCombination.conversi2);
+                    var hasil = hitungOperasi(convVal1, convVal2, selectedCombination.op);
+                    hasilReduksi = getDigitFromConversi(hasil, selectedCombination.conversiHasil);
+                }
             } else {
-                hasilReduksi = getDigitFromConversi(a, selectedCombination.conversi1);
+                hasilReduksi = getDigitFromConversi(nilaiA, selectedCombination.conversi1);
             }
             
             var keyDigits = generateDigit(hasilReduksi, digit);
@@ -807,7 +940,6 @@ function detectLurusMerah(data, digit) {
         });
     }
     
-    // Urutkan: maxConsecutive terbanyak, lalu totalMerah terbanyak
     results.sort(function(a, b) {
         if (b.count !== a.count) return b.count - a.count;
         return b.totalMerah - a.totalMerah;
@@ -815,27 +947,55 @@ function detectLurusMerah(data, digit) {
     
     var best = results[0];
     
-    // Jika tidak ada MERAH sama sekali (count=0 dan totalMerah=0)
     if (best.count === 0 && best.totalMerah === 0) {
         return null;
     }
     
-    // Ambil TOP dari baris TERAKHIR data
     var lastBaris = data[data.length - 1];
     var lastArr = [+lastBaris[0], +lastBaris[1], +lastBaris[2], +lastBaris[3]];
-    var lastPos1 = KEY_MAP[selectedCombination.key1] || [0,0];
-    var lastA = lastArr[lastPos1[0]];
-    var lastHasilReduksi = lastA;
-    if (selectedCombination.key2 && selectedCombination.key2 !== '' && selectedCombination.op && selectedCombination.op !== '') {
-        var lastPos2 = KEY_MAP[selectedCombination.key2] || [0,0];
-        var lastB = lastArr[lastPos2[0]];
-        var lastConvVal1 = getDigitFromConversi(lastA, selectedCombination.conversi1);
-        var lastConvVal2 = getDigitFromConversi(lastB, selectedCombination.conversi2);
-        var lastHasil = hitungOperasi(lastConvVal1, lastConvVal2, selectedCombination.op);
-        lastHasilReduksi = getDigitFromConversi(lastHasil, selectedCombination.conversiHasil);
-    } else {
-        lastHasilReduksi = getDigitFromConversi(lastA, selectedCombination.conversi1);
+    
+    var lastKeyInfo = KEY_MAP[selectedCombination.key1];
+    if (!lastKeyInfo) return null;
+    
+    var lastDataIndex = (data.length - 1) - lastKeyInfo.offset;
+    var lastDataSource = currentData;
+    var lastData1 = (lastDataIndex >= 0 && lastDataIndex < lastDataSource.length) ? lastDataSource[lastDataIndex] : lastBaris;
+    var lastArrData = [+lastData1[0], +lastData1[1], +lastData1[2], +lastData1[3]];
+    
+    var lastNilaiA = 0;
+    for (var p = 0; p < lastKeyInfo.posisi.length; p++) {
+        lastNilaiA += lastArrData[lastKeyInfo.posisi[p]];
     }
+    if (lastKeyInfo.posisi.length > 1) {
+        lastNilaiA = reduceToSingleDigit(lastNilaiA);
+    }
+    
+    var lastHasilReduksi = lastNilaiA;
+    
+    if (selectedCombination.key2 && selectedCombination.key2 !== '' && selectedCombination.op && selectedCombination.op !== '') {
+        var lastKeyInfo2 = KEY_MAP[selectedCombination.key2];
+        if (lastKeyInfo2) {
+            var lastDataIndex2 = (data.length - 1) - lastKeyInfo2.offset;
+            var lastData2 = (lastDataIndex2 >= 0 && lastDataIndex2 < lastDataSource.length) ? lastDataSource[lastDataIndex2] : lastBaris;
+            var lastArrData2 = [+lastData2[0], +lastData2[1], +lastData2[2], +lastData2[3]];
+            
+            var lastNilaiB = 0;
+            for (var p2 = 0; p2 < lastKeyInfo2.posisi.length; p2++) {
+                lastNilaiB += lastArrData2[lastKeyInfo2.posisi[p2]];
+            }
+            if (lastKeyInfo2.posisi.length > 1) {
+                lastNilaiB = reduceToSingleDigit(lastNilaiB);
+            }
+            
+            var lastConvVal1 = getDigitFromConversi(lastNilaiA, selectedCombination.conversi1);
+            var lastConvVal2 = getDigitFromConversi(lastNilaiB, selectedCombination.conversi2);
+            var lastHasil = hitungOperasi(lastConvVal1, lastConvVal2, selectedCombination.op);
+            lastHasilReduksi = getDigitFromConversi(lastHasil, selectedCombination.conversiHasil);
+        }
+    } else {
+        lastHasilReduksi = getDigitFromConversi(lastNilaiA, selectedCombination.conversi1);
+    }
+    
     var lastKeyDigits = generateDigit(lastHasilReduksi, digit);
     var topDigit = parseInt(lastKeyDigits[best.posisi]);
     
@@ -948,6 +1108,87 @@ function runManual(e) {
     }, 300);
 }
 
+// ============================================================
+//  HITUNG BARIS - DENGAN OFFSET YANG BENER
+// ============================================================
+function hitungBaris(baris, nextResult, index) {
+    resetWarna();
+    var arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
+    var target = getTarget(nextResult);
+    var jml = hitung2DBelakang(baris);
+    var tds = '<td>' + baris + '</td><td>' + jml + '</td>';
+    
+    var combo = selectedCombination;
+    var digit = combo ? combo.digit : 3;
+    
+    if (combo) {
+        var keyInfo = KEY_MAP[combo.key1];
+        if (!keyInfo) return '<tr>' + tds + '</tr>';
+        
+        // Ambil data dengan OFFSET
+        var dataIndex = index - keyInfo.offset;
+        var dataSource = currentData;
+        var data1 = (dataIndex >= 0 && dataIndex < dataSource.length) ? dataSource[dataIndex] : baris;
+        var arrData = [+data1[0], +data1[1], +data1[2], +data1[3]];
+        
+        // Ambil nilai dari posisi key (bisa 1 atau 2 posisi)
+        var nilaiA = 0;
+        for (var p = 0; p < keyInfo.posisi.length; p++) {
+            nilaiA += arrData[keyInfo.posisi[p]];
+        }
+        if (keyInfo.posisi.length > 1) {
+            nilaiA = reduceToSingleDigit(nilaiA);
+        }
+        
+        var hasilReduksi = nilaiA;
+        
+        // KALAU ADA KEY 2
+        if (combo.key2 && combo.key2 !== '' && combo.op && combo.op !== '') {
+            var keyInfo2 = KEY_MAP[combo.key2];
+            if (keyInfo2) {
+                var dataIndex2 = index - keyInfo2.offset;
+                var data2 = (dataIndex2 >= 0 && dataIndex2 < dataSource.length) ? dataSource[dataIndex2] : baris;
+                var arrData2 = [+data2[0], +data2[1], +data2[2], +data2[3]];
+                
+                var nilaiB = 0;
+                for (var p2 = 0; p2 < keyInfo2.posisi.length; p2++) {
+                    nilaiB += arrData2[keyInfo2.posisi[p2]];
+                }
+                if (keyInfo2.posisi.length > 1) {
+                    nilaiB = reduceToSingleDigit(nilaiB);
+                }
+                
+                var convVal1 = getDigitFromConversi(nilaiA, combo.conversi1);
+                var convVal2 = getDigitFromConversi(nilaiB, combo.conversi2);
+                var hasil = hitungOperasi(convVal1, convVal2, combo.op);
+                hasilReduksi = getDigitFromConversi(hasil, combo.conversiHasil);
+            }
+        } else {
+            hasilReduksi = getDigitFromConversi(nilaiA, combo.conversi1);
+        }
+        
+        var hasil = generateDigit(hasilReduksi, digit);
+        var cls = nextWarna();
+        for (var k = 0; k < digit; k++) {
+            var digitVal = hasil[k];
+            var isCocok = target.length && target.indexOf(digitVal) !== -1;
+            var c = isCocok ? 'cocok' : '';
+            tds += '<td class="' + cls + ' ' + c + ' key-digit">' + digitVal + '</td>';
+        }
+    }
+    
+    return '<tr>' + tds + '</tr>';
+}
+
+function buatHeader() {
+    resetWarna();
+    var label = selectedCombination ? selectedCombination.label : 'KEY';
+    var digit = selectedCombination ? selectedCombination.digit : 3;
+    var h = '<tr><th>RESULT</th><th>JML</th>';
+    h += '<th colspan="' + digit + '" class="key-header ' + nextWarna() + '">' + label + '</th>';
+    return h + '</tr>';
+}
+
 function render() {
     if (!currentData || currentData.length === 0) {
         document.getElementById('tabel').innerHTML = '<tr><td colspan="100"><div class="empty-state"><span class="icon">🔧</span>Belum ada data.<br>Pilih KEY 1 dan klik <strong>🚀 GO</strong></div></td></tr>';
@@ -968,7 +1209,7 @@ function render() {
     for (var i = 0; i < data.length; i++) {
         var baris = data[i];
         var nextResult = (i + 1 < data.length) ? data[i + 1] : null;
-        html += hitungBaris(baris, nextResult);
+        html += hitungBaris(baris, nextResult, i);
     }
     document.getElementById('tabel').innerHTML = html;
     
@@ -984,54 +1225,6 @@ function render() {
             topContainer.classList.remove('show');
         }
     }
-}
-
-function buatHeader() {
-    resetWarna();
-    var label = selectedCombination ? selectedCombination.label : 'KEY';
-    var digit = selectedCombination ? selectedCombination.digit : 3;
-    var h = '<tr><th>RESULT</th><th>JML</th>';
-    h += '<th colspan="' + digit + '" class="key-header ' + nextWarna() + '">' + label + '</th>';
-    return h + '</tr>';
-}
-
-function hitungBaris(baris, nextResult) {
-    resetWarna();
-    var arr1 = [+baris[0], +baris[1], +baris[2], +baris[3]];
-    var target = getTarget(nextResult);
-    var jml = hitung2DBelakang(baris);
-    var tds = '<td>' + baris + '</td><td>' + jml + '</td>';
-    
-    var combo = selectedCombination;
-    var digit = combo ? combo.digit : 3;
-    
-    if (combo) {
-        var pos1 = KEY_MAP[combo.key1] || [0,0];
-        var a = arr1[pos1[0]];
-        var hasilReduksi = a;
-        
-        if (combo.key2 && combo.key2 !== '' && combo.op && combo.op !== '') {
-            var pos2 = KEY_MAP[combo.key2] || [0,0];
-            var b = arr1[pos2[0]];
-            var convVal1 = getDigitFromConversi(a, combo.conversi1);
-            var convVal2 = getDigitFromConversi(b, combo.conversi2);
-            var hasil = hitungOperasi(convVal1, convVal2, combo.op);
-            hasilReduksi = getDigitFromConversi(hasil, combo.conversiHasil);
-        } else {
-            hasilReduksi = getDigitFromConversi(a, combo.conversi1);
-        }
-        
-        var hasil = generateDigit(hasilReduksi, digit);
-        var cls = nextWarna();
-        for (var k = 0; k < digit; k++) {
-            var digitVal = hasil[k];
-            var isCocok = target.length && target.indexOf(digitVal) !== -1;
-            var c = isCocok ? 'cocok' : '';
-            tds += '<td class="' + cls + ' ' + c + ' key-digit">' + digitVal + '</td>';
-        }
-    }
-    
-    return '<tr>' + tds + '</tr>';
 }
 
 loadData();
