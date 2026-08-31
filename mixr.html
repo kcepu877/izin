@@ -522,7 +522,7 @@
 </div>
 
         <div class="menu-section">
-            <h4>🧹 DEDUP</h4>
+            <h4>🧹 Single Entry</h4>
             <select id="dedupSelect" onchange="onDedupChange()">
                 <option value="off">OFF (Tampilkan Semua)</option>
                 <option value="on" selected>ON (Hapus Duplikat)</option>
@@ -1174,9 +1174,9 @@ function scanKeyForMati(data, allData, filter, progressCallback) {
     
     if (AUTO_SCAN && !IS_SCANNING) {
         if (F === 'all') {
-            scanAllFilters();  // scan semua filter
+            scanAllFilters();
         } else {
-            scanSingleFilter(); // scan 1 filter
+            scanSingleFilter();
         }
     } else {
         showDataOnly();
@@ -1202,14 +1202,13 @@ function scanKeyForMati(data, allData, filter, progressCallback) {
         scanBtn.disabled = true;
     }
 
-    let allResults = {};
+    let groupedResults = {};
     let totalKeysFound = 0;
     let processedFilters = 0;
 
     function scanNextFilter() {
         if (processedFilters >= filterList.length) {
-            // Selesai semua filter
-            finishAllScan(allResults, totalKeysFound);
+            finishAllScan(groupedResults, totalKeysFound);
             return;
         }
 
@@ -1224,18 +1223,9 @@ function scanKeyForMati(data, allData, filter, progressCallback) {
             let totalProgress = 5 + ((processedFilters + percent/100) / filterList.length) * 85;
             updateProgress(Math.min(95, totalProgress), text);
         }).then(function(results) {
-            let sortedKeys = Object.keys(results).sort((a, b) => {
-                return results[b].totalAbove - results[a].totalAbove;
-            });
-
             // Simpan hasil per filter
-            allResults[filter] = {
-                results: results,
-                sortedKeys: sortedKeys,
-                count: sortedKeys.length
-            };
-            totalKeysFound += sortedKeys.length;
-
+            groupedResults[filter] = results;
+            totalKeysFound += Object.keys(results).length;
             processedFilters++;
             setTimeout(scanNextFilter, 50);
         });
@@ -1244,7 +1234,10 @@ function scanKeyForMati(data, allData, filter, progressCallback) {
     scanNextFilter();
 }
 
-function finishAllScan(allResults, totalKeysFound) {
+// ============================================================
+//  PERBAIKAN: finishAllScan - parameter diubah menjadi groupedResults
+// ============================================================
+function finishAllScan(groupedResults, totalKeysFound) {
     updateProgress(100, 'Selesai! Menampilkan hasil...');
     IS_SCANNING = false;
 
@@ -1269,73 +1262,213 @@ function finishAllScan(allResults, totalKeysFound) {
         return;
     }
 
-    let html = buildAllResultHTML(allResults, totalKeysFound);
+    // Build HTML dengan 1 tabel per filter
+    let html = buildAllResultHTML(groupedResults);
     resultArea.innerHTML = html;
-    document.getElementById('statusBar').innerHTML = `✅ Scan ALL selesai. ${totalKeysFound} key ditemukan!`;
+    document.getElementById('statusBar').innerHTML = `✅ Scan ALL selesai. ${totalKeysFound} key ditemukan! (Single Entry: ${DEDUP === 'on' ? 'ON' : 'OFF'})`;
     updateStatusBarDisplay();
 }
-function buildAllResultHTML(allResults, totalKeysFound) {
-    let html = `
-        <div style="margin-top:10px;padding:10px;background:#0d1a0d;border-left:3px solid #ff8800;border-radius:4px;">
-            <strong style="color:#ff8800;">🌈 ALL FILTERS (${totalKeysFound} total key)</strong>
+
+// ============================================================
+//  BUILD ALL RESULT - 1 TABEL PER FILTER
+// ============================================================
+function buildAllResultHTML(groupedResults) {
+    // Label filter untuk display
+    const filterLabels = {
+        'rumus': '🔵 Rumus',
+        'index': '🟢 Index',
+        'mlama': '🟡 M Lama',
+        'mbaru': '🟠 M Baru',
+        'taysen': '🔴 Taysen',
+        'M0': ' M0',
+        'M1': ' M1',
+        'M3': ' M3',
+        'M5': ' M5',
+        'M7': ' M7',
+        'M8': ' M8',
+        'M9': ' M9'
+    };
+
+    let data = D[P].slice(-JUMLAH_TAMPIL);
+    let html = '';
+
+    // Header ALL
+    html += `
+        <div style="margin-top:10px;padding:10px;background:#0d1a0d;border-left:3px solid #ff8800;border-radius:4px;margin-bottom:15px;">
+            <strong style="color:#ff8800;">🌀 ALL FILTERS</strong>
             <span style="color:#446644;margin-left:10px;">${HIJAU_BARIS} baris terakhir</span>
             <span style="color:#446644;margin-left:10px;">Posisi: ${POSISI.toUpperCase()}</span>
-            <span style="color:#ff8800;margin-left:10px;">DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}</span>
+            <span style="color:#ff8800;margin-left:10px;">Single Entry: ${DEDUP === 'on' ? 'ON' : 'OFF'}</span>
         </div>
     `;
 
-    // Tampilkan hasil per filter dengan label jelas
-    for (let filter of Object.keys(allResults)) {
-        let { results, sortedKeys, count } = allResults[filter];
-        if (count === 0) continue;
+    // Loop setiap filter
+    let filterKeys = Object.keys(groupedResults).sort();
+    
+    for (let filter of filterKeys) {
+        let results = groupedResults[filter];
+        let sortedKeys = Object.keys(results).sort((a, b) => {
+            return results[b].totalAbove - results[a].totalAbove;
+        });
 
-        const filterLabel = {
-            'rumus': '🔵 Rumus',
-            'index': '🟢 Index',
-            'mlama': '🟡 M Lama',
-            'mbaru': '🟠 M Baru',
-            'taysen': '🔴 Taysen',
-            'M0': ' M0',
-            'M1': ' M1',
-            'M3': ' M3',
-            'M5': ' M5',
-            'M7': ' M7',
-            'M8': ' M8',
-            'M9': ' M9'
-        };
+        // Terapkan DEDUP per filter
+        let finalResults = {};
+        let finalKeys = [];
+        if (DEDUP === 'on') {
+            let seenValues = new Set();
+            for (let key of sortedKeys) {
+                let nilaiKey = results[key].nilaiKey || '';
+                if (!seenValues.has(nilaiKey)) {
+                    seenValues.add(nilaiKey);
+                    finalKeys.push(key);
+                    finalResults[key] = results[key];
+                }
+            }
+        } else {
+            finalKeys = sortedKeys;
+            finalResults = results;
+        }
 
+        if (finalKeys.length === 0) continue;
+
+        let filterLabel = filterLabels[filter] || filter.toUpperCase();
+
+        // Tabel per filter
         html += `
-            <div style="margin-top:15px;padding:10px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
-                <strong style="color:#44ff44;">${filterLabel[filter] || filter} (${count} key)</strong>
+            <div style="margin-top:20px;padding:8px 12px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
+                <strong style="color:#44ff44;">${filterLabel} (${finalKeys.length} key)</strong>
             </div>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;padding:8px;background:#0d0d0d;border-radius:4px;border:1px solid #1a2a1a;">
         `;
 
-        for (let key of sortedKeys) {
-            let info = results[key];
+        html += `<div class="table-wrap"><table class="detail-table">`;
+        
+        // Header
+        html += `<tr class="key-header-row"><th class="label-col hijau-label">KEY</th>`;
+        for (let key of finalKeys) {
+            html += `<th style="text-align:center;font-size:11px;background:#1a2a3a;color:#88ddff;">${key}</th>`;
+        }
+        html += `</tr>`;
+
+        // Data baris
+        let maxBaris = 0;
+        let allBarisData = [];
+        let allPrediksi = [];
+        
+        for (let key of finalKeys) {
+            let info = finalResults[key];
+            let barisList = info.baris || [];
+            allBarisData.push(barisList);
+            if (barisList.length > maxBaris) maxBaris = barisList.length;
+            
             let prediksi = '';
-            if (info.baris && info.baris.length > 0) {
-                let lastBaris = info.baris[info.baris.length - 1];
+            if (barisList.length > 0) {
+                let lastBaris = barisList[barisList.length - 1];
                 if (lastBaris && lastBaris.nilai) {
                     prediksi = getAngkaHilang(lastBaris.nilai);
                 }
             }
-            // Tampilkan key + prediksi + label filter
-            html += `<span style="background:#1a1a1a;padding:4px 10px;border-radius:4px;border:1px solid #2a4a2a;color:#88ff88;font-size:12px;">
-                <span style="color:#88ddff;">${key}</span> → <span style="color:#ffaa00;">${prediksi}</span>
-                <span style="color:#446644;font-size:10px;">[${filterLabel[filter] || filter}]</span>
-            </span>`;
+            allPrediksi.push(prediksi);
         }
 
-        html += `</div>`;
+        for (let i = 0; i < maxBaris; i++) {
+            let label = data[i] || '-';
+            let bgColor = '#0d0d0d';
+            let labelColor = '#88ff88';
+            
+            html += `<tr class="data-row" style="background:${bgColor};">`;
+            html += `<td class="label-col" style="background:${bgColor};color:${labelColor};font-weight:bold;text-align:center;">
+                ${label}
+            </td>`;
+            
+            for (let j = 0; j < finalKeys.length; j++) {
+                let barisList = allBarisData[j];
+                if (i < barisList.length) {
+                    let baris = barisList[i];
+                    let nilai = baris.nilai || '-';
+                    let target = baris.target || [];
+                    
+                    let displayNilai = '';
+                    if (nilai !== '-') {
+                        let chars = nilai.split('');
+                        let displayChars = [];
+                        let adaYangMasuk = false;
+                        
+                        for (let char of chars) {
+                            let isTarget = target && target.includes(char);
+                            if (isTarget) {
+                                displayChars.push(`<span style="color:#ff4444;font-weight:bold;">${char}</span>`);
+                                adaYangMasuk = true;
+                            } else {
+                                displayChars.push(char);
+                            }
+                        }
+                        
+                        if (!adaYangMasuk && target && target.length > 0) {
+                            displayNilai = chars.join('') + '<span style="color:#ff8800;font-weight:bold;">X</span>';
+                        } else {
+                            displayNilai = displayChars.join('');
+                        }
+                    } else {
+                        displayNilai = '-';
+                    }
+                    
+                    html += `<td style="text-align:center;font-size:13px;letter-spacing:1px;">${displayNilai}</td>`;
+                } else {
+                    html += `<td style="text-align:center;color:#222;">-</td>`;
+                }
+            }
+            html += `</tr>`;
+        }
+
+        // STATUS row
+        html += `<tr>`;
+        html += `<td class="label-col hijau-label" style="background:#0d1a0d;color:#44ff44;text-align:center;">STATUS</td>`;
+        for (let j = 0; j < finalKeys.length; j++) {
+            let barisList = allBarisData[j];
+            let barisTanpaTerakhir = barisList.slice(0, -1);
+            let lastN = barisTanpaTerakhir.slice(-HIJAU_BARIS);
+            let hijauCount = 0;
+            for (let b of lastN) {
+                if (b.isHijau) hijauCount++;
+            }
+            let aboveBaris = barisTanpaTerakhir.slice(0, -HIJAU_BARIS);
+            let merahCount = 0;
+            for (let b of aboveBaris) {
+                if (b.isMerah) merahCount++;
+            }
+            let isFullHijau = (hijauCount >= HIJAU_BARIS);
+            let isFullMerah = (merahCount === aboveBaris.length && aboveBaris.length > 0);
+            
+            let prediksi = allPrediksi[j] || '-';
+            let statusText = '';
+            let statusColor = '#ff4444';
+            if (isFullHijau && isFullMerah) {
+                statusText = ` ${prediksi}`;
+                statusColor = '#44ff44';
+            } else if (isFullHijau) {
+                statusText = `🟢 ${prediksi}`;
+                statusColor = '#44ff44';
+            } else if (isFullMerah) {
+                statusText = `🔴 ${prediksi}`;
+                statusColor = '#ff4444';
+            } else {
+                statusText = '❌';
+                statusColor = '#ff4444';
+            }
+            html += `<td style="text-align:center;font-weight:bold;font-size:14px;color:${statusColor};">${statusText}</td>`;
+        }
+        html += `</tr>`;
+
+        html += `</table></div>`;
     }
 
     return html;
 }
+
     function onDedupChange() {
         const select = document.getElementById('dedupSelect');
         DEDUP = select.value;
-        document.getElementById('statusBar').innerHTML = `✅ DEDUP: ${DEDUP === 'on' ? 'ON (Hapus Duplikat)' : 'OFF'}`;
+        document.getElementById('statusBar').innerHTML = `✅ Single Entry: ${DEDUP === 'on' ? 'ON (Hapus Duplikat)' : 'OFF'}`;
         if (AUTO_SCAN && !IS_SCANNING) {
             scanSingleFilter();
         }
@@ -1400,10 +1533,10 @@ function buildAllResultHTML(allResults, totalKeysFound) {
     }
 
     function scanSingleFilter() {
-        if (F === 'all') {
+    if (F === 'all') {
         scanAllFilters();
         return;
-        }
+    }
         if (IS_SCANNING) {
             document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan... Tunggu sebentar!';
             return;
@@ -1503,7 +1636,7 @@ function buildAllResultHTML(allResults, totalKeysFound) {
                         ❌ TIDAK ADA KEY YANG MEMENUHI KRITERIA<br>
                         <span style="font-size:12px;color:#446644;">
                             💡 Coba kurangi BARIS MATI (1-2) atau tambah TAMPIL (20-30)<br>
-                            Filter: ${filter.toUpperCase()} | Posisi: ${POSISI.toUpperCase()} | DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}
+                            Filter: ${filter.toUpperCase()} | Posisi: ${POSISI.toUpperCase()} | Single Entry: ${DEDUP === 'on' ? 'ON' : 'OFF'}
                         </span>
                     </div>
                 `;
@@ -1513,7 +1646,7 @@ function buildAllResultHTML(allResults, totalKeysFound) {
 
             let html = buildSingleResultHTML(results, sortedKeys, data, filter, filterLabel);
             resultArea.innerHTML = html;
-            document.getElementById('statusBar').innerHTML = `✅ Scan selesai. ${sortedKeys.length} key ditemukan untuk filter ${filter.toUpperCase()}! DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}`;
+            document.getElementById('statusBar').innerHTML = `✅ Scan selesai. ${sortedKeys.length} key ditemukan untuk filter ${filter.toUpperCase()}! Single Entry: ${DEDUP === 'on' ? 'ON' : 'OFF'}`;
             updateStatusBarDisplay();
         });
     }
@@ -1527,7 +1660,7 @@ function buildAllResultHTML(allResults, totalKeysFound) {
                 <strong style="color:#44ff44;">${filterLabel[filter] || filter} (${sortedKeys.length} key)</strong>
                 <span style="color:#446644;margin-left:10px;">${HIJAU_BARIS} baris terakhir</span>
                 <span style="color:#446644;margin-left:10px;">Posisi: ${POSISI.toUpperCase()}</span>
-                <span style="color:#ff8800;margin-left:10px;">DEDUP: ${DEDUP === 'on' ? 'ON' : 'OFF'}</span>
+                <span style="color:#ff8800;margin-left:10px;">Single Entry: ${DEDUP === 'on' ? 'ON' : 'OFF'}</span>
             </div>
         `;
 
