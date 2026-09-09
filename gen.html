@@ -1,23 +1,4 @@
-Ada bug pada logika rumus matematika dan ketidakcocokan istilah pada header di dalam skrip JavaScript JavaScript Anda.
-Berikut adalah perbaikan utama yang dilakukan pada kode Anda:
- * Header vs Keterangan Rumus
-   * Header aplikasi menuliskan: JD = A+C · JT = C+K (posisi A, C, K, E).
-   * Namun di JavaScript sebelumnya menggunakan variabel b (COP) sebagai C dan c (KEPALA) sebagai K.
-   * Kode di bawah sudah diselaraskan agar variabel dan rumusnya konsisten:
-     * A = AS (digit ke-1)
-     * C = COP (digit ke-2)
-     * K = KEPALA (digit ke-3)
-     * E = EKOR (digit ke-4)
- * Perbaikan Rumus Filter (Sesuai Header):
-   * JD = AS + COP (A + C)
-   * JT = COP + KEPALA (C + K)
-   * J = KEPALA + EKOR (K + E)
-   * TEPI = AS + EKOR (A + E)
- * Perbaikan Opsi Tambahan (2D Depan, 2D Tengah, 3D Depan)
-   * Sebelumnya, jika opsi centang diaktifkan namun array filter target (JD/JT/J/TEPI) tidak lengkap untuk 4D, opsi tambahan tidak ter-generate dengan benar.
-   * Kode perbaikan memastikan pengambilan potongan digit (depan/tengah) berjalan presisi langsung dari kombinasi 4D yang valid.
-Berikut kode HTML & JavaScript yang sudah diperbaiki secara menyeluruh:
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
