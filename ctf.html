@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT Scanner 2D Belakang</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff41;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            background: #111;
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+            flex: 1;
+        }
+        .header {
+            border-bottom: 1px solid #00ff41;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .logo { font-size: 32px; line-height: 1; }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+        .title small {
+            font-size: 12px;
+            color: #66ff99;
+            font-weight: normal;
+            display: block;
+            opacity: 0.7;
+        }
+        .header-right { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .clock {
+            color: #00cc33;
+            font-size: 14px;
+            background: #0d0d0d;
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid #1a3a1a;
+        }
+        .version-badge {
+            font-size: 10px;
+            color: #446644;
+            background: #0d0d0d;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid #1a2a1a;
+        }
+        .status-bar {
+            background: #1a1a1a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #00ff41;
+            font-size: 13px;
+            color: #88ff88;
+        }
+        .status-bar.warning {
+            border-left-color: #ffaa00;
+            color: #ffdd88;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+        .menu-section { 
+            padding: 5px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .menu-section h4 {
+            color: #66ff99;
+            font-size: 13px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3px;
+        }
+        .menu-section select {
+            background: #1a1a1a;
+            color: #00ff41;
+            border: 1px solid #2a4a2a;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .menu-section select:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+        }
+        .menu-section select option {
+            background: #1a1a1a;
+            color: #00ff41;
+        }
+        .menu-btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #00ff41;
+            padding: 8px 15px;
+            margin: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .menu-btn:hover {
+            background: #00ff41;
+            color: #0a0a0a;
+            border-color: #00ff41;
+        }
+        .menu-btn.scan-btn {
+            background: #ff8800;
+            border-color: #ff8800;
+            color: #0a0a0a;
+            font-size: 15px;
+            padding: 10px;
+        }
+        .menu-btn.scan-btn:hover {
+            background: #ffaa44;
+            border-color: #ffaa44;
+        }
+        .menu-btn.scan-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 400px;
+        }
+        table th {
+            background: #1a3a1a;
+            color: #66ff99;
+            padding: 6px 4px;
+            text-align: center;
+            border: 1px solid #2a4a2a;
+            white-space: nowrap;
+            font-size: 10px;
+        }
+        table td {
+            padding: 4px 4px;
+            border: 1px solid #1a2a1a;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 13px;
+        }
+        table tr:nth-child(even) { background: #0d1a0d; }
+        table tr:hover { background: #1a2a1a; }
+        .bg-terakhir { background: #1a0d2a !important; }
+        .no-result {
+            color: #ff6666;
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .no-result span {
+            color: #88ff88;
+        }
+        .detail-table {
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        .detail-table td { padding: 4px 6px; }
+        .detail-table .key-header-row th {
+            background: #1a2a3a;
+            color: #88ddff;
+            text-align: center;
+            font-size: 10px;
+            padding: 4px 3px;
+        }
+        .detail-table .data-row td {
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 1px;
+            padding: 3px 3px;
+        }
+        .footer {
+            max-width: 1400px;
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #0d0d0d;
+            border: 1px solid #1a2a1a;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+            color: #446644;
+        }
+        .footer .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #44ff44;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .title { font-size: 18px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            table { font-size: 10px; min-width: 350px; }
+            table th, table td { padding: 2px 3px; }
+            .header-left .logo { font-size: 24px; }
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                font-size: 10px;
+            }
+            .detail-table .data-row td {
+                font-size: 11px;
+            }
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 8px 15px;
+            background: #0d0d0d;
+            border-radius: 5px;
+            border: 1px solid #1a3a1a;
+            margin: 10px 0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: #88ff88;
+        }
+        .legend-item .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .legend-item .dot.merah { background: #ff4444; }
+        .legend-item .dot.ungu { background: #8844ff; }
+        .legend-item .dot.putih { background: #88ff88; }
+        .angka-masuk {
+            color: #ff4444;
+            font-weight: bold;
+        }
+        .angka-tidak {
+            color: #ff4444;
+            font-weight: bold;
+        }
+        .angka-prediksi {
+            color: #8844ff;
+            font-weight: bold;
+        }
+        .pred-row {
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+        .data-col {
+            color: #88ff88;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="header">
+        <div class="header-left">
+            <span class="logo">🎯</span>
+            <div>
+                <div class="title">
+                    CT SCANNER 2D
+                    <small>Prediksi 2D Belakang • Mapping Paten</small>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="version-badge">v9.5</span>
+            <span class="clock" id="clock">🕐 Loading...</span>
+        </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">⚡ Memuat data HK...</div>
+    <div class="status-bar warning" id="settingsBar">🎯 2D Belakang | Pasar: HK | Tampil: 20 baris</div>
+
+  
+
+    <div class="menu-grid">
+        <div class="menu-section">
+            <h4>📊 TAMPIL</h4>
+            <select id="tampilSelect" onchange="setTampilOption()">
+                <option value="5">5 baris</option>
+                <option value="7">7 baris</option>
+                <option value="10" selected>10 baris</option>
+                <option value="15">15 baris</option>
+                <option value="20" selected>20 baris</option>
+                <option value="30">30 baris</option>
+            </select>
+        </div>
+
+        <div class="menu-section">
+            <h4>🏪 PASAR</h4>
+            <select id="pasarSelect" onchange="onPasarChange()">
+                <option value="hk">HK</option>
+                <option value="sgp">SGP</option>
+                <option value="sdny">SDNY</option>
+            </select>
+        </div>
+
+        <div class="menu-section">
+            <h4>⚡ AKSI</h4>
+            <button class="menu-btn scan-btn" onclick="scanPrediksi()">⚡ SCAN</button>
+        </div>
+    </div>
+
+    <div id="resultArea">
+        <div class="no-result">🔍 Tekan SCAN untuk mulai prediksi 2D</div>
+    </div>
+</div>
+
+<div class="footer">
+    <div>
+        <span class="status-dot"></span>
+        <span style="margin-left:6px;">🟢 System Online</span>
+    </div>
+    <div>
+        Made with <span style="color:#ff4444;">❤</span> by <strong style="color:#66ff99;">CT Scanner Team</strong>
+    </div>
+    <div>
+        <span>📅 </span>
+        <span id="footerDate"></span>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    //  URL DATA
+    // ============================================================
+    const URL_DATA = {
+        hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
+        sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
+        sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
+    };
+
+    // ============================================================
+    //  MAPPING PATEN CT
+    // ============================================================
+    
+    const CT_AS = {
+        '0': '984037', '1': '873926', '2': '762815', '3': '651704',
+        '4': '540693', '5': '439582', '6': '328471', '7': '217360',
+        '8': '106259', '9': '095148'
+    };
+    
+    const CT_AS2 = {
+        '0': '024568', '1': '135679', '2': '246780', '3': '357891',
+        '4': '468902', '5': '579013', '6': '680124', '7': '791235',
+        '8': '802346', '9': '913457'
+    };
+    
+    const CT_AS3 = {
+        '0': '034578', '1': '145689', '2': '256790', '3': '367801',
+        '4': '478912', '5': '589023', '6': '690134', '7': '701245',
+        '8': '812356', '9': '923467'
+    };
+    
+    const CT_AS4 = {
+        '0': '890354', '1': '901465', '2': '012576', '3': '123687',
+        '4': '234798', '5': '345809', '6': '456910', '7': '567021',
+        '8': '678132', '9': '789243'
+    };
+    
+    const CT_AS5 = {
+        '0': '0234689', '1': '1345790', '2': '2456801', '3': '3567912',
+        '4': '4678023', '5': '5789134', '6': '6890245', '7': '7901356',
+        '8': '8012467', '9': '9123578'
+    };
+    
+    const CT_COP = {
+        '0': '079542', '1': '142679', '2': '291764', '3': '364891',
+        '4': '413986', '5': '586013', '6': '635108', '7': '708235',
+        '8': '857320', '9': '920457'
+    };
+    
+    const CT_COP2 = {
+        '0': '012568', '1': '890346', '2': '678124', '3': '456902',
+        '4': '234780', '5': '901457', '6': '789235', '7': '567013',
+        '8': '345891', '9': '123679'
+    };
+    
+    const CT_KE = {
+        '0': '0234689', '1': '1345790', '2': '2456801', '3': '3567912',
+        '4': '4678023', '5': '5789134', '6': '6890245', '7': '7901356',
+        '8': '8012467', '9': '9123578'
+    };
+    
+    const CT_KE2 = {
+        '0': '890354', '1': '901465', '2': '012576', '3': '123687',
+        '4': '234798', '5': '345809', '6': '456910', '7': '567021',
+        '8': '678132', '9': '789243'
+    };
+    
+    const CT_KE3 = {
+        '0': '024568', '1': '135679', '2': '246780', '3': '357891',
+        '4': '468902', '5': '579013', '6': '680124', '7': '791235',
+        '8': '802346', '9': '913457'
+    };
+    
+    const CT_K = {
+        '0': '123678', '1': '234789', '2': '345890', '3': '456901',
+        '4': '567012', '5': '678123', '6': '789234', '7': '890345',
+        '8': '901456', '9': '012567'
+    };
+    
+    const CT_E = {
+        '0': '124679', '1': '346891', '2': '568013', '3': '780235',
+        '4': '902457', '5': '235780', '6': '457902', '7': '679124',
+        '8': '891346', '9': '013568'
+    };
+    
+    const CT_E2 = {
+        '0': '01389', '1': '12490', '2': '23501', '3': '34612',
+        '4': '45723', '5': '56834', '6': '67945', '7': '78056',
+        '8': '89167', '9': '90278'
+    };
+    
+    const CT_AC = {
+        '0': '234789', '1': '345890', '2': '456901', '3': '567012',
+        '4': '667123', '5': '789234', '6': '890345', '7': '901456',
+        '8': '012567', '9': '123678'
+    };
+
+    const ALL_MAPPINGS = [
+        { id: 'as1', label: 'AS1', map: CT_AS },
+        { id: 'as2', label: 'AS2', map: CT_AS2 },
+        { id: 'as3', label: 'AS3', map: CT_AS3 },
+        { id: 'as4', label: 'AS4', map: CT_AS4 },
+        { id: 'as5', label: 'AS5', map: CT_AS5 },
+        { id: 'cop1', label: 'COP1', map: CT_COP },
+        { id: 'cop2', label: 'COP2', map: CT_COP2 },
+        { id: 'ke1', label: 'KE1', map: CT_KE },
+        { id: 'ke2', label: 'KE2', map: CT_KE2 },
+        { id: 'ke3', label: 'KE3', map: CT_KE3 },
+        { id: 'k1', label: 'K1', map: CT_K },
+        { id: 'e1', label: 'E1', map: CT_E },
+        { id: 'e2', label: 'E2', map: CT_E2 },
+        { id: 'ac1', label: 'AC1', map: CT_AC }
+    ];
+
+    // ============================================================
+    //  KONFIGURASI UMUM
+    // ============================================================
+    let D = {};
+    let P = 'hk';
+    let JUMLAH_TAMPIL = 20;
+    let IS_SCANNING = false;
+
+    // ============================================================
+    //  FUNGSI UTAMA
+    // ============================================================
+    
+    function getDigitAs(data) { return data[0]; }
+    function getDigitCop(data) { return data[1]; }
+    function getDigitKepala(data) { return data[2]; }
+    function getDigitEkor(data) { return data[3]; }
+    
+    function getDigitKE(data) {
+        let k = parseInt(data[2]);
+        let e = parseInt(data[3]);
+        let sum = k + e;
+        while (sum >= 10) {
+            let s = 0;
+            while (sum > 0) {
+                s += sum % 10;
+                sum = Math.floor(sum / 10);
+            }
+            sum = s;
+        }
+        return String(sum);
+    }
+    
+    function getDigitAC(data) {
+        let a = parseInt(data[0]);
+        let c = parseInt(data[1]);
+        let sum = a + c;
+        while (sum >= 10) {
+            let s = 0;
+            while (sum > 0) {
+                s += sum % 10;
+                sum = Math.floor(sum / 10);
+            }
+            sum = s;
+        }
+        return String(sum);
+    }
+
+    function getDigitByMap(data, mapId) {
+        if (mapId.startsWith('as')) return getDigitAs(data);
+        if (mapId.startsWith('cop')) return getDigitCop(data);
+        if (mapId.startsWith('ke')) return getDigitKE(data);
+        if (mapId.startsWith('k')) return getDigitKepala(data);
+        if (mapId.startsWith('e')) return getDigitEkor(data);
+        if (mapId.startsWith('ac')) return getDigitAC(data);
+        return data[0];
+    }
+
+    function getPrediksi2D(digit, mapObj) {
+        return mapObj[digit] || '';
+    }
+
+    function get2DBelakang(data) {
+        return data.slice(2, 4);
+    }
+
+    function cekMatch(prediksi, result2D) {
+        let match = [];
+        for (let char of prediksi) {
+            if (result2D.includes(char)) {
+                match.push(char);
+            }
+        }
+        return match;
+    }
+
+    // ============================================================
+    //  SCAN PREDIKSI
+    // ============================================================
+    function scanPrediksi() {
+        if (IS_SCANNING) {
+            document.getElementById('statusBar').innerHTML = '⏳ Scan sedang berjalan...';
+            return;
+        }
+        if (!D[P]) {
+            document.getElementById('statusBar').innerHTML = '❌ Data belum dimuat!';
+            return;
+        }
+
+        IS_SCANNING = true;
+        const scanBtn = document.querySelector('.scan-btn');
+        if (scanBtn) {
+            scanBtn.textContent = '⏳ SCANNING...';
+            scanBtn.disabled = true;
+        }
+
+        document.getElementById('statusBar').innerHTML = `⏳ Memproses data ${P.toUpperCase()}...`;
+
+        setTimeout(() => {
+            try {
+                performScanAllMappings();
+            } catch (e) {
+                console.error('Scan error:', e);
+                document.getElementById('statusBar').innerHTML = '❌ Error: ' + e.message;
+                IS_SCANNING = false;
+                if (scanBtn) {
+                    scanBtn.textContent = '⚡ SCAN';
+                    scanBtn.disabled = false;
+                }
+            }
+        }, 100);
+    }
+
+    function performScanAllMappings() {
+        let data = D[P].slice(-JUMLAH_TAMPIL);
+        let resultArea = document.getElementById('resultArea');
+        
+        let barisData = [];
+        
+        for (let i = 0; i < data.length - 1; i++) {
+            let barisSaatIni = data[i];
+            let barisBerikutnya = data[i + 1];
+            let next2D = get2DBelakang(barisBerikutnya);
+            
+            let row = {
+                dataSaatIni: barisSaatIni,
+                isLastRow: (i === data.length - 2)
+            };
+            
+            for (let mapping of ALL_MAPPINGS) {
+                let digit = getDigitByMap(barisSaatIni, mapping.id);
+                let prediksi = getPrediksi2D(digit, mapping.map);
+                let matchAngka = cekMatch(prediksi, next2D);
+                let hasMatch = matchAngka.length > 0;
+                
+                row[mapping.id] = {
+                    prediksi: prediksi || '-',
+                    hasMatch: hasMatch,
+                    matchAngka: matchAngka
+                };
+            }
+            
+            barisData.push(row);
+        }
+
+        // Data terakhir
+        let lastData = data[data.length - 1];
+        
+        let lastRow = {
+            dataSaatIni: lastData,
+            isDataTerakhir: true
+        };
+        
+        for (let mapping of ALL_MAPPINGS) {
+            let digit = getDigitByMap(lastData, mapping.id);
+            let prediksi = getPrediksi2D(digit, mapping.map);
+            lastRow[mapping.id] = {
+                prediksi: prediksi || '-',
+                hasMatch: false,
+                matchAngka: []
+            };
+        }
+
+        let html = buildAllMappingsHTML(barisData, lastRow);
+        resultArea.innerHTML = html;
+        
+        document.getElementById('statusBar').innerHTML = `✅ Scan selesai. ${barisData.length} data diproses.`;
+        
+        IS_SCANNING = false;
+        const scanBtn = document.querySelector('.scan-btn');
+        if (scanBtn) {
+            scanBtn.textContent = '⚡ SCAN';
+            scanBtn.disabled = false;
+        }
+    }
+
+    // ============================================================
+    //  BUILD HTML - FORMAT FINAL
+    // ============================================================
+    function buildAllMappingsHTML(barisData, lastRow) {
+        let html = `
+            <div style="margin-top:10px;padding:10px;background:#0d1a0d;border-left:3px solid #44ff44;border-radius:4px;">
+                <strong style="color:#44ff44;">📊 Hasil Prediksi 2D Belakang</strong>
+                <span style="color:#446644;margin-left:10px;">Tampil: ${JUMLAH_TAMPIL} baris</span>
+                <span style="color:#446644;margin-left:10px;">Pasar: ${P.toUpperCase()}</span>
+                
+            </div>
+        `;
+
+        html += `<div class="table-wrap"><table class="detail-table">`;
+        
+        // HEADER
+        html += `<tr class="key-header-row">`;
+        html += `<th style="min-width:50px;">Data</th>`;
+        
+        for (let mapping of ALL_MAPPINGS) {
+            html += `<th style="font-size:9px;min-width:45px;">${mapping.label}</th>`;
+        }
+        html += `</tr>`;
+
+        // DATA ROWS
+        let allRows = [...barisData, lastRow];
+
+        for (let row of allRows) {
+            let bgColor = '#0d0d0d';
+            let labelColor = '#88ff88';
+            
+            if (row.isDataTerakhir) {
+                bgColor = '#1a0d2a';
+                labelColor = '#8844ff';
+            } else if (row.isLastRow && !row.isDataTerakhir) {
+                bgColor = '#0d0d2a';
+            }
+            
+            html += `<tr class="data-row" style="background:${bgColor};">`;
+            html += `<td class="data-col" style="color:${labelColor};">${row.dataSaatIni}</td>`;
+            
+            for (let mapping of ALL_MAPPINGS) {
+                let col = row[mapping.id];
+                if (col) {
+                    let prediksi = col.prediksi;
+                    let matchAngka = col.matchAngka || [];
+                    let hasMatch = col.hasMatch;
+                    
+                    let displayText = '';
+                    if (row.isDataTerakhir) {
+                        displayText = `<span class="angka-prediksi">${prediksi}</span>`;
+                    } else if (hasMatch) {
+                        let parts = [];
+                        for (let char of prediksi) {
+                            if (matchAngka.includes(char)) {
+                                parts.push(`<span class="angka-masuk">${char}</span>`);
+                            } else {
+                                parts.push(`<span style="color:#88ff88;">${char}</span>`);
+                            }
+                        }
+                        displayText = parts.join('');
+                    } else {
+                        displayText = `<span style="color:#88ff88;">${prediksi}</span><span class="angka-tidak">x</span>`;
+                    }
+                    
+                    html += `<td style="font-size:13px;padding:2px 3px;letter-spacing:1px;">${displayText}</td>`;
+                } else {
+                    html += `<td style="color:#333;">-</td>`;
+                }
+            }
+            html += `</tr>`;
+        }
+
+        html += `</table></div>`;
+
+        return html;
+    }
+
+    // ============================================================
+    //  FUNGSI UI
+    // ============================================================
+    
+    function updateClock() {
+        const now = new Date();
+        return '🕐 ' + now.toLocaleString('id-ID', {
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+    }
+
+    function updateFooterDate() {
+        const now = new Date();
+        const el = document.getElementById('footerDate');
+        if (el) {
+            el.textContent = now.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+    }
+
+    function updateStatusBarDisplay() {
+        let settingsBar = document.getElementById('settingsBar');
+        settingsBar.innerHTML = `🎯 2D Belakang | Pasar: ${P.toUpperCase()} | Tampil: ${JUMLAH_TAMPIL} baris`;
+    }
+
+    function setTampilOption() {
+        const select = document.getElementById('tampilSelect');
+        JUMLAH_TAMPIL = parseInt(select.value);
+        document.getElementById('statusBar').innerHTML = `✅ Tampilan diubah menjadi ${JUMLAH_TAMPIL} baris`;
+        updateStatusBarDisplay();
+        if (D[P] && D[P].length > 0) scanPrediksi();
+    }
+
+    function onPasarChange() {
+        const select = document.getElementById('pasarSelect');
+        load(select.value);
+    }
+
+    async function load(p) {
+        P = p;
+        const statusBar = document.getElementById('statusBar');
+        statusBar.innerHTML = `⏳ Loading ${p.toUpperCase()}...`;
+        document.getElementById('pasarSelect').value = p;
+
+        if (!D[p]) {
+            try {
+                let url = URL_DATA[p];
+                let response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                let text = await response.text();
+                let lines = text.trim().split('\n')
+                    .map(x => x.trim())
+                    .filter(x => x.length >= 4 && /^\d+$/.test(x))
+                    .map(x => x.slice(0, 4));
+
+                if (lines.length === 0) {
+                    lines = ['1234', '5678', '9012', '3456', '7890', '2345', '6789', '0123', '4567', '8901'];
+                    statusBar.innerHTML = `⚠️ Data ${p.toUpperCase()} kosong, pakai data contoh`;
+                } else {
+                    D[p] = lines;
+                    statusBar.innerHTML = `✅ Load ${lines.length} data dari ${p.toUpperCase()}`;
+                }
+            } catch (e) {
+                console.error('Load error:', e);
+                let lines = ['1234', '5678', '9012', '3456', '7890', '2345', '6789', '0123', '4567', '8901'];
+                D[p] = lines;
+                statusBar.innerHTML = `⚠️ Gagal load ${p.toUpperCase()}, pakai data contoh (${D[p].length} data)`;
+            }
+        }
+        updateStatusBarDisplay();
+        document.getElementById('statusBar').innerHTML = `✅ Data ${p.toUpperCase()} siap. Klik SCAN untuk prediksi 2D.`;
+        if (D[p] && D[p].length > 0) scanPrediksi();
+    }
+
+    // ============================================================
+    //  INIT
+    // ============================================================
+    
+    setInterval(() => {
+        document.getElementById('clock').textContent = updateClock();
+    }, 1000);
+
+    window.onload = function() {
+        updateFooterDate();
+        document.getElementById('tampilSelect').value = '20';
+        document.getElementById('pasarSelect').value = 'hk';
+        JUMLAH_TAMPIL = 20;
+        updateStatusBarDisplay();
+        load('hk');
+    };
+</script>
+
+</body>
+</html>
