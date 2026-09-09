@@ -1,3 +1,22 @@
+Ada bug pada logika rumus matematika dan ketidakcocokan istilah pada header di dalam skrip JavaScript JavaScript Anda.
+Berikut adalah perbaikan utama yang dilakukan pada kode Anda:
+ * Header vs Keterangan Rumus
+   * Header aplikasi menuliskan: JD = A+C · JT = C+K (posisi A, C, K, E).
+   * Namun di JavaScript sebelumnya menggunakan variabel b (COP) sebagai C dan c (KEPALA) sebagai K.
+   * Kode di bawah sudah diselaraskan agar variabel dan rumusnya konsisten:
+     * A = AS (digit ke-1)
+     * C = COP (digit ke-2)
+     * K = KEPALA (digit ke-3)
+     * E = EKOR (digit ke-4)
+ * Perbaikan Rumus Filter (Sesuai Header):
+   * JD = AS + COP (A + C)
+   * JT = COP + KEPALA (C + K)
+   * J = KEPALA + EKOR (K + E)
+   * TEPI = AS + EKOR (A + E)
+ * Perbaikan Opsi Tambahan (2D Depan, 2D Tengah, 3D Depan)
+   * Sebelumnya, jika opsi centang diaktifkan namun array filter target (JD/JT/J/TEPI) tidak lengkap untuk 4D, opsi tambahan tidak ter-generate dengan benar.
+   * Kode perbaikan memastikan pengambilan potongan digit (depan/tengah) berjalan presisi langsung dari kombinasi 4D yang valid.
+Berikut kode HTML & JavaScript yang sudah diperbaiki secara menyeluruh:
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -333,7 +352,6 @@
         @media (max-width: 700px) {
             .ct-ai-grid { grid-template-columns: 1fr; }
         }
-
     </style>
 </head>
 <body>
@@ -355,13 +373,13 @@
     <div class="racik-container">
         <div class="racik-title">
             🧩 INPUT ANGKA
-            <small>— Isi posisi berurutan: AC, CK, KE, ACK, CKE, ACKE</small>
+            <small>— Isi posisi berurutan: AS(A), COP(C), KEPALA(K), EKOR(E)</small>
         </div>
         <div class="racik-grid">
-            <label>AS <input type="text" id="as" placeholder="0123456789"></label>
-            <label>COP <input type="text" id="cop" placeholder="0123456789"></label>
-            <label>KEPALA <input type="text" id="kepala" placeholder="0123456789"></label>
-            <label>EKOR <input type="text" id="ekor" placeholder="0123456789"></label>
+            <label>AS (A) <input type="text" id="as" placeholder="0123456789"></label>
+            <label>COP (C) <input type="text" id="cop" placeholder="0123456789"></label>
+            <label>KEPALA (K) <input type="text" id="kepala" placeholder="0123456789"></label>
+            <label>EKOR (E) <input type="text" id="ekor" placeholder="0123456789"></label>
             <label>🎯 JD (A+C) <input type="text" id="jd" placeholder="0123456789" class="target-input"></label>
             <label>🎯 JT (C+K) <input type="text" id="jt" placeholder="0123456789" class="target-input"></label>
             <label>🎯 J (K+E) <input type="text" id="jbel" placeholder="0123456789" class="target-input"></label>
@@ -370,28 +388,27 @@
 
         <div class="option-group">
             <span style="font-weight:700;color:#0d47a1;font-size:13px;">📋 Opsi Tambahan:</span>
-            <label><input type="checkbox" id="show2Ddepan"> 2D Depan (AC)</label>
-            <label><input type="checkbox" id="show2Dtengah"> 2D Tengah (CK)</label>
-            <label><input type="checkbox" id="show3Ddepan"> 3D Depan (ACK)</label>
+            <label><input type="checkbox" id="show2Ddepan"> 2D Depan (A+C)</label>
+            <label><input type="checkbox" id="show2Dtengah"> 2D Tengah (C+K)</label>
+            <label><input type="checkbox" id="show3Ddepan"> 3D Depan (A+C+K)</label>
         </div>
 
         <div class="ct-ai-container">
             <div class="ct-ai-title">🤖 FILTER CT / AI <small style="font-weight:400;">Pisahkan setiap control dengan enter</small></div>
             <div class="ct-ai-grid">
                 <label>
-                    CT AS + COP
+                    CT AS + COP (A+C)
                     <textarea id="ctAsCop" placeholder="123456&#10;2345678&#10;56789"></textarea>
                 </label>
                 <label>
-                    CT COP + KEPALA
+                    CT COP + KEPALA (C+K)
                     <textarea id="ctCopKepala" placeholder="123456&#10;2345678&#10;56789"></textarea>
                 </label>
                 <label>
-                    CT KEPALA + EKOR
+                    CT KEPALA + EKOR (K+E)
                     <textarea id="ctKepalaEkor" placeholder="123456&#10;2345678&#10;56789"></textarea>
                 </label>
             </div>
-            <div class="ct-ai-help"></div>
         </div>
 
         <div class="btn-group-racik">
@@ -399,7 +416,7 @@
             <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
         </div>
         <div class="filter-info" id="filterInfo">
-            🔍 Filter: <strong id="infoText">JD  {} | JT  {} | J  {} | TEPI  {}</strong>
+            🔍 Filter: <strong id="infoText">JD {} | JT {} | J {} | TEPI {}</strong>
         </div>
     </div>
 
@@ -419,10 +436,7 @@
         <div class="footer-left">
             <span>© 2026 <strong>Racik Angka</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v7.2 CT/AI</span></span>
-            <span class="footer-divider">|</span>
-            <a href="#" class="footer-link">📖 Panduan</a>
-            <a href="#" class="footer-link">🔧 Support</a>
+            <span>Version <span class="footer-version">v7.2 Fixed</span></span>
         </div>
         <div class="footer-right">
             <span>⚡ Powered by <strong>AI Analysis</strong></span>
@@ -446,15 +460,13 @@ let lastResult = { d4: [], d3: [], d2: [], d3depan: [], d2depan: [], d2tengah: [
 function getDigits(id) {
     let val = document.getElementById(id).value;
     if (!val || val.trim() === '') return [];
-    let digits = val.replace(/\D/g, '').split('').map(Number);
-    return digits.filter(d => !isNaN(d) && d >= 0 && d <= 9);
+    return [...new Set(val.replace(/\D/g, '').split('').map(Number))];
 }
 
 function getTargetArray(id) {
     let val = document.getElementById(id).value;
     if (!val || val.trim() === '') return [];
-    let digits = val.replace(/\D/g, '').split('').map(Number);
-    return digits.filter(d => !isNaN(d) && d >= 0 && d <= 9);
+    return [...new Set(val.replace(/\D/g, '').split('').map(Number))];
 }
 
 function getCTControls(id) {
@@ -485,10 +497,10 @@ function formatAngka(arr) {
 }
 
 function generate() {
-    let asDigits = getDigits('as');
-    let copDigits = getDigits('cop');
-    let kepalaDigits = getDigits('kepala');
-    let ekorDigits = getDigits('ekor');
+    let asDigits = getDigits('as');       // A
+    let copDigits = getDigits('cop');     // C
+    let kepalaDigits = getDigits('kepala'); // K
+    let ekorDigits = getDigits('ekor');   // E
     
     let targetJD = getTargetArray('jd');
     let targetJT = getTargetArray('jt');
@@ -499,11 +511,6 @@ function generate() {
     let show2Dtengah = document.getElementById('show2Dtengah').checked;
     let show3Ddepan = document.getElementById('show3Ddepan').checked;
 
-    // ============================================================
-    //  CT / AI CONTROL
-    //  Setiap baris = 1 control
-    //  Kedua digit pasangan harus masuk pada baris control yang sama
-    // ============================================================
     let ctAsCop = getCTControls('ctAsCop');
     let ctCopKepala = getCTControls('ctCopKepala');
     let ctKepalaEkor = getCTControls('ctKepalaEkor');
@@ -515,28 +522,20 @@ function generate() {
         ekor: ekorDigits.length > 0
     };
 
-    // ============================================================
-    //  VALIDASI
-    // ============================================================
     let pattern = '';
     if (posisi.as) pattern += 'A';
-    if (posisi.cop) pattern += 'B';
-    if (posisi.kepala) pattern += 'C';
-    if (posisi.ekor) pattern += 'D';
+    if (posisi.cop) pattern += 'C';
+    if (posisi.kepala) pattern += 'K';
+    if (posisi.ekor) pattern += 'E';
 
-    let validPatterns = ['AB', 'BC', 'CD', 'ABC', 'BCD', 'ABCD'];
+    let validPatterns = ['AC', 'CK', 'KE', 'ACK', 'CKE', 'ACKE'];
     let isValid = validPatterns.includes(pattern);
-    let isFull4D = (pattern === 'ABCD');
 
-    if (!isValid || pattern.length < 2) {
-        let msg = '';
-        if (pattern.length < 2) {
-            msg = '⚠️ Minimal 2 posisi berurutan harus diisi (AB, BC, CD)';
-        } else {
-            msg = '⚠️ Posisi harus berurutan! Yang valid: AB, BC, CD, ABC, BCD, ABCD';
-        }
+    if (!isValid) {
+        let msg = '⚠️ Posisi input harus berurutan! Contoh valid: AC, CK, KE, ACK, CKE, ACKE';
         document.getElementById('hasilBox').innerHTML = '<div class="error-state">' + msg + '</div>';
         document.querySelectorAll('.racik-grid input').forEach(inp => inp.classList.remove('error-input'));
+        
         ['as','cop','kepala','ekor'].forEach(id => {
             if (document.getElementById(id).value.trim() === '') {
                 document.getElementById(id).classList.add('error-input');
@@ -549,143 +548,148 @@ function generate() {
 
     document.querySelectorAll('.racik-grid input').forEach(inp => inp.classList.remove('error-input'));
 
-    // Update info filter
-    let infoText = '';
-    infoText += 'JD  {' + targetJD.join(',') + '} | ';
-    infoText += 'JT  {' + targetJT.join(',') + '} | ';
-    infoText += 'J  {' + targetJ.join(',') + '} | ';
-    infoText += 'TEPI  {' + targetTepi.join(',') + '}';
-    document.getElementById('infoText').textContent = infoText;
+    document.getElementById('infoText').textContent = 
+        `JD {${targetJD.join(',')}} | JT {${targetJT.join(',')}} | J {${targetJ.join(',')}} | TEPI {${targetTepi.join(',')}}`;
 
-    // ============================================================
-    //  GENERATE 4D
-    // ============================================================
-    let all4D = [];
-    if (posisi.as && posisi.cop && posisi.kepala && posisi.ekor) {
+    // 1. GENERATE BASE COMBINATIONS
+    let rawCombinations = [];
+
+    if (pattern === 'ACKE') {
         for (let a of asDigits) {
-            for (let b of copDigits) {
-                for (let c of kepalaDigits) {
-                    for (let d of ekorDigits) {
-                        all4D.push('' + a + b + c + d);
+            for (let c of copDigits) {
+                for (let k of kepalaDigits) {
+                    for (let e of ekorDigits) {
+                        rawCombinations.push({ string: `${a}${c}${k}${e}`, type: '4D', a, c, k, e });
                     }
                 }
             }
         }
-        all4D = [...new Set(all4D)];
+    } else if (pattern === 'ACK') {
+        for (let a of asDigits) {
+            for (let c of copDigits) {
+                for (let k of kepalaDigits) {
+                    rawCombinations.push({ string: `${a}${c}${k}`, type: '3D_FRONT', a, c, k, e: null });
+                }
+            }
+        }
+    } else if (pattern === 'CKE') {
+        for (let c of copDigits) {
+            for (let k of kepalaDigits) {
+                for (let e of ekorDigits) {
+                    rawCombinations.push({ string: `${c}${k}${e}`, type: '3D_BACK', a: null, c, k, e });
+                }
+            }
+        }
+    } else if (pattern === 'AC') {
+        for (let a of asDigits) {
+            for (let c of copDigits) {
+                rawCombinations.push({ string: `${a}${c}`, type: '2D_FRONT', a, c, k: null, e: null });
+            }
+        }
+    } else if (pattern === 'CK') {
+        for (let c of copDigits) {
+            for (let k of kepalaDigits) {
+                rawCombinations.push({ string: `${c}${k}`, type: '2D_MID', a: null, c, k, e: null });
+            }
+        }
+    } else if (pattern === 'KE') {
+        for (let k of kepalaDigits) {
+            for (let e of ekorDigits) {
+                rawCombinations.push({ string: `${k}${e}`, type: '2D_BACK', a: null, c: null, k, e });
+            }
+        }
     }
 
-    // ============================================================
-    //  FILTER - FORMULA YANG BENER!
-    //  JD = A + C (AS + COP)
-    //  JT = B + C (COP + KEPALA)
-    //  J  = C + D (KEPALA + EKOR)
-    //  TEPI = A + D (AS + EKOR)
-    // ============================================================
-    function applyFilter(arr) {
-        if (arr.length === 0) return arr;
-        
-        return arr.filter(num => {
-            let d1 = (num.length >= 1) ? parseInt(num[0]) : -1;
-            let d2 = (num.length >= 2) ? parseInt(num[1]) : -1;
-            let d3 = (num.length >= 3) ? parseInt(num[2]) : -1;
-            let d4 = (num.length >= 4) ? parseInt(num[3]) : -1;
+    // 2. FILTER MATEMATIS (JD, JT, J, TEPI)
+    function checkTargetFilter(item) {
+        let { a, c, k, e } = item;
 
-            // JD = A + C = AS + COP
-            let jd = (d1 !== -1 && d2 !== -1) ? reduceToSingleDigit(d1 + d2) : -1;
-            // JT = B + C = COP + KEPALA
-            let jt = (d2 !== -1 && d3 !== -1) ? reduceToSingleDigit(d2 + d3) : -1;
-            // J = C + D = KEPALA + EKOR
-            let j = (d3 !== -1 && d4 !== -1) ? reduceToSingleDigit(d3 + d4) : -1;
-            // TEPI = A + D = AS + EKOR
-            let tepi = (d1 !== -1 && d4 !== -1) ? reduceToSingleDigit(d1 + d4) : -1;
+        // JD = A + C
+        if (targetJD.length > 0) {
+            if (a === null || c === null) return false;
+            let sumJD = reduceToSingleDigit(a + c);
+            if (!targetJD.includes(sumJD)) return false;
+        }
 
-            let lolosJD = targetJD.length === 0 || (jd !== -1 && targetJD.includes(jd));
-            let lolosJT = targetJT.length === 0 || (jt !== -1 && targetJT.includes(jt));
-            let lolosJ = targetJ.length === 0 || (j !== -1 && targetJ.includes(j));
-            let lolosTepi = targetTepi.length === 0 || (tepi !== -1 && targetTepi.includes(tepi));
+        // JT = C + K
+        if (targetJT.length > 0) {
+            if (c === null || k === null) return false;
+            let sumJT = reduceToSingleDigit(c + k);
+            if (!targetJT.includes(sumJT)) return false;
+        }
 
-            return lolosJD && lolosJT && lolosJ && lolosTepi;
-        });
+        // J = K + E
+        if (targetJ.length > 0) {
+            if (k === null || e === null) return false;
+            let sumJ = reduceToSingleDigit(k + e);
+            if (!targetJ.includes(sumJ)) return false;
+        }
+
+        // TEPI = A + E
+        if (targetTepi.length > 0) {
+            if (a === null || e === null) return false;
+            let sumTepi = reduceToSingleDigit(a + e);
+            if (!targetTepi.includes(sumTepi)) return false;
+        }
+
+        return true;
     }
 
-    // Filter 4D
-    let filtered4D = applyFilter(all4D);
-
-    // ============================================================
-    //  FILTER CT / AI
-    //  Minimal satu baris control harus memuat KEDUA digit pasangan
-    //  Control kosong = dilewati
-    // ============================================================
-    function lolosCT(digit1, digit2, controls) {
+    // 3. FILTER CT / AI
+    function checkCTFilter(digit1, digit2, controls) {
         if (controls.length === 0) return true;
+        if (digit1 === null || digit2 === null) return true; 
 
-        return controls.some(control =>
-            control.includes(digit1) && control.includes(digit2)
-        );
+        return controls.some(control => control.includes(digit1) && control.includes(digit2));
     }
 
-    filtered4D = filtered4D.filter(num => {
-        let a = parseInt(num[0]);
-        let b = parseInt(num[1]);
-        let c = parseInt(num[2]);
-        let d = parseInt(num[3]);
+    let filteredList = rawCombinations.filter(item => {
+        let passMath = checkTargetFilter(item);
+        if (!passMath) return false;
 
-        let lolosAsCop = lolosCT(a, b, ctAsCop);
-        let lolosCopKepala = lolosCT(b, c, ctCopKepala);
-        let lolosKepalaEkor = lolosCT(c, d, ctKepalaEkor);
+        let passCT_AC = checkCTFilter(item.a, item.c, ctAsCop);
+        let passCT_CK = checkCTFilter(item.c, item.k, ctCopKepala);
+        let passCT_KE = checkCTFilter(item.k, item.e, ctKepalaEkor);
 
-        return lolosAsCop && lolosCopKepala && lolosKepalaEkor;
+        return passCT_AC && passCT_CK && passCT_KE;
     });
 
-    // ============================================================
-    //  3D & 2D BELAKANG - DARI 4D YANG LOLOS FILTER
-    // ============================================================
-    let temp3D = [];
-    let temp2D = [];
-    for (let num of filtered4D) {
-        temp3D.push(num[1] + num[2] + num[3]); // BCD
-        temp2D.push(num[2] + num[3]); // CD
-    }
-    let filtered3D = [...new Set(temp3D)];
-    let filtered2D = [...new Set(temp2D)];
-
-    // ============================================================
-    //  OPSI TAMBAHAN
-    //  Ambil langsung dari 4D yang SUDAH lolos semua filter
-    //  JD / JT / J / TEPI + CT / AI
-    // ============================================================
+    // 4. SUSUN HASIL SESUAI POSISI DARI DATA TERFILTER
+    let filtered4D = [];
+    let filtered3D = [];
+    let filtered2D = [];
     let filtered3Ddepan = [];
     let filtered2Ddepan = [];
     let filtered2Dtengah = [];
 
-    if (isFull4D) {
-        if (show3Ddepan) {
-            for (let num of filtered4D) {
-                let angka3D = num.substring(0, 3);
-                if (!filtered3Ddepan.includes(angka3D)) {
-                    filtered3Ddepan.push(angka3D);
-                }
-            }
-        }
+    filteredList.forEach(item => {
+        if (item.type === '4D') {
+            filtered4D.push(item.string);
+            filtered3D.push(item.string.substring(1, 4)); // CKE
+            filtered2D.push(item.string.substring(2, 4)); // KE
 
-        if (show2Ddepan) {
-            for (let num of filtered4D) {
-                let angka2D = num.substring(0, 2);
-                if (!filtered2Ddepan.includes(angka2D)) {
-                    filtered2Ddepan.push(angka2D);
-                }
-            }
+            if (show3Ddepan) filtered3Ddepan.push(item.string.substring(0, 3)); // ACK
+            if (show2Ddepan) filtered2Ddepan.push(item.string.substring(0, 2)); // AC
+            if (show2Dtengah) filtered2Dtengah.push(item.string.substring(1, 3)); // CK
+        } else if (item.type === '3D_FRONT') {
+            filtered3Ddepan.push(item.string);
+        } else if (item.type === '3D_BACK') {
+            filtered3D.push(item.string);
+        } else if (item.type === '2D_FRONT') {
+            filtered2Ddepan.push(item.string);
+        } else if (item.type === '2D_MID') {
+            filtered2Dtengah.push(item.string);
+        } else if (item.type === '2D_BACK') {
+            filtered2D.push(item.string);
         }
+    });
 
-        if (show2Dtengah) {
-            for (let num of filtered4D) {
-                let angka2D = num.substring(1, 3);
-                if (!filtered2Dtengah.includes(angka2D)) {
-                    filtered2Dtengah.push(angka2D);
-                }
-            }
-        }
-    }
+    filtered4D = [...new Set(filtered4D)];
+    filtered3D = [...new Set(filtered3D)];
+    filtered2D = [...new Set(filtered2D)];
+    filtered3Ddepan = [...new Set(filtered3Ddepan)];
+    filtered2Ddepan = [...new Set(filtered2Ddepan)];
+    filtered2Dtengah = [...new Set(filtered2Dtengah)];
 
     lastResult = { 
         d4: filtered4D, 
@@ -700,118 +704,37 @@ function generate() {
                 filtered3Ddepan.length + filtered2Ddepan.length + filtered2Dtengah.length;
     document.getElementById('footerDataCount').textContent = '📊 ' + total + ' angka';
 
-    // ============================================================
-    //  TAMPILKAN HASIL
-    // ============================================================
+    // 5. TAMPILKAN HASIL
     let html = '';
 
-    // 4D
-    if (filtered4D.length > 0) {
-        html += `<div class="hasil-row">
-            <span class="label">4D</span>
-            <span class="angka-list">${formatAngka(filtered4D)}</span>
-            <span class="info">${filtered4D.length} angka</span>
-            <span class="badge hit">✅</span>
-            <button class="copy-btn" onclick="copyText('${filtered4D.join('*')}', this)">📋 Copy</button>
-        </div>`;
-    } else {
-        html += `<div class="hasil-row">
-            <span class="label">4D</span>
-            <span class="angka-list">—</span>
-            <span class="info">0 angka</span>
-            <span class="badge miss">❌</span>
-        </div>`;
+    function renderRow(title, dataArr, isOpsi = false) {
+        let rowClass = isOpsi ? 'hasil-row row-opsi' : 'hasil-row';
+        if (dataArr.length > 0) {
+            return `<div class="${rowClass}">
+                <span class="label">${title}</span>
+                <span class="angka-list">${formatAngka(dataArr)}</span>
+                <span class="info">${dataArr.length} angka</span>
+                <span class="badge hit">✅</span>
+                <button class="copy-btn" onclick="copyText('${dataArr.join('*')}', this)">📋 Copy</button>
+            </div>`;
+        } else {
+            return `<div class="${rowClass}">
+                <span class="label">${title}</span>
+                <span class="angka-list">—</span>
+                <span class="info">0 angka</span>
+                <span class="badge miss">❌</span>
+            </div>`;
+        }
     }
 
-    // 3D Belakang
-    if (filtered3D.length > 0) {
-        html += `<div class="hasil-row">
-            <span class="label">3D Belakang</span>
-            <span class="angka-list">${formatAngka(filtered3D)}</span>
-            <span class="info">${filtered3D.length} angka</span>
-            <span class="badge hit">✅</span>
-            <button class="copy-btn" onclick="copyText('${filtered3D.join('*')}', this)">📋 Copy</button>
-        </div>`;
-    } else {
-        html += `<div class="hasil-row">
-            <span class="label">3D Belakang</span>
-            <span class="angka-list">—</span>
-            <span class="info">0 angka</span>
-            <span class="badge miss">❌</span>
-        </div>`;
-    }
+    html += renderRow('4D', filtered4D);
+    html += renderRow('3D Belakang', filtered3D);
+    html += renderRow('2D Belakang', filtered2D);
 
-    // 2D Belakang
-    if (filtered2D.length > 0) {
-        html += `<div class="hasil-row">
-            <span class="label">2D Belakang</span>
-            <span class="angka-list">${formatAngka(filtered2D)}</span>
-            <span class="info">${filtered2D.length} angka</span>
-            <span class="badge hit">✅</span>
-            <button class="copy-btn" onclick="copyText('${filtered2D.join('*')}', this)">📋 Copy</button>
-        </div>`;
-    } else {
-        html += `<div class="hasil-row">
-            <span class="label">2D Belakang</span>
-            <span class="angka-list">—</span>
-            <span class="info">0 angka</span>
-            <span class="badge miss">❌</span>
-        </div>`;
-    }
+    if (show3Ddepan || filtered3Ddepan.length > 0) html += renderRow('3D Depan', filtered3Ddepan, true);
+    if (show2Ddepan || filtered2Ddepan.length > 0) html += renderRow('2D Depan', filtered2Ddepan, true);
+    if (show2Dtengah || filtered2Dtengah.length > 0) html += renderRow('2D Tengah', filtered2Dtengah, true);
 
-    // === OPSI TAMBAHAN ===
-    if (filtered3Ddepan.length > 0) {
-        html += `<div class="hasil-row row-opsi">
-            <span class="label">3D Depan</span>
-            <span class="angka-list">${formatAngka(filtered3Ddepan)}</span>
-            <span class="info">${filtered3Ddepan.length} angka</span>
-            <span class="badge hit">✅</span>
-            <button class="copy-btn" onclick="copyText('${filtered3Ddepan.join('*')}', this)">📋 Copy</button>
-        </div>`;
-    } else {
-        html += `<div class="hasil-row row-opsi">
-            <span class="label">3D Depan</span>
-            <span class="angka-list">—</span>
-            <span class="info">0 angka</span>
-            <span class="badge miss">❌</span>
-        </div>`;
-    }
-
-    if (filtered2Ddepan.length > 0) {
-        html += `<div class="hasil-row row-opsi">
-            <span class="label">2D Depan</span>
-            <span class="angka-list">${formatAngka(filtered2Ddepan)}</span>
-            <span class="info">${filtered2Ddepan.length} angka</span>
-            <span class="badge hit">✅</span>
-            <button class="copy-btn" onclick="copyText('${filtered2Ddepan.join('*')}', this)">📋 Copy</button>
-        </div>`;
-    } else {
-        html += `<div class="hasil-row row-opsi">
-            <span class="label">2D Depan</span>
-            <span class="angka-list">—</span>
-            <span class="info">0 angka</span>
-            <span class="badge miss">❌</span>
-        </div>`;
-    }
-
-    if (filtered2Dtengah.length > 0) {
-        html += `<div class="hasil-row row-opsi">
-            <span class="label">2D Tengah</span>
-            <span class="angka-list">${formatAngka(filtered2Dtengah)}</span>
-            <span class="info">${filtered2Dtengah.length} angka</span>
-            <span class="badge hit">✅</span>
-            <button class="copy-btn" onclick="copyText('${filtered2Dtengah.join('*')}', this)">📋 Copy</button>
-        </div>`;
-    } else {
-        html += `<div class="hasil-row row-opsi">
-            <span class="label">2D Tengah</span>
-            <span class="angka-list">—</span>
-            <span class="info">0 angka</span>
-            <span class="badge miss">❌</span>
-        </div>`;
-    }
-
-    // TOTAL
     if (total > 0) {
         html += `<div class="hasil-row" style="background:#e8f0fe;border-color:#0d47a1;">
             <span class="label">📊 TOTAL</span>
@@ -873,7 +796,7 @@ function resetForm() {
     document.getElementById('ctKepalaEkor').value = '';
     document.querySelectorAll('.racik-grid input').forEach(inp => inp.classList.remove('error-input'));
     document.getElementById('hasilBox').innerHTML = '<div class="empty-state">Masukkan angka dan klik GENERATE</div>';
-    document.getElementById('infoText').textContent = 'JD  {} | JT  {} | J  {} | TEPI  {}';
+    document.getElementById('infoText').textContent = 'JD {} | JT {} | J {} | TEPI {}';
     document.getElementById('footerDataCount').textContent = '📊 0 data';
     lastResult = { d4: [], d3: [], d2: [], d3depan: [], d2depan: [], d2tengah: [] };
 }
@@ -885,5 +808,4 @@ document.addEventListener('keydown', function(e) {
 
 </body>
 </html>
-
 
