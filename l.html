@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html" lang="id">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>html" Header Footer - Auto New Tab & Link Berubah</title>
+    <title>HTML Header Footer - Auto New Tab & Link Berubah</title>
     <style>
         * {
             margin: 0;
@@ -27,7 +27,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         header .logo {
@@ -35,27 +37,29 @@
             font-weight: bold;
         }
 
+        header nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
         header nav a {
             color: #fff;
             text-decoration: none;
-            margin-left: 20px;
             padding: 6px 12px;
             border-radius: 4px;
             transition: all 0.3s;
         }
 
-        /* Hover */
         header nav a:hover {
             background-color: #f39c12;
             color: #2c3e50;
         }
 
-        /* Aktif saat ditekan */
         header nav a:active {
             transform: scale(0.95);
         }
 
-        /* 🔥 Sudah pernah diklik (visited) */
         header nav a:visited {
             color: #1abc9c;
         }
@@ -63,41 +67,54 @@
         /* ===== CONTENT ===== */
         main {
             flex: 1;
-            padding: 40px;
+            padding: 30px 20px;
             text-align: center;
         }
 
         main h1 {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #2c3e50;
         }
 
         main p {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #555;
         }
 
-        main a.btn {
-            display: inline-block;
-            padding: 12px 25px;
+        /* Grid tombol link */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .link-grid a.btn {
+            display: block;
+            padding: 12px 10px;
             background-color: #3498db;
             color: #fff;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
             transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        main a.btn:hover {
+        .link-grid a.btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        main a.btn:active {
+        .link-grid a.btn:active {
             transform: translateY(0);
         }
 
-        /* 🔥 Tombol berubah warna setelah diklik */
-        main a.btn:visited {
+        .link-grid a.btn:visited {
             background-color: #8e44ad;
             color: #ecf0f1;
         }
@@ -123,9 +140,34 @@
             text-decoration: underline;
         }
 
-        /* 🔥 Link footer berubah warna setelah diklik */
         footer a:visited {
             color: #1abc9c;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+
+            header nav {
+                justify-content: center;
+            }
+
+            main {
+                padding: 20px 12px;
+            }
+
+            .link-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 8px;
+            }
+
+            .link-grid a.btn {
+                font-size: 13px;
+                padding: 10px 6px;
+            }
         }
     </style>
 </head>
@@ -135,7 +177,6 @@
     <header>
         <div class="logo">MyWebsite</div>
         <nav>
-            <!-- target="_blank" + rel="noopener" = buka tab baru & aman -->
             <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a>
             <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://www.github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -145,133 +186,60 @@
     <!-- ===== CONTENT ===== -->
     <main>
         <h1>Selamat Datang di Website Saya</h1>
-        <p>Klik link di header atau tombol di bawah — otomatis terbuka di tab baru!</p>
-        <a href="https://tv888.win/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            TV888 A
-        </a>
-        <a href="https://tv888.plus/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            TV888 B
-        </a>
-        <a href="https://tv888.biz/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            TV888 C
-        </a>
-        <a href="https://tv888.one/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            TV888 D
-        </a>
-        <a href="https://tv888.my/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            TV888 E
-        </a>
-        <a href="https://tv888.lol/home.html/" target="_blank" rel="noopener noreferrer" class="btn">
-            TV888 home
-        </a>
-        <a href="https://888rg5.com/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            888R A
-        </a>
-        <a href="https://888rf3.com/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            888R B
-        </a>
-        <a href="https://888ra2.com/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            888R C
-        </a>
-        <a href="https://888r.nju315.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            888R HOME
-        </a>
-        <a href="https://888r.fyo983.com/home" target="_blank" rel="noopener noreferrer" class="btn">
-            888R HOME A
-        </a>
-        <a href="https://rr33.fun/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            RR33
-        </a>
-        <a href="rk88.fet532.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RK88
-        </a>
-        <a href="https://rk77.fpvx3532.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RK777
-        </a>
-        <a href="https://mvp789.kxse9028.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            MVP
-        </a>
-        <a href="rkgg.jdxp8455.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RKGG
-        </a>
-        <a href="333vfg.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            333V
-        </a><a href="https://rp99.bnj359.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RP99
-        </a>
-        <a href="https://r8.rr44r88.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RR44
-        </a>
-        <a href="https://rk55.unj321.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RK55
-        </a>
-        <a href="https://rpyyyh7.com/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            RPYYY
-        </a>
-        <a href="https://55rp.njo238.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            55RP
-        </a><a href="https://rp55.qvpw7366.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            RP55
-        </a>
-        <a href="https://33l.gise1515.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            33L
-        </a><a href="https://666i.pqka2226.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            666I
-        </a>
-        <a href="https://666f.yng328.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            666F
-        </a>
-        <a href="https://777rt.zns638.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            777rt
-        </a>
-        <a href="https://sl888.fbt431.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            SL888
-        </a>
-        <a href="https://sl999.bnd259.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            SL999
-        </a>
-        <a href="https://a8.a7777a88.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            A777
-        </a>
-        <a href="https://x8.xxx777x88.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            XXX777
-        </a>
-        <a href="https://5rt.xaov2924.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            5RT
-        </a>
-        <a href="https://6rt.d57yhwp7lhqv.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            6RT
-        </a>
-        <a href="https://8g8g.jir429.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            8g8g
-        </a>
-        <a href="https://9n9n.cfr324.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            9n9n
-        </a>
-        <a href="https://s9s9.pjn381.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            s9s9
-        </a>
-        <a href="https://rtzz.vqbf8743.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            rtzzz
-        </a>
-        <a href="https://ck789.knkp2436.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            ck789
-        </a>
-        <a href="https://f7f7.opb217.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            f7f7
-        </a>
-        <a href="https://cu888.oik983.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            cu888
-        </a>
-        <a href="https://pp123.zone/#/" target="_blank" rel="noopener noreferrer" class="btn">
-            pp123
-        </a>
-        <a href="https://99sl.foe349.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            99sl
-        </a>
-        <a href="https://rprr.mvc984.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">
-            rprr
-        </a>
+        <p>Klik link di bawah — otomatis terbuka di tab baru!</p>
+
+        <div class="link-grid">
+            <a href="https://tv888.win/#/" target="_blank" rel="noopener noreferrer" class="btn">TV888 A</a>
+            <a href="https://tv888.plus/#/" target="_blank" rel="noopener noreferrer" class="btn">TV888 B</a>
+            <a href="https://tv888.biz/#/" target="_blank" rel="noopener noreferrer" class="btn">TV888 C</a>
+            <a href="https://tv888.one/#/" target="_blank" rel="noopener noreferrer" class="btn">TV888 D</a>
+            <a href="https://tv888.my/#/" target="_blank" rel="noopener noreferrer" class="btn">TV888 E</a>
+            <a href="https://tv888.lol/home.html/" target="_blank" rel="noopener noreferrer" class="btn">TV888 Home</a>
+
+            <a href="https://888rg5.com/#/" target="_blank" rel="noopener noreferrer" class="btn">888R A</a>
+            <a href="https://888rf3.com/#/" target="_blank" rel="noopener noreferrer" class="btn">888R B</a>
+            <a href="https://888ra2.com/#/" target="_blank" rel="noopener noreferrer" class="btn">888R C</a>
+            <a href="https://888r.nju315.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">888R Home</a>
+            <a href="https://888r.fyo983.com/home" target="_blank" rel="noopener noreferrer" class="btn">888R Home A</a>
+
+            <a href="https://rr33.fun/#/" target="_blank" rel="noopener noreferrer" class="btn">RR33</a>
+            <a href="https://rk88.fet532.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RK88</a>
+            <a href="https://rk77.fpvx3532.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RK777</a>
+            <a href="https://mvp789.kxse9028.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">MVP</a>
+            <a href="https://rkgg.jdxp8455.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RKGG</a>
+            <a href="https://333vfg.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">333V</a>
+
+            <a href="https://rp99.bnj359.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RP99</a>
+            <a href="https://r8.rr44r88.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RR44</a>
+            <a href="https://rk55.unj321.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RK55</a>
+            <a href="https://rpyyyh7.com/#/" target="_blank" rel="noopener noreferrer" class="btn">RPYYY</a>
+            <a href="https://55rp.njo238.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">55RP</a>
+            <a href="https://rp55.qvpw7366.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RP55</a>
+
+            <a href="https://33l.gise1515.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">33L</a>
+            <a href="https://666i.pqka2226.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">666I</a>
+            <a href="https://666f.yng328.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">666F</a>
+            <a href="https://777rt.zns638.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">777RT</a>
+            <a href="https://sl888.fbt431.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">SL888</a>
+            <a href="https://sl999.bnd259.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">SL999</a>
+
+            <a href="https://a8.a7777a88.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">A777</a>
+            <a href="https://x8.xxx777x88.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">XXX777</a>
+            <a href="https://5rt.xaov2924.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">5RT</a>
+            <a href="https://6rt.d57yhwp7lhqv.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">6RT</a>
+            <a href="https://8g8g.jir429.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">8G8G</a>
+            <a href="https://9n9n.cfr324.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">9N9N</a>
+
+            <a href="https://s9s9.pjn381.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">S9S9</a>
+            <a href="https://rtzz.vqbf8743.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RTZZZ</a>
+            <a href="https://ck789.knkp2436.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">CK789</a>
+            <a href="https://f7f7.opb217.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">F7F7</a>
+            <a href="https://cu888.oik983.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">CU888</a>
+            <a href="https://pp123.zone/#/" target="_blank" rel="noopener noreferrer" class="btn">PP123</a>
+
+            <a href="https://99sl.foe349.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">99SL</a>
+            <a href="https://rprr.mvc984.com/home.html" target="_blank" rel="noopener noreferrer" class="btn">RPRR</a>
+        </div>
     </main>
 
     <!-- ===== FOOTER ===== -->
