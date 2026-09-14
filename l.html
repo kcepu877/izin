@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Header Footer - Auto New Tab & Link Berubah</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        /* Hover */
+        header nav a:hover {
+            background-color: #f39c12;
+            color: #2c3e50;
+        }
+
+        /* Aktif saat ditekan */
+        header nav a:active {
+            transform: scale(0.95);
+        }
+
+        /* 🔥 Sudah pernah diklik (visited) */
+        header nav a:visited {
+            color: #1abc9c;
+        }
+
+        /* ===== CONTENT ===== */
+        main {
+            flex: 1;
+            padding: 40px;
+            text-align: center;
+        }
+
+        main h1 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        main p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        main a.btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        main a.btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        main a.btn:active {
+            transform: translateY(0);
+        }
+
+        /* 🔥 Tombol berubah warna setelah diklik */
+        main a.btn:visited {
+            background-color: #8e44ad;
+            color: #ecf0f1;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #f39c12;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* 🔥 Link footer berubah warna setelah diklik */
+        footer a:visited {
+            color: #1abc9c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="logo">MyWebsite</div>
+        <nav>
+            <!-- target="_blank" + rel="noopener" = buka tab baru & aman -->
+            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a>
+            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+    </header>
+
+    <!-- ===== CONTENT ===== -->
+    <main>
+        <h1>Selamat Datang di Website Saya</h1>
+        <p>Klik link di header atau tombol di bawah — otomatis terbuka di tab baru!</p>
+        <a href="https://www.example.com" target="_blank" rel="noopener noreferrer" class="btn">
+            Kunjungi Example.com
+        </a>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <p>&copy; 2024 MyWebsite. All Rights Reserved.</p>
+        <div class="sosmed">
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a> |
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> |
+            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">Twitter</a>
+        </div>
+    </footer>
+
+</body>
+</html>
