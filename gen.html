@@ -417,7 +417,7 @@
         <div class="footer-left">
             <span>© 2026 <strong>Racik Angka</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v7.3 Dynamic</span></span>
+            <span>Version <span class="footer-version">v7.4 Fixed</span></span>
         </div>
         <div class="footer-right">
             <span>⚡ Powered by <strong>AI Analysis</strong></span>
@@ -478,10 +478,10 @@ function formatAngka(arr) {
 }
 
 function generate() {
-    let asDigits = getDigits('as');       // A
-    let copDigits = getDigits('cop');     // C
-    let kepalaDigits = getDigits('kepala'); // K
-    let ekorDigits = getDigits('ekor');   // E
+    let asDigits = getDigits('as');       
+    let copDigits = getDigits('cop');     
+    let kepalaDigits = getDigits('kepala'); 
+    let ekorDigits = getDigits('ekor');   
     
     let targetJD = getTargetArray('jd');
     let targetJT = getTargetArray('jt');
@@ -508,16 +508,12 @@ function generate() {
         return;
     }
 
-    // Bangun pola berdasarkan input yang terisi
     let pattern = '';
     if (hasA) pattern += 'A';
     if (hasC) pattern += 'C';
     if (hasK) pattern += 'K';
     if (hasE) pattern += 'E';
 
-    // Validasi urutan standar (harus berurutan tanpa lompat, misal AC, CK, KE, ACK, CKE, ACKE)
-    const validPatterns = ['A', 'C', 'K', 'E', 'AC', 'CK', 'KE', 'ACK', 'CKE', 'ACKE', 'ACE', 'ACKE'];
-    // Cek apakah urutan melompat (misal A dan E doang tanpa C & K)
     let isValidOrder = true;
     if (pattern.includes('A') && pattern.includes('K') && !pattern.includes('C')) isValidOrder = false;
     if (pattern.includes('A') && pattern.includes('E') && (!pattern.includes('C') || !pattern.includes('K'))) isValidOrder = false;
@@ -531,12 +527,9 @@ function generate() {
         return;
     }
 
-    document.querySelectorAll('.racik-grid input').forEach(inp => inp.classList.remove('error-input'));
-
     document.getElementById('infoText').textContent = 
         `JD {${targetJD.join(',')}} | JT {${targetJT.join(',')}} | J {${targetJ.join(',')}} | TEPI {${targetTepi.join(',')}}`;
 
-    // 1. GENERATE BASE COMBINATIONS BERDASARKAN POLA INPUT
     let rawCombinations = [];
 
     let aArr = hasA ? asDigits : [null];
@@ -548,7 +541,6 @@ function generate() {
         for (let c of cArr) {
             for (let k of kArr) {
                 for (let e of eArr) {
-                    // Buat string gabungan hanya untuk posisi yang diisi aktif
                     let str = '';
                     let activeParts = [];
                     if (hasA) { str += a; activeParts.push('A'); }
@@ -563,32 +555,27 @@ function generate() {
         }
     }
 
-    // 2. FILTER MATEMATIS (JD, JT, J, TEPI)
     function checkTargetFilter(item) {
         let { a, c, k, e } = item;
 
-        // JD = A + C
         if (targetJD.length > 0) {
             if (a === null || c === null) return false;
             let sumJD = reduceToSingleDigit(a + c);
             if (!targetJD.includes(sumJD)) return false;
         }
 
-        // JT = C + K
         if (targetJT.length > 0) {
             if (c === null || k === null) return false;
             let sumJT = reduceToSingleDigit(c + k);
             if (!targetJT.includes(sumJT)) return false;
         }
 
-        // J = K + E
         if (targetJ.length > 0) {
             if (k === null || e === null) return false;
             let sumJ = reduceToSingleDigit(k + e);
             if (!targetJ.includes(sumJ)) return false;
         }
 
-        // TEPI = A + E
         if (targetTepi.length > 0) {
             if (a === null || e === null) return false;
             let sumTepi = reduceToSingleDigit(a + e);
@@ -598,7 +585,6 @@ function generate() {
         return true;
     }
 
-    // 3. FILTER CT / AI
     function checkCTFilter(digit1, digit2, controls) {
         if (controls.length === 0) return true;
         if (digit1 === null || digit2 === null) return true; 
@@ -617,7 +603,6 @@ function generate() {
         return passCT_AC && passCT_CK && passCT_KE;
     });
 
-    // 4. EKSTRAKSI HASIL BERDASARKAN APA SAJA YANG BISA DIBENTUK DARI DATA TERFILTER
     let filtered4D = [];
     let filtered3D = [];
     let filtered2D = [];
@@ -631,41 +616,33 @@ function generate() {
         let fullK = item.k;
         let fullE = item.e;
 
-        // Jika input lengkap ACKE (4D)
         if (hasA && hasC && hasK && hasE) {
-            let s4 = `${fullA}${fullC}${fullK}${fullE}`;
-            filtered4D.push(s4);
-            filtered3D.push(`${fullC}${fullK}${fullE}`); // 3D Belakang
-            filtered2D.push(`${fullK}${fullE}``); // 2D Belakang (diperbaiki syntax template literal)
+            filtered4D.push(`${fullA}${fullC}${fullK}${fullE}`);
+            filtered3D.push(`${fullC}${fullK}${fullE}`); 
+            filtered2D.push(`${fullK}${fullE}`); 
             
             if (show3Ddepan) filtered3Ddepan.push(`${fullA}${fullC}${fullK}`);
             if (show2Ddepan) filtered2Ddepan.push(`${fullA}${fullC}`);
             if (show2Dtengah) filtered2Dtengah.push(`${fullC}${fullK}`);
         } 
-        // Jika input hanya KEPALA & EKOR (KE) -> Munculkan 2D
         else if (!hasA && !hasC && hasK && hasE) {
             filtered2D.push(`${fullK}${fullE}`);
         }
-        // Jika input hanya COP & KEPALA (CK) -> Munculkan 2D Tengah / 2D
         else if (!hasA && hasC && hasK && !hasE) {
             filtered2Dtengah.push(`${fullC}${fullK}`);
         }
-        // Jika input hanya AS & COP (AC) -> Munculkan 2D Depan
         else if (hasA && hasC && !hasK && !hasE) {
             filtered2Ddepan.push(`${fullA}${fullC}`);
         }
-        // Jika input ACK (3D Depan)
         else if (hasA && hasC && hasK && !hasE) {
             filtered3Ddepan.push(`${fullA}${fullC}${fullK}`);
         }
-        // Jika input CKE (3D Belakang)
         else if (!hasA && hasC && hasK && hasE) {
             filtered3D.push(`${fullC}${fullK}${fullE}`);
             filtered2D.push(`${fullK}${fullE}`);
         }
     });
 
-    // Bersihkan duplikat
     filtered4D = [...new Set(filtered4D)];
     filtered3D = [...new Set(filtered3D)];
     filtered2D = [...new Set(filtered2D.filter(Boolean))];
@@ -686,7 +663,6 @@ function generate() {
                 filtered3Ddepan.length + filtered2Ddepan.length + filtered2Dtengah.length;
     document.getElementById('footerDataCount').textContent = '📊 ' + total + ' angka';
 
-    // 5. TAMPILKAN HASIL SECARA DINAMIS
     let html = '';
 
     function renderRow(title, dataArr, isOpsi = false) {
@@ -709,7 +685,6 @@ function generate() {
         }
     }
 
-    // Tampilkan baris sesuai dengan apa yang dihasilkan dari input
     if (filtered4D.length > 0 || (hasA && hasC && hasK && hasE)) {
         html += renderRow('4D', filtered4D);
     }
@@ -785,7 +760,6 @@ function resetForm() {
     document.getElementById('ctAsCop').value = '';
     document.getElementById('ctCopKepala').value = '';
     document.getElementById('ctKepalaEkor').value = '';
-    document.querySelectorAll('.racik-grid input').forEach(inp => inp.classList.remove('error-input'));
     document.getElementById('hasilBox').innerHTML = '<div class="empty-state">Masukkan angka dan klik GENERATE</div>';
     document.getElementById('infoText').textContent = 'JD {} | JT {} | J {} | TEPI {}';
     document.getElementById('footerDataCount').textContent = '📊 0 data';
