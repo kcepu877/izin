@@ -226,6 +226,7 @@
             color: #0d2b4b;
             margin: 12px 0;
             border-left: 4px solid #0d47a1;
+            line-height: 1.6;
         }
         .filter-info strong { color: #0d47a1; }
         .copy-btn {
@@ -397,7 +398,7 @@
             <button class="btn-reset" onclick="resetForm()">↺ Reset</button>
         </div>
         <div class="filter-info" id="filterInfo">
-            🔍 Filter: <strong id="infoText">JD {} | JT {} | J {} | TEPI {}</strong>
+            🔍 Filter: <strong id="infoText">Belum ada data digenerate</strong>
         </div>
     </div>
 
@@ -417,7 +418,7 @@
         <div class="footer-left">
             <span>© 2026 <strong>Racik Angka</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v7.4 Fixed</span></span>
+            <span>Version <span class="footer-version">v7.5 Complete</span></span>
         </div>
         <div class="footer-right">
             <span>⚡ Powered by <strong>AI Analysis</strong></span>
@@ -450,10 +451,15 @@ function getTargetArray(id) {
     return [...new Set(val.replace(/\D/g, '').split('').map(Number))];
 }
 
+function getCTRaw(id) {
+    let val = document.getElementById(id).value.trim();
+    if (!val) return [];
+    return val.split(/\r?\n/).map(l => l.replace(/\D/g, '')).filter(l => l.length > 0);
+}
+
 function getCTControls(id) {
     let val = document.getElementById(id).value.trim();
     if (!val) return [];
-
     return val
         .split(/\r?\n/)
         .map(line => line.replace(/\D/g, ''))
@@ -492,6 +498,10 @@ function generate() {
     let show2Dtengah = document.getElementById('show2Dtengah').checked;
     let show3Ddepan = document.getElementById('show3Ddepan').checked;
 
+    let rawCtAsCop = getCTRaw('ctAsCop');
+    let rawCtCopKepala = getCTRaw('ctCopKepala');
+    let rawCtKepalaEkor = getCTRaw('ctKepalaEkor');
+
     let ctAsCop = getCTControls('ctAsCop');
     let ctCopKepala = getCTControls('ctCopKepala');
     let ctKepalaEkor = getCTControls('ctKepalaEkor');
@@ -527,8 +537,20 @@ function generate() {
         return;
     }
 
-    document.getElementById('infoText').textContent = 
-        `JD {${targetJD.join(',')}} | JT {${targetJT.join(',')}} | J {${targetJ.join(',')}} | TEPI {${targetTepi.join(',')}}`;
+    // UPDATE KETERANGAN LENGKAP DI KOTAK FILTER INFO
+    let infoString = "";
+    if (hasA) infoString += `AS {${asDigits.join('')}} `;
+    if (hasC) infoString += `COP {${copDigits.join('')}} `;
+    if (hasK) infoString += `KEPALA {${kepalaDigits.join('')}} `;
+    if (hasE) infoString += `EKOR {${ekorDigits.join('')}} | `;
+    
+    infoString += `JD {${targetJD.join(',')}} | JT {${targetJT.join(',')}} | J {${targetJ.join(',')}} | TEPI {${targetTepi.join(',')}}`;
+    
+    if (rawCtAsCop.length > 0) infoString += ` | CT(AC): [${rawCtAsCop.join(', ')}]`;
+    if (rawCtCopKepala.length > 0) infoString += ` | CT(CK): [${rawCtCopKepala.join(', ')}]`;
+    if (rawCtKepalaEkor.length > 0) infoString += ` | CT(KE): [${rawCtKepalaEkor.join(', ')}]`;
+
+    document.getElementById('infoText').textContent = infoString;
 
     let rawCombinations = [];
 
@@ -761,7 +783,7 @@ function resetForm() {
     document.getElementById('ctCopKepala').value = '';
     document.getElementById('ctKepalaEkor').value = '';
     document.getElementById('hasilBox').innerHTML = '<div class="empty-state">Masukkan angka dan klik GENERATE</div>';
-    document.getElementById('infoText').textContent = 'JD {} | JT {} | J {} | TEPI {}';
+    document.getElementById('infoText').textContent = 'Belum ada data digenerate';
     document.getElementById('footerDataCount').textContent = '📊 0 data';
     lastResult = { d4: [], d3: [], d2: [], d3depan: [], d2depan: [], d2tengah: [] };
 }
