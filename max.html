@@ -574,6 +574,19 @@
     let DEDUP_AUTO = 'on';
 
     function onDedupChangeAuto() { DEDUP_AUTO = document.getElementById('dedupSelectAuto').value; }
+   
+       const FIXED_MASKS = {
+        10: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // ABCDEFGHIJ
+        9:  [1, 2, 3, 4, 5, 6, 7, 8, 9],    // BCDEFGHIJ
+        8:  [1, 3, 4, 5, 6, 7, 8, 9],       // BDEFGHIJ
+        7:  [1, 3, 4, 5, 6, 7, 9],          // BDEFGHJ
+        6:  [1, 4, 5, 6, 7, 9],             // BEFGHJ
+        5:  [1, 3, 5, 6, 9],                // BDFGJ
+        4:  [1, 4, 6, 9],                   // BEGJ
+        3:  [1, 4, 6],                      // BEG
+        2:  [1, 6],                         // BG
+        1:  [1]                             // B
+    };
 
     const MAP10 = {
         rumus: {'0':'9012345678','1':'0123456789','2':'1234567890','3':'2345678901','4':'3456789012','5':'4567890123','6':'5678901234','7':'6789012345','8':'7890123456','9':'8901234567'},
@@ -677,7 +690,7 @@
         return nilai;
     }
 
-    function hitungFormulaMaster(k1, f1, op, k2, f2, fFinal, baris, allData, currentIndex, digitCount) {
+        function hitungFormulaMaster(k1, f1, op, k2, f2, fFinal, baris, allData, currentIndex, digitCount) {
         let v1 = hitungNilaiKeyMaster(k1, f1, baris, allData, currentIndex);
         let oR = v1;
 
@@ -690,8 +703,17 @@
         let mapTarget = MAP10[aF] || MAP10['rumus'];
         let rawMapped = mapTarget[oR] !== undefined ? mapTarget[oR] : mapTarget['0'];
         
-        return rawMapped.slice(-digitCount);
+        // --- PENERAPAN LOGIKA FIXED_MASKS BARU ---
+        let maskIndices = FIXED_MASKS[digitCount] || FIXED_MASKS[10];
+        let maskedResult = "";
+        for (let idx of maskIndices) {
+            if (rawMapped[idx] !== undefined) {
+                maskedResult += rawMapped[idx];
+            }
+        }
+        return maskedResult;
     }
+
 
     async function changeGlobalPasar(p) {
         P = p;
