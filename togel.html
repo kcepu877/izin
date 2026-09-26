@@ -1130,9 +1130,8 @@
             alert("⚠️ Gagal membaca Quick Paste: " + err.message); 
         }
     }
-
-    // ============================================================
-    // RACIK ANGKA & CT SCANNER
+   // ============================================================
+    // RACIK ANGKA & CT SCANNER (TETAP SAMA)
     // ============================================================
     function getDigitsGen(id) {
         let val = document.getElementById(id).value;
@@ -1141,10 +1140,16 @@
     }
     
     function getCTControlsGen(id) {
-        let val = document.getElementById(id).value.trim();
-        if (!val) return [];
-        return val.split(/\r?\n/).map(line => line.replace(/\D/g, '')).filter(l => l.length > 0).map(l => [...new Set(l.split('').map(Number))]);
+        let val = document.getElementById(id).value;
+        if (!val || val.trim() === '') return [];
+        
+        // Memisahkan berdasarkan enter (baris baru) dengan aman & bersih dari spasi/karakter tak kasat mata
+        return val.split(/\r?\n/)
+                  .map(line => line.replace(/\D/g, '')) // Hanya ambil angka
+                  .filter(l => l.length > 0)             // Buang baris kosong
+                  .map(l => [...new Set(l.split('').map(Number))]); // Jadikan array unik per baris
     }
+
 
     let lastRacikResult = {}; 
 
@@ -1152,102 +1157,144 @@
         let asD = getDigitsGen('racikAs'), copD = getDigitsGen('racikCop'), kepD = getDigitsGen('racikKepala'), ekoD = getDigitsGen('racikEkor');
         let jdD = getDigitsGen('racikJd'), jtD = getDigitsGen('racikJt'), jbelD = getDigitsGen('racikJbel'), tepiD = getDigitsGen('racikTepi');
         
-        let racikControlEl = document.getElementById('racikControl');
-        let racikOffsideEl = document.getElementById('racikOffside');
-        let ctInput = racikControlEl ? racikControlEl.value.replace(/\D/g, '').split('').map(Number) : [];
-        let offInput = racikOffsideEl ? racikOffsideEl.value.replace(/\D/g, '').split('').map(Number) : [];
-
         let show3Ddepan = document.getElementById('show3DdepanGen').checked;
         let show2Ddepan = document.getElementById('show2DdepanGen').checked;
         let show2Dtengah = document.getElementById('show2DtengahGen').checked;
 
         let ctAC = getCTControlsGen('ctAsCopGen'), ctCK = getCTControlsGen('ctCopKepalaGen'), ctKE = getCTControlsGen('ctKepalaEkorGen');
 
+        let bbfsInputEl = document.getElementById('bbfsInputGen');
+        let bbfsRaw = bbfsInputEl ? bbfsInputEl.value.replace(/\D/g, '') : '';
+        let bbfsDigits = [...new Set(bbfsRaw.split('').map(Number))];
+        let hasBbfs = bbfsDigits.length >= 4;
+
         let hasA = asD.length>0, hasC = copD.length>0, hasK = kepD.length>0, hasE = ekoD.length>0;
-        if (!hasA && !hasC && !hasK && !hasE) {
-            document.getElementById('hasilBoxRacik').innerHTML = '<div class="no-result" style="color:#ff6666;">⚠️ Harap isi minimal salah satu posisi angka!</div>';
-            document.getElementById('racikInfoText').textContent = 'Belum ada data digenerate';
+        if (!hasA && !hasC && !hasK && !hasE && !hasBbfs) {
+            document.getElementById('hasilBoxRacik').innerHTML = '<div class="no-result" style="color:#ff6666;">⚠️ Harap isi minimal salah satu posisi angka atau BBFS Generator!</div>';
+            document.getElementById('racikInfoText').innerHTML = '<span style="color:#ff6666;">Belum ada data digenerate</span>';
             return;
         }
 
-        let infoParts = [];
-        if (hasA) infoParts.push(`AS{${asD.join('')}}`);
-        if (hasC) infoParts.push(`COP{${copD.join('')}}`);
-        if (hasK) infoParts.push(`KEP{${kepD.join('')}}`);
-        if (hasE) infoParts.push(`EKOR{${ekoD.join('')}}`);
-        if (jdD.length > 0) infoParts.push(`JD{${jdD.join('')}}`);
-        if (jtD.length > 0) infoParts.push(`JT{${jtD.join('')}}`);
-        if (jbelD.length > 0) infoParts.push(`J{${jbelD.join('')}}`);
-        if (tepiD.length > 0) infoParts.push(`TEPI{${tepiD.join('')}}`);
-        if (ctInput.length > 0) infoParts.push(`CT{${ctInput.join('')}}`);
-        if (offInput.length > 0) infoParts.push(`OFF{${offInput.join('')}}`);
+        let badgesHtml = '';
+        if (hasA) badgesHtml += `<div class="racik-badge">AS:<span>{${asD.join('')}}</span></div>`;
+        if (hasC) badgesHtml += `<div class="racik-badge">COP:<span>{${copD.join('')}}</span></div>`;
+        if (hasK) badgesHtml += `<div class="racik-badge">KEP:<span>{${kepD.join('')}}</span></div>`;
+        if (hasE) badgesHtml += `<div class="racik-badge">EKOR:<span>{${ekoD.join('')}}</span></div>`;
+        if (jdD.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#336699;">JD:<span style="color:#66bbff">{${jdD.join('')}}</span></div>`;
+        if (jtD.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#336699;">JT:<span style="color:#66bbff">{${jtD.join('')}}</span></div>`;
+        if (jbelD.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#336699;">J:<span style="color:#66bbff">{${jbelD.join('')}}</span></div>`;
+        if (tepiD.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#995522;">TEPI:<span style="color:#ffaa44">{${tepiD.join('')}}</span></div>`;
+        if (ctAC.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#6a3a8a;">CT (A+C):<span style="color:#ff88ff">{${ctAC.map(x=>x.join('')).join(',')}}</span></div>`;
+        if (ctCK.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#6a3a8a;">CT (C+K):<span style="color:#ff88ff">{${ctCK.map(x=>x.join('')).join(',')}}</span></div>`;
+        if (ctKE.length > 0) badgesHtml += `<div class="racik-badge" style="border-color:#6a3a8a;">CT (K+E):<span style="color:#ff88ff">{${ctKE.map(x=>x.join('')).join(',')}}</span></div>`;
+        if (hasBbfs) badgesHtml += `<div class="racik-badge" style="border-color:#336699;">BBFS:<span style="color:#66bbff">{${bbfsDigits.join('')}}</span></div>`;
 
-        document.getElementById('racikInfoText').textContent = "🔍 " + infoParts.join(' | ');
+        document.getElementById('racikInfoText').innerHTML = `<div class="racik-info-box">${badgesHtml}</div>`;
 
-        let raw = [];
-        let aA = hasA ? asD : [null], cA = hasC ? copD : [null], kA = hasK ? kepD : [null], eA = hasE ? ekoD : [null];
+        let f4D = [], f3D = [], f2D = [], f3DD = [], f2DD = [], f2DT = [];
+        let bbfs4DRes = [], bbfs3DRes = [], bbfs2DRes = [];
 
-        for(let a of aA) {
-            for(let c of cA) {
-                for(let k of kA) {
-                    for(let e of eA) {
-                        raw.push({ a, c, k, e });
+        if (hasA || hasC || hasK || hasE) {
+            let raw = [];
+            let aA = hasA ? asD : [null];
+            let cA = hasC ? copD : [null];
+            let kA = hasK ? kepD : [null];
+            let eA = hasE ? ekoD : [null];
+
+            for(let a of aA) {
+                for(let c of cA) {
+                    for(let k of kA) {
+                        for(let e of eA) {
+                            raw.push({ a, c, k, e });
+                        }
                     }
+                }
+            }
+
+            // --- PROSES FILTER KONTROL (CT) BERURUTAN BARIS PER BARIS ---
+            let filtered = raw;
+
+            // 1. Filter CT AS + COP (A+C)
+            if (ctAC.length > 0 && filtered.length > 0) {
+                for (let ctrl of ctAC) {
+                    filtered = filtered.filter(item => {
+                        if (item.a === null || item.c === null) return false;
+                        return ctrl.includes(item.a) || ctrl.includes(item.c);
+                    });
+                }
+            }
+
+            // 2. Filter CT COP + KEPALA (C+K)
+            if (ctCK.length > 0 && filtered.length > 0) {
+                for (let ctrl of ctCK) {
+                    filtered = filtered.filter(item => {
+                        if (item.c === null || item.k === null) return false;
+                        return ctrl.includes(item.c) || ctrl.includes(item.k);
+                    });
+                }
+            }
+
+            // 3. Filter CT KEPALA + EKOR (K+E) -> Filter berurutan baris ke baris
+            if (ctKE.length > 0 && filtered.length > 0) {
+                for (let ctrl of ctKE) {
+                    filtered = filtered.filter(item => {
+                        if (item.k === null || item.e === null) return false;
+                        let digitKepala = item.k;
+                        let digitEkor = item.e;
+                        return ctrl.includes(digitKepala) || ctrl.includes(digitEkor);
+                    });
+                }
+            }
+
+            filtered.forEach(i => {
+                if (i.a !== null && i.c !== null && i.k !== null && i.e !== null) f4D.push(`${i.a}${i.c}${i.k}${i.e}`);
+                if (i.c !== null && i.k !== null && i.e !== null) f3D.push(`${i.c}${i.k}${i.e}`);
+                if (i.k !== null && i.e !== null) f2D.push(`${i.k}${i.e}`);
+                if (show3Ddepan && i.a !== null && i.c !== null && i.k !== null) f3DD.push(`${i.a}${i.c}${i.k}`);
+                if (show2Ddepan && i.a !== null && i.c !== null) f2DD.push(`${i.a}${i.c}`);
+                if (show2Dtengah && i.c !== null && i.k !== null) f2DT.push(`${i.c}${i.k}`);
+            });
+        }
+
+        if (hasBbfs) {
+            let d = bbfsDigits;
+            let do4D = document.getElementById('showBbfs4D').checked;
+            let do3D = document.getElementById('showBbfs3D').checked;
+            let do2D = document.getElementById('showBbfs2D').checked;
+
+            if (do4D) {
+                for (let i = 0; i < d.length; i++) {
+                    for (let j = 0; j < d.length; j++) {
+                        for (let k = 0; k < d.length; k++) {
+                            for (let l = 0; l < d.length; l++) bbfs4DRes.push(`${d[i]}${d[j]}${d[k]}${d[l]}`);
+                        }
+                    }
+                }
+            }
+            if (do3D) {
+                for (let i = 0; i < d.length; i++) {
+                    for (let j = 0; j < d.length; j++) {
+                        for (let k = 0; k < d.length; k++) bbfs3DRes.push(`${d[i]}${d[j]}${d[k]}`);
+                    }
+                }
+            }
+            if (do2D) {
+                for (let i = 0; i < d.length; i++) {
+                    for (let j = 0; j < d.length; j++) bbfs2DRes.push(`${d[i]}${d[j]}`);
                 }
             }
         }
 
-        let filtered = raw.filter(item => {
-            let { a, c, k, e } = item;
-            let digitsInRow = [a, c, k, e].filter(val => val !== null);
-
-            if (jdD.length > 0 && (a === null || c === null || !jdD.includes(reduceToSingleDigit(a + c)))) return false;
-            if (jtD.length > 0 && (c === null || k === null || !jtD.includes(reduceToSingleDigit(c + k)))) return false;
-            if (jbelD.length > 0 && (k === null || e === null || !jbelD.includes(reduceToSingleDigit(k + e)))) return false;
-            if (tepiD.length > 0 && (a === null || e === null || !tepiD.includes(reduceToSingleDigit(a + e)))) return false;
-
-            if (ctInput.length > 0 && !digitsInRow.some(d => ctInput.includes(d))) return false;
-            if (offInput.length > 0 && digitsInRow.some(d => offInput.includes(d))) return false;
-
-            if (ctAC.length > 0 && a !== null && c !== null && !ctAC.some(ctrl => ctrl.includes(a) && ctrl.includes(c))) return false;
-            if (ctCK.length > 0 && c !== null && k !== null && !ctCK.some(ctrl => ctrl.includes(c) && ctrl.includes(k))) return false;
-            if (ctKE.length > 0 && k !== null && e !== null && !ctKE.some(ctrl => ctrl.includes(k) && ctrl.includes(e))) return false;
-
-            return true;
-        });
-
-        let f4D = [], f3D = [], f2D = [], f3DD = [], f2DD = [], f2DT = [];
-        filtered.forEach(i => {
-            if (hasA && hasC && hasK && hasE) {
-                f4D.push(`${i.a}${i.c}${i.k}${i.e}`);
-                f3D.push(`${i.c}${i.k}${i.e}`);
-                f2D.push(`${i.k}${i.e}`);
-                if (show3Ddepan) f3DD.push(`${i.a}${i.c}${i.k}`);
-                if (show2Ddepan) f2DD.push(`${i.a}${i.c}`);
-                if (show2Dtengah) f2DT.push(`${i.c}${i.k}`);
-            } else if (!hasA && !hasC && hasK && hasE) {
-                f2D.push(`${i.k}${i.e}`);
-            } else if (!hasA && hasC && hasK && !hasE) {
-                f2DT.push(`${i.c}${i.k}`);
-            } else if (hasA && hasC && !hasK && !hasE) {
-                f2DD.push(`${i.a}${i.c}`);
-            }
-        });
-
         lastRacikResult = {
-            d4: [...new Set(f4D)],
-            d3: [...new Set(f3D)],
-            d2: [...new Set(f2D)],
-            d3depan: [...new Set(f3DD)],
-            d2depan: [...new Set(f2DD)],
-            d2tengah: [...new Set(f2DT)]
+            d4: [...new Set(f4D)], d3: [...new Set(f3D)], d2: [...new Set(f2D)],
+            d3depan: [...new Set(f3DD)], d2depan: [...new Set(f2DD)], d2tengah: [...new Set(f2DT)],
+            bbfs4: [...new Set(bbfs4DRes)], bbfs3: [...new Set(bbfs3DRes)], bbfs2: [...new Set(bbfs2DRes)]
         };
 
-                let html = '';
+        let html = '';
         let renderR = (lbl, arr) => {
             if (arr.length > 0) {
-                return `
-                <div class="hasil-row">
+                return `<div class="hasil-row">
                     <div class="hasil-row-header">
                         <span class="label">📂 ${lbl} <span style="font-size:11px; color:#88ff88; font-weight:normal;">(${arr.length} line)</span></span>
                         <button class="copy-btn-gen" onclick="copyToClipboard('${arr.join('*')}', this)">Copy ${lbl}</button>
@@ -1258,13 +1305,15 @@
             return '';
         };
 
-
         html += renderR('4D', lastRacikResult.d4);
         html += renderR('3D Belakang', lastRacikResult.d3);
         html += renderR('2D Belakang', lastRacikResult.d2);
         html += renderR('3D Depan', lastRacikResult.d3depan);
         html += renderR('2D Depan', lastRacikResult.d2depan);
         html += renderR('2D Tengah', lastRacikResult.d2tengah);
+        html += renderR('BBFS 4D', lastRacikResult.bbfs4);
+        html += renderR('BBFS 3D', lastRacikResult.bbfs3);
+        html += renderR('BBFS 2D', lastRacikResult.bbfs2);
 
         if (!html) html = '<div class="no-result">❌ Tidak ada kombinasi yang cocok dengan filter.</div>';
         document.getElementById('hasilBoxRacik').innerHTML = html;
@@ -1277,17 +1326,17 @@
         if (lastRacikResult.d2 && lastRacikResult.d2.length > 0) text += '2D Belakang: ' + lastRacikResult.d2.join('*') + '\n';
         if (lastRacikResult.d3depan && lastRacikResult.d3depan.length > 0) text += '3D Depan: ' + lastRacikResult.d3depan.join('*') + '\n';
         if (lastRacikResult.d2depan && lastRacikResult.d2depan.length > 0) text += '2D Depan: ' + lastRacikResult.d2depan.join('*') + '\n';
-        if (lastRacikResult.d2tengah && lastRacikResult.d2tengah.length > 0) text += '2D Tengah: ' + lastRacikResult.d2tengah.join('*');
+        if (lastRacikResult.d2tengah && lastRacikResult.d2tengah.length > 0) text += '2D Tengah: ' + lastRacikResult.d2tengah.join('*') + '\n';
+        if (lastRacikResult.bbfs4 && lastRacikResult.bbfs4.length > 0) text += 'BBFS 4D: ' + lastRacikResult.bbfs4.join('*') + '\n';
+        if (lastRacikResult.bbfs3 && lastRacikResult.bbfs3.length > 0) text += 'BBFS 3D: ' + lastRacikResult.bbfs3.join('*') + '\n';
+        if (lastRacikResult.bbfs2 && lastRacikResult.bbfs2.length > 0) text += '2D Belakang/BBFS 2D: ' + lastRacikResult.bbfs2.join('*');
 
         if (!text) return alert("⚠️ Belum ada data untuk disalin!");
-
-        navigator.clipboard.writeText(text).then(() => {
-            alert("✅ Berhasil menyalin semua hasil racikan ke clipboard!");
-        });
+        navigator.clipboard.writeText(text).then(() => { alert("✅ Berhasil menyalin semua hasil racikan ke clipboard!"); });
     }
 
     function resetRacik() {
-        ['racikAs', 'racikCop', 'racikKepala', 'racikEkor', 'racikJd', 'racikJt', 'racikJbel', 'racikTepi', 'racikControl', 'racikOffside', 'ctAsCopGen', 'ctCopKepalaGen', 'ctKepalaEkorGen'].forEach(id => {
+        ['racikAs', 'racikCop', 'racikKepala', 'racikEkor', 'racikJd', 'racikJt', 'racikJbel', 'racikTepi', 'bbfsInputGen', 'ctAsCopGen', 'ctCopKepalaGen', 'ctKepalaEkorGen'].forEach(id => {
             let el = document.getElementById(id);
             if(el) el.value = '';
         });
@@ -1297,7 +1346,8 @@
     }
 
 
-        // ============================================================
+
+    // ============================================================
     // CT SCANNER 2D LOGIC
     // ============================================================
     const CT_AS = {
@@ -1305,101 +1355,91 @@
         '4': '540693', '5': '439582', '6': '328471', '7': '217360',
         '8': '106259', '9': '095148'
     };
-    
     const CT_AS2 = {
         '0': '024568', '1': '135679', '2': '246780', '3': '357891',
         '4': '468902', '5': '579013', '6': '680124', '7': '791235',
         '8': '802346', '9': '913457'
     };
-    
     const CT_AS3 = {
         '0': '034578', '1': '145689', '2': '256790', '3': '367801',
         '4': '478912', '5': '589023', '6': '690134', '7': '701245',
         '8': '812356', '9': '923467'
     };
-    
     const CT_AS4 = {
         '0': '890354', '1': '901465', '2': '012576', '3': '123687',
         '4': '234798', '5': '345809', '6': '456910', '7': '567021',
         '8': '678132', '9': '789243'
     };
-    
     const CT_AS5 = {
         '0': '0234689', '1': '1345790', '2': '2456801', '3': '3567912',
         '4': '4678023', '5': '5789134', '6': '6890245', '7': '7901356',
         '8': '8012467', '9': '9123578'
     };
-    
     const CT_COP = {
         '0': '079542', '1': '142679', '2': '291764', '3': '364891',
         '4': '413986', '5': '586013', '6': '635108', '7': '708235',
         '8': '857320', '9': '920457'
     };
-    
     const CT_COP2 = {
         '0': '012568', '1': '890346', '2': '678124', '3': '456902',
         '4': '234780', '5': '901457', '6': '789235', '7': '567013',
         '8': '345891', '9': '123679'
     };
-    
     const CT_KE = {
         '0': '0234689', '1': '1345790', '2': '2456801', '3': '3567912',
         '4': '4678023', '5': '5789134', '6': '6890245', '7': '7901356',
         '8': '8012467', '9': '9123578'
     };
-    
     const CT_KE2 = {
         '0': '890354', '1': '901465', '2': '012576', '3': '123687',
         '4': '234798', '5': '345809', '6': '456910', '7': '567021',
         '8': '678132', '9': '789243'
     };
-    
     const CT_KE3 = {
         '0': '024568', '1': '135679', '2': '246780', '3': '357891',
         '4': '468902', '5': '579013', '6': '680124', '7': '791235',
         '8': '802346', '9': '913457'
     };
-    
     const CT_K = {
         '0': '123678', '1': '234789', '2': '345890', '3': '456901',
         '4': '567012', '5': '678123', '6': '789234', '7': '890345',
         '8': '901456', '9': '012567'
     };
-    
     const CT_E = {
         '0': '124679', '1': '346891', '2': '568013', '3': '780235',
         '4': '902457', '5': '235780', '6': '457902', '7': '679124',
         '8': '891346', '9': '013568'
     };
-    
     const CT_E2 = {
         '0': '01389', '1': '12490', '2': '23501', '3': '34612',
         '4': '45723', '5': '56834', '6': '67945', '7': '78056',
         '8': '89167', '9': '90278'
     };
-    
     const CT_AC = {
         '0': '234789', '1': '345890', '2': '456901', '3': '567012',
         '4': '667123', '5': '789234', '6': '890345', '7': '901456',
         '8': '012567', '9': '123678'
     };
 
+    const CT_OFF_KEP_AC = { '0': '167', '1': '278', '2': '389', '3': '490', '4': '501', '5': '612', '6': '723', '7': '834', '8': '945', '9': '056' };
+    const CT_OFF_KEP_E = { '0': '67', '1': '78', '2': '89', '3': '90', '4': '01', '5': '12', '6': '23', '7': '34', '8': '45', '9': '56' };
+    const CT_OFF_KEP_K = { '0': '17', '1': '28', '2': '39', '3': '40', '4': '51', '5': '62', '6': '73', '7': '84', '8': '95', '9': '06' };
+    const CT_OFF_KEP_KE = { '0': '17', '1': '28', '2': '39', '3': '40', '4': '51', '5': '62', '6': '73', '7': '84', '8': '95', '9': '06' };
+    const CT_OFF_EKOR_AC = { '0': '17', '1': '28', '2': '39', '3': '40', '4': '51', '5': '62', '6': '73', '7': '84', '8': '95', '9': '06' };
+    const CT_OFF_EKOR_KE = { '0': '16', '1': '27', '2': '38', '3': '49', '4': '50', '5': '61', '6': '72', '7': '83', '8': '94', '9': '05' };
+    const CT_OFF_EKOR_E = { '0': '542', '1': '653', '2': '764', '3': '875', '4': '986', '5': '097', '6': '108', '7': '219', '8': '320', '9': '431' };
+
     const ALL_MAPPINGS_CT = [
-        { id: 'as1', label: 'AS1', map: CT_AS },
-        { id: 'as2', label: 'AS2', map: CT_AS2 },
-        { id: 'as3', label: 'AS3', map: CT_AS3 },
-        { id: 'as4', label: 'AS4', map: CT_AS4 },
-        { id: 'as5', label: 'AS5', map: CT_AS5 },
-        { id: 'cop1', label: 'COP1', map: CT_COP },
-        { id: 'cop2', label: 'COP2', map: CT_COP2 },
-        { id: 'ke1', label: 'KE1', map: CT_KE },
-        { id: 'ke2', label: 'KE2', map: CT_KE2 },
-        { id: 'ke3', label: 'KE3', map: CT_KE3 },
-        { id: 'k1', label: 'K1', map: CT_K },
-        { id: 'e1', label: 'E1', map: CT_E },
-        { id: 'e2', label: 'E2', map: CT_E2 },
-        { id: 'ac1', label: 'AC1', map: CT_AC }
+        { id: 'as1', label: 'AS1', map: CT_AS }, { id: 'as2', label: 'AS2', map: CT_AS2 }, { id: 'as3', label: 'AS3', map: CT_AS3 },
+        { id: 'as4', label: 'AS4', map: CT_AS4 }, { id: 'as5', label: 'AS5', map: CT_AS5 }, { id: 'cop1', label: 'COP1', map: CT_COP },
+        { id: 'cop2', label: 'COP2', map: CT_COP2 }, { id: 'ke1', label: 'KE1', map: CT_KE }, { id: 'ke2', label: 'KE2', map: CT_KE2 },
+        { id: 'ke3', label: 'KE3', map: CT_KE3 }, { id: 'k1', label: 'K1', map: CT_K }, { id: 'e1', label: 'E1', map: CT_E },
+        { id: 'e2', label: 'E2', map: CT_E2 }, { id: 'ac1', label: 'AC1', map: CT_AC }, { id: 'off_kep_ac', label: 'OFF KEP (A+C)', map: CT_OFF_KEP_AC },
+        { id: 'off_kep_e', label: 'OFF KEP (E)', map: CT_OFF_KEP_E }, { id: 'off_kep_k', label: 'OFF KEP (K)', map: CT_OFF_KEP_K },
+        { id: 'off_kep_ke', label: 'OFF KEP (K+E)', map: CT_OFF_KEP_KE }, { id: 'off_ekor_ac', label: 'OFF EKR (A+C)', map: CT_OFF_EKOR_AC },
+        { id: 'off_ekor_ke', label: 'OFF EKR (K+E)', map: CT_OFF_EKOR_KE }, { id: 'off_ekor_e', label: 'OFF EKR (E)', map: CT_OFF_EKOR_E }
     ];
+
     let JUMLAH_TAMPIL_CT = 20;
 
     function setTampilOptionCT() {
@@ -1422,13 +1462,27 @@
 
         for (let i = 0; i < data.length - 1; i++) {
             let curr = data[i], next = data[i + 1], next2D = next.slice(2, 4);
+            let targetKepala = next[2], targetEkor = next[3];
             let row = { dataSaatIni: curr, isLastRow: (i === data.length - 2) };
             
             for (let m of ALL_MAPPINGS_CT) {
-                let digit = curr[m.id.startsWith('as') ? 0 : m.id.startsWith('cop') ? 1 : m.id.startsWith('k') ? 2 : 3];
+                let digit = 0;
+                if (m.id === 'off_kep_k' || m.id === 'k1') digit = parseInt(curr[2]);
+                else if (m.id === 'off_ekor_e' || m.id === 'e1' || m.id === 'e2') digit = parseInt(curr[3]);
+                else if (m.id.startsWith('as')) digit = parseInt(curr[0]);
+                else if (m.id.startsWith('cop')) digit = parseInt(curr[1]);
+                else if (m.id.includes('_ac')) digit = reduceToSingleDigit(parseInt(curr[0]) + parseInt(curr[1]));
+                else if (m.id.includes('_ke')) digit = reduceToSingleDigit(parseInt(curr[2]) + parseInt(curr[3]));
+                else digit = parseInt(curr[0]);
+
                 let pred = m.map[digit] || '';
                 let match = [];
-                for (let c of pred) if (next2D.includes(c)) match.push(c);
+                let targetDigitCheck = next2D;
+
+                if (m.id.startsWith('off_kep')) targetDigitCheck = targetKepala;
+                else if (m.id.startsWith('off_ekor')) targetDigitCheck = targetEkor;
+
+                for (let c of pred) { if (targetDigitCheck.includes(c)) match.push(c); }
                 row[m.id] = { prediksi: pred || '-', hasMatch: match.length > 0, matchAngka: match };
             }
             barisData.push(row);
@@ -1437,7 +1491,14 @@
         let last = data[data.length - 1];
         let lastRow = { dataSaatIni: last, isDataTerakhir: true };
         for (let m of ALL_MAPPINGS_CT) {
-            let digit = last[m.id.startsWith('as') ? 0 : m.id.startsWith('cop') ? 1 : m.id.startsWith('k') ? 2 : 3];
+            let digit = 0;
+            if (m.id === 'off_kep_k' || m.id === 'k1') digit = parseInt(last[2]);
+            else if (m.id === 'off_ekor_e' || m.id === 'e1' || m.id === 'e2') digit = parseInt(last[3]);
+            else if (m.id.startsWith('as')) digit = parseInt(last[0]);
+            else if (m.id.startsWith('cop')) digit = parseInt(last[1]);
+            else if (m.id.includes('_ac')) digit = reduceToSingleDigit(parseInt(last[0]) + parseInt(last[1]));
+            else if (m.id.includes('_ke')) digit = reduceToSingleDigit(parseInt(last[2]) + parseInt(last[3]));
+            else digit = parseInt(last[0]);
             lastRow[m.id] = { prediksi: m.map[digit] || '-', hasMatch: false, matchAngka: [] };
         }
 
@@ -1448,15 +1509,19 @@
         for (let r of [...barisData, lastRow]) {
             let bg = r.isDataTerakhir ? '#1a0d2a' : '#0d0d0d';
             html += `<tr style="background:${bg};"><td style="color:#88ff88;font-weight:bold;text-align:center;">${r.dataSaatIni}</td>`;
+            
             for (let m of ALL_MAPPINGS_CT) {
-                let col = r[m.id];
-                let txt = '';
+                let col = r[m.id], txt = '';
                 if (r.isDataTerakhir) {
                     txt = `<span style="color:#8844ff;font-weight:bold;">${col.prediksi}</span>`;
-                } else if (col.hasMatch) {
-                    txt = col.prediksi.split('').map(c => col.matchAngka.includes(c) ? `<span style="color:#ff4444;font-weight:bold;">${c}</span>` : c).join('');
+                } else if (m.id.startsWith('off_')) {
+                    if (col.hasMatch) {
+                        let highlightedPred = col.prediksi.split('').map(c => col.matchAngka.includes(c) ? `<span style="color:#ff4444;font-weight:bold;">${c}</span>` : c).join('');
+                        txt = `${highlightedPred}<span style="color:#ff4444;font-weight:bold;">x</span>`;
+                    } else { txt = `<span style="color:#88ff88;">${col.prediksi}</span>`; }
                 } else {
-                    txt = `<span style="color:#88ff88;">${col.prediksi}</span><span style="color:#ff4444;">x</span>`;
+                    if (col.hasMatch) txt = col.prediksi.split('').map(c => col.matchAngka.includes(c) ? `<span style="color:#ff4444;font-weight:bold;">${c}</span>` : c).join('');
+                    else txt = `<span style="color:#88ff88;">${col.prediksi}</span><span style="color:#ff4444;">x</span>`;
                 }
                 html += `<td style="text-align:center;letter-spacing:1px;font-size:13px;">${txt}</td>`;
             }
@@ -1483,6 +1548,7 @@
         populateDropdownsManual();
         changeGlobalPasar('hk');
     };
+
 </script>
 </body>
 </html>
