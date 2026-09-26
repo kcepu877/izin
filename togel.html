@@ -485,7 +485,19 @@
                     <label style="font-size:11px; color:#ff88ff;">CT KEPALA + EKOR (K+E)<textarea id="ctKepalaEkorGen" placeholder="123456&#10;2345678"></textarea></label>
                 </div>
             </div>
-
+            <div class="ct-ai-container" style="border-color: #1a4a6a; background: #121a22; margin-top: 15px;">
+                <div style="font-size:12px; font-weight:bold; color:#66bbff; margin-bottom:8px;">🔮 BBFS GENERATOR (Tarung Angka Bebas)</div>
+                <div class="racik-grid" style="margin-bottom: 5px;">
+                    <label style="flex: 1 1 100%; color:#66bbff;">MASUKKAN ANGKA BBFS (cth: 0123456789)
+                        <input type="text" id="bbfsInputGen" placeholder="Masukkan minimal 4-7 digit angka" style="background:#0d141a; border-color:#336699; color:#66bbff;">
+                    </label>
+                </div>
+                <div style="display:flex; gap:15px; font-size:12px; flex-wrap:wrap; margin-top: 8px;">
+                    <label style="color:#66bbff;"><input type="checkbox" id="showBbfs4D" checked> BBFS 4D</label>
+                    <label style="color:#66bbff;"><input type="checkbox" id="showBbfs3D" checked> BBFS 3D</label>
+                    <label style="color:#66bbff;"><input type="checkbox" id="showBbfs2D" checked> BBFS 2D</label>
+                </div>
+            </div>
             <div style="display:flex; gap:10px; margin-top:10px;">
                 <button class="menu-btn" style="background:#00ff41; color:#0a0a0a; width:auto; padding:10px 30px;" onclick="generateRacik()">⚡ GENERATE</button>
                 <button class="menu-btn" style="background:#333; color:#aaa; width:auto; padding:10px 20px;" onclick="resetRacik()">↺ Reset</button>
