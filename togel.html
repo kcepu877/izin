@@ -1165,7 +1165,8 @@
 
     let lastRacikResult = {}; 
 
-    function generateRacik() {
+
+            function generateRacik() {
         let asD = getDigitsGen('racikAs'), copD = getDigitsGen('racikCop'), kepD = getDigitsGen('racikKepala'), ekoD = getDigitsGen('racikEkor');
         let jdD = getDigitsGen('racikJd'), jtD = getDigitsGen('racikJt'), jbelD = getDigitsGen('racikJbel'), tepiD = getDigitsGen('racikTepi');
         
@@ -1223,7 +1224,6 @@
                 }
             }
 
-            // --- PROSES FILTER KONTROL (CT) BERURUTAN BARIS PER BARIS ---
             let filtered = raw;
 
             // 1. Filter CT AS + COP (A+C)
@@ -1246,16 +1246,53 @@
                 }
             }
 
-            // 3. Filter CT KEPALA + EKOR (K+E) -> Filter berurutan baris ke baris
+            // 3. Filter CT KEPALA + EKOR (K+E)
             if (ctKE.length > 0 && filtered.length > 0) {
                 for (let ctrl of ctKE) {
                     filtered = filtered.filter(item => {
                         if (item.k === null || item.e === null) return false;
-                        let digitKepala = item.k;
-                        let digitEkor = item.e;
-                        return ctrl.includes(digitKepala) || ctrl.includes(digitEkor);
+                        return ctrl.includes(item.k) || ctrl.includes(item.e);
                     });
                 }
+            }
+
+            // ==========================================
+            // 4. FILTER JUMLAH & TEPI (BARU DITAMBAHKAN)
+            // ==========================================
+            
+            // Jumlah Depan (JD = As + Cop, ambil angka belakangnya pakai % 10)
+            if (jdD.length > 0 && filtered.length > 0) {
+                filtered = filtered.filter(item => {
+                    if (item.a === null || item.c === null) return false;
+                    let sumJD = (item.a + item.c) % 10;
+                    return jdD.includes(sumJD);
+                });
+            }
+
+            // Jumlah Tengah (JT = Cop + Kepala)
+            if (jtD.length > 0 && filtered.length > 0) {
+                filtered = filtered.filter(item => {
+                    if (item.c === null || item.k === null) return false;
+                    let sumJT = (item.c + item.k) % 10;
+                    return jtD.includes(sumJT);
+                });
+            }
+
+            // Jumlah Belakang / J (Jbel = Kepala + Ekor)
+            if (jbelD.length > 0 && filtered.length > 0) {
+                filtered = filtered.filter(item => {
+                    if (item.k === null || item.e === null) return false;
+                    let sumJbel = (item.k + item.e) % 10;
+                    return jbelD.includes(sumJbel);
+                });
+            }
+
+            // Tepi (Biasanya berdasarkan Ekor atau 2D belakang, contoh di sini mendeteksi apakah angka Ekor masuk kategori Tepi)
+            if (tepiD.length > 0 && filtered.length > 0) {
+                filtered = filtered.filter(item => {
+                    if (item.e === null) return false;
+                    return tepiD.includes(item.e);
+                });
             }
 
             filtered.forEach(i => {
@@ -1330,6 +1367,7 @@
         if (!html) html = '<div class="no-result">❌ Tidak ada kombinasi yang cocok dengan filter.</div>';
         document.getElementById('hasilBoxRacik').innerHTML = html;
     }
+
 
     function copyAllRacik() {
         let text = '';
