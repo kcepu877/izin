@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FULL KOMBINASI A1-JD9 (+ - ×) - v8.8 DEDUP LAST TOGGLE</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Courier New', monospace;
+    background: #121417;
+    color: #4ade80;
+    padding: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.app-header { width: 100%; max-width: 1400px; margin-bottom: 16px; }
+.header-content {
+    background: #1a1d24;
+    border: 1px solid #2a3241;
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; color: #4ade80; }
+.header-logo span { color: #86efac; }
+.header-sub { font-size: 11px; color: #64748b; font-weight: 400; }
+.header-right { display: flex; align-items: center; gap: 12px; font-size: 11px; flex-wrap: wrap; }
+.header-badge { background: #121417; color: #34d399; padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; border: 1px solid #2a3241; }
+.header-clock { color: #34d399; font-size: 11px; background: #121417; padding: 4px 10px; border-radius: 4px; border: 1px solid #2a3241; font-weight: 400; }
+
+.main-content {
+    width: 100%;
+    max-width: 1400px;
+    background: #1a1d24;
+    border: 1px solid #2a3241;
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    flex: 1;
+}
+.main-content h2 { color: #4ade80; font-size: 16px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #2a3241; font-weight: 700; }
+
+.setting-panel { background: #1e222b; border: 1px solid #2e3646; border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; overflow: hidden; }
+.setting-title { font-size: 12px; font-weight: 700; color: #86efac; margin-bottom: 12px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid #2e3646; }
+.setting-title::before { content: ''; width: 3px; height: 12px; background: #4ade80; border-radius: 2px; }
+.setting-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 10px 12px !important; width: 100% !important; align-items: stretch !important; box-sizing: border-box !important; }
+@media (max-width: 800px) { .setting-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px 8px !important; } }
+.setting-item { display: flex; flex-direction: column; gap: 3px; min-width: 0; width: 100%; box-sizing: border-box; }
+.setting-item label { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+.setting-item select, .setting-item input[type="number"], .setting-item input[type="text"] {
+    padding: 6px 10px; border: 1px solid #334155; border-radius: 4px;
+    font-size: 12px; font-weight: 600; color: #4ade80; background: #161920;
+    cursor: pointer; transition: all 0.15s ease; outline: none;
+    width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box;
+    text-overflow: ellipsis; height: 32px; line-height: 1.2;
+    font-family: 'Courier New', monospace;
+}
+.setting-item input[type="number"] { -moz-appearance: textfield; appearance: textfield; cursor: text; text-align: center; }
+.setting-item input[type="number"]::-webkit-outer-spin-button, .setting-item input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.setting-item input[type="text"] { cursor: text; }
+.setting-item input.readonly-input { background: #121417; color: #f87171; cursor: not-allowed; font-weight: 700; }
+.setting-item select:hover, .setting-item input[type="number"]:hover:not(.readonly-input), .setting-item input[type="text"]:hover { border-color: #4ade80; }
+.setting-item select:focus, .setting-item input[type="number"]:focus, .setting-item input[type="text"]:focus { border-color: #4ade80; box-shadow: 0 0 0 2px rgba(74,222,128,0.15); }
+.setting-item.full-row { grid-column: 1 / -1; }
+.op-checks { display: flex; gap: 8px; align-items: center; padding: 2px 0; flex-wrap: wrap; width: 100%; box-sizing: border-box; }
+.op-checks label {
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+    font-size: 12px; font-weight: 700; color: #cbd5e1; cursor: pointer;
+    padding: 6px 14px; border: 1px solid #334155; border-radius: 4px; background: #161920;
+    transition: all 0.15s ease; text-transform: none; letter-spacing: 0;
+    white-space: nowrap; height: 32px; box-sizing: border-box; min-width: 50px;
+    font-family: 'Courier New', monospace;
+}
+.op-checks label:hover { border-color: #4ade80; background: #1e222b; color: #4ade80; }
+.op-checks input[type="checkbox"] { margin: 0; cursor: pointer; width: 13px; height: 13px; accent-color: #4ade80; }
+.op-checks input:checked + span { color: #121417; }
+.op-checks label.checked-plus { background: #15803d; color: #fff; border-color: #15803d; }
+.op-checks label.checked-minus { background: #b91c1c; color: #fff; border-color: #b91c1c; }
+.op-checks label.checked-times { background: #c2410c; color: #fff; border-color: #c2410c; }
+
+.scan-wrapper { display: flex; justify-content: center; margin: 16px 0 10px 0; }
+.scan-btn {
+    padding: 12px 50px; background: #d97706; border: 1px solid #d97706; color: #fff;
+    border-radius: 4px; font-size: 14px; font-weight: 700; letter-spacing: 1px;
+    cursor: pointer; transition: all 0.2s ease; text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+}
+.scan-btn:hover:not(:disabled) { background: #b45309; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(217,119,6,0.3); }
+.scan-btn:disabled { background: #334155; border-color: #334155; color: #64748b; cursor: not-allowed; opacity: 0.7; }
+.scan-btn .icon { margin-right: 6px; font-size: 15px; }
+
+.loading-panel { background: #1e222b; border: 1px solid #2e3646; border-radius: 6px; padding: 16px 20px; margin-bottom: 14px; display: none; }
+.loading-panel.active { display: block; }
+.loading-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #cbd5e1; }
+.loading-percent { font-size: 16px; font-weight: 700; color: #4ade80; font-variant-numeric: tabular-nums; }
+.loading-bar { height: 14px; background: #121417; border-radius: 3px; overflow: hidden; position: relative; border: 1px solid #2a3241; }
+.loading-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 3px; transition: width 0.1s; width: 0%; }
+.loading-detail { margin-top: 6px; font-size: 10px; color: #94a3b8; font-weight: 500; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+
+#info { background: #1e222b; padding: 10px 14px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #4ade80; font-size: 12px; color: #cbd5e1; display: none; }
+#info.active { display: block; }
+#info .judul-tabel { font-size: 13px; font-weight: 700; color: #4ade80; margin-bottom: 3px; }
+#info .sub-info { font-size: 11px; font-weight: 400; color: #94a3b8; }
+
+.empty-state { background: #1e222b; border-radius: 6px; padding: 40px 20px; text-align: center; border: 1px dashed #334155; color: #94a3b8; }
+.empty-state .icon { font-size: 45px; margin-bottom: 12px; opacity: 0.6; }
+.empty-state .title { font-size: 16px; font-weight: 700; color: #fbbf24; margin-bottom: 8px; }
+.empty-state .sub { font-size: 12px; color: #94a3b8; line-height: 1.6; }
+.empty-state .sub strong { color: #4ade80; }
+
+.scroll-container { position: relative; border-radius: 6px; background: #1e222b; border: 1px solid #2e3646; overflow: hidden; margin-bottom: 16px; }
+.table-scroll { overflow-x: auto; overflow-y: visible; position: relative; }
+
+table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: 'Courier New', monospace; background: #14171f; }
+table th { background: #1e2533; color: #7dd3fc; padding: 6px 6px; text-align: center; border: 1px solid #262f3f; white-space: nowrap; font-weight: 600; font-size: 10px; position: sticky; top: 0; z-index: 10; }
+table td { padding: 4px 6px; border: 1px solid #1a202c; white-space: nowrap; color: #cbd5e1; text-align: center; font-size: 11px; letter-spacing: 0.5px; }
+
+td:nth-child(1) { background: #161b24; color: #86efac; font-weight: 600; text-align: center; border-right: 2px solid #2e3646 !important; position: sticky; left: 0; z-index: 5; min-width: 90px; }
+th:nth-child(1) { background: #1e293b; color: #86efac; border-right: 2px solid #2e3646 !important; }
+
+table tr:nth-child(even) td:not(:nth-child(1)) { background: #161b24; }
+
+td.multi-digit { padding: 4px 6px !important; letter-spacing: 1px; font-family: 'Courier New', monospace; font-weight: 600; color: #cbd5e1; }
+td.multi-digit .d-merah, td .d-merah { color: #f87171 !important; font-weight: 700 !important; text-shadow: 0 0 5px rgba(248,113,113,0.4); background: transparent !important; padding: 0 1px; display: inline-block; }
+td.multi-digit .d-x, td .d-x { color: #f87171 !important; font-weight: 700 !important; text-shadow: 0 0 5px rgba(248,113,113,0.4); margin-left: 3px; display: inline-block; }
+
+td.baris-mati { background: #121417 !important; color: #475569 !important; opacity: 0.7; }
+td.baris-mati .d-merah { color: #991b1b !important; text-shadow: none; opacity: 0.8; }
+td.baris-mati .d-x { color: #f87171 !important; opacity: 0.9; }
+
+/* ⭐ Baris prediksi menyatu mulus persis seperti baris biasa (tanpa ungu, tanpa border-top) */
+td.baris-prediksi { background: inherit !important; color: #cbd5e1 !important; font-weight: 600 !important; border-top: none !important; text-shadow: none !important; }
+td.baris-prediksi .d-merah { color: #f87171 !important; font-weight: 700 !important; text-shadow: 0 0 5px rgba(248,113,113,0.4); }
+tr.baris-prediksi-row td:nth-child(1) { background: #161b24 !important; color: #86efac !important; font-weight: 600 !important; border-top: none !important; }
+
+tr.baris-status-row td { background: #1b2e23 !important; color: #86efac !important; font-weight: 700 !important; border-top: 2px solid #34d399 !important; letter-spacing: 1px; }
+tr.baris-status-row td:nth-child(1) { background: #16281e !important; color: #86efac !important; font-weight: 700 !important; border-top: 2px solid #34d399 !important; font-size: 11px; border-right: 2px solid #2e3646 !important; }
+
+.gelap { background: #14171f !important; }
+.cerah { background: #181d28 !important; }
+th.gelap { background: #1e293b !important; color: #86efac !important; }
+th.cerah { background: #202b3d !important; color: #94a3b8 !important; }
+
+.col-nav { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 10px 16px; background: #1e222b; border-bottom: 1px solid #2e3646; flex-wrap: wrap; }
+.col-nav button { padding: 5px 12px; background: #d97706; color: #fff; border: 1px solid #d97706; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; font-family: 'Courier New', monospace; transition: all 0.15s ease; }
+.col-nav button:hover:not(:disabled) { background: #b45309; }
+.col-nav button:disabled { background: #262f3f; color: #475569; border-color: #262f3f; cursor: not-allowed; }
+.col-nav .info { font-size: 11px; font-weight: 600; color: #4ade80; background: #121417; padding: 4px 12px; border-radius: 4px; border: 1px solid #2e3646; }
+.col-nav .range { font-size: 11px; color: #94a3b8; }
+th .op-symbol { font-size: 10px; font-weight: 600; color: #7dd3fc; }
+th .op-plus { color: #4ade80; }
+th .op-minus { color: #f87171; }
+th .op-times { color: #fbbf24; }
+
+.all-filter-wrapper { display: flex; flex-direction: column; gap: 12px; }
+.all-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; background: #1e222b; border-radius: 6px; padding: 10px 16px; border: 1px solid #2e3646; }
+.all-toolbar .tb-info { font-size: 12px; font-weight: 600; color: #94a3b8; }
+.all-toolbar .tb-actions { display: flex; gap: 6px; }
+.all-toolbar button { padding: 5px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid; font-family: 'Courier New', monospace; transition: all 0.15s ease; }
+.all-toolbar .btn-open-all { background: #15803d; color: #fff; border-color: #15803d; }
+.all-toolbar .btn-open-all:hover { background: #166534; }
+.all-toolbar .btn-close-all { background: #b91c1c; color: #fff; border-color: #b91c1c; }
+.all-toolbar .btn-close-all:hover { background: #991b1b; }
+
+.filter-card { border-radius: 6px; overflow: hidden; border: 1px solid #262f3f; background: #1e222b; transition: box-shadow 0.2s ease; }
+.filter-card:hover { box-shadow: 0 0 10px rgba(74,222,128,0.1); }
+.filter-card-header { padding: 10px 16px; color: #121417; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; cursor: pointer; user-select: none; transition: filter 0.15s ease; }
+.filter-card-header:hover { filter: brightness(1.1); }
+.filter-card-header .fc-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filter-card-header .fc-icon { font-size: 14px; transition: transform 0.25s ease; }
+.filter-card.open .filter-card-header .fc-icon { transform: rotate(90deg); }
+.filter-card-header .fc-name { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.filter-card-header .fc-stats { font-size: 10px; opacity: 0.9; font-weight: 600; display: flex; gap: 10px; flex-wrap: wrap; }
+.filter-card-header .fc-btn { background: rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.3); color: inherit; padding: 5px 12px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.15s ease; font-family: 'Courier New', monospace; }
+.filter-card-header .fc-btn:hover { background: rgba(0,0,0,0.35); }
+.filter-card-body { display: none; padding: 0; background: #14171f; }
+.filter-card.open .filter-card-body { display: block; }
+.filter-card-placeholder { padding: 30px 20px; text-align: center; color: #94a3b8; font-size: 12px; background: #14171f; border-top: 1px solid #1a202c; }
+.filter-card-placeholder .ph-icon { font-size: 30px; margin-bottom: 6px; opacity: 0.5; }
+.filter-card-placeholder .ph-text { margin-top: 3px; font-size: 11px; opacity: 0.6; color: #64748b; }
+
+.fh-rumus   { background: #4ade80; color: #121417; }
+.fh-index   { background: #38bdf8; color: #121417; }
+.fh-mlama   { background: #94a3b8; color: #121417; }
+.fh-mbaru   { background: #f472b6; color: #fff; }
+.fh-taysen  { background: #fbbf24; color: #121417; }
+.fh-M0      { background: #86efac; color: #121417; }
+.fh-M1      { background: #60a5fa; color: #fff; }
+.fh-M3      { background: #f87171; color: #fff; }
+.fh-M5      { background: #a3e635; color: #121417; }
+.fh-M7      { background: #d4d4d8; color: #121417; }
+.fh-M8      { background: #22d3ee; color: #121417; }
+.fh-M9      { background: #64748b; color: #fff; }
+
+.app-footer { width: 100%; max-width: 1400px; margin-top: 16px; padding: 12px 20px; background: #1a1d24; border: 1px solid #2a3241; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11px; color: #64748b; }
+.footer-content { width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer-left { display: flex; align-items: center; gap: 15px; }
+.footer-right { display: flex; align-items: center; gap: 15px; opacity: 0.8; }
+.footer-divider { opacity: 0.3; }
+.footer-version { background: #121417; padding: 2px 10px; border-radius: 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; color: #34d399; border: 1px solid #2a3241; }
+</style>
+</head>
+<body>
+<header class="app-header">
+    <div class="header-content">
+        <div class="header-left">
+            <div class="header-logo">🎯 <span>TOGEL</span> ANALYSIS</div>
+            <div class="header-sub">Full Kombinasi A1-JD9 (+ - ×) - v8.8 DEDUP LAST TOGGLE</div>
+        </div>
+        <div class="header-right">
+            <span class="header-badge">📊 LIVE DATA</span>
+            <span class="header-clock" id="headerClock">⏰ Loading...</span>
+        </div>
+    </div>
+</header>
+<main class="main-content">
+<h2>📊 FULL KOMBINASI A1 – JD9 (+ - ×)</h2>
+
+<div class="setting-panel">
+    <div class="setting-title">⚙️ PENGATURAN SCAN</div>
+    <div class="setting-grid">
+        <div class="setting-item">
+            <label>🏷️ Pasar</label>
+            <select id="selPasar">
+                <option value="hk">🇭🇰 HK</option>
+                <option value="sdny">🇸🇬 SDY</option>
+                <option value="sgp">🇸🇬 SGP</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>⚙️ Mask Digit</label>
+            <select id="selMask">
+                <option value="1" selected>1 Digit</option>
+                <option value="2">2 Digit</option>
+                <option value="3">3 Digit</option>
+                <option value="4">4 Digit</option>
+                <option value="5">5 Digit</option>
+                <option value="6">6 Digit</option>
+                <option value="7">7 Digit</option>
+                <option value="8">8 Digit</option>
+                <option value="9">9 Digit</option>
+                
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>📜 Tampil (Hari)</label>
+            <input type="number" id="inpRow" min="3" max="500" value="9" placeholder="9" oninput="updateMerahAuto()">
+        </div>
+        <div class="setting-item">
+            <label>❌ Mati (0=OFF)</label>
+            <input type="number" id="inpMati" min="0" max="500" value="0" placeholder="0" oninput="updateMerahAuto()">
+        </div>
+        <div class="setting-item">
+            <label>Masuk (auto)</label>
+            <input type="text" id="inpMerahAuto" class="readonly-input" readonly value="—" placeholder="—">
+        </div>
+        <div class="setting-item">
+            <label>🔄 Filter</label>
+            <select id="selFilter">
+            <option value="ALL" selected>ALL (12 Tabel)</option>
+                <option value="rumus">RUMUS</option>
+                <option value="index">INDEX</option>
+                <option value="mlama">MISTIK LAMA</option>
+                <option value="mbaru">MISTIK BARU</option>
+                <option value="taysen">TAYSEN</option>
+                <option value="M0">M0</option>
+                <option value="M1">M1</option>
+                <option value="M3">M3</option>
+                <option value="M5">M5</option>
+                <option value="M7">M7</option>
+                <option value="M8">M8</option>
+                <option value="M9">M9</option>
+                
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>🎯 Posisi</label>
+            <select id="selPosisi">
+                <option value="as">AS</option>
+                <option value="cop">COP</option>
+                <option value="kepala" selected>KEPALA</option>
+                <option value="ekor">EKOR</option>
+                <option value="2ddepan">2D DEPAN</option>
+                <option value="2dbelakang">2D BELAKANG</option>
+                <option value="tengah">TENGAH</option>
+                <option value="tepi">TEPI</option>
+                <option value="kombinasi">KOMBINASI</option>
+                <option value="jumlah2ddepan">+ 2D DEPAN</option>
+                <option value="jumlah2dbelakang">+ 2D BELAKANG</option>
+                <option value="jumlahtengah">+ TENGAH</option>
+                <option value="jumlahtepi">+ TEPI</option>
+                <option value="jumlahkombinasi">+ KOMBINASI</option>
+                <option value="bbfs4d">BBFS 4D</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>✅ Min Masuk (0=OFF)</label>
+            <input type="number" id="inpMinRed" min="0" max="100" value="6" placeholder="6">
+        </div>
+        <div class="setting-item">
+            <label>🔍 Auto Filter</label>
+            <select id="selAutoFilter">
+                <option value="on" selected>ON</option>
+                <option value="off">OFF</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>🔁 Dedup Key</label>
+            <select id="selDedupKey">
+                <option value="on" selected>ON</option>
+                <option value="off">OFF</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>🔀 Dedup Value</label>
+            <select id="selDedupValue">
+                <option value="off">OFF</option>
+                <option value="on" selected>ON</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>🎯 Dedup Result Akhir</label>
+            <select id="selDedupLast">
+                <option value="on" selected>ON (tampil 1 per key akhir)</option>
+                <option value="off">OFF (tampil semua)</option>
+            </select>
+        </div>
+        <div class="setting-item full-row">
+            <label>🧮 Operator (kosong = single only)</label>
+            <div class="op-checks">
+                <label id="lblOpPlus"><input type="checkbox" id="chkOpPlus"> <span>+</span></label>
+                <label id="lblOpMinus"><input type="checkbox" id="chkOpMinus"> <span>−</span></label>
+                <label id="lblOpTimes"><input type="checkbox" id="chkOpTimes"> <span>×</span></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="scan-wrapper">
+    <button class="scan-btn" id="btnScan" onclick="doScan()">
+        <span class="icon">🚀</span>SCAN NOW
+    </button>
+</div>
+
+<div class="loading-panel" id="loadingPanel">
+    <div class="loading-status">
+        <span id="loadingText">🔄 Memproses data...</span>
+        <span class="loading-percent" id="loadingPercent">0%</span>
+    </div>
+    <div class="loading-bar">
+        <div class="loading-bar-fill" id="loadingBarFill"></div>
+    </div>
+    <div class="loading-detail">
+        <span id="loadingDetailLeft">⏳ Menyiapkan...</span>
+        <span id="loadingDetailRight">Kolom: 0 / 0</span>
+    </div>
+</div>
+
+<div id="info"></div>
+
+<div id="tabelContainer">
+    <div class="empty-state">
+        <div class="icon">🎯</div>
+        <div class="title" style="color: #4ade80;">Siap Scan!</div>
+        <div class="sub">Atur pengaturan di atas, lalu klik tombol <strong>🚀 SCAN NOW</strong> untuk menampilkan tabel.</div>
+    </div>
+</div>
+
+</main>
+<footer class="app-footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <span>© 2026 <strong>Togel Analysis</strong></span>
+            <span class="footer-divider">|</span>
+            <span>Version <span class="footer-version">v8.8 DEDUP LAST TOGGLE</span></span>
+        </div>
+        <div class="footer-right">
+            <span>⚡ Powered by <strong>AI Analysis</strong></span>
+            <span class="footer-divider">|</span>
+            <span id="footerDataCount">📊 0 data</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('headerClock').textContent = '🕐 ' + now.toLocaleDateString('id-ID', options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+const URL_DATA = {
+    hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
+    sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
+    sgp: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sgp.txt'
+};
+
+let D = {}, P = 'hk';
+let currentPage = 0;
+const COLS_PER_PAGE = 1000;
+const MAX_COLS_ALL = 500;
+
+let F = 'rumus';
+let POSISI = 'kepala';
+let ACTIVE_DIGIT_LEN = 1;
+let ACTIVE_ROW_LEN = 9;
+let ACTIVE_MATI = 0;
+let ACTIVE_MERAH_AUTO = 6;
+let ACTIVE_OPS = new Set();
+let AUTO_FILTER = true;
+let DEDUP_KEY = true;
+let DEDUP_VALUE = true;
+let MIN_RED_FILTER = false;
+let MIN_RED_COUNT = 4;
+let ALL_FILTER_MODE = false;
+let DEDUP_LAST = true;
+
+let SCAN_CACHE = null;
+
+const ALL_FILTERS_LIST = ['rumus', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
+const ALL_FILTERS_LABEL = { rumus:'RUMUS', index:'INDEX', mlama:'MISTIK LAMA', mbaru:'MISTIK BARU', taysen:'TAYSEN', M0:'M0', M1:'M1', M3:'M3', M5:'M5', M7:'M7', M8:'M8', M9:'M9' };
+
+const FIXED_MASKS = {
+    10: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    9:  [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    8:  [1, 3, 4, 5, 6, 7, 8, 9],
+    7:  [1, 3, 4, 5, 6, 7, 9],
+    6:  [1, 4, 5, 6, 7, 9],
+    5:  [1, 3, 5, 6, 9],
+    4:  [1, 4, 6, 9],
+    3:  [1, 4, 6],
+    2:  [1, 6],
+    1:  [1]
+};
+
+const MAP10 = {
+    rumus: {'0':'9012345678','1':'0123456789','2':'1234567890','3':'2345678901','4':'3456789012','5':'4567890123','6':'5678901234','7':'6789012345','8':'7890123456','9':'8901234567'},
+    index: {'0':'4567890123','1':'5678901234','2':'6789012345','3':'7890123456','4':'8901234567','5':'9012345678','6':'0123456789','7':'1234567890','8':'2345678901','9':'3456789012'},
+    mlama: {'0':'0123456789','1':'9012345678','2':'4567890123','3':'7890123456','4':'6789012345','5':'1234567890','6':'8901234567','7':'3456789012','8':'2345678901','9':'5678901234'},
+    mbaru: {'0':'7801234569','1':'6789012345','2':'5678901234','3':'8901234567','4':'4567890123','5':'3456789012','6':'1234567890','7':'0123456789','8':'9012345678','9':'2345678901'},
+    taysen: {'0':'6789012345','1':'3456789012','2':'8901234567','3':'5678901234','4':'0123456789','5':'7890123456','6':'2345678901','7':'9012345678','8':'4567890123','9':'1234567890'},
+    M0: {'0':'6789012345','1':'5678901234','2':'8901234567','3':'7890123456','4':'9012345678','5':'1234567890','6':'0123456789','7':'3456789012','8':'2345678901','9':'4567890123'},
+    M1: {'0':'1234567890','1':'0123456789','2':'9012345678','3':'8901234567','4':'7890123456','5':'6789012345','6':'5678901234','7':'4567890123','8':'3456789012','9':'2345678901'},
+    M3: {'0':'3456789012','1':'2345678901','2':'1234567890','3':'0123456789','4':'9012345678','5':'8901234567','6':'7890123456','7':'6789012345','8':'5678901234','9':'4567890123'},
+    M5: {'0':'5678901234','1':'4567890123','2':'3456789012','3':'2345678901','4':'1234567890','5':'0123456789','6':'9012345678','7':'8901234567','8':'7890123456','9':'6789012345'},
+    M7: {'0':'7890123456','1':'6789012345','2':'5678901234','3':'4567890123','4':'3456789012','5':'2345678901','6':'1234567890','7':'0123456789','8':'9012345678','9':'8901234567'},
+    M8: {'0':'8901234567','1':'7890123456','2':'6789012345','3':'5678901234','4':'9012345678','5':'3456789012','6':'2345678901','7':'1234567890','8':'0123456789','9':'4567890123'},
+    M9: {'0':'9012345678','1':'8901234567','2':'7890123456','3':'6789012345','4':'5678901234','5':'4567890123','6':'3456789012','7':'2345678901','8':'1234567890','9':'0123456789'}
+};
+
+const POSISI_MAP = { 
+    as:[0], cop:[1], kepala:[2], ekor:[3], 
+    '2ddepan':[0,1], '2dbelakang':[2,3], tengah:[1,2], tepi:[0,3], kombinasi:[0,1,2,3],
+    'jumlah2ddepan':[0,1], 'jumlah2dbelakang':[2,3], 'jumlahtengah':[1,2], 'jumlahtepi':[0,3], 'jumlahkombinasi':[0,1,2,3], 'bbfs4d':[0,1,2,3] 
+};
+
+const KEY_MAP = (() => {
+    let m = {}; let cnf = { 'a':[0], 'c':[1], 'k':[2], 'e':[3], 'j':[2,3], 'jt':[1,2], 'jd':[0,1] };
+    for (let [k, pos] of Object.entries(cnf)) for (let num = 1; num <= 9; num++) m[k + num] = { offset: num - 1, positions: pos };
+    return m;
+})();
+const KEYS = Object.keys(KEY_MAP);
+const FILTERS_AUTO = ['none', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
+const FILTER_LABEL_AUTO = { 'none':'', 'index':'ind', 'mlama':'mla', 'mbaru':'mb', 'taysen':'ty', 'M0':'m0', 'M1':'m1', 'M3':'m3', 'M5':'m5', 'M7':'m7', 'M8':'m8', 'M9':'m9' };
+const ALL_OPS = ['+', '-', '×'];
+
+const SDCache = (() => {
+    let c = {};
+    for (let i = -200; i <= 300; i++) {
+        let n = Math.abs(i);
+        while (n >= 10) { let sum = 0; while (n > 0) { sum += n % 10; n = Math.floor(n / 10); } n = sum; }
+        c[i] = n;
+    }
+    return c;
+})();
+
+let ALL_COMBINATIONS = [];
+let TOTAL_COLS = 0;
+
+function rebuildCombinations() {
+    ALL_COMBINATIONS = [];
+    let seen = new Set();
+
+    for (let i = 0; i < KEYS.length; i++) {
+        for (let f of FILTERS_AUTO) {
+            let label = KEYS[i] + FILTER_LABEL_AUTO[f];
+            if (seen.has('S|' + label)) continue;
+            seen.add('S|' + label);
+            ALL_COMBINATIONS.push({ key1: KEYS[i], key2: null, op: null, filter1: f, filter2: null, label: label, isSingle: true });
+        }
+    }
+
+    let opsToUse = ALL_OPS.filter(op => ACTIVE_OPS.has(op));
+    
+    for (let i = 0; i < KEYS.length; i++) {
+        for (let op of opsToUse) {
+            for (let j = 0; j < KEYS.length; j++) {
+                for (let f1 of FILTERS_AUTO) {
+                    for (let f2 of FILTERS_AUTO) {
+                        let label = KEYS[i] + FILTER_LABEL_AUTO[f1] + op + KEYS[j] + FILTER_LABEL_AUTO[f2];
+
+                        if (DEDUP_KEY) {
+                            let a = KEYS[i] + '|' + f1;
+                            let b = KEYS[j] + '|' + f2;
+                            
+                            if (op === '-') {
+                                let dedupKey = 'C|-|' + a + '#' + b;
+                                if (seen.has(dedupKey)) continue;
+                                seen.add(dedupKey);
+                            } else {
+                                let canon = (a < b) ? (a + '#' + b) : (b + '#' + a);
+                                let dedupKey = 'C|' + op + '|' + canon;
+                                if (seen.has(dedupKey)) continue;
+                                seen.add(dedupKey);
+                            }
+                        } else {
+                            let dedupKey = 'N|' + label;
+                            if (seen.has(dedupKey)) continue;
+                            seen.add(dedupKey);
+                        }
+
+                        ALL_COMBINATIONS.push({
+                            key1: KEYS[i], key2: KEYS[j], op: op,
+                            filter1: f1, filter2: f2,
+                            label: label, isSingle: false
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    TOTAL_COLS = ALL_COMBINATIONS.length;
+}
+
+function isJumlah(p) { return p.startsWith('jumlah') || p === 'bbfs4d'; }
+
+function hitung2DBelakang(result) {
+    if (!result || result.length < 4) return '-';
+    let d1 = parseInt(result[2]);
+    let d2 = parseInt(result[3]);
+    return SDCache[d1 + d2] ?? '-';
+}
+
+function hitungOperasi(a, b, op) {
+    let hasil = (op === '+') ? (a + b) : (op === '-') ? (a - b) : (a * b);
+    if (hasil === 0) return a;
+    return SDCache[hasil] ?? hasil;
+}
+
+function convert10(d, filterKey) {
+    let mapObj = MAP10[filterKey] || MAP10['rumus'];
+    return mapObj[d] || d;
+}
+
+function getTarget(nextResult) {
+    if (!nextResult) return [];
+    let idxList = POSISI_MAP[POSISI] || [];
+    if (POSISI === 'bbfs4d') return idxList.map(idx => nextResult[idx]);
+    if (isJumlah(POSISI)) {
+        let total = idxList.reduce((sum, idx) => sum + parseInt(nextResult[idx]), 0);
+        return ['' + (SDCache[total] ?? total)];
+    }
+    return idxList.map(idx => nextResult[idx]);
+}
+
+let isGelap = true;
+function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
+function resetWarna() { isGelap = true; }
+
+function updateMerahAuto() {
+    let rowVal = parseInt(document.getElementById('inpRow').value);
+    let matiVal = parseInt(document.getElementById('inpMati').value);
+    if (isNaN(rowVal) || rowVal < 3) rowVal = 3;
+    if (isNaN(matiVal) || matiVal < 0) matiVal = 0;
+    
+    let inpMerahAuto = document.getElementById('inpMerahAuto');
+    if (matiVal > 0) {
+        let merahAuto = rowVal - matiVal - 1;
+        if (merahAuto < 1) merahAuto = 1;
+        inpMerahAuto.value = merahAuto;
+    } else {
+        inpMerahAuto.value = '—';
+    }
+}
+
+function readSettingsFromUI() {
+    P = document.getElementById('selPasar').value;
+    ACTIVE_DIGIT_LEN = parseInt(document.getElementById('selMask').value);
+    
+    let rowVal = parseInt(document.getElementById('inpRow').value);
+    if (isNaN(rowVal) || rowVal < 3) rowVal = 10;
+    if (rowVal > 500) rowVal = 500;
+    ACTIVE_ROW_LEN = rowVal;
+    
+    let matiVal = parseInt(document.getElementById('inpMati').value);
+    if (isNaN(matiVal) || matiVal < 0) matiVal = 0;
+    if (matiVal > 500) matiVal = 500;
+    ACTIVE_MATI = matiVal;
+    
+    if (ACTIVE_MATI > 0) {
+        ACTIVE_MERAH_AUTO = ACTIVE_ROW_LEN - ACTIVE_MATI - 1;
+        if (ACTIVE_MERAH_AUTO < 1) ACTIVE_MERAH_AUTO = 1;
+    } else {
+        ACTIVE_MERAH_AUTO = 0;
+    }
+    
+    let filterVal = document.getElementById('selFilter').value;
+    if (filterVal === 'ALL') {
+        ALL_FILTER_MODE = true;
+        F = 'rumus';
+    } else {
+        ALL_FILTER_MODE = false;
+        F = filterVal;
+    }
+    
+    POSISI = document.getElementById('selPosisi').value;
+    
+    let minRedVal = parseInt(document.getElementById('inpMinRed').value);
+    if (isNaN(minRedVal) || minRedVal < 0) minRedVal = 0;
+    if (minRedVal > 100) minRedVal = 100;
+    if (minRedVal === 0) {
+        MIN_RED_FILTER = false;
+    } else {
+        MIN_RED_FILTER = true;
+        MIN_RED_COUNT = minRedVal;
+    }
+    
+    AUTO_FILTER = document.getElementById('selAutoFilter').value === 'on';
+    DEDUP_KEY = document.getElementById('selDedupKey').value === 'on';
+    DEDUP_VALUE = document.getElementById('selDedupValue').value === 'on';
+    DEDUP_LAST = document.getElementById('selDedupLast').value === 'on';
+    
+    ACTIVE_OPS = new Set();
+    if (document.getElementById('chkOpPlus').checked) ACTIVE_OPS.add('+');
+    if (document.getElementById('chkOpMinus').checked) ACTIVE_OPS.add('-');
+    if (document.getElementById('chkOpTimes').checked) ACTIVE_OPS.add('×');
+}
+
+function updateOpChecks() {
+    let lblPlus = document.getElementById('lblOpPlus');
+    let lblMinus = document.getElementById('lblOpMinus');
+    let lblTimes = document.getElementById('lblOpTimes');
+    lblPlus.classList.remove('checked-plus');
+    lblMinus.classList.remove('checked-minus');
+    lblTimes.classList.remove('checked-times');
+    if (document.getElementById('chkOpPlus').checked) lblPlus.classList.add('checked-plus');
+    if (document.getElementById('chkOpMinus').checked) lblMinus.classList.add('checked-minus');
+    if (document.getElementById('chkOpTimes').checked) lblTimes.classList.add('checked-times');
+}
+document.getElementById('chkOpPlus').addEventListener('change', updateOpChecks);
+document.getElementById('chkOpMinus').addEventListener('change', updateOpChecks);
+document.getElementById('chkOpTimes').addEventListener('change', updateOpChecks);
+
+document.getElementById('selDedupLast').addEventListener('change', () => {
+    DEDUP_LAST = document.getElementById('selDedupLast').value === 'on';
+    if (SCAN_CACHE) {
+        if (SCAN_CACHE.mode === 'NORMAL') {
+            doQuickRender();
+        } else if (SCAN_CACHE.mode === 'ALL') {
+            reapplyDedupLastAll();
+        }
+    }
+});
+
+async function loadData(p) {
+    if (D[p]) return;
+    try {
+        let r = await fetch(URL_DATA[p]);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        let text = await r.text();
+        let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+        if (lines.length === 0) throw new Error('Data kosong!');
+        D[p] = lines;
+        document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
+    } catch(e) {
+        D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
+        document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+    }
+}
+
+function setLoading(active) {
+    document.getElementById('loadingPanel').classList.toggle('active', active);
+}
+function updateProgress(percent, text, detailLeft, detailRight) {
+    document.getElementById('loadingBarFill').style.width = Math.min(100, Math.max(0, percent)) + '%';
+    document.getElementById('loadingPercent').textContent = Math.round(percent) + '%';
+    if (text) document.getElementById('loadingText').textContent = text;
+    if (detailLeft) document.getElementById('loadingDetailLeft').textContent = detailLeft;
+    if (detailRight) document.getElementById('loadingDetailRight').textContent = detailRight;
+}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function buildEmptyStateMsg(customMsg) {
+    return `
+        <div class="empty-state">
+            <div class="icon">🔍</div>
+            <div class="title">0 KEY TERDETEKSI</div>
+            <div class="sub">${customMsg || 'Tidak ada kombinasi yang lolos kriteria.'}<br><br>
+            <strong>💡 Coba ubah:</strong><br>
+            • 🟢 Mati (turunkan agar lebih longgar)<br>
+            • 📜 Row (tambah hari untuk lebih banyak data)<br>
+            • 🔴 Min Merah (turunkan)<br>
+            • 🎯 Posisi (coba AS/COP/KEPALA/EKOR)<br>
+            • 🔀 Dedup Value (matikan kalau terlalu ketat)<br>
+            • 🎯 Dedup Result Akhir (matikan kalau terlalu ketat)<br>
+            • 🔄 Filter Konversi (coba RUMUS atau INDEX)</div>
+        </div>
+    `;
+}
+
+function getAngkaHilang(valStr, activeMask) {
+    if (!valStr) return '-';
+    let digits = new Set();
+    for (let mi = 0; mi < activeMask.length; mi++) {
+        let char = valStr[activeMask[mi]];
+        if (char >= '0' && char <= '9') digits.add(char);
+    }
+    let hilang = [];
+    for (let i = 0; i <= 9; i++) {
+        if (!digits.has(String(i))) hilang.push(i);
+    }
+    if (hilang.length === 0) return '-';
+    if (hilang.length === 10) return '0';
+    return hilang.join('');
+}
+
+function getDisplayKey(valStr, activeMask) {
+    if (!valStr) return '';
+    let key = '';
+    for (let mi = 0; mi < activeMask.length; mi++) {
+        key += valStr[activeMask[mi]] || '';
+    }
+    return key;
+}
+
+function applyDedupLast(rawFirst, rawCombo) {
+    if (!DEDUP_LAST) {
+        return { first: rawFirst, combo: rawCombo };
+    }
+    let seenLastKeys = new Set();
+    let finalFirst = [];
+    for (let r of rawFirst) {
+        if (seenLastKeys.has(r.lastKey)) continue;
+        seenLastKeys.add(r.lastKey);
+        finalFirst.push(r);
+    }
+    let finalCombo = [];
+    for (let r of rawCombo) {
+        if (seenLastKeys.has(r.lastKey)) continue;
+        seenLastKeys.add(r.lastKey);
+        finalCombo.push(r);
+    }
+    return { first: finalFirst, combo: finalCombo };
+}
+
+async function computeFilteredColumns(filterKey, onProgress) {
+    let data = D[P].slice(-ACTIVE_ROW_LEN);
+    let allData = D[P];
+    let activeMask = FIXED_MASKS[ACTIVE_DIGIT_LEN] || FIXED_MASKS[10];
+    let N = data.length;
+    let maskLen = activeMask.length;
+    let startIdx = D[P].length - N;
+    
+    let requiredRed = 0;
+    let useMatiMode = (ACTIVE_MATI > 0);
+    if (useMatiMode) {
+        requiredRed = ACTIVE_ROW_LEN - ACTIVE_MATI - 1;
+        if (requiredRed < 1) requiredRed = 1;
+        if (requiredRed > N - 1) requiredRed = N - 1;
+    }
+    
+    let targets = new Array(N);
+    for (let i = 0; i < N; i++) {
+        targets[i] = (i + 1 < N) ? getTarget(data[i + 1]) : null;
+    }
+    
+    let firstValsByRow = new Array(N);
+    for (let i = 0; i < N; i++) {
+        let baris = data[i];
+        let a = parseInt(baris[0]), c = parseInt(baris[1]), k = parseInt(baris[2]), e = parseInt(baris[3]);
+        firstValsByRow[i] = [
+            convert10(a, filterKey),
+            convert10(c, filterKey),
+            convert10(k, filterKey),
+            convert10(e, filterKey),
+            convert10(SDCache[k + e], filterKey),
+            convert10(SDCache[c + k], filterKey),
+            convert10(SDCache[a + c], filterKey)
+        ];
+    }
+    
+    let firstKeys = ['A1','C1','K1','E1','J1','JT1','JD1'];
+    
+    function isMerah(valStr, tgt) {
+        for (let mi = 0; mi < maskLen; mi++) {
+            if (tgt && tgt.includes(valStr[activeMask[mi]])) return true;
+        }
+        return false;
+    }
+    
+    let firstResults = [];
+    for (let fi = 0; fi < 7; fi++) {
+        let values = new Array(N);
+        let redCount = 0;
+        let isLulus = true;
+        
+        for (let i = 0; i < N; i++) {
+            let valStr = firstValsByRow[i][fi];
+            values[i] = valStr;
+            
+            if (i < N - 1) {
+                let tgt = targets[i];
+                let merah = isMerah(valStr, tgt);
+                
+                if (useMatiMode) {
+                    if (i < requiredRed) {
+                        if (!merah) { isLulus = false; break; }
+                        redCount++;
+                    } else {
+                        if (merah) { isLulus = false; break; }
+                    }
+                } else {
+                    if (merah) {
+                        redCount++;
+                    } else {
+                        let sisaBaris = (N - 1) - i;
+                        if (MIN_RED_FILTER) {
+                            if (redCount + sisaBaris < MIN_RED_COUNT) { isLulus = false; break; }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (isLulus) {
+            let lolos = false;
+            if (useMatiMode) lolos = true;
+            else if (MIN_RED_FILTER) lolos = (redCount >= MIN_RED_COUNT);
+            else if (AUTO_FILTER) lolos = (redCount > 0);
+            else lolos = true;
+            
+            if (lolos) {
+                let lastVal = values[values.length - 1] || '';
+                let hilang = getAngkaHilang(lastVal, activeMask);
+                let lastKey = getDisplayKey(lastVal, activeMask);
+                firstResults.push({ fi, redCount, values, hilang, lastKey });
+            }
+        }
+    }
+    
+    let seenFirstSigs = DEDUP_VALUE ? new Set() : null;
+    if (DEDUP_VALUE) {
+        let finalFirstResults = [];
+        for (let r of firstResults) {
+            let sig = r.values.join('\u0001');
+            if (!seenFirstSigs.has(sig)) { seenFirstSigs.add(sig); finalFirstResults.push(r); }
+        }
+        firstResults = finalFirstResults;
+    }
+    
+    let comboResults = [];
+    let seenSignatures = DEDUP_VALUE ? new Set() : null;
+    
+    let combosByK1 = {};
+    ALL_COMBINATIONS.forEach((combo, gIdx) => {
+        if (!combosByK1[combo.key1]) combosByK1[combo.key1] = [];
+        combosByK1[combo.key1].push({ combo, globalIdx: gIdx });
+    });
+    
+    let k1List = Object.keys(combosByK1);
+    let totalK1 = k1List.length;
+    
+    for (let k1Idx = 0; k1Idx < totalK1; k1Idx++) {
+        let k1 = k1List[k1Idx];
+        let combosForK1 = combosByK1[k1];
+        
+        for (let ci = 0; ci < combosForK1.length; ci++) {
+            let { combo, globalIdx } = combosForK1[ci];
+            let values = new Array(N);
+            let redCount = 0;
+            let isLulus = true;
+            
+            for (let i = 0; i < N; i++) {
+                let gI = startIdx + i;
+                let baris = allData[gI];
+                let valRes = '';
+                
+                if (combo.isSingle) {
+                    let p1 = KEY_MAP[combo.key1];
+                    let d1 = allData[gI - p1.offset] || baris;
+                    let n1 = 0;
+                    let plen = p1.positions.length;
+                    if (plen === 1) n1 = parseInt(d1[p1.positions[0]]);
+                    else { for (let pi = 0; pi < plen; pi++) n1 += parseInt(d1[p1.positions[pi]]); n1 = SDCache[n1] ?? n1; }
+                    valRes = convert10(n1, combo.filter1);
+                } else {
+                    let p1 = KEY_MAP[combo.key1], p2 = KEY_MAP[combo.key2];
+                    let d1 = allData[gI - p1.offset] || baris;
+                    let d2 = allData[gI - p2.offset] || baris;
+                    
+                    let n1, n2;
+                    if (p1.positions.length === 1) n1 = parseInt(d1[p1.positions[0]]);
+                    else { n1 = 0; for (let pi = 0; pi < p1.positions.length; pi++) n1 += parseInt(d1[p1.positions[pi]]); n1 = SDCache[n1] ?? n1; }
+                    n1 = parseInt(convert10(n1, combo.filter1)[1] || n1);
+                    
+                    if (p2.positions.length === 1) n2 = parseInt(d2[p2.positions[0]]);
+                    else { n2 = 0; for (let pi = 0; pi < p2.positions.length; pi++) n2 += parseInt(d2[p2.positions[pi]]); n2 = SDCache[n2] ?? n2; }
+                    n2 = parseInt(convert10(n2, combo.filter2)[1] || n2);
+                    
+                    let opRes = hitungOperasi(n1, n2, combo.op);
+                    valRes = convert10(opRes, filterKey);
+                }
+                
+                values[i] = valRes;
+                
+                if (i < N - 1) {
+                    let tgt = targets[i];
+                    let merah = isMerah(valRes, tgt);
+                    
+                    if (useMatiMode) {
+                        if (i < requiredRed) {
+                            if (!merah) { isLulus = false; break; }
+                            redCount++;
+                        } else {
+                            if (merah) { isLulus = false; break; }
+                        }
+                    } else {
+                        if (merah) {
+                            redCount++;
+                        } else {
+                            let sisaBaris = (N - 1) - i;
+                            if (MIN_RED_FILTER) {
+                                if (redCount + sisaBaris < MIN_RED_COUNT) { isLulus = false; break; }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (!isLulus) continue;
+            
+            let lolos = false;
+            if (useMatiMode) lolos = true;
+            else if (MIN_RED_FILTER) lolos = (redCount >= MIN_RED_COUNT);
+            else if (AUTO_FILTER) lolos = (redCount > 0);
+            else lolos = true;
+            
+            if (!lolos) continue;
+            
+            if (DEDUP_VALUE) {
+                let sig = values.join('\u0001');
+                if (seenFirstSigs.has(sig)) continue;
+                if (seenSignatures.has(sig)) continue;
+                seenSignatures.add(sig);
+            }
+            
+            let lastVal = values[values.length - 1] || '';
+            let hilang = getAngkaHilang(lastVal, activeMask);
+            let lastKey = getDisplayKey(lastVal, activeMask);
+            comboResults.push({ ci: globalIdx, redCount, values, hilang, lastKey });
+        }
+        
+        if (onProgress) {
+            let pct = ((k1Idx + 1) / totalK1) * 100;
+            onProgress(pct, k1);
+        }
+        await sleep(0);
+    }
+    
+    return { 
+        rawFirstResults: firstResults, 
+        rawComboResults: comboResults, 
+        activeMask, 
+        rowData: data, 
+        targets, 
+        requiredRed, 
+        useMatiMode 
+    };
+}
+
+function getFilteredResults(computed) {
+    let r = applyDedupLast(computed.rawFirstResults, computed.rawComboResults);
+    return { firstResults: r.first, comboResults: r.combo };
+}
+
+function buildTableHTMLFromFiltered(filterKey, computed, page, maxCols) {
+    let { activeMask, rowData, targets, requiredRed, useMatiMode } = computed;
+    let { firstResults, comboResults } = getFilteredResults(computed);
+    
+    let firstKeys = ['A1','C1','K1','E1','J1','JT1','JD1'];
+    let N = rowData.length;
+    let maskLen = activeMask.length;
+    
+    let totalFirst = firstResults.length;
+    let totalCombo = comboResults.length;
+    let totalFiltered = totalFirst + totalCombo;
+    
+    let maxAllowed = maxCols || COLS_PER_PAGE;
+    let totalPages = Math.max(1, Math.ceil(totalFiltered / maxAllowed));
+    
+    if (page >= totalPages) page = totalPages - 1;
+    if (page < 0) page = 0;
+    
+    let startIdx = page * maxAllowed;
+    let endIdx = Math.min(startIdx + maxAllowed, totalFiltered);
+    
+    let firstStart = Math.min(startIdx, totalFirst);
+    let firstEnd = Math.min(endIdx, totalFirst);
+    let comboStart = Math.max(0, startIdx - totalFirst);
+    let comboEnd = Math.max(0, endIdx - totalFirst);
+    
+    let firstPage = firstResults.slice(firstStart, firstEnd);
+    let comboPage = comboResults.slice(comboStart, comboEnd);
+    
+    let opClasses = {'+':'op-plus', '-':'op-minus', '×':'op-times'};
+    let parts = [];
+    
+    resetWarna();
+    parts.push('<tr><th>STATUS</th>');
+    for (let r of firstPage) {
+        let key = firstKeys[r.fi];
+        parts.push(`<th class="${nextWarna()}">${key} <span style="font-size:9px;color:#f87171;">(${r.redCount})</span></th>`);
+    }
+    for (let r of comboPage) {
+        let combo = ALL_COMBINATIONS[r.ci];
+        let cls = nextWarna();
+        let lbl = combo.isSingle ? combo.label : `<span class="op-symbol ${opClasses[combo.op] || ''}">${combo.label}</span>`;
+        parts.push(`<th class="${cls}">${lbl} <span style="font-size:9px;color:#f87171;">(${r.redCount})</span></th>`);
+    }
+    parts.push('</tr>');
+    
+    for (let i = 0; i < N; i++) {
+        resetWarna();
+        let baris = rowData[i];
+        let jml = hitung2DBelakang(baris);
+        let tgt = (i < N - 1) ? targets[i] : null;
+        
+        let isPrediksiRow = (i === N - 1);
+        let isMatiRow = useMatiMode && (i >= requiredRed) && !isPrediksiRow;
+        let rowClass = isPrediksiRow ? 'baris-prediksi-row' : '';
+        
+        parts.push(`<tr class="${rowClass}"><td>${baris}-${jml}</td>`);
+        
+        let cellExtraClass = '';
+        if (isPrediksiRow) cellExtraClass = ' baris-prediksi';
+        else if (isMatiRow) cellExtraClass = ' baris-mati';
+        
+        let renderCell = (valStr) => {
+            let cls = nextWarna();
+            let finalCls = cls + ' multi-digit' + cellExtraClass;
+            let content = '';
+            for (let mi = 0; mi < maskLen; mi++) {
+                let digit = valStr[activeMask[mi]] || '';
+                let isCocok = tgt && tgt.includes(digit);
+                if (isCocok) {
+                    content += `<span class="d-merah">${digit}</span>`;
+                } else {
+                    content += digit;
+                }
+            }
+            if (isMatiRow) {
+                content += `<span class="d-x"> x</span>`;
+            }
+            return `<td class="${finalCls}">${content}</td>`;
+        };
+        
+        for (let r of firstPage) parts.push(renderCell(r.values[i]));
+        for (let r of comboPage) parts.push(renderCell(r.values[i]));
+        parts.push('</tr>');
+    }
+    
+    parts.push('<tr class="baris-status-row"><td>STATUS</td>');
+    for (let r of firstPage) {
+        parts.push(`<td>${r.hilang}</td>`);
+    }
+    for (let r of comboPage) {
+        parts.push(`<td>${r.hilang}</td>`);
+    }
+    parts.push('</tr>');
+    
+    return { html: parts.join(''), totalFiltered, totalPages, startIdx, endIdx, page };
+}
+
+function reapplyDedupLastAll() {
+    if (!SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
+    let cards = document.querySelectorAll('.filter-card');
+    cards.forEach(card => {
+        if (card.dataset.rendered === 'true') {
+            let fk = card.dataset.fk;
+            let page = parseInt(card.dataset.currentPage || '0');
+            cardRenderPage(fk, page);
+        }
+    });
+}
+
+let isScanning = false;
+async function doScan() {
+    if (isScanning) return;
+    isScanning = true;
+    let btnScan = document.getElementById('btnScan');
+    btnScan.disabled = true;
+    btnScan.innerHTML = '<span class="icon">⏳</span>MEMPROSES...';
+    
+    setLoading(true);
+    document.getElementById('info').classList.remove('active');
+    updateProgress(2, '🔄 Membaca pengaturan...', '⏳ Menyiapkan...', 'Kolom: 0 / 0');
+    await sleep(50);
+    
+    readSettingsFromUI();
+    currentPage = 0;
+    
+    updateProgress(5, '🔧 Membangun kombinasi...', '⏳ Filter & operator...', 'Kolom: 0 / 0');
+    await sleep(50);
+    rebuildCombinations();
+    
+    updateProgress(10, '📥 Memuat data ' + P.toUpperCase() + '...', '⏳ Download...', 'Kolom: 0 / ' + TOTAL_COLS);
+    await sleep(50);
+    await loadData(P);
+    
+    updateProgress(15, '📊 Data siap, mulai render...', '⏳ Menghitung...', 'Kolom: 0 / ' + TOTAL_COLS);
+    await sleep(100);
+    
+    try {
+        await renderWithProgress();
+    } catch(e) {
+        console.error(e);
+        alert('Error saat render: ' + e.message);
+    }
+    
+    updateProgress(100, '✅ Selesai!', '✅ Selesai', 'Kolom: ' + TOTAL_COLS + ' / ' + TOTAL_COLS);
+    await sleep(500);
+    setLoading(false);
+    isScanning = false;
+    btnScan.disabled = false;
+    btnScan.innerHTML = '<span class="icon">🚀</span>SCAN NOW';
+}
+
+async function renderWithProgress() {
+    let container = document.getElementById('tabelContainer');
+    
+    let pasarNama = P.toUpperCase();
+    let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ').trim();
+    let data = D[P].slice(-ACTIVE_ROW_LEN);
+    
+    let opsAktif = ALL_OPS.filter(op => ACTIVE_OPS.has(op));
+    let opsLabel = opsAktif.length > 0 ? opsAktif.join(' ') : 'SINGLE ONLY';
+    let dedupStatus = DEDUP_KEY ? `🔁 DedupKey: ON` : `🔁 DedupKey: OFF`;
+    let dedupValStatus = DEDUP_VALUE ? `🔀 DedupValue: ON` : `🔀 DedupValue: OFF`;
+    let dedupLastStatus = DEDUP_LAST ? `🎯 DedupLast: ON` : `🎯 DedupLast: OFF`;
+    
+    if (ALL_FILTER_MODE) {
+        let filterStatus;
+        if (ACTIVE_MATI > 0) filterStatus = `🟢 Mode MATI (${ACTIVE_MATI}) → 🔴 ${ACTIVE_MERAH_AUTO} merah wajib, sisa hijau`;
+        else if (MIN_RED_FILTER) filterStatus = `🔴 MinMerah: ON (≥${MIN_RED_COUNT} baris)`;
+        else if (AUTO_FILTER) filterStatus = `🔍 AutoFilter: ON`;
+        else filterStatus = `🔍 AutoFilter: OFF`;
+        
+        updateProgress(20, '🎨 Mode ALL Filter aktif...', '⏳ Memproses ' + ALL_FILTERS_LIST.length + ' filter...', 'Filter: 0 / ' + ALL_FILTERS_LIST.length);
+        await sleep(50);
+        
+        let computedList = [];
+        
+        for (let idx = 0; idx < ALL_FILTERS_LIST.length; idx++) {
+            let fk = ALL_FILTERS_LIST[idx];
+            let basePct = 20 + (idx / ALL_FILTERS_LIST.length) * 55;
+            
+            updateProgress(basePct, `🎨 Memproses filter ${ALL_FILTERS_LABEL[fk]}...`, `⏳ Filter: ${ALL_FILTERS_LABEL[fk]}`, `Filter: ${idx + 1} / ${ALL_FILTERS_LIST.length}`);
+            await sleep(20);
+            
+            let computed = await computeFilteredColumns(fk, (pct, k1) => {
+                let overall = basePct + (pct / 100) * (55 / ALL_FILTERS_LIST.length);
+                updateProgress(overall, `🎨 Filter ${ALL_FILTERS_LABEL[fk]} — key ${k1}`, `⏳ ${ALL_FILTERS_LABEL[fk]}: ${k1.toUpperCase()}`, `Filter: ${idx + 1} / ${ALL_FILTERS_LIST.length}`);
+            });
+            
+            let filtered = getFilteredResults(computed);
+            let totalFiltered = filtered.firstResults.length + filtered.comboResults.length;
+            computedList.push({ fk, computed, totalFiltered });
+        }
+        
+        updateProgress(80, '📊 Membangun header tabel...', '⏳ Render header saja...', 'Lazy render aktif');
+        await sleep(100);
+        
+        let renderedCount = 0;
+        let skippedCount = 0;
+        
+        let wrapper = document.createElement('div');
+        wrapper.className = 'all-filter-wrapper';
+        
+        let toolbar = document.createElement('div');
+        toolbar.className = 'all-toolbar';
+        toolbar.innerHTML = `
+            <span class="tb-info">📊 ${ALL_FILTERS_LIST.length} filter diproses — klik <strong>BUKA</strong> untuk lihat tabel</span>
+            <div class="tb-actions">
+                <button class="btn-open-all" onclick="openAllCards()">📂 Buka Semua</button>
+                <button class="btn-close-all" onclick="closeAllCards()">📁 Tutup Semua</button>
+            </div>
+        `;
+        wrapper.appendChild(toolbar);
+        
+        for (let idx = 0; idx < computedList.length; idx++) {
+            let { fk, computed, totalFiltered } = computedList[idx];
+            
+            if (totalFiltered === 0) {
+                skippedCount++;
+                continue;
+            }
+            
+            let filtered = getFilteredResults(computed);
+            let totalMerah = 0;
+            for (let r of filtered.firstResults) totalMerah += r.redCount;
+            for (let r of filtered.comboResults) totalMerah += r.redCount;
+            
+            let card = document.createElement('div');
+            card.className = 'filter-card';
+            card.dataset.fk = fk;
+            card.dataset.rendered = 'false';
+            card.innerHTML = `
+                <div class="filter-card-header fh-${fk}" onclick="toggleCard(this.parentElement, '${fk}')">
+                    <div class="fc-left">
+                        <span class="fc-icon">▶</span>
+                        <span class="fc-name">🎨 ${ALL_FILTERS_LABEL[fk]}</span>
+                        <span class="fc-stats">
+                            <span>📊 ${totalFiltered} kolom</span>
+                            <span>🔴 ${totalMerah} baris merah</span>
+                        </span>
+                    </div>
+                    <button class="fc-btn" type="button">📂 BUKA</button>
+                </div>
+                <div class="filter-card-body"></div>
+                <div class="filter-card-placeholder">
+                    <div class="ph-icon">📁</div>
+                    <div>Klik <strong>BUKA</strong> untuk render tabel ini</div>
+                    <div class="ph-text">Lazy render — hemat memori, anti-crash</div>
+                </div>
+            `;
+            wrapper.appendChild(card);
+            renderedCount++;
+        }
+        
+        if (renderedCount === 0) {
+            container.innerHTML = buildEmptyStateMsg(
+                `Semua ${ALL_FILTERS_LIST.length} filter tidak menghasilkan key.<br>
+                <span style="color: #fbbf24;">Tidak ada kombinasi yang cocok dengan kriteria.</span>`
+            );
+            document.getElementById('info').classList.remove('active');
+            SCAN_CACHE = null;
+            return;
+        }
+        
+        SCAN_CACHE = { mode: 'ALL', computedList, pasarNama, posisiNama, data, opsLabel, dedupStatus, dedupValStatus, dedupLastStatus, filterStatus, renderedCount, skippedCount };
+        
+        container.innerHTML = '';
+        container.appendChild(wrapper);
+        
+        let skipInfo = skippedCount > 0 ? ` | ⏭️ ${skippedCount} di-skip (0 key)` : '';
+        document.getElementById('info').innerHTML = 
+            `<div class="judul-tabel">🎨 ALL FILTER MODE — ${pasarNama} | ${posisiNama} | ${data.length} Hari (${ACTIVE_DIGIT_LEN} Digit)</div>
+             <div class="sub-info">🎯 Tampil <strong>${renderedCount}</strong> dari ${ALL_FILTERS_LIST.length} tabel${skipInfo} | 🧮 Ops: [${opsLabel}] | ${dedupStatus} | ${dedupValStatus} | ${dedupLastStatus} | ${filterStatus} | 💡 Lazy mode: klik BUKA per tabel</div>`;
+        document.getElementById('info').classList.add('active');
+        
+    } else {
+        updateProgress(30, `🔄 Memproses filter ${ALL_FILTERS_LABEL[F] || F}...`, '⏳ Menghitung kolom...', 'Kolom: 0 / ' + TOTAL_COLS);
+        await sleep(50);
+        
+        let computed = await computeFilteredColumns(F, (pct, k1) => {
+            let overall = 30 + (pct / 100) * 50;
+            updateProgress(overall, `🔄 Filter ${ALL_FILTERS_LABEL[F] || F} — key ${k1}`, `⏳ ${k1.toUpperCase()}`, `Kolom: 0 / ${TOTAL_COLS}`);
+        });
+        
+        let res = buildTableHTMLFromFiltered(F, computed, currentPage, COLS_PER_PAGE);
+        currentPage = res.page;
+        
+        if (res.totalFiltered === 0) {
+            SCAN_CACHE = null;
+            document.getElementById('info').classList.remove('active');
+            container.innerHTML = buildEmptyStateMsg(
+                `Filter <strong style="color:#4ade80;">${ALL_FILTERS_LABEL[F] || F}</strong> tidak menghasilkan key untuk kriteria ini.`
+            );
+            updateProgress(100, '⚠️ 0 Key Ditemukan', '⚠️ Tidak ada yang lolos', 'Kolom: 0 / ' + TOTAL_COLS);
+            return;
+        }
+        
+        updateProgress(80, '📊 Membangun tabel HTML...', '⏳ Render tabel...', 'Kolom: ' + res.totalFiltered + ' lolos');
+        await sleep(50);
+        
+        let filterStatus;
+        if (ACTIVE_MATI > 0) filterStatus = `🟢 Mode MATI (${ACTIVE_MATI}) → 🔴 ${ACTIVE_MERAH_AUTO} merah wajib, sisa hijau`;
+        else if (MIN_RED_FILTER) filterStatus = `🔴 MinMerah: ON (≥${MIN_RED_COUNT} baris)`;
+        else if (AUTO_FILTER) filterStatus = `🔍 AutoFilter: ON`;
+        else filterStatus = `🔍 AutoFilter: OFF`;
+        
+        let judul = `📋 ${pasarNama} | ${posisiNama} | ${F.toUpperCase()} | ${data.length} Hari (${ACTIVE_DIGIT_LEN} Digit)`;
+        let subInfo = `🧮 Ops: [${opsLabel}] | 🔴 MERAH = cocok | ${dedupStatus} | ${dedupValStatus} | ${dedupLastStatus} | Total mentah: ${TOTAL_COLS} | Kolom lolos: ${res.totalFiltered} | ${filterStatus}`;
+        
+        document.getElementById('info').innerHTML = `<div class="judul-tabel">${judul}</div><div class="sub-info">${subInfo}</div>`;
+        document.getElementById('info').classList.add('active');
+        
+        SCAN_CACHE = { mode: 'NORMAL', computed, F, pasarNama, posisiNama, data, opsLabel, dedupStatus, dedupValStatus, dedupLastStatus, filterStatus, TOTAL_COLS };
+        
+        container.innerHTML = `
+            <div class="scroll-container">
+                <div class="col-nav">
+                    <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
+                    <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
+                    <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
+                    <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
+                </div>
+                <div class="table-scroll">
+                    <table>${res.html}</table>
+                </div>
+                <div class="col-nav">
+                    <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
+                    <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
+                    <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
+                    <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function toggleCard(card, fk) {
+    if (!card) return;
+    let isOpen = card.classList.contains('open');
+    
+    if (isOpen) {
+        card.classList.remove('open');
+        let btn = card.querySelector('.fc-btn');
+        if (btn) btn.textContent = '📂 BUKA';
+        let placeholder = card.querySelector('.filter-card-placeholder');
+        if (placeholder) placeholder.style.display = 'block';
+        return;
+    }
+    
+    card.classList.add('open');
+    let btn = card.querySelector('.fc-btn');
+    if (btn) btn.textContent = '📁 TUTUP';
+    let placeholder = card.querySelector('.filter-card-placeholder');
+    if (placeholder) placeholder.style.display = 'none';
+    
+    if (card.dataset.rendered === 'true') return;
+    
+    let body = card.querySelector('.filter-card-body');
+    if (!body) return;
+    
+    body.innerHTML = '<div style="text-align:center; padding: 25px; color: #94a3b8; font-size:12px;">⏳ Merender tabel...</div>';
+    
+    setTimeout(() => {
+        if (!SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
+        let item = SCAN_CACHE.computedList.find(x => x.fk === fk);
+        if (!item) return;
+        
+        let res = buildTableHTMLFromFiltered(fk, item.computed, 0, MAX_COLS_ALL);
+        
+        body.innerHTML = `
+            <div class="col-nav">
+                <button onclick="cardPrevPage('${fk}')">◀ Prev</button>
+                <span class="info">Halaman 1 / ${res.totalPages}</span>
+                <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered} (max ${MAX_COLS_ALL}/hal)</span>
+                <button onclick="cardNextPage('${fk}')">Next ▶</button>
+            </div>
+            <div class="table-scroll">
+                <table>${res.html}</table>
+            </div>
+        `;
+        card.dataset.rendered = 'true';
+        card.dataset.currentPage = '0';
+    }, 30);
+}
+
+function cardPrevPage(fk) {
+    let card = document.querySelector(`.filter-card[data-fk="${fk}"]`);
+    if (!card) return;
+    let page = parseInt(card.dataset.currentPage || '0');
+    if (page > 0) cardRenderPage(fk, page - 1);
+}
+function cardNextPage(fk) {
+    let card = document.querySelector(`.filter-card[data-fk="${fk}"]`);
+    if (!card) return;
+    let page = parseInt(card.dataset.currentPage || '0');
+    cardRenderPage(fk, page + 1);
+}
+function cardRenderPage(fk, page) {
+    let card = document.querySelector(`.filter-card[data-fk="${fk}"]`);
+    if (!card || !SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
+    let item = SCAN_CACHE.computedList.find(x => x.fk === fk);
+    if (!item) return;
+    
+    let res = buildTableHTMLFromFiltered(fk, item.computed, page, MAX_COLS_ALL);
+    card.dataset.currentPage = res.page;
+    
+    let body = card.querySelector('.filter-card-body');
+    body.innerHTML = `
+        <div class="col-nav">
+            <button onclick="cardPrevPage('${fk}')" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
+            <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
+            <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered} (max ${MAX_COLS_ALL}/hal)</span>
+            <button onclick="cardNextPage('${fk}')" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
+        </div>
+        <div class="table-scroll">
+            <table>${res.html}</table>
+        </div>
+    `;
+}
+
+function openAllCards() {
+    document.querySelectorAll('.filter-card').forEach(card => {
+        if (!card.classList.contains('open')) {
+            let fk = card.dataset.fk;
+            toggleCard(card, fk);
+        }
+    });
+}
+function closeAllCards() {
+    document.querySelectorAll('.filter-card').forEach(card => {
+        if (card.classList.contains('open')) {
+            let fk = card.dataset.fk;
+            toggleCard(card, fk);
+        }
+    });
+}
+
+function prevPage() {
+    if (!SCAN_CACHE || SCAN_CACHE.mode !== 'NORMAL') return;
+    if (currentPage > 0) { currentPage--; doQuickRender(); }
+}
+function nextPage() {
+    if (!SCAN_CACHE || SCAN_CACHE.mode !== 'NORMAL') return;
+    currentPage++; doQuickRender();
+}
+
+function doQuickRender() {
+    if (!SCAN_CACHE || SCAN_CACHE.mode !== 'NORMAL') return;
+    let container = document.getElementById('tabelContainer');
+    let { computed, F } = SCAN_CACHE;
+    let res = buildTableHTMLFromFiltered(F, computed, currentPage, COLS_PER_PAGE);
+    currentPage = res.page;
+    
+    let dedupLastStatus = DEDUP_LAST ? `🎯 DedupLast: ON` : `🎯 DedupLast: OFF`;
+    let oldInfo = document.getElementById('info').innerHTML;
+    document.getElementById('info').innerHTML = oldInfo.replace(/🎯 DedupLast: (ON|OFF)/, dedupLastStatus);
+    
+    container.innerHTML = `
+        <div class="scroll-container">
+            <div class="col-nav">
+                <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
+                <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
+                <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
+                <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
+            </div>
+            <div class="table-scroll">
+                <table>${res.html}</table>
+            </div>
+            <div class="col-nav">
+                <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
+                <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
+                <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
+                <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
+            </div>
+        </div>
+    `;
+}
+
+updateOpChecks();
+updateMerahAuto();
+</script>
+</body>
+</html>
