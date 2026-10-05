@@ -1182,16 +1182,29 @@ function buildTableHTMLFromFiltered(filterKey, computed, page, maxCols) {
         parts.push(`<tr class="${rowClass}"><td>${baris}-${jml}</td>`);
         let cellExtraClass = isPrediksiRow ? ' baris-prediksi' : (isMatiRow ? ' baris-mati' : '');
         let renderCell = (valStr) => {
-            let cls = nextWarna();
-            let content = '';
-            for (let mi = 0; mi < maskLen; mi++) {
-                let digit = valStr[activeMask[mi]] || '';
-                let isCocok = tgt && tgt.includes(digit);
-                content += isCocok ? `<span class="d-merah">${digit}</span>` : digit;
-            }
-            if (isMatiRow) content += `<span class="d-x"> x</span>`;
-            return `<td class="${cls} multi-digit${cellExtraClass}">${content}</td>`;
-        };
+    let cls = nextWarna();
+    let content = '';
+    let adaYangMatch = false;
+    for (let mi = 0; mi < maskLen; mi++) {
+        let digit = valStr[activeMask[mi]] || '';
+        let isCocok = tgt && tgt.includes(digit);
+        if (isCocok) {
+            adaYangMatch = true;
+            content += `<span class="d-merah">${digit}</span>`;
+        } else {
+            content += digit;
+        }
+    }
+    // Tambah X kalau tidak ada digit yang match (dan bukan baris prediksi)
+    if (!adaYangMatch && tgt && tgt.length > 0) {
+        content += `<span class="d-x"> x</span>`;
+    }
+    // Kalau mode MATI, tetap tambah X untuk baris mati
+    if (isMatiRow) {
+        content += `<span class="d-x"> x</span>`;
+    }
+    return `<td class="${cls} multi-digit${cellExtraClass}">${content}</td>`;
+};
         for (let r of firstPage) parts.push(renderCell(r.values[i]));
         for (let r of comboPage) parts.push(renderCell(r.values[i]));
         parts.push('</tr>');
@@ -1533,14 +1546,23 @@ function hitungOperasiManual(a, b, op) {
     return reduceToSingleDigit(h);
 }
 
+// ============================================================
+// PERBAIKAN NYATA KHUSUS TOMBOL HITUNG MANUAL SAJA
+// ============================================================
 async function hitungManualTrigger() {
     const p = document.getElementById('pasarSelectManual').value;
-    await loadData(p);
+    
+    // Pastikan data pasaran aman dan ter-load
+    if (!D[p] || D[p].length === 0) {
+        await loadData(p);
+    }
+    
     let allData = D[p];
     if (!allData || allData.length === 0) {
-        alert('Data belum siap! Tunggu load selesai.');
+        alert('Data pasaran belum siap.');
         return;
     }
+    
     const posisi = document.getElementById('posisiSelectManual').value;
     const jmlTampil = parseInt(document.getElementById('tampilInputManual').value) || 10;
     const jmlDigit = parseInt(document.getElementById('digitInputManual').value) || 9;
@@ -1604,30 +1626,60 @@ async function hitungManualTrigger() {
         }
         detailBaris.push({ periodeData: baris, nilai: hasilAkhir, target: targetList, isLast: (i === totalAllRows - 1) });
     }
+    
+    // Panggil render manual dengan aman
     renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask);
 }
 
-
-function renderResultManual(detailBaris, headerKeyLabel, posisi) {
+function renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask) {
     let ra = document.getElementById('resultAreaManual');
-    let html = `<div class="table-scroll"><table><tr><th>Result</th><th>${headerKeyLabel}</th><th>${posisi.toUpperCase()} Off</th></tr>`;
+    if (!ra) return;
+    let html = `<div class="table-scroll"><table><tr><th>Result</th><th>Key</th><th>Off</th></tr>`;
     for (let row of detailBaris) {
-        let fN = '', offD = getAngkaHilang(row.nilai);
-        if (row.isLast) {
-            fN = `<span style="color:#fbbf24;font-weight:bold;">${row.nilai}</span>`;
-        } else {
-            let cArr = row.nilai.split(''), mk = false;
-            let dArr = cArr.map(c => { if(row.target.includes(c)){mk=true; return `<span class="d-merah">${c}</span>`;} return c; });
-            fN = (!mk && row.target.length>0) ? dArr.join('') + ' <span class="d-merah">X</span>' : dArr.join('');
-            if (mk && row.target.length>0) offD += ' <span class="d-merah">X</span>';
+        let digits = new Set();
+        for (let char of row.nilai) {
+            if (char >= '0' && char <= '9') digits.add(char);
         }
-        html += `<tr><td style="font-weight:bold;">${row.periodeData}</td><td style="letter-spacing:2px;">${fN}</td><td style="letter-spacing:2px;color:#34d399;">${offD}</td></tr>`;
+        let hilang = [];
+        for (let i = 0; i <= 9; i++) {
+            if (!digits.has(String(i))) hilang.push(i);
+        }
+        let offD = hilang.length === 0 ? '-' : (hilang.length === 10 ? '0' : hilang.join(''));
+
+        let keyDisplay = '';
+        if (row.isLast) {
+            keyDisplay = `<span style="color:#fbbf24;font-weight:bold;">${row.nilai}</span>`;
+        } else {
+            let cArr = row.nilai.split('');
+            let mk = false;
+            let dArr = cArr.map(c => {
+                if (row.target && row.target.includes(c)) {
+                    mk = true;
+                    return `<span class="d-merah">${c}</span>`;
+                }
+                return c;
+            });
+            keyDisplay = dArr.join('');
+            // X = MATI → muncul kalau TIDAK ada yang match
+            if (!mk) {
+                keyDisplay += ` <span style="color:#f87171;font-weight:bold;">x</span>`;
+            }
+        }
+        let offDisplay = `<span style="color:#fbbf24;font-weight:bold;">${offD}</span>`;
+        html += `<tr>
+            <td style="font-weight:bold;">${row.periodeData}</td>
+            <td style="letter-spacing:1px;font-size:13px;">${keyDisplay}</td>
+            <td style="letter-spacing:1px;font-size:13px;">${offDisplay}</td>
+        </tr>`;
     }
-    
     html += `</table></div>`;
     ra.innerHTML = html;
-    document.getElementById('statusBarManual').innerHTML = `✅ Kalkulasi manual selesai (${detailBaris.length} baris).`;
+    let st = document.getElementById('statusBarManual');
+    if (st) st.innerHTML = `✅ Kalkulasi manual selesai (${detailBaris.length} baris).`;
 }
+
+
+
 
 async function jalankanQuickPaste() {
     let rawInput = document.getElementById('quickPasteInput').value.trim().toLowerCase();
@@ -1949,7 +2001,13 @@ async function scanPrediksiCT() {
 updateOpChecks();
 updateMerahAuto();
 populateDropdownsManual();
-loadData('hk');
+
+// Load data awal dan pastikan dropdown manual siap
+loadData('hk').then(() => {
+    // Opsional: otomatis jalankan hitung pertama kali jika diinginkan, atau biarkan siap
+    console.log("Data siap digunakan.");
+});
+
 
   </script>
 </body>
