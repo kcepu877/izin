@@ -1591,14 +1591,14 @@ async function hitungManualTrigger() {
         }
         detailBaris.push({ periodeData: baris, nilai: hasilAkhir, target: targetList, isLast: (i === totalAllRows - 1) });
     }
-    renderResultManual(detailBaris, headerKeyLabel, posisi);
+    renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask);
 }
 
-function renderResultManual(detailBaris, headerKeyLabel, posisi) {
+function renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask) {
     let ra = document.getElementById('resultAreaManual');
     let html = `<div class="table-scroll"><table><tr><th>Result</th><th>${headerKeyLabel}</th><th>${posisi.toUpperCase()} Off</th></tr>`;
     for (let row of detailBaris) {
-        let fN = '', offD = getAngkaHilang(row.nilai);
+        let fN = '', offD = getAngkaHilang(row.nilai, activeMask);
         if (row.isLast) {
             fN = `<span style="color:#fbbf24;font-weight:bold;">${row.nilai}</span>`;
         } else {
