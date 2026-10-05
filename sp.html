@@ -1594,11 +1594,11 @@ async function hitungManualTrigger() {
     renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask);
 }
 
-function renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask) {
+function renderResultManual(detailBaris, headerKeyLabel, posisi) {
     let ra = document.getElementById('resultAreaManual');
     let html = `<div class="table-scroll"><table><tr><th>Result</th><th>${headerKeyLabel}</th><th>${posisi.toUpperCase()} Off</th></tr>`;
     for (let row of detailBaris) {
-        let fN = '', offD = getAngkaHilang(row.nilai, activeMask);
+        let fN = '', offD = getAngkaHilang(row.nilai);
         if (row.isLast) {
             fN = `<span style="color:#fbbf24;font-weight:bold;">${row.nilai}</span>`;
         } else {
@@ -1609,6 +1609,7 @@ function renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask) {
         }
         html += `<tr><td style="font-weight:bold;">${row.periodeData}</td><td style="letter-spacing:2px;">${fN}</td><td style="letter-spacing:2px;color:#34d399;">${offD}</td></tr>`;
     }
+    
     html += `</table></div>`;
     ra.innerHTML = html;
     document.getElementById('statusBarManual').innerHTML = `✅ Kalkulasi manual selesai (${detailBaris.length} baris).`;
