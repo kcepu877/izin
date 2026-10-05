@@ -1550,7 +1550,12 @@ async function hitungManualTrigger() {
     const k2 = document.getElementById('key2Select').value;
     const f2 = document.getElementById('filter2Select').value;
     const fFinal = document.getElementById('filterFinalSelect').value;
-    if (op && !k2) return alert("⚠️ Pilih operator tapi Key 2 kosong!");
+    
+    if (op && !k2) {
+        alert("⚠️️ Pilih operator tapi Key 2 kosong!");
+        return;
+    }
+    
     const activeMask = FIXED_MASKS[jmlDigit] || FIXED_MASKS[9];
     const bestMaskLabel = activeMask.map(idx => "ABCDEFGHIJ"[idx]).join('');
     let formulaPart = `${k1.toUpperCase()}${FILTER_LABEL_AUTO[f1]||''}`;
@@ -1559,12 +1564,19 @@ async function hitungManualTrigger() {
     const totalAllRows = allData.length;
     const startIndex = Math.max(0, totalAllRows - jmlTampil);
     let detailBaris = [];
-    const POSISI_MAP_LOCAL = { as:[0], cop:[1], kepala:[2], ekor:[3], '2ddepan':[0,1], '2dbelakang':[2,3], tengah:[1,2], tepi:[0,3], kombinasi:[0,1,2,3], 'jumlah2ddepan':[0,1], 'jumlah2dbelakang':[2,3], 'jumlahtengah':[1,2], 'jumlahtepi':[0,3], 'jumlahkombinasi':[0,1,2,3] };
+    
+    const POSISI_MAP_LOCAL = { 
+        as:[0], cop:[1], kepala:[2], ekor:[3], 
+        '2ddepan':[0,1], '2dbelakang':[2,3], tengah:[1,2], tepi:[0,3], kombinasi:[0,1,2,3], 
+        'jumlah2ddepan':[0,1], 'jumlah2dbelakang':[2,3], 'jumlahtengah':[1,2], 'jumlahtepi':[0,3], 'jumlahkombinasi':[0,1,2,3] 
+    };
+
     for (let i = startIndex; i < totalAllRows; i++) {
         let baris = allData[i];
         let nextResult = (i + 1 < totalAllRows) ? allData[i + 1] : null;
         let hasilAkhir = '';
         let mapTarget = MAP10[fFinal] || MAP10['rumus'];
+        
         if (op && k2) {
             let v1 = hitungNilaiKeyManual(k1, f1, allData, i);
             let v2 = hitungNilaiKeyManual(k2, f2, allData, i);
@@ -1576,6 +1588,7 @@ async function hitungManualTrigger() {
             let hasilMentah = mapTarget[v1] || MAP10['rumus']['0'];
             hasilAkhir = getDynamicDigitsByMask(hasilMentah, activeMask);
         }
+        
         let targetList = [];
         if (nextResult) {
             let indList = POSISI_MAP_LOCAL[posisi] || [];
@@ -1593,6 +1606,7 @@ async function hitungManualTrigger() {
     }
     renderResultManual(detailBaris, headerKeyLabel, posisi, activeMask);
 }
+
 
 function renderResultManual(detailBaris, headerKeyLabel, posisi) {
     let ra = document.getElementById('resultAreaManual');
