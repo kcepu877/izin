@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FULL KOMBINASI A1-JD9 (+ - ×) - v8.8 DEDUP LAST TOGGLE</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10 Digit Suite - Ultimate Togel Analytics</title>
+  <style>
+    ... CSS dari Tahap 1 ...
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
     font-family: 'Courier New', monospace;
     background: #121417;
@@ -16,47 +17,61 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+/* ==================== HEADER ==================== */
 .app-header { width: 100%; max-width: 1400px; margin-bottom: 16px; }
 .header-content {
-    background: #1a1d24;
-    border: 1px solid #2a3241;
-    border-radius: 8px;
-    padding: 16px 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+    background: #1a1d24; border: 1px solid #2a3241; border-radius: 8px;
+    padding: 16px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
 }
 .header-left { display: flex; align-items: center; gap: 12px; }
 .header-logo { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; color: #4ade80; }
 .header-logo span { color: #86efac; }
-.header-sub { font-size: 11px; color: #64748b; font-weight: 400; }
+.header-sub { font-size: 11px; color: #64748b; }
 .header-right { display: flex; align-items: center; gap: 12px; font-size: 11px; flex-wrap: wrap; }
 .header-badge { background: #121417; color: #34d399; padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; border: 1px solid #2a3241; }
-.header-clock { color: #34d399; font-size: 11px; background: #121417; padding: 4px 10px; border-radius: 4px; border: 1px solid #2a3241; font-weight: 400; }
+.header-clock { color: #34d399; font-size: 11px; background: #121417; padding: 4px 10px; border-radius: 4px; border: 1px solid #2a3241; }
 
+/* ==================== MAIN ==================== */
 .main-content {
-    width: 100%;
-    max-width: 1400px;
-    background: #1a1d24;
-    border: 1px solid #2a3241;
-    border-radius: 8px;
-    padding: 16px 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    flex: 1;
+    width: 100%; max-width: 1400px; background: #1a1d24;
+    border: 1px solid #2a3241; border-radius: 8px; padding: 16px 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3); flex: 1;
 }
 .main-content h2 { color: #4ade80; font-size: 16px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #2a3241; font-weight: 700; }
 
+/* ==================== TAB NAVIGATION ==================== */
+.tab-nav {
+    display: flex; gap: 8px; margin-bottom: 16px;
+    background: #1e222b; padding: 8px; border-radius: 8px;
+    border: 1px solid #2e3646; flex-wrap: wrap;
+}
+.tab-btn {
+    background: #161920; border: 1px solid #334155; color: #86efac;
+    padding: 8px 16px; border-radius: 6px; cursor: pointer;
+    font-family: 'Courier New', monospace; font-weight: 700; font-size: 12px;
+    display: flex; align-items: center; gap: 5px;
+    transition: all 0.25s ease; flex: 1; justify-content: center; min-width: 120px;
+}
+.tab-btn:hover { background: #1e222b; border-color: #4ade80; color: #4ade80; }
+.tab-btn.active { background: #4ade80; color: #121417; border-color: #4ade80; box-shadow: 0 0 12px rgba(74,222,128,0.35); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ==================== SETTING PANEL ==================== */
 .setting-panel { background: #1e222b; border: 1px solid #2e3646; border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; overflow: hidden; }
-.setting-title { font-size: 12px; font-weight: 700; color: #86efac; margin-bottom: 12px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid #2e3646; }
+.setting-title {
+    font-size: 12px; font-weight: 700; color: #86efac; margin-bottom: 12px;
+    letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
+    padding-bottom: 6px; border-bottom: 1px solid #2e3646;
+}
 .setting-title::before { content: ''; width: 3px; height: 12px; background: #4ade80; border-radius: 2px; }
-.setting-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 10px 12px !important; width: 100% !important; align-items: stretch !important; box-sizing: border-box !important; }
+.setting-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 10px 12px !important; width: 100% !important; box-sizing: border-box !important; }
 @media (max-width: 800px) { .setting-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px 8px !important; } }
 .setting-item { display: flex; flex-direction: column; gap: 3px; min-width: 0; width: 100%; box-sizing: border-box; }
 .setting-item label { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
-.setting-item select, .setting-item input[type="number"], .setting-item input[type="text"] {
+.setting-item select, .setting-item input[type="number"], .setting-item input[type="text"], .setting-item textarea {
     padding: 6px 10px; border: 1px solid #334155; border-radius: 4px;
     font-size: 12px; font-weight: 600; color: #4ade80; background: #161920;
     cursor: pointer; transition: all 0.15s ease; outline: none;
@@ -64,13 +79,16 @@ body {
     text-overflow: ellipsis; height: 32px; line-height: 1.2;
     font-family: 'Courier New', monospace;
 }
+.setting-item textarea { height: auto; min-height: 60px; cursor: text; padding: 8px 10px; }
 .setting-item input[type="number"] { -moz-appearance: textfield; appearance: textfield; cursor: text; text-align: center; }
 .setting-item input[type="number"]::-webkit-outer-spin-button, .setting-item input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .setting-item input[type="text"] { cursor: text; }
 .setting-item input.readonly-input { background: #121417; color: #f87171; cursor: not-allowed; font-weight: 700; }
-.setting-item select:hover, .setting-item input[type="number"]:hover:not(.readonly-input), .setting-item input[type="text"]:hover { border-color: #4ade80; }
-.setting-item select:focus, .setting-item input[type="number"]:focus, .setting-item input[type="text"]:focus { border-color: #4ade80; box-shadow: 0 0 0 2px rgba(74,222,128,0.15); }
+.setting-item select:hover, .setting-item input[type="number"]:hover:not(.readonly-input), .setting-item input[type="text"]:hover, .setting-item textarea:hover { border-color: #4ade80; }
+.setting-item select:focus, .setting-item input[type="number"]:focus, .setting-item input[type="text"]:focus, .setting-item textarea:focus { border-color: #4ade80; box-shadow: 0 0 0 2px rgba(74,222,128,0.15); }
 .setting-item.full-row { grid-column: 1 / -1; }
+
+/* ==================== OP CHECKS ==================== */
 .op-checks { display: flex; gap: 8px; align-items: center; padding: 2px 0; flex-wrap: wrap; width: 100%; box-sizing: border-box; }
 .op-checks label {
     display: inline-flex; align-items: center; justify-content: center; gap: 5px;
@@ -82,12 +100,12 @@ body {
 }
 .op-checks label:hover { border-color: #4ade80; background: #1e222b; color: #4ade80; }
 .op-checks input[type="checkbox"] { margin: 0; cursor: pointer; width: 13px; height: 13px; accent-color: #4ade80; }
-.op-checks input:checked + span { color: #121417; }
 .op-checks label.checked-plus { background: #15803d; color: #fff; border-color: #15803d; }
 .op-checks label.checked-minus { background: #b91c1c; color: #fff; border-color: #b91c1c; }
 .op-checks label.checked-times { background: #c2410c; color: #fff; border-color: #c2410c; }
 
-.scan-wrapper { display: flex; justify-content: center; margin: 16px 0 10px 0; }
+/* ==================== SCAN BUTTON ==================== */
+.scan-wrapper { display: flex; justify-content: center; margin: 16px 0 10px 0; gap: 10px; }
 .scan-btn {
     padding: 12px 50px; background: #d97706; border: 1px solid #d97706; color: #fff;
     border-radius: 4px; font-size: 14px; font-weight: 700; letter-spacing: 1px;
@@ -98,6 +116,7 @@ body {
 .scan-btn:disabled { background: #334155; border-color: #334155; color: #64748b; cursor: not-allowed; opacity: 0.7; }
 .scan-btn .icon { margin-right: 6px; font-size: 15px; }
 
+/* ==================== LOADING ==================== */
 .loading-panel { background: #1e222b; border: 1px solid #2e3646; border-radius: 6px; padding: 16px 20px; margin-bottom: 14px; display: none; }
 .loading-panel.active { display: block; }
 .loading-status { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #cbd5e1; }
@@ -106,50 +125,45 @@ body {
 .loading-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 3px; transition: width 0.1s; width: 0%; }
 .loading-detail { margin-top: 6px; font-size: 10px; color: #94a3b8; font-weight: 500; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
 
+/* ==================== INFO ==================== */
 #info { background: #1e222b; padding: 10px 14px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #4ade80; font-size: 12px; color: #cbd5e1; display: none; }
 #info.active { display: block; }
 #info .judul-tabel { font-size: 13px; font-weight: 700; color: #4ade80; margin-bottom: 3px; }
 #info .sub-info { font-size: 11px; font-weight: 400; color: #94a3b8; }
 
+/* ==================== EMPTY STATE ==================== */
 .empty-state { background: #1e222b; border-radius: 6px; padding: 40px 20px; text-align: center; border: 1px dashed #334155; color: #94a3b8; }
 .empty-state .icon { font-size: 45px; margin-bottom: 12px; opacity: 0.6; }
 .empty-state .title { font-size: 16px; font-weight: 700; color: #fbbf24; margin-bottom: 8px; }
 .empty-state .sub { font-size: 12px; color: #94a3b8; line-height: 1.6; }
 .empty-state .sub strong { color: #4ade80; }
 
+/* ==================== TABLE ==================== */
 .scroll-container { position: relative; border-radius: 6px; background: #1e222b; border: 1px solid #2e3646; overflow: hidden; margin-bottom: 16px; }
 .table-scroll { overflow-x: auto; overflow-y: visible; position: relative; }
-
 table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: 'Courier New', monospace; background: #14171f; }
 table th { background: #1e2533; color: #7dd3fc; padding: 6px 6px; text-align: center; border: 1px solid #262f3f; white-space: nowrap; font-weight: 600; font-size: 10px; position: sticky; top: 0; z-index: 10; }
 table td { padding: 4px 6px; border: 1px solid #1a202c; white-space: nowrap; color: #cbd5e1; text-align: center; font-size: 11px; letter-spacing: 0.5px; }
-
 td:nth-child(1) { background: #161b24; color: #86efac; font-weight: 600; text-align: center; border-right: 2px solid #2e3646 !important; position: sticky; left: 0; z-index: 5; min-width: 90px; }
 th:nth-child(1) { background: #1e293b; color: #86efac; border-right: 2px solid #2e3646 !important; }
-
 table tr:nth-child(even) td:not(:nth-child(1)) { background: #161b24; }
-
 td.multi-digit { padding: 4px 6px !important; letter-spacing: 1px; font-family: 'Courier New', monospace; font-weight: 600; color: #cbd5e1; }
 td.multi-digit .d-merah, td .d-merah { color: #f87171 !important; font-weight: 700 !important; text-shadow: 0 0 5px rgba(248,113,113,0.4); background: transparent !important; padding: 0 1px; display: inline-block; }
 td.multi-digit .d-x, td .d-x { color: #f87171 !important; font-weight: 700 !important; text-shadow: 0 0 5px rgba(248,113,113,0.4); margin-left: 3px; display: inline-block; }
-
 td.baris-mati { background: #121417 !important; color: #475569 !important; opacity: 0.7; }
 td.baris-mati .d-merah { color: #991b1b !important; text-shadow: none; opacity: 0.8; }
 td.baris-mati .d-x { color: #f87171 !important; opacity: 0.9; }
-
-/* ⭐ Baris prediksi menyatu mulus persis seperti baris biasa (tanpa ungu, tanpa border-top) */
 td.baris-prediksi { background: inherit !important; color: #cbd5e1 !important; font-weight: 600 !important; border-top: none !important; text-shadow: none !important; }
 td.baris-prediksi .d-merah { color: #f87171 !important; font-weight: 700 !important; text-shadow: 0 0 5px rgba(248,113,113,0.4); }
 tr.baris-prediksi-row td:nth-child(1) { background: #161b24 !important; color: #86efac !important; font-weight: 600 !important; border-top: none !important; }
-
 tr.baris-status-row td { background: #1b2e23 !important; color: #86efac !important; font-weight: 700 !important; border-top: 2px solid #34d399 !important; letter-spacing: 1px; }
 tr.baris-status-row td:nth-child(1) { background: #16281e !important; color: #86efac !important; font-weight: 700 !important; border-top: 2px solid #34d399 !important; font-size: 11px; border-right: 2px solid #2e3646 !important; }
-
 .gelap { background: #14171f !important; }
 .cerah { background: #181d28 !important; }
 th.gelap { background: #1e293b !important; color: #86efac !important; }
 th.cerah { background: #202b3d !important; color: #94a3b8 !important; }
 
+/* ==================== COL NAV ==================== */
 .col-nav { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 10px 16px; background: #1e222b; border-bottom: 1px solid #2e3646; flex-wrap: wrap; }
 .col-nav button { padding: 5px 12px; background: #d97706; color: #fff; border: 1px solid #d97706; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; font-family: 'Courier New', monospace; transition: all 0.15s ease; }
 .col-nav button:hover:not(:disabled) { background: #b45309; }
@@ -161,6 +175,7 @@ th .op-plus { color: #4ade80; }
 th .op-minus { color: #f87171; }
 th .op-times { color: #fbbf24; }
 
+/* ==================== ALL FILTER MODE ==================== */
 .all-filter-wrapper { display: flex; flex-direction: column; gap: 12px; }
 .all-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; background: #1e222b; border-radius: 6px; padding: 10px 16px; border: 1px solid #2e3646; }
 .all-toolbar .tb-info { font-size: 12px; font-weight: 600; color: #94a3b8; }
@@ -170,7 +185,6 @@ th .op-times { color: #fbbf24; }
 .all-toolbar .btn-open-all:hover { background: #166534; }
 .all-toolbar .btn-close-all { background: #b91c1c; color: #fff; border-color: #b91c1c; }
 .all-toolbar .btn-close-all:hover { background: #991b1b; }
-
 .filter-card { border-radius: 6px; overflow: hidden; border: 1px solid #262f3f; background: #1e222b; transition: box-shadow 0.2s ease; }
 .filter-card:hover { box-shadow: 0 0 10px rgba(74,222,128,0.1); }
 .filter-card-header { padding: 10px 16px; color: #121417; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; cursor: pointer; user-select: none; transition: filter 0.15s ease; }
@@ -187,7 +201,6 @@ th .op-times { color: #fbbf24; }
 .filter-card-placeholder { padding: 30px 20px; text-align: center; color: #94a3b8; font-size: 12px; background: #14171f; border-top: 1px solid #1a202c; }
 .filter-card-placeholder .ph-icon { font-size: 30px; margin-bottom: 6px; opacity: 0.5; }
 .filter-card-placeholder .ph-text { margin-top: 3px; font-size: 11px; opacity: 0.6; color: #64748b; }
-
 .fh-rumus   { background: #4ade80; color: #121417; }
 .fh-index   { background: #38bdf8; color: #121417; }
 .fh-mlama   { background: #94a3b8; color: #121417; }
@@ -201,197 +214,476 @@ th .op-times { color: #fbbf24; }
 .fh-M8      { background: #22d3ee; color: #121417; }
 .fh-M9      { background: #64748b; color: #fff; }
 
+/* ==================== COPY KEY BUTTON ==================== */
+.copy-key-btn {
+    background: #15803d; color: #fff; border: 1px solid #15803d;
+    border-radius: 3px; padding: 2px 6px; font-size: 9px; font-weight: 700;
+    cursor: pointer; font-family: 'Courier New', monospace;
+    margin-top: 3px; transition: all 0.15s ease; white-space: nowrap;
+}
+.copy-key-btn:hover { background: #166534; }
+.copy-key-btn:active { transform: scale(0.95); }
+.copy-key-btn.copied { background: #0891b2; border-color: #0891b2; }
+
+/* ==================== STATUS BAR ==================== */
+.status-bar {
+    background: #1e222b; padding: 10px 15px; border-radius: 5px;
+    margin: 10px 0; border-left: 3px solid #4ade80;
+    font-size: 13px; color: #86efac;
+}
+.status-bar.warning { border-left-color: #fbbf24; color: #fbbf24; }
+
+/* ==================== RACIK INFO BADGES ==================== */
+.racik-info-box {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px; margin-top: 10px; width: 100%;
+}
+.racik-badge {
+    background: #121417; border: 1px solid #2a4a2a; border-radius: 4px;
+    padding: 6px 10px; font-size: 11px; color: #86efac;
+    font-family: 'Courier New', monospace;
+    display: flex; justify-content: space-between; align-items: center;
+    box-sizing: border-box;
+}
+.racik-badge span { color: #4ade80; font-weight: bold; word-break: break-all; text-align: right; margin-left: 5px; }
+
+/* ==================== FOOTER ==================== */
 .app-footer { width: 100%; max-width: 1400px; margin-top: 16px; padding: 12px 20px; background: #1a1d24; border: 1px solid #2a3241; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11px; color: #64748b; }
 .footer-content { width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .footer-left { display: flex; align-items: center; gap: 15px; }
 .footer-right { display: flex; align-items: center; gap: 15px; opacity: 0.8; }
 .footer-divider { opacity: 0.3; }
 .footer-version { background: #121417; padding: 2px 10px; border-radius: 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; color: #34d399; border: 1px solid #2a3241; }
-</style>
+  </style>
 </head>
 <body>
-<header class="app-header">
+  <header class="app-header">
     <div class="header-content">
         <div class="header-left">
             <div class="header-logo">🎯 <span>TOGEL</span> ANALYSIS</div>
-            <div class="header-sub">Full Kombinasi A1-JD9 (+ - ×) - v8.8 DEDUP LAST TOGGLE</div>
+            <div class="header-sub">Full Kombinasi A1-JD9 (+ - ×) - v10.0 Full Standalone</div>
         </div>
         <div class="header-right">
-            <span class="header-badge">📊 LIVE DATA</span>
+            <span class="header-badge">⚡ STANDALONE</span>
             <span class="header-clock" id="headerClock">⏰ Loading...</span>
         </div>
     </div>
 </header>
-<main class="main-content">
-<h2>📊 FULL KOMBINASI A1 – JD9 (+ - ×)</h2>
 
-<div class="setting-panel">
-    <div class="setting-title">⚙️ PENGATURAN SCAN</div>
-    <div class="setting-grid">
-        <div class="setting-item">
-            <label>🏷️ Pasar</label>
-            <select id="selPasar">
-                <option value="hk">🇭🇰 HK</option>
-                <option value="sdny">🇸🇬 SDY</option>
-                <option value="sgp">🇸🇬 SGP</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>⚙️ Mask Digit</label>
-            <select id="selMask">
-                <option value="1">1 Digit</option>
-                <option value="2">2 Digit</option>
-                <option value="3" selected>3 Digit</option>
-                <option value="4">4 Digit</option>
-                <option value="5">5 Digit</option>
-                <option value="6">6 Digit</option>
-                <option value="7">7 Digit</option>
-                <option value="8">8 Digit</option>
-                <option value="9">9 Digit</option>
-                
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>📜 Tampil (Hari)</label>
-            <input type="number" id="inpRow" min="3" max="500" value="9" placeholder="9" oninput="updateMerahAuto()">
-        </div>
-        <div class="setting-item">
-            <label>❌ Mati (0=OFF)</label>
-            <input type="number" id="inpMati" min="0" max="500" value="0" placeholder="0" oninput="updateMerahAuto()">
-        </div>
-        <div class="setting-item">
-            <label>Masuk (auto)</label>
-            <input type="text" id="inpMerahAuto" class="readonly-input" readonly value="—" placeholder="—">
-        </div>
-        <div class="setting-item">
-            <label>🔄 Filter</label>
-            <select id="selFilter">
-            <option value="ALL" selected>ALL (12 Tabel)</option>
-                <option value="rumus">RUMUS</option>
-                <option value="index">INDEX</option>
-                <option value="mlama">MISTIK LAMA</option>
-                <option value="mbaru">MISTIK BARU</option>
-                <option value="taysen">TAYSEN</option>
-                <option value="M0">M0</option>
-                <option value="M1">M1</option>
-                <option value="M3">M3</option>
-                <option value="M5">M5</option>
-                <option value="M7">M7</option>
-                <option value="M8">M8</option>
-                <option value="M9">M9</option>
-                
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>🎯 Posisi</label>
-            <select id="selPosisi">
-                <option value="as">AS</option>
-                <option value="cop">COP</option>
-                <option value="kepala" selected>KEPALA</option>
-                <option value="ekor">EKOR</option>
-                <option value="2ddepan">2D DEPAN</option>
-                <option value="2dbelakang">2D BELAKANG</option>
-                <option value="tengah">TENGAH</option>
-                <option value="tepi">TEPI</option>
-                <option value="kombinasi">KOMBINASI</option>
-                <option value="jumlah2ddepan">+ 2D DEPAN</option>
-                <option value="jumlah2dbelakang">+ 2D BELAKANG</option>
-                <option value="jumlahtengah">+ TENGAH</option>
-                <option value="jumlahtepi">+ TEPI</option>
-                <option value="jumlahkombinasi">+ KOMBINASI</option>
-                <option value="bbfs4d">BBFS 4D</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>✅ Min Masuk (0=OFF)</label>
-            <input type="number" id="inpMinRed" min="0" max="100" value="6" placeholder="6">
-        </div>
-        <div class="setting-item">
-            <label>🔍 Auto Filter</label>
-            <select id="selAutoFilter">
-                <option value="on" selected>ON</option>
-                <option value="off">OFF</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>🔁 Dedup Key</label>
-            <select id="selDedupKey">
-                <option value="on" selected>ON</option>
-                <option value="off">OFF</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>🔀 Dedup Value</label>
-            <select id="selDedupValue">
-                <option value="off">OFF</option>
-                <option value="on" selected>ON</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label>🎯 Dedup Result Akhir</label>
-            <select id="selDedupLast">
-                <option value="on" selected>ON (tampil 1 per key akhir)</option>
-                <option value="off">OFF (tampil semua)</option>
-            </select>
-        </div>
-        <div class="setting-item full-row">
-            <label>🧮 Operator (kosong = single only)</label>
-            <div class="op-checks">
-                <label id="lblOpPlus"><input type="checkbox" id="chkOpPlus"> <span>+</span></label>
-                <label id="lblOpMinus"><input type="checkbox" id="chkOpMinus"> <span>−</span></label>
-                <label id="lblOpTimes"><input type="checkbox" id="chkOpTimes"> <span>×</span></label>
+<main class="main-content">
+<h2>📊 FULL KOMBINASI A1 – JD9 (+ - ×) - v10.0</h2>
+
+<!-- Tab Navigation -->
+<div class="tab-nav">
+    <button class="tab-btn active" data-tab="tabAuto" onclick="switchTab('tabAuto')">🚀 Auto Scanner</button>
+    <button class="tab-btn" data-tab="tabManual" onclick="switchTab('tabManual')">🧮 Manual</button>
+    <button class="tab-btn" data-tab="tabRacik" onclick="switchTab('tabRacik')">🧩 Racik Angka</button>
+    <button class="tab-btn" data-tab="tabCT" onclick="switchTab('tabCT')">📊 CT Scanner</button>
+</div>
+
+<!-- ==================== TAB 1: AUTO SCANNER ==================== -->
+<div id="tabAuto" class="tab-content active">
+
+    <div class="status-bar" id="statusBarAuto">⚡ Siap scan. Data akan di-fetch dari GitHub.</div>
+
+    <div class="setting-panel">
+        <div class="setting-title">⚙️ PENGATURAN SCAN</div>
+        <div class="setting-grid">
+            <div class="setting-item">
+                <label>🏷️ Pasar</label>
+                <select id="selPasar">
+                    <option value="hk">🇭🇰 HK</option>
+                    <option value="sdny">🇸🇬 SDY</option>
+                    <option value="sgp">🇸🇬 SGP</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>⚙️ Mask Digit</label>
+                <select id="selMask">
+                    <option value="1">1 Digit</option>
+                    <option value="2">2 Digit</option>
+                    <option value="3" selected>3 Digit</option>
+                    <option value="4">4 Digit</option>
+                    <option value="5">5 Digit</option>
+                    <option value="6">6 Digit</option>
+                    <option value="7">7 Digit</option>
+                    <option value="8">8 Digit</option>
+                    <option value="9">9 Digit</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>📜 Tampil (Hari)</label>
+                <input type="number" id="inpRow" min="3" max="500" value="9" oninput="updateMerahAuto()">
+            </div>
+            <div class="setting-item">
+                <label>❌ Mati (0=OFF)</label>
+                <input type="number" id="inpMati" min="0" max="500" value="0" oninput="updateMerahAuto()">
+            </div>
+            <div class="setting-item">
+                <label>Masuk (auto)</label>
+                <input type="text" id="inpMerahAuto" class="readonly-input" readonly value="—">
+            </div>
+            <div class="setting-item">
+                <label>🔄 Filter</label>
+                <select id="selFilter">
+                    <option value="ALL" selected>ALL (12 Tabel)</option>
+                    <option value="rumus">RUMUS</option>
+                    <option value="index">INDEX</option>
+                    <option value="mlama">MISTIK LAMA</option>
+                    <option value="mbaru">MISTIK BARU</option>
+                    <option value="taysen">TAYSEN</option>
+                    <option value="M0">M0</option>
+                    <option value="M1">M1</option>
+                    <option value="M3">M3</option>
+                    <option value="M5">M5</option>
+                    <option value="M7">M7</option>
+                    <option value="M8">M8</option>
+                    <option value="M9">M9</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🎯 Posisi</label>
+                <select id="selPosisi">
+                    <option value="as">AS</option>
+                    <option value="cop">COP</option>
+                    <option value="kepala" selected>KEPALA</option>
+                    <option value="ekor">EKOR</option>
+                    <option value="2ddepan">2D DEPAN</option>
+                    <option value="2dbelakang">2D BELAKANG</option>
+                    <option value="tengah">TENGAH</option>
+                    <option value="tepi">TEPI</option>
+                    <option value="kombinasi">KOMBINASI</option>
+                    <option value="jumlah2ddepan">+ 2D DEPAN</option>
+                    <option value="jumlah2dbelakang">+ 2D BELAKANG</option>
+                    <option value="jumlahtengah">+ TENGAH</option>
+                    <option value="jumlahtepi">+ TEPI</option>
+                    <option value="jumlahkombinasi">+ KOMBINASI</option>
+                    <option value="bbfs4d">BBFS 4D</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>✅ Min Masuk (0=OFF)</label>
+                <input type="number" id="inpMinRed" min="0" max="100" value="6">
+            </div>
+            <div class="setting-item">
+                <label>🔍 Auto Filter</label>
+                <select id="selAutoFilter">
+                    <option value="on" selected>ON</option>
+                    <option value="off">OFF</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🔁 Dedup Key</label>
+                <select id="selDedupKey">
+                    <option value="on" selected>ON</option>
+                    <option value="off">OFF</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🔀 Dedup Value</label>
+                <select id="selDedupValue">
+                    <option value="off">OFF</option>
+                    <option value="on" selected>ON</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🎯 Dedup Result Akhir</label>
+                <select id="selDedupLast">
+                    <option value="on" selected>ON (tampil 1 per key akhir)</option>
+                    <option value="off">OFF (tampil semua)</option>
+                </select>
+            </div>
+            <div class="setting-item full-row">
+                <label>🧮 Operator (kosong = single only)</label>
+                <div class="op-checks">
+                    <label id="lblOpPlus"><input type="checkbox" id="chkOpPlus"> <span>+</span></label>
+                    <label id="lblOpMinus"><input type="checkbox" id="chkOpMinus"> <span>−</span></label>
+                    <label id="lblOpTimes"><input type="checkbox" id="chkOpTimes"> <span>×</span></label>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="scan-wrapper">
+        <button class="scan-btn" id="btnScan" onclick="doScan()">
+            <span class="icon">🚀</span>SCAN NOW
+        </button>
+    </div>
+
+    <div class="loading-panel" id="loadingPanel">
+        <div class="loading-status">
+            <span id="loadingText">🔄 Memproses data...</span>
+            <span class="loading-percent" id="loadingPercent">0%</span>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-bar-fill" id="loadingBarFill"></div>
+        </div>
+        <div class="loading-detail">
+            <span id="loadingDetailLeft">⏳ Menyiapkan...</span>
+            <span id="loadingDetailRight">Kolom: 0 / 0</span>
+        </div>
+    </div>
+
+    <div id="info"></div>
+
+    <div id="tabelContainer">
+        <div class="empty-state">
+            <div class="icon">🎯</div>
+            <div class="title" style="color: #4ade80;">Siap Scan!</div>
+            <div class="sub">Atur pengaturan di atas, lalu klik tombol <strong>🚀 SCAN NOW</strong>.<br><strong>⚡ Full client-side — jalan tanpa server!</strong></div>
+        </div>
+    </div>
 </div>
 
-<div class="scan-wrapper">
-    <button class="scan-btn" id="btnScan" onclick="doScan()">
-        <span class="icon">🚀</span>SCAN NOW
-    </button>
+<!-- ==================== TAB 2: MANUAL CALCULATOR ==================== -->
+<div id="tabManual" class="tab-content">
+    <div class="status-bar" id="statusBarManual">🧮 Kalkulator Manual Siap.</div>
+
+    <div class="setting-panel">
+        <div class="setting-title">🚀 QUICK PASTE</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input type="text" id="quickPasteInput" placeholder="cth: hk_kepala_jtampil-80_jdigit-9_a1ty+jd9m0=mla" style="flex:1;min-width:200px;">
+            <button class="scan-btn" style="padding:8px 20px;font-size:12px;" onclick="jalankanQuickPaste()">LOAD</button>
+        </div>
+    </div>
+
+    <div class="setting-panel">
+        <div class="setting-title">⚙️ PENGATURAN MANUAL</div>
+        <div class="setting-grid">
+            <div class="setting-item">
+                <label>🏪 Pasaran</label>
+                <select id="pasarSelectManual" onchange="changeGlobalPasar(this.value)">
+                    <option value="hk" selected>HK</option>
+                    <option value="sgp">SGP</option>
+                    <option value="sdny">SDNY</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>📌 Posisi</label>
+                <select id="posisiSelectManual">
+                    <option value="as">AS</option>
+                    <option value="cop">COP</option>
+                    <option value="kepala" selected>KEPALA</option>
+                    <option value="ekor">EKOR</option>
+                    <option value="2ddepan">2D DP</option>
+                    <option value="2dbelakang">2D BL</option>
+                    <option value="tengah">TENGAH</option>
+                    <option value="tepi">TEPI</option>
+                    <option value="kombinasi">KOMB</option>
+                    <option value="jumlah2ddepan">JML DP</option>
+                    <option value="jumlah2dbelakang">JML BL</option>
+                    <option value="jumlahtengah">JML TG</option>
+                    <option value="jumlahtepi">JML TP</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>📊 Tampil</label>
+                <input type="number" id="tampilInputManual" value="10" min="5" max="200">
+            </div>
+            <div class="setting-item">
+                <label>🔢 Digit</label>
+                <input type="number" id="digitInputManual" value="9" min="1" max="10">
+            </div>
+            <div class="setting-item">
+                <label>🔑 Key 1</label>
+                <select id="key1Select"></select>
+            </div>
+            <div class="setting-item">
+                <label>⚙️ Filter 1</label>
+                <select id="filter1Select">
+                    <option value="none">Tanpa Filter</option>
+                    <option value="index">Index</option>
+                    <option value="mlama">M.Lama</option>
+                    <option value="mbaru">M.Baru</option>
+                    <option value="taysen">Taysen</option>
+                    <option value="M0">M0</option>
+                    <option value="M1">M1</option>
+                    <option value="M3">M3</option>
+                    <option value="M5">M5</option>
+                    <option value="M7">M7</option>
+                    <option value="M8">M8</option>
+                    <option value="M9">M9</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>➕ Op</label>
+                <select id="opSelect">
+                    <option value="">(Tanpa OP)</option>
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="×">×</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🔑 Key 2</label>
+                <select id="key2Select"></select>
+            </div>
+            <div class="setting-item">
+                <label>⚙️ Filter 2</label>
+                <select id="filter2Select">
+                    <option value="none">Tanpa Filter</option>
+                    <option value="index">Index</option>
+                    <option value="mlama">M.Lama</option>
+                    <option value="mbaru">M.Baru</option>
+                    <option value="taysen">Taysen</option>
+                    <option value="M0">M0</option>
+                    <option value="M1">M1</option>
+                    <option value="M3">M3</option>
+                    <option value="M5">M5</option>
+                    <option value="M7">M7</option>
+                    <option value="M8">M8</option>
+                    <option value="M9">M9</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🎯 Filter Akhir</label>
+                <select id="filterFinalSelect">
+                    <option value="rumus" selected>Rumus</option>
+                    <option value="index">Index</option>
+                    <option value="mlama">M.Lama</option>
+                    <option value="mbaru">M.Baru</option>
+                    <option value="taysen">Taysen</option>
+                    <option value="M0">M0</option>
+                    <option value="M1">M1</option>
+                    <option value="M3">M3</option>
+                    <option value="M5">M5</option>
+                    <option value="M7">M7</option>
+                    <option value="M8">M8</option>
+                    <option value="M9">M9</option>
+                </select>
+            </div>
+            <div class="setting-item full-row">
+                <button class="scan-btn" style="width:100%;" onclick="hitungManualTrigger()">🧮 HITUNG MANUAL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultAreaManual">
+        <div class="empty-state">
+            <div class="icon">🧮</div>
+            <div class="title">Manual Calculator</div>
+            <div class="sub">Atur formula, lalu klik <strong>HITUNG MANUAL</strong>.</div>
+        </div>
+    </div>
 </div>
 
-<div class="loading-panel" id="loadingPanel">
-    <div class="loading-status">
-        <span id="loadingText">🔄 Memproses data...</span>
-        <span class="loading-percent" id="loadingPercent">0%</span>
+<!-- ==================== TAB 3: RACIK ANGKA ==================== -->
+<div id="tabRacik" class="tab-content">
+    <div class="status-bar">🧩 Generator Kombinasi & Filter CT / AI</div>
+
+    <div class="setting-panel">
+        <div class="setting-title">🎯 INPUT ANGKA</div>
+        <div class="setting-grid">
+            <div class="setting-item"><label>AS (A)</label><input type="text" id="racikAs" placeholder="0123456789"></div>
+            <div class="setting-item"><label>COP (C)</label><input type="text" id="racikCop" placeholder="0123456789"></div>
+            <div class="setting-item"><label>KEPALA (K)</label><input type="text" id="racikKepala" placeholder="0123456789"></div>
+            <div class="setting-item"><label>EKOR (E)</label><input type="text" id="racikEkor" placeholder="0123456789"></div>
+            <div class="setting-item"><label>🎯 JD (A+C)</label><input type="text" id="racikJd" placeholder="0123456789"></div>
+            <div class="setting-item"><label>🎯 JT (C+K)</label><input type="text" id="racikJt" placeholder="0123456789"></div>
+            <div class="setting-item"><label>🎯 J (K+E)</label><input type="text" id="racikJbel" placeholder="0123456789"></div>
+            <div class="setting-item"><label>🔲 TEPI (A+E)</label><input type="text" id="racikTepi" placeholder="0123456789"></div>
+        </div>
     </div>
-    <div class="loading-bar">
-        <div class="loading-bar-fill" id="loadingBarFill"></div>
+
+    <div class="setting-panel">
+        <div class="setting-title">🔮 BBFS GENERATOR</div>
+        <div class="setting-grid">
+            <div class="setting-item full-row">
+                <label>Masukkan Angka BBFS (min 4 digit)</label>
+                <input type="text" id="bbfsInputGen" placeholder="cth: 0123456789">
+            </div>
+            <div class="setting-item full-row" style="display:flex;gap:15px;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:5px;text-transform:none;"><input type="checkbox" id="showBbfs4D" checked> BBFS 4D</label>
+                <label style="display:flex;align-items:center;gap:5px;text-transform:none;"><input type="checkbox" id="showBbfs3D" checked> BBFS 3D</label>
+                <label style="display:flex;align-items:center;gap:5px;text-transform:none;"><input type="checkbox" id="showBbfs2D" checked> BBFS 2D</label>
+            </div>
+        </div>
     </div>
-    <div class="loading-detail">
-        <span id="loadingDetailLeft">⏳ Menyiapkan...</span>
-        <span id="loadingDetailRight">Kolom: 0 / 0</span>
+
+    <div class="setting-panel">
+        <div class="setting-title">🤖 FILTER CT (Enter per baris)</div>
+        <div class="setting-grid">
+            <div class="setting-item"><label>CT AS + COP</label><textarea id="ctAsCopGen" rows="3" placeholder="123456&#10;2345678"></textarea></div>
+            <div class="setting-item"><label>CT COP + KEPALA</label><textarea id="ctCopKepalaGen" rows="3" placeholder="123456&#10;2345678"></textarea></div>
+            <div class="setting-item"><label>CT KEPALA + EKOR</label><textarea id="ctKepalaEkorGen" rows="3" placeholder="123456&#10;2345678"></textarea></div>
+        </div>
+    </div>
+
+    <div class="scan-wrapper">
+        <button class="scan-btn" onclick="generateRacik()">⚡ GENERATE</button>
+        <button class="scan-btn" style="background:#334155;border-color:#334155;" onclick="resetRacik()">↺ RESET</button>
+    </div>
+
+    <div id="hasilBoxRacik">
+        <div class="empty-state">
+            <div class="icon">🧩</div>
+            <div class="title">Racik Angka</div>
+            <div class="sub">Isi angka racikan, lalu klik <strong>GENERATE</strong>.</div>
+        </div>
     </div>
 </div>
 
-<div id="info"></div>
+<!-- ==================== TAB 4: CT SCANNER ==================== -->
+<div id="tabCT" class="tab-content">
+    <div class="status-bar" id="statusBarCT">📊 CT Scanner 2D Belakang Siap.</div>
 
-<div id="tabelContainer">
-    <div class="empty-state">
-        <div class="icon">🎯</div>
-        <div class="title" style="color: #4ade80;">Siap Scan!</div>
-        <div class="sub">Atur pengaturan di atas, lalu klik tombol <strong>🚀 SCAN NOW</strong> untuk menampilkan tabel.</div>
+    <div class="setting-panel">
+        <div class="setting-title">⚙️ PENGATURAN CT</div>
+        <div class="setting-grid">
+            <div class="setting-item">
+                <label>📊 Tampil</label>
+                <select id="tampilSelectCT" onchange="setTampilOptionCT()">
+                    <option value="5">5 baris</option>
+                    <option value="10">10 baris</option>
+                    <option value="20" selected>20 baris</option>
+                    <option value="30">30 baris</option>
+                    <option value="40">40 baris</option>
+                    <option value="50">50 baris</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <label>🏪 Pasar</label>
+                <select id="pasarSelectCT" onchange="onPasarChangeCT()">
+                    <option value="hk" selected>HK</option>
+                    <option value="sgp">SGP</option>
+                    <option value="sdny">SDNY</option>
+                </select>
+            </div>
+            <div class="setting-item full-row">
+                <button class="scan-btn" style="width:100%;" onclick="scanPrediksiCT()">⚡ SCAN CT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultAreaCT">
+        <div class="empty-state">
+            <div class="icon">📊</div>
+            <div class="title">CT Scanner 2D</div>
+            <div class="sub">Klik <strong>SCAN CT</strong> untuk memuat pemetaan.</div>
+        </div>
     </div>
 </div>
 
 </main>
+
 <footer class="app-footer">
     <div class="footer-content">
         <div class="footer-left">
             <span>© 2026 <strong>Togel Analysis</strong></span>
             <span class="footer-divider">|</span>
-            <span>Version <span class="footer-version">v8.8 DEDUP LAST TOGGLE</span></span>
+            <span>Version <span class="footer-version">v10.0 Full Standalone</span></span>
         </div>
         <div class="footer-right">
-            <span>⚡ Powered by <strong>AI Analysis</strong></span>
+            <span>⚡ Client-side scan</span>
             <span class="footer-divider">|</span>
             <span id="footerDataCount">📊 0 data</span>
         </div>
     </div>
 </footer>
-
-<script>
+  <script>
+    // ============================================================
+// CLOCK
+// ============================================================
 function updateClock() {
     const now = new Date();
     const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
@@ -400,6 +692,9 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+// ============================================================
+// DATA SOURCE
+// ============================================================
 const URL_DATA = {
     hk: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/hk.txt',
     sdny: 'https://raw.githubusercontent.com/kcepu877/ppob/refs/heads/main/sdny.txt',
@@ -431,17 +726,13 @@ let SCAN_CACHE = null;
 const ALL_FILTERS_LIST = ['rumus', 'index', 'mlama', 'mbaru', 'taysen', 'M0', 'M1', 'M3', 'M5', 'M7', 'M8', 'M9'];
 const ALL_FILTERS_LABEL = { rumus:'RUMUS', index:'INDEX', mlama:'MISTIK LAMA', mbaru:'MISTIK BARU', taysen:'TAYSEN', M0:'M0', M1:'M1', M3:'M3', M5:'M5', M7:'M7', M8:'M8', M9:'M9' };
 
+// ============================================================
+// KONSTANTA
+// ============================================================
 const FIXED_MASKS = {
-    10: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    9:  [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    8:  [1, 3, 4, 5, 6, 7, 8, 9],
-    7:  [1, 3, 4, 5, 6, 7, 9],
-    6:  [1, 4, 5, 6, 7, 9],
-    5:  [1, 3, 5, 6, 9],
-    4:  [1, 4, 6, 9],
-    3:  [1, 4, 6],
-    2:  [1, 6],
-    1:  [1]
+    10: [0,1,2,3,4,5,6,7,8,9], 9: [1,2,3,4,5,6,7,8,9], 8: [1,3,4,5,6,7,8,9],
+    7: [1,3,4,5,6,7,9], 6: [1,4,5,6,7,9], 5: [1,3,5,6,9], 4: [1,4,6,9],
+    3: [1,4,6], 2: [1,6], 1: [1]
 };
 
 const MAP10 = {
@@ -459,14 +750,15 @@ const MAP10 = {
     M9: {'0':'9012345678','1':'8901234567','2':'7890123456','3':'6789012345','4':'5678901234','5':'4567890123','6':'3456789012','7':'2345678901','8':'1234567890','9':'0123456789'}
 };
 
-const POSISI_MAP = { 
-    as:[0], cop:[1], kepala:[2], ekor:[3], 
+const POSISI_MAP = {
+    as:[0], cop:[1], kepala:[2], ekor:[3],
     '2ddepan':[0,1], '2dbelakang':[2,3], tengah:[1,2], tepi:[0,3], kombinasi:[0,1,2,3],
-    'jumlah2ddepan':[0,1], 'jumlah2dbelakang':[2,3], 'jumlahtengah':[1,2], 'jumlahtepi':[0,3], 'jumlahkombinasi':[0,1,2,3], 'bbfs4d':[0,1,2,3] 
+    'jumlah2ddepan':[0,1], 'jumlah2dbelakang':[2,3], 'jumlahtengah':[1,2], 'jumlahtepi':[0,3], 'jumlahkombinasi':[0,1,2,3], 'bbfs4d':[0,1,2,3]
 };
 
 const KEY_MAP = (() => {
-    let m = {}; let cnf = { 'a':[0], 'c':[1], 'k':[2], 'e':[3], 'j':[2,3], 'jt':[1,2], 'jd':[0,1] };
+    let m = {};
+    let cnf = { 'a':[0], 'c':[1], 'k':[2], 'e':[3], 'j':[2,3], 'jt':[1,2], 'jd':[0,1] };
     for (let [k, pos] of Object.entries(cnf)) for (let num = 1; num <= 9; num++) m[k + num] = { offset: num - 1, positions: pos };
     return m;
 })();
@@ -488,69 +780,14 @@ const SDCache = (() => {
 let ALL_COMBINATIONS = [];
 let TOTAL_COLS = 0;
 
-function rebuildCombinations() {
-    ALL_COMBINATIONS = [];
-    let seen = new Set();
-
-    for (let i = 0; i < KEYS.length; i++) {
-        for (let f of FILTERS_AUTO) {
-            let label = KEYS[i] + FILTER_LABEL_AUTO[f];
-            if (seen.has('S|' + label)) continue;
-            seen.add('S|' + label);
-            ALL_COMBINATIONS.push({ key1: KEYS[i], key2: null, op: null, filter1: f, filter2: null, label: label, isSingle: true });
-        }
-    }
-
-    let opsToUse = ALL_OPS.filter(op => ACTIVE_OPS.has(op));
-    
-    for (let i = 0; i < KEYS.length; i++) {
-        for (let op of opsToUse) {
-            for (let j = 0; j < KEYS.length; j++) {
-                for (let f1 of FILTERS_AUTO) {
-                    for (let f2 of FILTERS_AUTO) {
-                        let label = KEYS[i] + FILTER_LABEL_AUTO[f1] + op + KEYS[j] + FILTER_LABEL_AUTO[f2];
-
-                        if (DEDUP_KEY) {
-                            let a = KEYS[i] + '|' + f1;
-                            let b = KEYS[j] + '|' + f2;
-                            
-                            if (op === '-') {
-                                let dedupKey = 'C|-|' + a + '#' + b;
-                                if (seen.has(dedupKey)) continue;
-                                seen.add(dedupKey);
-                            } else {
-                                let canon = (a < b) ? (a + '#' + b) : (b + '#' + a);
-                                let dedupKey = 'C|' + op + '|' + canon;
-                                if (seen.has(dedupKey)) continue;
-                                seen.add(dedupKey);
-                            }
-                        } else {
-                            let dedupKey = 'N|' + label;
-                            if (seen.has(dedupKey)) continue;
-                            seen.add(dedupKey);
-                        }
-
-                        ALL_COMBINATIONS.push({
-                            key1: KEYS[i], key2: KEYS[j], op: op,
-                            filter1: f1, filter2: f2,
-                            label: label, isSingle: false
-                        });
-                    }
-                }
-            }
-        }
-    }
-
-    TOTAL_COLS = ALL_COMBINATIONS.length;
-}
-
+// ============================================================
+// HELPER UMUM
+// ============================================================
 function isJumlah(p) { return p.startsWith('jumlah') || p === 'bbfs4d'; }
 
 function hitung2DBelakang(result) {
     if (!result || result.length < 4) return '-';
-    let d1 = parseInt(result[2]);
-    let d2 = parseInt(result[3]);
-    return SDCache[d1 + d2] ?? '-';
+    return SDCache[parseInt(result[2]) + parseInt(result[3])] ?? '-';
 }
 
 function hitungOperasi(a, b, op) {
@@ -579,69 +816,137 @@ let isGelap = true;
 function nextWarna() { let w = isGelap ? 'gelap' : 'cerah'; isGelap = !isGelap; return w; }
 function resetWarna() { isGelap = true; }
 
+function reduceToSingleDigit(n) {
+    n = Math.abs(n);
+    while (n >= 10) { let sum = 0; while (n > 0) { sum += n % 10; n = Math.floor(n / 10); } n = sum; }
+    return n;
+}
+
+function getAngkaHilang(valStr, activeMask) {
+    if (!valStr) return '-';
+    let digits = new Set();
+    for (let mi = 0; mi < activeMask.length; mi++) {
+        let char = valStr[activeMask[mi]];
+        if (char >= '0' && char <= '9') digits.add(char);
+    }
+    let hilang = [];
+    for (let i = 0; i <= 9; i++) if (!digits.has(String(i))) hilang.push(i);
+    if (hilang.length === 0) return '-';
+    if (hilang.length === 10) return '0';
+    return hilang.join('');
+}
+
+function getDisplayKey(valStr, activeMask) {
+    if (!valStr) return '';
+    let key = '';
+    for (let mi = 0; mi < activeMask.length; mi++) key += valStr[activeMask[mi]] || '';
+    return key;
+}
+
+function getDynamicDigitsByMask(map10String, indexMask) {
+    let result = "";
+    for (let idx of indexMask) if (idx >= 0 && idx < 10) result += map10String[idx];
+    return result;
+}
+
+function applyDedupLast(rawFirst, rawCombo) {
+    if (!DEDUP_LAST) return { first: rawFirst, combo: rawCombo };
+    let seen = new Set();
+    let finalFirst = [];
+    for (let r of rawFirst) { if (seen.has(r.lastKey)) continue; seen.add(r.lastKey); finalFirst.push(r); }
+    let finalCombo = [];
+    for (let r of rawCombo) { if (seen.has(r.lastKey)) continue; seen.add(r.lastKey); finalCombo.push(r); }
+    return { first: finalFirst, combo: finalCombo };
+}
+
+// ============================================================
+// BUILD COMBINATIONS
+// ============================================================
+function rebuildCombinations() {
+    ALL_COMBINATIONS = [];
+    let seen = new Set();
+    for (let i = 0; i < KEYS.length; i++) {
+        for (let f of FILTERS_AUTO) {
+            let label = KEYS[i] + FILTER_LABEL_AUTO[f];
+            if (seen.has('S|' + label)) continue;
+            seen.add('S|' + label);
+            ALL_COMBINATIONS.push({ key1: KEYS[i], key2: null, op: null, filter1: f, filter2: null, label: label, isSingle: true });
+        }
+    }
+    let opsToUse = ALL_OPS.filter(op => ACTIVE_OPS.has(op));
+    for (let i = 0; i < KEYS.length; i++) {
+        for (let op of opsToUse) {
+            for (let j = 0; j < KEYS.length; j++) {
+                for (let f1 of FILTERS_AUTO) {
+                    for (let f2 of FILTERS_AUTO) {
+                        let label = KEYS[i] + FILTER_LABEL_AUTO[f1] + op + KEYS[j] + FILTER_LABEL_AUTO[f2];
+                        if (DEDUP_KEY) {
+                            let a = KEYS[i] + '|' + f1, b = KEYS[j] + '|' + f2;
+                            if (op === '-') {
+                                let dk = 'C|-|' + a + '#' + b;
+                                if (seen.has(dk)) continue; seen.add(dk);
+                            } else {
+                                let canon = (a < b) ? (a + '#' + b) : (b + '#' + a);
+                                let dk = 'C|' + op + '|' + canon;
+                                if (seen.has(dk)) continue; seen.add(dk);
+                            }
+                        } else {
+                            let dk = 'N|' + label;
+                            if (seen.has(dk)) continue; seen.add(dk);
+                        }
+                        ALL_COMBINATIONS.push({ key1: KEYS[i], key2: KEYS[j], op: op, filter1: f1, filter2: f2, label: label, isSingle: false });
+                    }
+                }
+            }
+        }
+    }
+    TOTAL_COLS = ALL_COMBINATIONS.length;
+}
+
+// ============================================================
+// UI SETTINGS
+// ============================================================
 function updateMerahAuto() {
     let rowVal = parseInt(document.getElementById('inpRow').value);
     let matiVal = parseInt(document.getElementById('inpMati').value);
     if (isNaN(rowVal) || rowVal < 3) rowVal = 3;
     if (isNaN(matiVal) || matiVal < 0) matiVal = 0;
-    
     let inpMerahAuto = document.getElementById('inpMerahAuto');
     if (matiVal > 0) {
         let merahAuto = rowVal - matiVal - 1;
         if (merahAuto < 1) merahAuto = 1;
         inpMerahAuto.value = merahAuto;
-    } else {
-        inpMerahAuto.value = '—';
-    }
+    } else inpMerahAuto.value = '—';
 }
 
 function readSettingsFromUI() {
     P = document.getElementById('selPasar').value;
     ACTIVE_DIGIT_LEN = parseInt(document.getElementById('selMask').value);
-    
     let rowVal = parseInt(document.getElementById('inpRow').value);
     if (isNaN(rowVal) || rowVal < 3) rowVal = 10;
     if (rowVal > 500) rowVal = 500;
     ACTIVE_ROW_LEN = rowVal;
-    
     let matiVal = parseInt(document.getElementById('inpMati').value);
     if (isNaN(matiVal) || matiVal < 0) matiVal = 0;
     if (matiVal > 500) matiVal = 500;
     ACTIVE_MATI = matiVal;
-    
     if (ACTIVE_MATI > 0) {
         ACTIVE_MERAH_AUTO = ACTIVE_ROW_LEN - ACTIVE_MATI - 1;
         if (ACTIVE_MERAH_AUTO < 1) ACTIVE_MERAH_AUTO = 1;
-    } else {
-        ACTIVE_MERAH_AUTO = 0;
-    }
-    
+    } else ACTIVE_MERAH_AUTO = 0;
     let filterVal = document.getElementById('selFilter').value;
-    if (filterVal === 'ALL') {
-        ALL_FILTER_MODE = true;
-        F = 'rumus';
-    } else {
-        ALL_FILTER_MODE = false;
-        F = filterVal;
-    }
-    
+    if (filterVal === 'ALL') { ALL_FILTER_MODE = true; F = 'rumus'; }
+    else { ALL_FILTER_MODE = false; F = filterVal; }
     POSISI = document.getElementById('selPosisi').value;
-    
     let minRedVal = parseInt(document.getElementById('inpMinRed').value);
     if (isNaN(minRedVal) || minRedVal < 0) minRedVal = 0;
     if (minRedVal > 100) minRedVal = 100;
-    if (minRedVal === 0) {
-        MIN_RED_FILTER = false;
-    } else {
-        MIN_RED_FILTER = true;
-        MIN_RED_COUNT = minRedVal;
-    }
-    
+    if (minRedVal === 0) MIN_RED_FILTER = false;
+    else { MIN_RED_FILTER = true; MIN_RED_COUNT = minRedVal; }
     AUTO_FILTER = document.getElementById('selAutoFilter').value === 'on';
     DEDUP_KEY = document.getElementById('selDedupKey').value === 'on';
     DEDUP_VALUE = document.getElementById('selDedupValue').value === 'on';
     DEDUP_LAST = document.getElementById('selDedupLast').value === 'on';
-    
     ACTIVE_OPS = new Set();
     if (document.getElementById('chkOpPlus').checked) ACTIVE_OPS.add('+');
     if (document.getElementById('chkOpMinus').checked) ACTIVE_OPS.add('-');
@@ -663,36 +968,30 @@ document.getElementById('chkOpPlus').addEventListener('change', updateOpChecks);
 document.getElementById('chkOpMinus').addEventListener('change', updateOpChecks);
 document.getElementById('chkOpTimes').addEventListener('change', updateOpChecks);
 
-document.getElementById('selDedupLast').addEventListener('change', () => {
-    DEDUP_LAST = document.getElementById('selDedupLast').value === 'on';
-    if (SCAN_CACHE) {
-        if (SCAN_CACHE.mode === 'NORMAL') {
-            doQuickRender();
-        } else if (SCAN_CACHE.mode === 'ALL') {
-            reapplyDedupLastAll();
-        }
-    }
-});
-
+// ============================================================
+// LOAD DATA
+// ============================================================
 async function loadData(p) {
-    if (D[p]) return;
+    if (D[p] && D[p].length > 0) return;
     try {
         let r = await fetch(URL_DATA[p]);
         if (!r.ok) throw new Error('HTTP ' + r.status);
         let text = await r.text();
-        let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0,4));
+        let lines = text.trim().split('\n').map(x => x.trim()).filter(x => x.length >= 4 && /^\d+$/.test(x)).map(x => x.slice(0, 4));
         if (lines.length === 0) throw new Error('Data kosong!');
         D[p] = lines;
         document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data';
     } catch(e) {
         D[p] = ['1234','5678','9012','3456','7890','2345','6789','0123','4567','8901','9087'];
         document.getElementById('footerDataCount').innerHTML = '📊 ' + D[p].length + ' data (contoh)';
+        console.error('Gagal load:', e);
     }
 }
 
-function setLoading(active) {
-    document.getElementById('loadingPanel').classList.toggle('active', active);
-}
+// ============================================================
+// LOADING UI
+// ============================================================
+function setLoading(active) { document.getElementById('loadingPanel').classList.toggle('active', active); }
 function updateProgress(percent, text, detailLeft, detailRight) {
     document.getElementById('loadingBarFill').style.width = Math.min(100, Math.max(0, percent)) + '%';
     document.getElementById('loadingPercent').textContent = Math.round(percent) + '%';
@@ -703,68 +1002,12 @@ function updateProgress(percent, text, detailLeft, detailRight) {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 function buildEmptyStateMsg(customMsg) {
-    return `
-        <div class="empty-state">
-            <div class="icon">🔍</div>
-            <div class="title">0 KEY TERDETEKSI</div>
-            <div class="sub">${customMsg || 'Tidak ada kombinasi yang lolos kriteria.'}<br><br>
-            <strong>💡 Coba ubah:</strong><br>
-            • 🟢 Mati (turunkan agar lebih longgar)<br>
-            • 📜 Row (tambah hari untuk lebih banyak data)<br>
-            • 🔴 Min Merah (turunkan)<br>
-            • 🎯 Posisi (coba AS/COP/KEPALA/EKOR)<br>
-            • 🔀 Dedup Value (matikan kalau terlalu ketat)<br>
-            • 🎯 Dedup Result Akhir (matikan kalau terlalu ketat)<br>
-            • 🔄 Filter Konversi (coba RUMUS atau INDEX)</div>
-        </div>
-    `;
+    return `<div class="empty-state"><div class="icon">🔍</div><div class="title">0 KEY TERDETEKSI</div><div class="sub">${customMsg || 'Tidak ada kombinasi yang lolos kriteria.'}<br><br><strong>💡 Coba ubah:</strong><br>• 🟢 Mati (turunkan)<br>• 📜 Row (tambah hari)<br>• 🔴 Min Merah (turunkan)<br>• 🎯 Posisi (coba AS/COP/KEPALA/EKOR)<br>• 🔀 Dedup Value (matikan)<br>• 🎯 Dedup Result Akhir (matikan)</div></div>`;
 }
 
-function getAngkaHilang(valStr, activeMask) {
-    if (!valStr) return '-';
-    let digits = new Set();
-    for (let mi = 0; mi < activeMask.length; mi++) {
-        let char = valStr[activeMask[mi]];
-        if (char >= '0' && char <= '9') digits.add(char);
-    }
-    let hilang = [];
-    for (let i = 0; i <= 9; i++) {
-        if (!digits.has(String(i))) hilang.push(i);
-    }
-    if (hilang.length === 0) return '-';
-    if (hilang.length === 10) return '0';
-    return hilang.join('');
-}
-
-function getDisplayKey(valStr, activeMask) {
-    if (!valStr) return '';
-    let key = '';
-    for (let mi = 0; mi < activeMask.length; mi++) {
-        key += valStr[activeMask[mi]] || '';
-    }
-    return key;
-}
-
-function applyDedupLast(rawFirst, rawCombo) {
-    if (!DEDUP_LAST) {
-        return { first: rawFirst, combo: rawCombo };
-    }
-    let seenLastKeys = new Set();
-    let finalFirst = [];
-    for (let r of rawFirst) {
-        if (seenLastKeys.has(r.lastKey)) continue;
-        seenLastKeys.add(r.lastKey);
-        finalFirst.push(r);
-    }
-    let finalCombo = [];
-    for (let r of rawCombo) {
-        if (seenLastKeys.has(r.lastKey)) continue;
-        seenLastKeys.add(r.lastKey);
-        finalCombo.push(r);
-    }
-    return { first: finalFirst, combo: finalCombo };
-}
-
+// ============================================================
+// COMPUTE (CORE)
+// ============================================================
 async function computeFilteredColumns(filterKey, onProgress) {
     let data = D[P].slice(-ACTIVE_ROW_LEN);
     let allData = D[P];
@@ -772,7 +1015,6 @@ async function computeFilteredColumns(filterKey, onProgress) {
     let N = data.length;
     let maskLen = activeMask.length;
     let startIdx = D[P].length - N;
-    
     let requiredRed = 0;
     let useMatiMode = (ACTIVE_MATI > 0);
     if (useMatiMode) {
@@ -780,214 +1022,119 @@ async function computeFilteredColumns(filterKey, onProgress) {
         if (requiredRed < 1) requiredRed = 1;
         if (requiredRed > N - 1) requiredRed = N - 1;
     }
-    
     let targets = new Array(N);
-    for (let i = 0; i < N; i++) {
-        targets[i] = (i + 1 < N) ? getTarget(data[i + 1]) : null;
-    }
-    
+    for (let i = 0; i < N; i++) targets[i] = (i + 1 < N) ? getTarget(data[i + 1]) : null;
     let firstValsByRow = new Array(N);
     for (let i = 0; i < N; i++) {
         let baris = data[i];
         let a = parseInt(baris[0]), c = parseInt(baris[1]), k = parseInt(baris[2]), e = parseInt(baris[3]);
-        firstValsByRow[i] = [
-            convert10(a, filterKey),
-            convert10(c, filterKey),
-            convert10(k, filterKey),
-            convert10(e, filterKey),
-            convert10(SDCache[k + e], filterKey),
-            convert10(SDCache[c + k], filterKey),
-            convert10(SDCache[a + c], filterKey)
-        ];
+        firstValsByRow[i] = [convert10(a, filterKey), convert10(c, filterKey), convert10(k, filterKey), convert10(e, filterKey), convert10(SDCache[k+e], filterKey), convert10(SDCache[c+k], filterKey), convert10(SDCache[a+c], filterKey)];
     }
-    
-    let firstKeys = ['A1','C1','K1','E1','J1','JT1','JD1'];
-    
     function isMerah(valStr, tgt) {
-        for (let mi = 0; mi < maskLen; mi++) {
-            if (tgt && tgt.includes(valStr[activeMask[mi]])) return true;
-        }
+        for (let mi = 0; mi < maskLen; mi++) if (tgt && tgt.includes(valStr[activeMask[mi]])) return true;
         return false;
     }
-    
     let firstResults = [];
     for (let fi = 0; fi < 7; fi++) {
-        let values = new Array(N);
-        let redCount = 0;
-        let isLulus = true;
-        
+        let values = new Array(N), redCount = 0, isLulus = true;
         for (let i = 0; i < N; i++) {
             let valStr = firstValsByRow[i][fi];
             values[i] = valStr;
-            
             if (i < N - 1) {
-                let tgt = targets[i];
-                let merah = isMerah(valStr, tgt);
-                
+                let tgt = targets[i], merah = isMerah(valStr, tgt);
                 if (useMatiMode) {
-                    if (i < requiredRed) {
-                        if (!merah) { isLulus = false; break; }
-                        redCount++;
-                    } else {
-                        if (merah) { isLulus = false; break; }
-                    }
+                    if (i < requiredRed) { if (!merah) { isLulus = false; break; } redCount++; }
+                    else { if (merah) { isLulus = false; break; } }
                 } else {
-                    if (merah) {
-                        redCount++;
-                    } else {
-                        let sisaBaris = (N - 1) - i;
-                        if (MIN_RED_FILTER) {
-                            if (redCount + sisaBaris < MIN_RED_COUNT) { isLulus = false; break; }
-                        }
-                    }
+                    if (merah) redCount++;
+                    else { let s = (N-1)-i; if (MIN_RED_FILTER) { if (redCount + s < MIN_RED_COUNT) { isLulus = false; break; } } }
                 }
             }
         }
-        
         if (isLulus) {
             let lolos = false;
             if (useMatiMode) lolos = true;
             else if (MIN_RED_FILTER) lolos = (redCount >= MIN_RED_COUNT);
             else if (AUTO_FILTER) lolos = (redCount > 0);
             else lolos = true;
-            
             if (lolos) {
                 let lastVal = values[values.length - 1] || '';
-                let hilang = getAngkaHilang(lastVal, activeMask);
-                let lastKey = getDisplayKey(lastVal, activeMask);
-                firstResults.push({ fi, redCount, values, hilang, lastKey });
+                firstResults.push({ fi, redCount, values, hilang: getAngkaHilang(lastVal, activeMask), lastKey: getDisplayKey(lastVal, activeMask) });
             }
         }
     }
-    
     let seenFirstSigs = DEDUP_VALUE ? new Set() : null;
     if (DEDUP_VALUE) {
-        let finalFirstResults = [];
-        for (let r of firstResults) {
-            let sig = r.values.join('\u0001');
-            if (!seenFirstSigs.has(sig)) { seenFirstSigs.add(sig); finalFirstResults.push(r); }
-        }
-        firstResults = finalFirstResults;
+        let ff = [];
+        for (let r of firstResults) { let sig = r.values.join('\u0001'); if (!seenFirstSigs.has(sig)) { seenFirstSigs.add(sig); ff.push(r); } }
+        firstResults = ff;
     }
-    
     let comboResults = [];
     let seenSignatures = DEDUP_VALUE ? new Set() : null;
-    
     let combosByK1 = {};
     ALL_COMBINATIONS.forEach((combo, gIdx) => {
         if (!combosByK1[combo.key1]) combosByK1[combo.key1] = [];
         combosByK1[combo.key1].push({ combo, globalIdx: gIdx });
     });
-    
     let k1List = Object.keys(combosByK1);
     let totalK1 = k1List.length;
-    
     for (let k1Idx = 0; k1Idx < totalK1; k1Idx++) {
-        let k1 = k1List[k1Idx];
-        let combosForK1 = combosByK1[k1];
-        
+        let k1 = k1List[k1Idx], combosForK1 = combosByK1[k1];
         for (let ci = 0; ci < combosForK1.length; ci++) {
             let { combo, globalIdx } = combosForK1[ci];
-            let values = new Array(N);
-            let redCount = 0;
-            let isLulus = true;
-            
+            let values = new Array(N), redCount = 0, isLulus = true;
             for (let i = 0; i < N; i++) {
-                let gI = startIdx + i;
-                let baris = allData[gI];
-                let valRes = '';
-                
+                let gI = startIdx + i, baris = allData[gI], valRes = '';
                 if (combo.isSingle) {
-                    let p1 = KEY_MAP[combo.key1];
-                    let d1 = allData[gI - p1.offset] || baris;
-                    let n1 = 0;
-                    let plen = p1.positions.length;
+                    let p1 = KEY_MAP[combo.key1], d1 = allData[gI - p1.offset] || baris, n1 = 0, plen = p1.positions.length;
                     if (plen === 1) n1 = parseInt(d1[p1.positions[0]]);
                     else { for (let pi = 0; pi < plen; pi++) n1 += parseInt(d1[p1.positions[pi]]); n1 = SDCache[n1] ?? n1; }
                     valRes = convert10(n1, combo.filter1);
                 } else {
                     let p1 = KEY_MAP[combo.key1], p2 = KEY_MAP[combo.key2];
-                    let d1 = allData[gI - p1.offset] || baris;
-                    let d2 = allData[gI - p2.offset] || baris;
-                    
+                    let d1 = allData[gI - p1.offset] || baris, d2 = allData[gI - p2.offset] || baris;
                     let n1, n2;
                     if (p1.positions.length === 1) n1 = parseInt(d1[p1.positions[0]]);
                     else { n1 = 0; for (let pi = 0; pi < p1.positions.length; pi++) n1 += parseInt(d1[p1.positions[pi]]); n1 = SDCache[n1] ?? n1; }
                     n1 = parseInt(convert10(n1, combo.filter1)[1] || n1);
-                    
                     if (p2.positions.length === 1) n2 = parseInt(d2[p2.positions[0]]);
                     else { n2 = 0; for (let pi = 0; pi < p2.positions.length; pi++) n2 += parseInt(d2[p2.positions[pi]]); n2 = SDCache[n2] ?? n2; }
                     n2 = parseInt(convert10(n2, combo.filter2)[1] || n2);
-                    
                     let opRes = hitungOperasi(n1, n2, combo.op);
                     valRes = convert10(opRes, filterKey);
                 }
-                
                 values[i] = valRes;
-                
                 if (i < N - 1) {
-                    let tgt = targets[i];
-                    let merah = isMerah(valRes, tgt);
-                    
+                    let tgt = targets[i], merah = isMerah(valRes, tgt);
                     if (useMatiMode) {
-                        if (i < requiredRed) {
-                            if (!merah) { isLulus = false; break; }
-                            redCount++;
-                        } else {
-                            if (merah) { isLulus = false; break; }
-                        }
+                        if (i < requiredRed) { if (!merah) { isLulus = false; break; } redCount++; }
+                        else { if (merah) { isLulus = false; break; } }
                     } else {
-                        if (merah) {
-                            redCount++;
-                        } else {
-                            let sisaBaris = (N - 1) - i;
-                            if (MIN_RED_FILTER) {
-                                if (redCount + sisaBaris < MIN_RED_COUNT) { isLulus = false; break; }
-                            }
-                        }
+                        if (merah) redCount++;
+                        else { let s = (N-1)-i; if (MIN_RED_FILTER) { if (redCount + s < MIN_RED_COUNT) { isLulus = false; break; } } }
                     }
                 }
             }
-            
             if (!isLulus) continue;
-            
             let lolos = false;
             if (useMatiMode) lolos = true;
             else if (MIN_RED_FILTER) lolos = (redCount >= MIN_RED_COUNT);
             else if (AUTO_FILTER) lolos = (redCount > 0);
             else lolos = true;
-            
             if (!lolos) continue;
-            
             if (DEDUP_VALUE) {
                 let sig = values.join('\u0001');
                 if (seenFirstSigs.has(sig)) continue;
                 if (seenSignatures.has(sig)) continue;
                 seenSignatures.add(sig);
             }
-            
             let lastVal = values[values.length - 1] || '';
-            let hilang = getAngkaHilang(lastVal, activeMask);
-            let lastKey = getDisplayKey(lastVal, activeMask);
-            comboResults.push({ ci: globalIdx, redCount, values, hilang, lastKey });
+            comboResults.push({ ci: globalIdx, redCount, values, hilang: getAngkaHilang(lastVal, activeMask), lastKey: getDisplayKey(lastVal, activeMask) });
         }
-        
-        if (onProgress) {
-            let pct = ((k1Idx + 1) / totalK1) * 100;
-            onProgress(pct, k1);
-        }
+        if (onProgress) { let pct = ((k1Idx + 1) / totalK1) * 100; onProgress(pct, k1); }
         await sleep(0);
     }
-    
-    return { 
-        rawFirstResults: firstResults, 
-        rawComboResults: comboResults, 
-        activeMask, 
-        rowData: data, 
-        targets, 
-        requiredRed, 
-        useMatiMode 
-    };
+    return { rawFirstResults: firstResults, rawComboResults: comboResults, activeMask, rowData: data, targets, requiredRed, useMatiMode };
 }
 
 function getFilteredResults(computed) {
@@ -995,116 +1142,96 @@ function getFilteredResults(computed) {
     return { firstResults: r.first, comboResults: r.combo };
 }
 
+// ============================================================
+// BUILD TABLE HTML
+// ============================================================
 function buildTableHTMLFromFiltered(filterKey, computed, page, maxCols) {
     let { activeMask, rowData, targets, requiredRed, useMatiMode } = computed;
     let { firstResults, comboResults } = getFilteredResults(computed);
-    
     let firstKeys = ['A1','C1','K1','E1','J1','JT1','JD1'];
-    let N = rowData.length;
-    let maskLen = activeMask.length;
-    
-    let totalFirst = firstResults.length;
-    let totalCombo = comboResults.length;
-    let totalFiltered = totalFirst + totalCombo;
-    
+    let N = rowData.length, maskLen = activeMask.length;
+    let totalFirst = firstResults.length, totalCombo = comboResults.length, totalFiltered = totalFirst + totalCombo;
     let maxAllowed = maxCols || COLS_PER_PAGE;
     let totalPages = Math.max(1, Math.ceil(totalFiltered / maxAllowed));
-    
     if (page >= totalPages) page = totalPages - 1;
     if (page < 0) page = 0;
-    
-    let startIdx = page * maxAllowed;
-    let endIdx = Math.min(startIdx + maxAllowed, totalFiltered);
-    
-    let firstStart = Math.min(startIdx, totalFirst);
-    let firstEnd = Math.min(endIdx, totalFirst);
-    let comboStart = Math.max(0, startIdx - totalFirst);
-    let comboEnd = Math.max(0, endIdx - totalFirst);
-    
-    let firstPage = firstResults.slice(firstStart, firstEnd);
-    let comboPage = comboResults.slice(comboStart, comboEnd);
-    
+    let startIdx = page * maxAllowed, endIdx = Math.min(startIdx + maxAllowed, totalFiltered);
+    let firstPage = firstResults.slice(Math.min(startIdx, totalFirst), Math.min(endIdx, totalFirst));
+    let comboPage = comboResults.slice(Math.max(0, startIdx - totalFirst), Math.max(0, endIdx - totalFirst));
     let opClasses = {'+':'op-plus', '-':'op-minus', '×':'op-times'};
     let parts = [];
-    
     resetWarna();
     parts.push('<tr><th>STATUS</th>');
-    for (let r of firstPage) {
-        let key = firstKeys[r.fi];
-        parts.push(`<th class="${nextWarna()}">${key} <span style="font-size:9px;color:#f87171;">(${r.redCount})</span></th>`);
-    }
+    for (let r of firstPage) parts.push(`<th class="${nextWarna()}">${firstKeys[r.fi]} <span style="font-size:9px;color:#f87171;">(${r.redCount})</span></th>`);
     for (let r of comboPage) {
         let combo = ALL_COMBINATIONS[r.ci];
         let cls = nextWarna();
         let lbl = combo.isSingle ? combo.label : `<span class="op-symbol ${opClasses[combo.op] || ''}">${combo.label}</span>`;
-        parts.push(`<th class="${cls}">${lbl} <span style="font-size:9px;color:#f87171;">(${r.redCount})</span></th>`);
+        let quickPaste = buildQuickPasteAuto(combo);
+        let copyBtn = quickPaste ? `<br><button class="copy-key-btn" onclick="event.stopPropagation();copyQuickPaste('${quickPaste.replace(/'/g, "\\'")}', this)" title="Copy untuk Manual">📋 COPY</button>` : '';
+        parts.push(`<th class="${cls}">${lbl} <span style="font-size:9px;color:#f87171;">(${r.redCount})</span>${copyBtn}</th>`);
     }
     parts.push('</tr>');
-    
     for (let i = 0; i < N; i++) {
         resetWarna();
-        let baris = rowData[i];
-        let jml = hitung2DBelakang(baris);
+        let baris = rowData[i], jml = hitung2DBelakang(baris);
         let tgt = (i < N - 1) ? targets[i] : null;
-        
         let isPrediksiRow = (i === N - 1);
         let isMatiRow = useMatiMode && (i >= requiredRed) && !isPrediksiRow;
         let rowClass = isPrediksiRow ? 'baris-prediksi-row' : '';
-        
         parts.push(`<tr class="${rowClass}"><td>${baris}-${jml}</td>`);
-        
-        let cellExtraClass = '';
-        if (isPrediksiRow) cellExtraClass = ' baris-prediksi';
-        else if (isMatiRow) cellExtraClass = ' baris-mati';
-        
+        let cellExtraClass = isPrediksiRow ? ' baris-prediksi' : (isMatiRow ? ' baris-mati' : '');
         let renderCell = (valStr) => {
             let cls = nextWarna();
-            let finalCls = cls + ' multi-digit' + cellExtraClass;
             let content = '';
             for (let mi = 0; mi < maskLen; mi++) {
                 let digit = valStr[activeMask[mi]] || '';
                 let isCocok = tgt && tgt.includes(digit);
-                if (isCocok) {
-                    content += `<span class="d-merah">${digit}</span>`;
-                } else {
-                    content += digit;
-                }
+                content += isCocok ? `<span class="d-merah">${digit}</span>` : digit;
             }
-            if (isMatiRow) {
-                content += `<span class="d-x"> x</span>`;
-            }
-            return `<td class="${finalCls}">${content}</td>`;
+            if (isMatiRow) content += `<span class="d-x"> x</span>`;
+            return `<td class="${cls} multi-digit${cellExtraClass}">${content}</td>`;
         };
-        
         for (let r of firstPage) parts.push(renderCell(r.values[i]));
         for (let r of comboPage) parts.push(renderCell(r.values[i]));
         parts.push('</tr>');
     }
-    
     parts.push('<tr class="baris-status-row"><td>STATUS</td>');
-    for (let r of firstPage) {
-        parts.push(`<td>${r.hilang}</td>`);
-    }
-    for (let r of comboPage) {
-        parts.push(`<td>${r.hilang}</td>`);
-    }
+    for (let r of firstPage) parts.push(`<td>${r.hilang}</td>`);
+    for (let r of comboPage) parts.push(`<td>${r.hilang}</td>`);
     parts.push('</tr>');
-    
     return { html: parts.join(''), totalFiltered, totalPages, startIdx, endIdx, page };
 }
 
-function reapplyDedupLastAll() {
-    if (!SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
-    let cards = document.querySelectorAll('.filter-card');
-    cards.forEach(card => {
-        if (card.dataset.rendered === 'true') {
-            let fk = card.dataset.fk;
-            let page = parseInt(card.dataset.currentPage || '0');
-            cardRenderPage(fk, page);
-        }
-    });
+// ============================================================
+// BUILD QUICK PASTE & COPY
+// ============================================================
+function buildQuickPasteAuto(combo) {
+    if (!combo) return null;
+    let label = combo.label || '';
+    let formula = label.toLowerCase().replace(/×/g, 'x');
+    let pasar = document.getElementById('selPasar').value;
+    let posisi = document.getElementById('selPosisi').value;
+    let row = parseInt(document.getElementById('inpRow').value) || 9;
+    let mask = parseInt(document.getElementById('selMask').value) || 3;
+    let filterFinal = document.getElementById('selFilter').value;
+    if (filterFinal === 'ALL') filterFinal = 'rumus';
+    return `${pasar}_${posisi}_jtampil-${row}_jdigit-${mask}_${formula}=${filterFinal}`;
 }
 
+function copyQuickPaste(text, btn) {
+    let oldText = btn.innerHTML;
+    btn.innerHTML = '✅ OK';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = oldText; btn.classList.remove('copied'); }, 1500);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => console.log('✅ Copied:', text)).catch(err => prompt('📋 Copy manual:', text));
+    } else prompt('📋 Copy manual:', text);
+}
+
+// ============================================================
+// AUTO SCANNER - MAIN
+// ============================================================
 let isScanning = false;
 async function doScan() {
     if (isScanning) return;
@@ -1112,33 +1239,21 @@ async function doScan() {
     let btnScan = document.getElementById('btnScan');
     btnScan.disabled = true;
     btnScan.innerHTML = '<span class="icon">⏳</span>MEMPROSES...';
-    
     setLoading(true);
     document.getElementById('info').classList.remove('active');
     updateProgress(2, '🔄 Membaca pengaturan...', '⏳ Menyiapkan...', 'Kolom: 0 / 0');
     await sleep(50);
-    
     readSettingsFromUI();
     currentPage = 0;
-    
     updateProgress(5, '🔧 Membangun kombinasi...', '⏳ Filter & operator...', 'Kolom: 0 / 0');
     await sleep(50);
     rebuildCombinations();
-    
     updateProgress(10, '📥 Memuat data ' + P.toUpperCase() + '...', '⏳ Download...', 'Kolom: 0 / ' + TOTAL_COLS);
     await sleep(50);
     await loadData(P);
-    
     updateProgress(15, '📊 Data siap, mulai render...', '⏳ Menghitung...', 'Kolom: 0 / ' + TOTAL_COLS);
     await sleep(100);
-    
-    try {
-        await renderWithProgress();
-    } catch(e) {
-        console.error(e);
-        alert('Error saat render: ' + e.message);
-    }
-    
+    try { await renderWithProgress(); } catch(e) { console.error(e); alert('Error: ' + e.message); }
     updateProgress(100, '✅ Selesai!', '✅ Selesai', 'Kolom: ' + TOTAL_COLS + ' / ' + TOTAL_COLS);
     await sleep(500);
     setLoading(false);
@@ -1149,237 +1264,134 @@ async function doScan() {
 
 async function renderWithProgress() {
     let container = document.getElementById('tabelContainer');
-    
     let pasarNama = P.toUpperCase();
     let posisiNama = POSISI.toUpperCase().replace(/2D/g, '2D ').replace('JUMLAH', 'JUMLAH ').trim();
     let data = D[P].slice(-ACTIVE_ROW_LEN);
-    
     let opsAktif = ALL_OPS.filter(op => ACTIVE_OPS.has(op));
     let opsLabel = opsAktif.length > 0 ? opsAktif.join(' ') : 'SINGLE ONLY';
     let dedupStatus = DEDUP_KEY ? `🔁 DedupKey: ON` : `🔁 DedupKey: OFF`;
     let dedupValStatus = DEDUP_VALUE ? `🔀 DedupValue: ON` : `🔀 DedupValue: OFF`;
     let dedupLastStatus = DEDUP_LAST ? `🎯 DedupLast: ON` : `🎯 DedupLast: OFF`;
-    
+
     if (ALL_FILTER_MODE) {
         let filterStatus;
         if (ACTIVE_MATI > 0) filterStatus = `🟢 Mode MATI (${ACTIVE_MATI}) → 🔴 ${ACTIVE_MERAH_AUTO} merah wajib, sisa hijau`;
         else if (MIN_RED_FILTER) filterStatus = `🔴 MinMerah: ON (≥${MIN_RED_COUNT} baris)`;
         else if (AUTO_FILTER) filterStatus = `🔍 AutoFilter: ON`;
         else filterStatus = `🔍 AutoFilter: OFF`;
-        
         updateProgress(20, '🎨 Mode ALL Filter aktif...', '⏳ Memproses ' + ALL_FILTERS_LIST.length + ' filter...', 'Filter: 0 / ' + ALL_FILTERS_LIST.length);
         await sleep(50);
-        
         let computedList = [];
-        
         for (let idx = 0; idx < ALL_FILTERS_LIST.length; idx++) {
             let fk = ALL_FILTERS_LIST[idx];
             let basePct = 20 + (idx / ALL_FILTERS_LIST.length) * 55;
-            
             updateProgress(basePct, `🎨 Memproses filter ${ALL_FILTERS_LABEL[fk]}...`, `⏳ Filter: ${ALL_FILTERS_LABEL[fk]}`, `Filter: ${idx + 1} / ${ALL_FILTERS_LIST.length}`);
             await sleep(20);
-            
             let computed = await computeFilteredColumns(fk, (pct, k1) => {
                 let overall = basePct + (pct / 100) * (55 / ALL_FILTERS_LIST.length);
                 updateProgress(overall, `🎨 Filter ${ALL_FILTERS_LABEL[fk]} — key ${k1}`, `⏳ ${ALL_FILTERS_LABEL[fk]}: ${k1.toUpperCase()}`, `Filter: ${idx + 1} / ${ALL_FILTERS_LIST.length}`);
             });
-            
             let filtered = getFilteredResults(computed);
             let totalFiltered = filtered.firstResults.length + filtered.comboResults.length;
             computedList.push({ fk, computed, totalFiltered });
         }
-        
         updateProgress(80, '📊 Membangun header tabel...', '⏳ Render header saja...', 'Lazy render aktif');
         await sleep(100);
-        
-        let renderedCount = 0;
-        let skippedCount = 0;
-        
+        let renderedCount = 0, skippedCount = 0;
         let wrapper = document.createElement('div');
         wrapper.className = 'all-filter-wrapper';
-        
         let toolbar = document.createElement('div');
         toolbar.className = 'all-toolbar';
-        toolbar.innerHTML = `
-            <span class="tb-info">📊 ${ALL_FILTERS_LIST.length} filter diproses — klik <strong>BUKA</strong> untuk lihat tabel</span>
-            <div class="tb-actions">
-                <button class="btn-open-all" onclick="openAllCards()">📂 Buka Semua</button>
-                <button class="btn-close-all" onclick="closeAllCards()">📁 Tutup Semua</button>
-            </div>
-        `;
+        toolbar.innerHTML = `<span class="tb-info">📊 ${ALL_FILTERS_LIST.length} filter diproses — klik <strong>BUKA</strong> untuk lihat tabel</span><div class="tb-actions"><button class="btn-open-all" onclick="openAllCards()">📂 Buka Semua</button><button class="btn-close-all" onclick="closeAllCards()">📁 Tutup Semua</button></div>`;
         wrapper.appendChild(toolbar);
-        
         for (let idx = 0; idx < computedList.length; idx++) {
             let { fk, computed, totalFiltered } = computedList[idx];
-            
-            if (totalFiltered === 0) {
-                skippedCount++;
-                continue;
-            }
-            
+            if (totalFiltered === 0) { skippedCount++; continue; }
             let filtered = getFilteredResults(computed);
             let totalMerah = 0;
             for (let r of filtered.firstResults) totalMerah += r.redCount;
             for (let r of filtered.comboResults) totalMerah += r.redCount;
-            
             let card = document.createElement('div');
             card.className = 'filter-card';
             card.dataset.fk = fk;
             card.dataset.rendered = 'false';
-            card.innerHTML = `
-                <div class="filter-card-header fh-${fk}" onclick="toggleCard(this.parentElement, '${fk}')">
-                    <div class="fc-left">
-                        <span class="fc-icon">▶</span>
-                        <span class="fc-name">🎨 ${ALL_FILTERS_LABEL[fk]}</span>
-                        <span class="fc-stats">
-                            <span>📊 ${totalFiltered} kolom</span>
-                            <span>🔴 ${totalMerah} baris merah</span>
-                        </span>
-                    </div>
-                    <button class="fc-btn" type="button">📂 BUKA</button>
-                </div>
-                <div class="filter-card-body"></div>
-                <div class="filter-card-placeholder">
-                    <div class="ph-icon">📁</div>
-                    <div>Klik <strong>BUKA</strong> untuk render tabel ini</div>
-                    <div class="ph-text">Lazy render — hemat memori, anti-crash</div>
-                </div>
-            `;
+            card.innerHTML = `<div class="filter-card-header fh-${fk}" onclick="toggleCard(this.parentElement, '${fk}')"><div class="fc-left"><span class="fc-icon">▶</span><span class="fc-name">🎨 ${ALL_FILTERS_LABEL[fk]}</span><span class="fc-stats"><span>📊 ${totalFiltered} kolom</span><span>🔴 ${totalMerah} baris merah</span></span></div><button class="fc-btn" type="button">📂 BUKA</button></div><div class="filter-card-body"></div><div class="filter-card-placeholder"><div class="ph-icon">📁</div><div>Klik <strong>BUKA</strong> untuk render tabel ini</div><div class="ph-text">Lazy render — hemat memori</div></div>`;
             wrapper.appendChild(card);
             renderedCount++;
         }
-        
         if (renderedCount === 0) {
-            container.innerHTML = buildEmptyStateMsg(
-                `Semua ${ALL_FILTERS_LIST.length} filter tidak menghasilkan key.<br>
-                <span style="color: #fbbf24;">Tidak ada kombinasi yang cocok dengan kriteria.</span>`
-            );
+            container.innerHTML = buildEmptyStateMsg(`Semua ${ALL_FILTERS_LIST.length} filter tidak menghasilkan key.`);
             document.getElementById('info').classList.remove('active');
             SCAN_CACHE = null;
             return;
         }
-        
         SCAN_CACHE = { mode: 'ALL', computedList, pasarNama, posisiNama, data, opsLabel, dedupStatus, dedupValStatus, dedupLastStatus, filterStatus, renderedCount, skippedCount };
-        
         container.innerHTML = '';
         container.appendChild(wrapper);
-        
         let skipInfo = skippedCount > 0 ? ` | ⏭️ ${skippedCount} di-skip (0 key)` : '';
-        document.getElementById('info').innerHTML = 
-            `<div class="judul-tabel">🎨 ALL FILTER MODE — ${pasarNama} | ${posisiNama} | ${data.length} Hari (${ACTIVE_DIGIT_LEN} Digit)</div>
-             <div class="sub-info">🎯 Tampil <strong>${renderedCount}</strong> dari ${ALL_FILTERS_LIST.length} tabel${skipInfo} | 🧮 Ops: [${opsLabel}] | ${dedupStatus} | ${dedupValStatus} | ${dedupLastStatus} | ${filterStatus} | 💡 Lazy mode: klik BUKA per tabel</div>`;
+        document.getElementById('info').innerHTML = `<div class="judul-tabel">🎨 ALL FILTER MODE — ${pasarNama} | ${posisiNama} | ${data.length} Hari (${ACTIVE_DIGIT_LEN} Digit)</div><div class="sub-info">🎯 Tampil <strong>${renderedCount}</strong> dari ${ALL_FILTERS_LIST.length} tabel${skipInfo} | 🧮 Ops: [${opsLabel}] | ${dedupStatus} | ${dedupValStatus} | ${dedupLastStatus} | ${filterStatus}</div>`;
         document.getElementById('info').classList.add('active');
-        
     } else {
         updateProgress(30, `🔄 Memproses filter ${ALL_FILTERS_LABEL[F] || F}...`, '⏳ Menghitung kolom...', 'Kolom: 0 / ' + TOTAL_COLS);
         await sleep(50);
-        
         let computed = await computeFilteredColumns(F, (pct, k1) => {
             let overall = 30 + (pct / 100) * 50;
             updateProgress(overall, `🔄 Filter ${ALL_FILTERS_LABEL[F] || F} — key ${k1}`, `⏳ ${k1.toUpperCase()}`, `Kolom: 0 / ${TOTAL_COLS}`);
         });
-        
         let res = buildTableHTMLFromFiltered(F, computed, currentPage, COLS_PER_PAGE);
         currentPage = res.page;
-        
         if (res.totalFiltered === 0) {
             SCAN_CACHE = null;
             document.getElementById('info').classList.remove('active');
-            container.innerHTML = buildEmptyStateMsg(
-                `Filter <strong style="color:#4ade80;">${ALL_FILTERS_LABEL[F] || F}</strong> tidak menghasilkan key untuk kriteria ini.`
-            );
-            updateProgress(100, '⚠️ 0 Key Ditemukan', '⚠️ Tidak ada yang lolos', 'Kolom: 0 / ' + TOTAL_COLS);
+            container.innerHTML = buildEmptyStateMsg(`Filter <strong style="color:#4ade80;">${ALL_FILTERS_LABEL[F] || F}</strong> tidak menghasilkan key.`);
+            updateProgress(100, '⚠️ 0 Key', '⚠️ Kosong', 'Kolom: 0 / ' + TOTAL_COLS);
             return;
         }
-        
         updateProgress(80, '📊 Membangun tabel HTML...', '⏳ Render tabel...', 'Kolom: ' + res.totalFiltered + ' lolos');
         await sleep(50);
-        
         let filterStatus;
-        if (ACTIVE_MATI > 0) filterStatus = `🟢 Mode MATI (${ACTIVE_MATI}) → 🔴 ${ACTIVE_MERAH_AUTO} merah wajib, sisa hijau`;
+        if (ACTIVE_MATI > 0) filterStatus = `🟢 Mode MATI (${ACTIVE_MATI}) → 🔴 ${ACTIVE_MERAH_AUTO} merah wajib`;
         else if (MIN_RED_FILTER) filterStatus = `🔴 MinMerah: ON (≥${MIN_RED_COUNT} baris)`;
         else if (AUTO_FILTER) filterStatus = `🔍 AutoFilter: ON`;
         else filterStatus = `🔍 AutoFilter: OFF`;
-        
         let judul = `📋 ${pasarNama} | ${posisiNama} | ${F.toUpperCase()} | ${data.length} Hari (${ACTIVE_DIGIT_LEN} Digit)`;
         let subInfo = `🧮 Ops: [${opsLabel}] | 🔴 MERAH = cocok | ${dedupStatus} | ${dedupValStatus} | ${dedupLastStatus} | Total mentah: ${TOTAL_COLS} | Kolom lolos: ${res.totalFiltered} | ${filterStatus}`;
-        
         document.getElementById('info').innerHTML = `<div class="judul-tabel">${judul}</div><div class="sub-info">${subInfo}</div>`;
         document.getElementById('info').classList.add('active');
-        
         SCAN_CACHE = { mode: 'NORMAL', computed, F, pasarNama, posisiNama, data, opsLabel, dedupStatus, dedupValStatus, dedupLastStatus, filterStatus, TOTAL_COLS };
-        
-        container.innerHTML = `
-            <div class="scroll-container">
-                <div class="col-nav">
-                    <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
-                    <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
-                    <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
-                    <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
-                </div>
-                <div class="table-scroll">
-                    <table>${res.html}</table>
-                </div>
-                <div class="col-nav">
-                    <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
-                    <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
-                    <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
-                    <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
-                </div>
-            </div>
-        `;
+        container.innerHTML = `<div class="scroll-container"><div class="col-nav"><button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button><span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span><span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span><button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button></div><div class="table-scroll"><table>${res.html}</table></div><div class="col-nav"><button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button><span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span><span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span><button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button></div></div>`;
     }
 }
 
+// ============================================================
+// CARD (ALL MODE)
+// ============================================================
 function toggleCard(card, fk) {
     if (!card) return;
     let isOpen = card.classList.contains('open');
-    
     if (isOpen) {
         card.classList.remove('open');
-        let btn = card.querySelector('.fc-btn');
-        if (btn) btn.textContent = '📂 BUKA';
-        let placeholder = card.querySelector('.filter-card-placeholder');
-        if (placeholder) placeholder.style.display = 'block';
+        card.querySelector('.fc-btn').textContent = '📂 BUKA';
+        card.querySelector('.filter-card-placeholder').style.display = 'block';
         return;
     }
-    
     card.classList.add('open');
-    let btn = card.querySelector('.fc-btn');
-    if (btn) btn.textContent = '📁 TUTUP';
-    let placeholder = card.querySelector('.filter-card-placeholder');
-    if (placeholder) placeholder.style.display = 'none';
-    
+    card.querySelector('.fc-btn').textContent = '📁 TUTUP';
+    card.querySelector('.filter-card-placeholder').style.display = 'none';
     if (card.dataset.rendered === 'true') return;
-    
     let body = card.querySelector('.filter-card-body');
     if (!body) return;
-    
-    body.innerHTML = '<div style="text-align:center; padding: 25px; color: #94a3b8; font-size:12px;">⏳ Merender tabel...</div>';
-    
+    body.innerHTML = '<div style="text-align:center; padding:25px; color:#94a3b8; font-size:12px;">⏳ Merender tabel...</div>';
     setTimeout(() => {
         if (!SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
         let item = SCAN_CACHE.computedList.find(x => x.fk === fk);
         if (!item) return;
-        
         let res = buildTableHTMLFromFiltered(fk, item.computed, 0, MAX_COLS_ALL);
-        
-        body.innerHTML = `
-            <div class="col-nav">
-                <button onclick="cardPrevPage('${fk}')">◀ Prev</button>
-                <span class="info">Halaman 1 / ${res.totalPages}</span>
-                <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered} (max ${MAX_COLS_ALL}/hal)</span>
-                <button onclick="cardNextPage('${fk}')">Next ▶</button>
-            </div>
-            <div class="table-scroll">
-                <table>${res.html}</table>
-            </div>
-        `;
+        body.innerHTML = `<div class="col-nav"><button onclick="cardPrevPage('${fk}')">◀ Prev</button><span class="info">Halaman 1 / ${res.totalPages}</span><span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered} (max ${MAX_COLS_ALL}/hal)</span><button onclick="cardNextPage('${fk}')">Next ▶</button></div><div class="table-scroll"><table>${res.html}</table></div>`;
         card.dataset.rendered = 'true';
         card.dataset.currentPage = '0';
     }, 30);
 }
-
 function cardPrevPage(fk) {
     let card = document.querySelector(`.filter-card[data-fk="${fk}"]`);
     if (!card) return;
@@ -1397,41 +1409,17 @@ function cardRenderPage(fk, page) {
     if (!card || !SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
     let item = SCAN_CACHE.computedList.find(x => x.fk === fk);
     if (!item) return;
-    
     let res = buildTableHTMLFromFiltered(fk, item.computed, page, MAX_COLS_ALL);
     card.dataset.currentPage = res.page;
-    
     let body = card.querySelector('.filter-card-body');
-    body.innerHTML = `
-        <div class="col-nav">
-            <button onclick="cardPrevPage('${fk}')" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
-            <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
-            <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered} (max ${MAX_COLS_ALL}/hal)</span>
-            <button onclick="cardNextPage('${fk}')" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
-        </div>
-        <div class="table-scroll">
-            <table>${res.html}</table>
-        </div>
-    `;
+    body.innerHTML = `<div class="col-nav"><button onclick="cardPrevPage('${fk}')" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button><span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span><span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered} (max ${MAX_COLS_ALL}/hal)</span><button onclick="cardNextPage('${fk}')" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button></div><div class="table-scroll"><table>${res.html}</table></div>`;
 }
+function openAllCards() { document.querySelectorAll('.filter-card').forEach(c => { if (!c.classList.contains('open')) toggleCard(c, c.dataset.fk); }); }
+function closeAllCards() { document.querySelectorAll('.filter-card').forEach(c => { if (c.classList.contains('open')) toggleCard(c, c.dataset.fk); }); }
 
-function openAllCards() {
-    document.querySelectorAll('.filter-card').forEach(card => {
-        if (!card.classList.contains('open')) {
-            let fk = card.dataset.fk;
-            toggleCard(card, fk);
-        }
-    });
-}
-function closeAllCards() {
-    document.querySelectorAll('.filter-card').forEach(card => {
-        if (card.classList.contains('open')) {
-            let fk = card.dataset.fk;
-            toggleCard(card, fk);
-        }
-    });
-}
-
+// ============================================================
+// PAGINATION
+// ============================================================
 function prevPage() {
     if (!SCAN_CACHE || SCAN_CACHE.mode !== 'NORMAL') return;
     if (currentPage > 0) { currentPage--; doQuickRender(); }
@@ -1440,41 +1428,514 @@ function nextPage() {
     if (!SCAN_CACHE || SCAN_CACHE.mode !== 'NORMAL') return;
     currentPage++; doQuickRender();
 }
-
 function doQuickRender() {
     if (!SCAN_CACHE || SCAN_CACHE.mode !== 'NORMAL') return;
     let container = document.getElementById('tabelContainer');
     let { computed, F } = SCAN_CACHE;
     let res = buildTableHTMLFromFiltered(F, computed, currentPage, COLS_PER_PAGE);
     currentPage = res.page;
-    
     let dedupLastStatus = DEDUP_LAST ? `🎯 DedupLast: ON` : `🎯 DedupLast: OFF`;
     let oldInfo = document.getElementById('info').innerHTML;
     document.getElementById('info').innerHTML = oldInfo.replace(/🎯 DedupLast: (ON|OFF)/, dedupLastStatus);
-    
-    container.innerHTML = `
-        <div class="scroll-container">
-            <div class="col-nav">
-                <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
-                <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
-                <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
-                <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
-            </div>
-            <div class="table-scroll">
-                <table>${res.html}</table>
-            </div>
-            <div class="col-nav">
-                <button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button>
-                <span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span>
-                <span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span>
-                <button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button>
-            </div>
-        </div>
-    `;
+    container.innerHTML = `<div class="scroll-container"><div class="col-nav"><button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button><span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span><span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span><button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button></div><div class="table-scroll"><table>${res.html}</table></div><div class="col-nav"><button onclick="prevPage()" ${res.page === 0 ? 'disabled' : ''}>◀ Prev</button><span class="info">Halaman ${res.page + 1} / ${res.totalPages}</span><span class="range">Kolom ${res.startIdx + 1} - ${res.endIdx} dari ${res.totalFiltered}</span><button onclick="nextPage()" ${res.page >= res.totalPages - 1 ? 'disabled' : ''}>Next ▶</button></div></div>`;
 }
 
+// ============================================================
+// TAB SWITCH
+// ============================================================
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+}
+
+// ============================================================
+// GLOBAL PASAR (sinkron 3 tab)
+// ============================================================
+async function changeGlobalPasar(p) {
+    P = p;
+    ['selPasar', 'pasarSelectManual', 'pasarSelectCT'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = p;
+    });
+    await loadData(p);
+}
+
+// ============================================================
+// EVENT LISTENER
+// ============================================================
+document.getElementById('selDedupLast').addEventListener('change', () => {
+    DEDUP_LAST = document.getElementById('selDedupLast').value === 'on';
+    if (SCAN_CACHE) {
+        if (SCAN_CACHE.mode === 'NORMAL') doQuickRender();
+        else if (SCAN_CACHE.mode === 'ALL') reapplyDedupLastAll();
+    }
+});
+
+function reapplyDedupLastAll() {
+    if (!SCAN_CACHE || SCAN_CACHE.mode !== 'ALL') return;
+    document.querySelectorAll('.filter-card').forEach(card => {
+        if (card.dataset.rendered === 'true') {
+            let fk = card.dataset.fk;
+            let page = parseInt(card.dataset.currentPage || '0');
+            cardRenderPage(fk, page);
+        }
+    });
+}
+// ============================================================
+// MANUAL CALCULATOR
+// ============================================================
+function populateDropdownsManual() {
+    let k1Html = '', k2Html = '<option value="">(Tanpa Key 2)</option>';
+    const KEYS_LIST = ['a1','a2','a3','a4','a5','a6','a7','a8','a9','c1','c2','c3','c4','c5','c6','c7','c8','c9','k1','k2','k3','k4','k5','k6','k7','k8','k9','e1','e2','e3','e4','e5','e6','e7','e8','e9','j1','j2','j3','j4','j5','j6','j7','j8','j9','jt1','jt2','jt3','jt4','jt5','jt6','jt7','jt8','jt9','jd1','jd2','jd3','jd4','jd5','jd6','jd7','jd8','jd9'];
+    for (let k of KEYS_LIST) {
+        k1Html += `<option value="${k}">${k.toUpperCase()}</option>`;
+        k2Html += `<option value="${k}">${k.toUpperCase()}</option>`;
+    }
+    document.getElementById('key1Select').innerHTML = k1Html;
+    document.getElementById('key2Select').innerHTML = k2Html;
+}
+
+function hitungNilaiKeyManual(keyObj, filter, allData, currentIndex) {
+    const key = keyObj.toLowerCase();
+    const match = key.match(/^([a-z]+)(\d+)$/);
+    if (!match) return 0;
+    const prefix = match[1];
+    const num = parseInt(match[2]);
+    const offset = num - 1;
+    let positions = [];
+    if (prefix === 'a') positions = [0];
+    else if (prefix === 'c') positions = [1];
+    else if (prefix === 'k') positions = [2];
+    else if (prefix === 'e') positions = [3];
+    else if (prefix === 'j') positions = [2, 3];
+    else if (prefix === 'jt') positions = [1, 2];
+    else if (prefix === 'jd') positions = [0, 1];
+    const dataIndex = currentIndex - offset;
+    const targetData = (dataIndex >= 0 && dataIndex < allData.length) ? allData[dataIndex] : allData[0];
+    let nilai = 0;
+    for (let p of positions) nilai += parseInt(targetData[p]);
+    if (positions.length > 1) nilai = reduceToSingleDigit(nilai);
+    if (filter && filter !== 'none' && filter !== 'rumus') {
+        const temp = MAP10[filter]?.[nilai];
+        if (temp !== undefined) nilai = parseInt(temp[1]);
+    }
+    return nilai;
+}
+
+function hitungOperasiManual(a, b, op) {
+    let h;
+    if (op === '+') h = a + b;
+    else if (op === '-') h = a - b;
+    else if (op === '×' || op === 'x') h = a * b;
+    if (h === 0) return a;
+    return reduceToSingleDigit(h);
+}
+
+async function hitungManualTrigger() {
+    const p = document.getElementById('pasarSelectManual').value;
+    await loadData(p);
+    let allData = D[p];
+    if (!allData || allData.length === 0) {
+        alert('Data belum siap! Tunggu load selesai.');
+        return;
+    }
+    const posisi = document.getElementById('posisiSelectManual').value;
+    const jmlTampil = parseInt(document.getElementById('tampilInputManual').value) || 10;
+    const jmlDigit = parseInt(document.getElementById('digitInputManual').value) || 9;
+    const k1 = document.getElementById('key1Select').value;
+    const f1 = document.getElementById('filter1Select').value;
+    const op = document.getElementById('opSelect').value;
+    const k2 = document.getElementById('key2Select').value;
+    const f2 = document.getElementById('filter2Select').value;
+    const fFinal = document.getElementById('filterFinalSelect').value;
+    if (op && !k2) return alert("⚠️ Pilih operator tapi Key 2 kosong!");
+    const activeMask = FIXED_MASKS[jmlDigit] || FIXED_MASKS[9];
+    const bestMaskLabel = activeMask.map(idx => "ABCDEFGHIJ"[idx]).join('');
+    let formulaPart = `${k1.toUpperCase()}${FILTER_LABEL_AUTO[f1]||''}`;
+    if (op && k2) formulaPart += `${op}${k2.toUpperCase()}${FILTER_LABEL_AUTO[f2]||''}`;
+    const headerKeyLabel = `(${formulaPart} [${bestMaskLabel}]=${fFinal === 'rumus' ? '' : fFinal})`;
+    const totalAllRows = allData.length;
+    const startIndex = Math.max(0, totalAllRows - jmlTampil);
+    let detailBaris = [];
+    const POSISI_MAP_LOCAL = { as:[0], cop:[1], kepala:[2], ekor:[3], '2ddepan':[0,1], '2dbelakang':[2,3], tengah:[1,2], tepi:[0,3], kombinasi:[0,1,2,3], 'jumlah2ddepan':[0,1], 'jumlah2dbelakang':[2,3], 'jumlahtengah':[1,2], 'jumlahtepi':[0,3], 'jumlahkombinasi':[0,1,2,3] };
+    for (let i = startIndex; i < totalAllRows; i++) {
+        let baris = allData[i];
+        let nextResult = (i + 1 < totalAllRows) ? allData[i + 1] : null;
+        let hasilAkhir = '';
+        let mapTarget = MAP10[fFinal] || MAP10['rumus'];
+        if (op && k2) {
+            let v1 = hitungNilaiKeyManual(k1, f1, allData, i);
+            let v2 = hitungNilaiKeyManual(k2, f2, allData, i);
+            let oR = hitungOperasiManual(v1, v2, op);
+            let hasilMentah = mapTarget[oR] || MAP10['rumus']['0'];
+            hasilAkhir = getDynamicDigitsByMask(hasilMentah, activeMask);
+        } else {
+            let v1 = hitungNilaiKeyManual(k1, f1, allData, i);
+            let hasilMentah = mapTarget[v1] || MAP10['rumus']['0'];
+            hasilAkhir = getDynamicDigitsByMask(hasilMentah, activeMask);
+        }
+        let targetList = [];
+        if (nextResult) {
+            let indList = POSISI_MAP_LOCAL[posisi] || [];
+            if (posisi.startsWith('jumlah')) {
+                let total = 0;
+                if (posisi === 'jumlahtepi') total = parseInt(nextResult[0]) + parseInt(nextResult[3]);
+                else if (posisi === 'jumlahtengah') total = parseInt(nextResult[1]) + parseInt(nextResult[2]);
+                else for (let ind of indList) total += parseInt(nextResult[ind]);
+                targetList = [String(reduceToSingleDigit(total))];
+            } else if (posisi === 'tepi') targetList = [nextResult[0], nextResult[3]];
+            else if (posisi === 'tengah') targetList = [nextResult[1], nextResult[2]];
+            else targetList = indList.map(ind => nextResult[ind]);
+        }
+        detailBaris.push({ periodeData: baris, nilai: hasilAkhir, target: targetList, isLast: (i === totalAllRows - 1) });
+    }
+    renderResultManual(detailBaris, headerKeyLabel, posisi);
+}
+
+function renderResultManual(detailBaris, headerKeyLabel, posisi) {
+    let ra = document.getElementById('resultAreaManual');
+    let html = `<div class="table-scroll"><table><tr><th>Result</th><th>${headerKeyLabel}</th><th>${posisi.toUpperCase()} Off</th></tr>`;
+    for (let row of detailBaris) {
+        let fN = '', offD = getAngkaHilang(row.nilai);
+        if (row.isLast) {
+            fN = `<span style="color:#fbbf24;font-weight:bold;">${row.nilai}</span>`;
+        } else {
+            let cArr = row.nilai.split(''), mk = false;
+            let dArr = cArr.map(c => { if(row.target.includes(c)){mk=true; return `<span class="d-merah">${c}</span>`;} return c; });
+            fN = (!mk && row.target.length>0) ? dArr.join('') + ' <span class="d-merah">X</span>' : dArr.join('');
+            if (mk && row.target.length>0) offD += ' <span class="d-merah">X</span>';
+        }
+        html += `<tr><td style="font-weight:bold;">${row.periodeData}</td><td style="letter-spacing:2px;">${fN}</td><td style="letter-spacing:2px;color:#34d399;">${offD}</td></tr>`;
+    }
+    html += `</table></div>`;
+    ra.innerHTML = html;
+    document.getElementById('statusBarManual').innerHTML = `✅ Kalkulasi manual selesai (${detailBaris.length} baris).`;
+}
+
+async function jalankanQuickPaste() {
+    let rawInput = document.getElementById('quickPasteInput').value.trim().toLowerCase();
+    if(!rawInput) return alert("❌ Masukkan format kode!");
+    try {
+        let input = rawInput.replace(/×/g, 'x');
+        let parts = input.split('_');
+        if(parts.length < 5) throw new Error("Format kode tidak lengkap.");
+        let pasar = parts[0];
+        if(['hk', 'sgp', 'sdny'].includes(pasar)) {
+            document.getElementById('pasarSelectManual').value = pasar;
+            await changeGlobalPasar(pasar);
+        }
+        document.getElementById('posisiSelectManual').value = parts[1];
+        if(parts[2].startsWith('jtampil-')) document.getElementById('tampilInputManual').value = parts[2].split('-')[1];
+        if(parts[3].startsWith('jdigit-')) document.getElementById('digitInputManual').value = parts[3].split('-')[1];
+        let formulaStr = parts[4];
+        const mapFilter = (f, isFinal = false) => {
+            if(!f || f === '') return isFinal ? 'rumus' : 'none';
+            let cleanF = f.replace(/[^a-z0-9]/g, '');
+            if(cleanF === 'ind' || cleanF === 'index') return 'index';
+            if(cleanF === 'mla' || cleanF === 'mlama') return 'mlama';
+            if(cleanF === 'mb' || cleanF === 'mbaru') return 'mbaru';
+            if(cleanF === 'ty' || cleanF === 'taysen') return 'taysen';
+            if(cleanF.match(/^m[0-9]$/)) return cleanF.toUpperCase();
+            return isFinal ? 'rumus' : 'none';
+        };
+        let leftSide = formulaStr, finalFilterStr = "rumus";
+        let lastEqIndex = formulaStr.lastIndexOf('=');
+        if(lastEqIndex !== -1) {
+            leftSide = formulaStr.substring(0, lastEqIndex);
+            finalFilterStr = formulaStr.substring(lastEqIndex + 1);
+        }
+        document.getElementById('filterFinalSelect').value = mapFilter(finalFilterStr, true);
+        let op = "", opChar = "";
+        if(leftSide.includes('+')) { op = "+"; opChar = "+"; }
+        else if(leftSide.includes('-')) { op = "-"; opChar = "-"; }
+        else if(leftSide.includes('x')) { op = "×"; opChar = "x"; }
+        document.getElementById('opSelect').value = op;
+        const parseKF = (kfStr) => {
+            let match = kfStr.match(/^([a-z]+\d+)([a-z0-9]*)$/);
+            return match ? { k: match[1], f: match[2] } : { k: kfStr, f: "" };
+        };
+        if(op) {
+            let sideParts = leftSide.split(opChar);
+            if(sideParts.length >= 2) {
+                let kf1 = parseKF(sideParts[0].trim()), kf2 = parseKF(sideParts[1].trim());
+                document.getElementById('key1Select').value = kf1.k;
+                document.getElementById('filter1Select').value = mapFilter(kf1.f);
+                document.getElementById('key2Select').value = kf2.k;
+                document.getElementById('filter2Select').value = mapFilter(kf2.f);
+            } else throw new Error("Format operasi salah.");
+        } else {
+            let kf1 = parseKF(leftSide.trim());
+            document.getElementById('key1Select').value = kf1.k;
+            document.getElementById('filter1Select').value = mapFilter(kf1.f);
+            document.getElementById('key2Select').value = "";
+            document.getElementById('filter2Select').value = "none";
+        }
+        hitungManualTrigger();
+    } catch (err) {
+        alert("⚠️ Gagal membaca Quick Paste: " + err.message);
+    }
+}
+
+// ============================================================
+// RACIK ANGKA
+// ============================================================
+function getDigitsGen(id) {
+    let val = document.getElementById(id).value;
+    if (!val || val.trim() === '') return [];
+    return [...new Set(val.replace(/\D/g, '').split('').map(Number))];
+}
+
+function getCTControlsGen(id) {
+    let val = document.getElementById(id).value;
+    if (!val || val.trim() === '') return [];
+    return val.split(/\r?\n/).map(line => line.replace(/\D/g, '')).filter(l => l.length > 0).map(l => [...new Set(l.split('').map(Number))]);
+}
+
+let lastRacikResult = {};
+
+function generateRacik() {
+    let asD = getDigitsGen('racikAs'), copD = getDigitsGen('racikCop'), kepD = getDigitsGen('racikKepala'), ekoD = getDigitsGen('racikEkor');
+    let jdD = getDigitsGen('racikJd'), jtD = getDigitsGen('racikJt'), jbelD = getDigitsGen('racikJbel'), tepiD = getDigitsGen('racikTepi');
+    let ctAC = getCTControlsGen('ctAsCopGen'), ctCK = getCTControlsGen('ctCopKepalaGen'), ctKE = getCTControlsGen('ctKepalaEkorGen');
+    let bbfsRaw = document.getElementById('bbfsInputGen').value.replace(/\D/g, '');
+    let bbfsDigits = [...new Set(bbfsRaw.split('').map(Number))];
+    let hasBbfs = bbfsDigits.length >= 4;
+    let hasA = asD.length>0, hasC = copD.length>0, hasK = kepD.length>0, hasE = ekoD.length>0;
+
+    if (!hasA && !hasC && !hasK && !hasE && !hasBbfs) {
+        document.getElementById('hasilBoxRacik').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><div class="title">Input Kosong</div><div class="sub">Isi minimal salah satu posisi angka atau BBFS.</div></div>';
+        return;
+    }
+
+    let f4D = [], f3D = [], f2D = [], f3DD = [], f2DD = [], f2DT = [];
+    let bbfs4DRes = [], bbfs3DRes = [], bbfs2DRes = [];
+
+    if (hasA || hasC || hasK || hasE) {
+        let raw = [];
+        let aA = hasA ? asD : [null];
+        let cA = hasC ? copD : [null];
+        let kA = hasK ? kepD : [null];
+        let eA = hasE ? ekoD : [null];
+        for(let a of aA) for(let c of cA) for(let k of kA) for(let e of eA) raw.push({ a, c, k, e });
+        let filtered = raw;
+        if (ctAC.length > 0 && filtered.length > 0) for (let ctrl of ctAC) filtered = filtered.filter(item => (item.a === null || item.c === null) ? false : (ctrl.includes(item.a) || ctrl.includes(item.c)));
+        if (ctCK.length > 0 && filtered.length > 0) for (let ctrl of ctCK) filtered = filtered.filter(item => (item.c === null || item.k === null) ? false : (ctrl.includes(item.c) || ctrl.includes(item.k)));
+        if (ctKE.length > 0 && filtered.length > 0) for (let ctrl of ctKE) filtered = filtered.filter(item => (item.k === null || item.e === null) ? false : (ctrl.includes(item.k) || ctrl.includes(item.e)));
+        if (jdD.length > 0 && filtered.length > 0) filtered = filtered.filter(item => (item.a === null || item.c === null) ? false : jdD.includes((item.a + item.c) % 10));
+        if (jtD.length > 0 && filtered.length > 0) filtered = filtered.filter(item => (item.c === null || item.k === null) ? false : jtD.includes((item.c + item.k) % 10));
+        if (jbelD.length > 0 && filtered.length > 0) filtered = filtered.filter(item => (item.k === null || item.e === null) ? false : jbelD.includes((item.k + item.e) % 10));
+        if (tepiD.length > 0 && filtered.length > 0) filtered = filtered.filter(item => (item.e === null) ? false : tepiD.includes(item.e));
+        filtered.forEach(i => {
+            if (i.a !== null && i.c !== null && i.k !== null && i.e !== null) f4D.push(`${i.a}${i.c}${i.k}${i.e}`);
+            if (i.c !== null && i.k !== null && i.e !== null) f3D.push(`${i.c}${i.k}${i.e}`);
+            if (i.k !== null && i.e !== null) f2D.push(`${i.k}${i.e}`);
+            if (i.a !== null && i.c !== null && i.k !== null) f3DD.push(`${i.a}${i.c}${i.k}`);
+            if (i.a !== null && i.c !== null) f2DD.push(`${i.a}${i.c}`);
+            if (i.c !== null && i.k !== null) f2DT.push(`${i.c}${i.k}`);
+        });
+    }
+
+    if (hasBbfs) {
+        let d = bbfsDigits;
+        let do4D = document.getElementById('showBbfs4D').checked;
+        let do3D = document.getElementById('showBbfs3D').checked;
+        let do2D = document.getElementById('showBbfs2D').checked;
+        if (do4D) for (let i = 0; i < d.length; i++) for (let j = 0; j < d.length; j++) for (let k = 0; k < d.length; k++) for (let l = 0; l < d.length; l++) bbfs4DRes.push(`${d[i]}${d[j]}${d[k]}${d[l]}`);
+        if (do3D) for (let i = 0; i < d.length; i++) for (let j = 0; j < d.length; j++) for (let k = 0; k < d.length; k++) bbfs3DRes.push(`${d[i]}${d[j]}${d[k]}`);
+        if (do2D) for (let i = 0; i < d.length; i++) for (let j = 0; j < d.length; j++) bbfs2DRes.push(`${d[i]}${d[j]}`);
+    }
+
+    lastRacikResult = {
+        d4: [...new Set(f4D)], d3: [...new Set(f3D)], d2: [...new Set(f2D)],
+        d3depan: [...new Set(f3DD)], d2depan: [...new Set(f2DD)], d2tengah: [...new Set(f2DT)],
+        bbfs4: [...new Set(bbfs4DRes)], bbfs3: [...new Set(bbfs3DRes)], bbfs2: [...new Set(bbfs2DRes)]
+    };
+
+    let html = '';
+    let renderR = (lbl, arr) => {
+        if (arr.length > 0) {
+            return `<div style="background:#1e222b;border:1px solid #2e3646;border-radius:6px;padding:10px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid #2e3646;"><span style="color:#4ade80;font-weight:bold;font-size:13px;">📂 ${lbl} <span style="font-size:11px;color:#94a3b8;">(${arr.length})</span></span><button class="scan-btn" style="padding:4px 10px;font-size:11px;" onclick="copyToClipboard('${arr.join('*')}', this)">COPY</button></div><div style="font-family:'Courier New',monospace;font-size:12px;color:#86efac;word-break:break-all;background:#121417;padding:8px;border-radius:4px;max-height:150px;overflow-y:auto;">${arr.join('*')}</div></div>`;
+        }
+        return '';
+    };
+    html += renderR('4D', lastRacikResult.d4);
+    html += renderR('3D Belakang', lastRacikResult.d3);
+    html += renderR('2D Belakang', lastRacikResult.d2);
+    html += renderR('3D Depan', lastRacikResult.d3depan);
+    html += renderR('2D Depan', lastRacikResult.d2depan);
+    html += renderR('2D Tengah', lastRacikResult.d2tengah);
+    html += renderR('BBFS 4D', lastRacikResult.bbfs4);
+    html += renderR('BBFS 3D', lastRacikResult.bbfs3);
+    html += renderR('BBFS 2D', lastRacikResult.bbfs2);
+    if (!html) html = '<div class="empty-state"><div class="icon">❌</div><div class="title">0 Hasil</div><div class="sub">Tidak ada kombinasi yang cocok.</div></div>';
+    document.getElementById('hasilBoxRacik').innerHTML = html;
+}
+
+function resetRacik() {
+    ['racikAs', 'racikCop', 'racikKepala', 'racikEkor', 'racikJd', 'racikJt', 'racikJbel', 'racikTepi', 'bbfsInputGen', 'ctAsCopGen', 'ctCopKepalaGen', 'ctKepalaEkorGen'].forEach(id => {
+        let el = document.getElementById(id);
+        if(el) el.value = '';
+    });
+    document.getElementById('hasilBoxRacik').innerHTML = '<div class="empty-state"><div class="icon">🧩</div><div class="title">Racik Angka</div><div class="sub">Isi angka racikan, lalu klik <strong>GENERATE</strong>.</div></div>';
+    lastRacikResult = {};
+}
+
+function copyToClipboard(text, btnElement) {
+    let oldText = btnElement.innerHTML;
+    btnElement.innerHTML = "COPIED";
+    setTimeout(() => { btnElement.innerHTML = oldText; }, 1500);
+    navigator.clipboard.writeText(text);
+}
+
+// ============================================================
+// CT SCANNER 2D
+// ============================================================
+const CT_AS = {'0':'984037','1':'873926','2':'762815','3':'651704','4':'540693','5':'439582','6':'328471','7':'217360','8':'106259','9':'095148'};
+const CT_AS2 = {'0':'024568','1':'135679','2':'246780','3':'357891','4':'468902','5':'579013','6':'680124','7':'791235','8':'802346','9':'913457'};
+const CT_AS3 = {'0':'034578','1':'145689','2':'256790','3':'367801','4':'478912','5':'589023','6':'690134','7':'701245','8':'812356','9':'923467'};
+const CT_AS4 = {'0':'890354','1':'901465','2':'012576','3':'123687','4':'234798','5':'345809','6':'456910','7':'567021','8':'678132','9':'789243'};
+const CT_AS5 = {'0':'0234689','1':'1345790','2':'2456801','3':'3567912','4':'4678023','5':'5789134','6':'6890245','7':'7901356','8':'8012467','9':'9123578'};
+const CT_COP = {'0':'079542','1':'142679','2':'291764','3':'364891','4':'413986','5':'586013','6':'635108','7':'708235','8':'857320','9':'920457'};
+const CT_COP2 = {'0':'012568','1':'890346','2':'678124','3':'456902','4':'234780','5':'901457','6':'789235','7':'567013','8':'345891','9':'123679'};
+const CT_KE = {'0':'0234689','1':'1345790','2':'2456801','3':'3567912','4':'4678023','5':'5789134','6':'6890245','7':'7901356','8':'8012467','9':'9123578'};
+const CT_KE2 = {'0':'890354','1':'901465','2':'012576','3':'123687','4':'234798','5':'345809','6':'456910','7':'567021','8':'678132','9':'789243'};
+const CT_KE3 = {'0':'024568','1':'135679','2':'246780','3':'357891','4':'468902','5':'579013','6':'680124','7':'791235','8':'802346','9':'913457'};
+const CT_K = {'0':'123678','1':'234789','2':'345890','3':'456901','4':'567012','5':'678123','6':'789234','7':'890345','8':'901456','9':'012567'};
+const CT_E = {'0':'124679','1':'346891','2':'568013','3':'780235','4':'902457','5':'235780','6':'457902','7':'679124','8':'891346','9':'013568'};
+const CT_E2 = {'0':'01389','1':'12490','2':'23501','3':'34612','4':'45723','5':'56834','6':'67945','7':'78056','8':'89167','9':'90278'};
+const CT_AC = {'0':'234789','1':'345890','2':'456901','3':'567012','4':'667123','5':'789234','6':'890345','7':'901456','8':'012567','9':'123678'};
+const CT_OFF_KEP_AC = { '0': '167', '1': '278', '2': '389', '3': '490', '4': '501', '5': '612', '6': '723', '7': '834', '8': '945', '9': '056' };
+const CT_OFF_KEP_E = { '0': '67', '1': '78', '2': '89', '3': '90', '4': '01', '5': '12', '6': '23', '7': '34', '8': '45', '9': '56' };
+const CT_OFF_KEP_K = { '0': '17', '1': '28', '2': '39', '3': '40', '4': '51', '5': '62', '6': '73', '7': '84', '8': '95', '9': '06' };
+const CT_OFF_KEP_KE = { '0': '17', '1': '28', '2': '39', '3': '40', '4': '51', '5': '62', '6': '73', '7': '84', '8': '95', '9': '06' };
+const CT_OFF_EKOR_AC = { '0': '17', '1': '28', '2': '39', '3': '40', '4': '51', '5': '62', '6': '73', '7': '84', '8': '95', '9': '06' };
+const CT_OFF_EKOR_KE = { '0': '16', '1': '27', '2': '38', '3': '49', '4': '50', '5': '61', '6': '72', '7': '83', '8': '94', '9': '05' };
+const CT_OFF_EKOR_E = { '0': '542', '1': '653', '2': '764', '3': '875', '4': '986', '5': '097', '6': '108', '7': '219', '8': '320', '9': '431' };
+
+const ALL_MAPPINGS_CT = [
+    { id: 'as1', label: 'AS1', map: CT_AS },
+    { id: 'as2', label: 'AS2', map: CT_AS2 },
+    { id: 'as3', label: 'AS3', map: CT_AS3 },
+    { id: 'as4', label: 'AS4', map: CT_AS4 },
+    { id: 'as5', label: 'AS5', map: CT_AS5 },
+    { id: 'cop1', label: 'COP1', map: CT_COP },
+    { id: 'cop2', label: 'COP2', map: CT_COP2 },
+    { id: 'ke1', label: 'KE1', map: CT_KE },
+    { id: 'ke2', label: 'KE2', map: CT_KE2 },
+    { id: 'ke3', label: 'KE3', map: CT_KE3 },
+    { id: 'k1', label: 'K1', map: CT_K },
+    { id: 'e1', label: 'E1', map: CT_E },
+    { id: 'e2', label: 'E2', map: CT_E2 },
+    { id: 'ac1', label: 'AC1', map: CT_AC },
+    { id: 'off_kep_ac', label: 'OFF KEP (A+C)', map: CT_OFF_KEP_AC },
+    { id: 'off_kep_e', label: 'OFF KEP (E)', map: CT_OFF_KEP_E },
+    { id: 'off_kep_k', label: 'OFF KEP (K)', map: CT_OFF_KEP_K },
+    { id: 'off_kep_ke', label: 'OFF KEP (K+E)', map: CT_OFF_KEP_KE },
+    { id: 'off_ekor_ac', label: 'OFF EKR (A+C)', map: CT_OFF_EKOR_AC },
+    { id: 'off_ekor_ke', label: 'OFF EKR (K+E)', map: CT_OFF_EKOR_KE },
+    { id: 'off_ekor_e', label: 'OFF EKR (E)', map: CT_OFF_EKOR_E }
+];
+
+let JUMLAH_TAMPIL_CT = 20;
+
+function setTampilOptionCT() {
+    JUMLAH_TAMPIL_CT = parseInt(document.getElementById('tampilSelectCT').value);
+    scanPrediksiCT();
+}
+
+async function onPasarChangeCT() {
+    let p = document.getElementById('pasarSelectCT').value;
+    await changeGlobalPasar(p);
+    scanPrediksiCT();
+}
+
+async function scanPrediksiCT() {
+    let p = document.getElementById('pasarSelectCT').value;
+    await loadData(p);
+    let allData = D[p];
+    if (!allData || allData.length === 0) {
+        document.getElementById('resultAreaCT').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><div class="title">Data Kosong</div><div class="sub">Tunggu load selesai atau ganti pasar.</div></div>';
+        return;
+    }
+    let data = allData.slice(-JUMLAH_TAMPIL_CT);
+    let barisData = [];
+
+    for (let i = 0; i < data.length - 1; i++) {
+        let curr = data[i], next = data[i + 1], next2D = next.slice(2, 4);
+        let targetKepala = next[2], targetEkor = next[3];
+        let row = { dataSaatIni: curr, isLastRow: (i === data.length - 2) };
+        for (let m of ALL_MAPPINGS_CT) {
+            let digit = 0;
+            if (m.id === 'off_kep_k' || m.id === 'k1') digit = parseInt(curr[2]);
+            else if (m.id === 'off_ekor_e' || m.id === 'e1' || m.id === 'e2') digit = parseInt(curr[3]);
+            else if (m.id.startsWith('as')) digit = parseInt(curr[0]);
+            else if (m.id.startsWith('cop')) digit = parseInt(curr[1]);
+            else if (m.id.includes('_ac')) digit = reduceToSingleDigit(parseInt(curr[0]) + parseInt(curr[1]));
+            else if (m.id.includes('_ke')) digit = reduceToSingleDigit(parseInt(curr[2]) + parseInt(curr[3]));
+            else digit = parseInt(curr[0]);
+            let pred = m.map[digit] || '';
+            let match = [];
+            let targetDigitCheck = next2D;
+            if (m.id.startsWith('off_kep')) targetDigitCheck = targetKepala;
+            else if (m.id.startsWith('off_ekor')) targetDigitCheck = targetEkor;
+            for (let c of pred) if (targetDigitCheck.includes(c)) match.push(c);
+            row[m.id] = { prediksi: pred || '-', hasMatch: match.length > 0, matchAngka: match };
+        }
+        barisData.push(row);
+    }
+
+    let last = data[data.length - 1];
+    let lastRow = { dataSaatIni: last, isDataTerakhir: true };
+    for (let m of ALL_MAPPINGS_CT) {
+        let digit = 0;
+        if (m.id === 'off_kep_k' || m.id === 'k1') digit = parseInt(last[2]);
+        else if (m.id === 'off_ekor_e' || m.id === 'e1' || m.id === 'e2') digit = parseInt(last[3]);
+        else if (m.id.startsWith('as')) digit = parseInt(last[0]);
+        else if (m.id.startsWith('cop')) digit = parseInt(last[1]);
+        else if (m.id.includes('_ac')) digit = reduceToSingleDigit(parseInt(last[0]) + parseInt(last[1]));
+        else if (m.id.includes('_ke')) digit = reduceToSingleDigit(parseInt(last[2]) + parseInt(last[3]));
+        else digit = parseInt(last[0]);
+        lastRow[m.id] = { prediksi: m.map[digit] || '-', hasMatch: false, matchAngka: [] };
+    }
+
+    let html = `<div class="table-scroll"><table><tr><th style="min-width:50px;">Data</th>`;
+    for (let m of ALL_MAPPINGS_CT) html += `<th>${m.label}</th>`;
+    html += `</tr>`;
+    for (let r of [...barisData, lastRow]) {
+        let bg = r.isDataTerakhir ? '#1b2e23' : '';
+        html += `<tr style="background:${bg};"><td style="font-weight:bold;color:#86efac;">${r.dataSaatIni}</td>`;
+        for (let m of ALL_MAPPINGS_CT) {
+            let col = r[m.id], txt = '';
+            if (r.isDataTerakhir) {
+                txt = `<span style="color:#a3e635;font-weight:bold;">${col.prediksi}</span>`;
+            } else if (m.id.startsWith('off_')) {
+                if (col.hasMatch) {
+                    let highlighted = col.prediksi.split('').map(c => col.matchAngka.includes(c) ? `<span class="d-merah">${c}</span>` : c).join('');
+                    txt = `${highlighted}<span class="d-merah">x</span>`;
+                } else txt = `<span style="color:#86efac;">${col.prediksi}</span>`;
+            } else {
+                if (col.hasMatch) txt = col.prediksi.split('').map(c => col.matchAngka.includes(c) ? `<span class="d-merah">${c}</span>` : c).join('');
+                else txt = `<span style="color:#86efac;">${col.prediksi}</span><span class="d-merah">x</span>`;
+            }
+            html += `<td style="text-align:center;letter-spacing:1px;font-size:13px;">${txt}</td>`;
+        }
+        html += `</tr>`;
+    }
+    html += `</table></div>`;
+    document.getElementById('resultAreaCT').innerHTML = html;
+    document.getElementById('statusBarCT').innerHTML = `✅ CT Scanner selesai (${barisData.length} baris).`;
+}
+
+// ============================================================
+// INIT
+// ============================================================
 updateOpChecks();
 updateMerahAuto();
-</script>
+populateDropdownsManual();
+loadData('hk');
+
+  </script>
 </body>
 </html>
